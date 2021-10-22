@@ -1,3 +1,12 @@
+# Intelligentes Bilanzkreismanagement Dashboard
+Dieses Projekt wird im Rahmen eines Praxis-Projektes an der HTW Berlin in Kooperation mit Exxeta durchgeführt.
+Ziel ist es, prognostizierte Strom-Preis und -Verbrauchsmengen aufzubereiten und dem Nutzer visualisiert zur Verfügung zu stellen.
+Die zugrundeliegenden Daten werden auf einer Amazon AWS Lambda serverless Architektur mittels Maschine Learning erzeugt. 
+
+Die technische Grundlage des iBMK Dashboards stellt das Javascript Framework React (Typescript) dar.
+Zudem kommt im Frontend Tailwindcss zum Einsatz.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
