@@ -1,6 +1,5 @@
 stages:
   - test
-  - build
   - deploy
 
 test:
@@ -13,17 +12,6 @@ test:
     - echo "Test successfully!"
   only:
     - dev
-    - main
-
-build:
-  stage: build
-  image: node
-  script:
-    - echo "Start building App"
-    - npm install
-    - npx yarn build
-    - echo "Build successfully!"
-  only:
     - main
 
 deploy:
