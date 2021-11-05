@@ -21,7 +21,7 @@ build:
     - echo "Start building App"
     - export NODE_OPTIONS=--max_old_space_size=4098
     - npm install
-    - npx yarn build
+    - CI=false npx yarn build
     - echo "Build successfully!"
   artifacts:
     expire_in: 1 hour
