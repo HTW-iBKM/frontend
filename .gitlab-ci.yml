@@ -22,11 +22,11 @@ build:
     - npm install
     - npx yarn build
     - echo "Build successfully!"
-    artifacts:
-      expire_in: 1 hour
-      paths:
-        - build
-        - node_modules/
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+      - node_modules/
   only:
     - main
 
