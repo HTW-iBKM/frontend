@@ -3,13 +3,17 @@ Dieses Projekt wird im Rahmen eines Praxis-Projektes an der HTW Berlin in Kooper
 Ziel ist es, prognostizierte Strom-Preis und -Verbrauchsmengen aufzubereiten und dem Nutzer visualisiert zur Verfügung zu stellen.
 Die zugrundeliegenden Daten werden auf einer Amazon AWS Lambda serverless Architektur mittels Maschine Learning erzeugt. 
 
-Die technische Grundlage des iBMK Dashboards stellt das Javascript Framework React (Typescript) dar.
-Zudem kommt im Frontend Tailwindcss zum Einsatz.
+Die technische Grundlage des iBMK Dashboards stellt das Javascript Framework [React Js](https://reactjs.org/) (Typescript) dar.
+Zudem kommt im Frontend [Tailwindcss](https://tailwindcss.com/) zum Einsatz. Für die Darstellung der Graphen wird die Library [Recharts](https://recharts.org/en-US/) genutzt
 
+## Continuous integration und Continuous Deployment
+Die CI Pipeline besteht aus drei Stages. Einen Überblick über die Stages liefert die folgende Tabelle:
 
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Stage  | Beschreibung                                                           | Trigger
+------ | ---------------------------------------------------------------------- | --------
+Test   | Führt die Tests für das Projekt aus                                    | Push auf Dev-Branch
+Build  | Baut das Projekt und stellt das Build-Verzeichnis als Artefakt bereit  | Push auf Main-Branch
+Deploy | Push as Build-Verzeichnis in den entsprechenden AWS S3 Bucket          | Push auf Main-Branch
 
 ## Available Scripts
 
