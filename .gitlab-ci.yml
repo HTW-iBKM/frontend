@@ -1,5 +1,6 @@
 stages:
   - test
+  - build
   - deploy
 
 test:
@@ -13,15 +14,27 @@ test:
   only:
     - dev
 
+build:
+  stage: build
+  image: node:14.17.3
+  script:
+    - echo "Start building App"
+    - export NODE_OPTIONS=--max_old_space_size=4098
+    - npm install
+    - npx yarn build
+    - echo "Build successfully!"
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+  only:
+    - main
+
 deploy:
   stage: deploy
   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
   script:
-    - export NODE_OPTIONS=--max_old_space_size=4098
-    - apt-get update && apt-get install -y npm
-    - npm install yarn
-    - npx yarn build
-    - aws s3 sync ./build/ s3://ibkm-htw-project
+    - aws s3 sync ./build/ s3://ibkm-htw-project --delete
   only:
     - main
 
