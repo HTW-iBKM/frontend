@@ -5,7 +5,7 @@ deploy:
     - export NODE_OPTIONS=--max_old_space_size=4098
     - apt-get update && apt-get install -y npm
     - npm install yarn
-    - yarn build
+    - npx yarn build
     - aws s3 sync build/ s3://ibkm-htw-project
   only:
     - main
