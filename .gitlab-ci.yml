@@ -6,6 +6,6 @@ deploy:
     - apt-get update && apt-get install -y npm
     - npm install yarn
     - npx yarn build
-    - aws s3 sync build/ s3://ibkm-htw-project
+    - aws s3 sync build s3://ibkm-htw-project
   only:
     - main
