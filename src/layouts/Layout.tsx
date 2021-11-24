@@ -12,7 +12,7 @@ function Layout(props: LayoutProps) {
         {props.top}
       </div>
       <div className="flex-1 flex gap-4">
-        <div className="shadow-lg">{props.left}</div>
+        <div className="bg-grayscale-light shadow-lg">{props.left}</div>
         <div className="flex-1">{props.center}</div>
       </div>
     </div>

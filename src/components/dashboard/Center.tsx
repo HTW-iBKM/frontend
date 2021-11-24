@@ -1,9 +1,10 @@
 import React, {ReactElement} from "react";
+import GraphTest from "../../sites/dashboard/GraphTest";
 
 function Center(): ReactElement {
   return (
     <>
-      Center
+      <GraphTest></GraphTest>
     </>
   )
 }
