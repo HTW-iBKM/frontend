@@ -4,7 +4,7 @@ import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, X
 import data from '../../static/september_18.json';
 import './dashboard.css';
 
-function Dashboard() {
+function GraphTest() {
     return (<div className={"w-full h-full box-border bg-white p-1.5 flex justify-center items-center"}>
         <ResponsiveContainer width="95%" height="95%">
             <LineChart data={data.map((entry) => {
@@ -40,4 +40,4 @@ function Dashboard() {
     )
 }
 
-export default Dashboard;
+export default GraphTest;

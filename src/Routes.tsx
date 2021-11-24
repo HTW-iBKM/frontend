@@ -1,9 +1,10 @@
-import { Redirect, Route, Switch } from "react-router-dom";
-import React from 'react';
-import dashboard from "./sites/dashboard/dashboard";
+import {Redirect, Route, Router, Switch} from "react-router-dom";
+import React, {ReactElement} from 'react';
+import GraphTest from "./sites/dashboard/GraphTest";
 import LandingPage from "./sites/landinpage/landingpage";
+import Dashboard from "./sites/dashboard/Dashboard";
 
-function RestrictedRoute({ component: Component, isAuthorized, ...rest }: any) {
+function RestrictedRoute({ component: Component, isAuthorized, ...rest }: any): ReactElement {
     return (
         <Route
             {...rest}
@@ -38,10 +39,17 @@ function PublicRoutes() {
 
             <RestrictedRoute
                 exact
-                path={'/dashboard'}
+                path={'/graph-test'}
                 isAuthorized={true}
-                component={dashboard}
+                component={GraphTest}
             />
+
+          <RestrictedRoute
+            exact
+            path={'/dashboard'}
+            isAuthorized={true}
+            component={Dashboard}
+          />
         </Switch>
     )
 }
