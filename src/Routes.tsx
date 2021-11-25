@@ -49,7 +49,8 @@ function PublicRoutes() {
             path={'/dashboard'}
             isAuthorized={true}
             component={Dashboard}
-          />
+          >
+          </RestrictedRoute>
         </Switch>
     )
 }

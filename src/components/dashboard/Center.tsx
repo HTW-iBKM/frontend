@@ -1,11 +1,18 @@
 import React, {ReactElement} from "react";
-import GraphTest from "../../sites/dashboard/GraphTest";
+import {Route, HashRouter, Switch, useRouteMatch} from "react-router-dom";
 
 function Center(): ReactElement {
+  const match = useRouteMatch();
+  console.log((match.path));
   return (
-    <>
-      <GraphTest></GraphTest>
-    </>
+    <Switch>
+      <Route path={match.path}>
+        Hello
+      </Route>
+
+      <Route path={`${match.path}/files`} component={() => {return(<div>Files</div>)}}>
+      </Route>
+    </Switch>
   )
 }
 export default Center
