@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, {ReactElement, useState} from 'react';
 
-function LandingPage() {
+function LandingPage(): ReactElement {
     const [counter, setCounter] = useState(0);
 
     function handleClickEvent() {
         setCounter(counter + 1);
     }
-
 
     return (
         <div className="w-9/12 lg:w-6/12 p-8 rounded-lg shadow-lg bg-white">

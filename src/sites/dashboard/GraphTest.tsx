@@ -1,10 +1,9 @@
-import React from 'react';
-import { HashRouter } from 'react-router-dom';
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import React, {ReactElement} from 'react';
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import data from '../../static/september_18.json';
 import './dashboard.css';
 
-function GraphTest() {
+function GraphTest(): ReactElement {
     return (<div className={"w-full h-full box-border bg-white p-1.5 flex justify-center items-center"}>
         <ResponsiveContainer width="95%" height="95%">
             <LineChart data={data.map((entry) => {

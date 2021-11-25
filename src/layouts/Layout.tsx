@@ -5,7 +5,7 @@ interface LayoutProps {
   left: ReactElement;
   center: ReactElement;
 }
-function Layout(props: LayoutProps) {
+function Layout(props: LayoutProps): ReactElement {
   return (
     <div className={"h-full w-full flex flex-col"}>
       <div className="h-20 bg-primary-dark rounded-b shadow-lg text-grayscale-light flex items-center justify-between px-4">

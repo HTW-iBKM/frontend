@@ -1,27 +1,17 @@
-import React from 'react';
-import { HashRouter } from 'react-router-dom';
+import React, {ReactElement} from 'react';
+import {Router} from 'react-router-dom';
 import './App.css';
 import PublicRoutes from './Routes';
-import LandingPage from './sites/landinpage/landingpage';
+import { createBrowserHistory } from 'history';
 
-class App extends React.Component<any, { count: number }> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      count: 0
-    };
-    this.handleClickEvent = this.handleClickEvent.bind(this);
-  }
+class App extends React.Component {
+  render(): ReactElement {
+    const history = createBrowserHistory();
 
-  handleClickEvent() {
-    this.setState({ count: this.state.count + 1 })
-  }
-
-  render() {
-    return (<HashRouter>
+    return (<Router history={history}>
       <PublicRoutes></PublicRoutes>
       {/* <LandingPage></LandingPage> */}
-    </HashRouter>
+    </Router>
     )
   }
 }
