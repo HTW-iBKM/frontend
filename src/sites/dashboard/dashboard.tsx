@@ -2,14 +2,15 @@ import React, {useEffect, useState} from 'react';
 import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 import './dashboard.css';
 import axios from 'axios';
-import {Graph} from 'src/models/graph';
+import {Graph} from "../../models/graph";
 
 function Dashboard() {
     const [data, setData] = useState<Graph[]>([]);
 
     useEffect(() => {
-        axios.get('https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/').then((response: { data: { september_18: Graph[] } }) => {
-            setData(response.data.september_18);
+        axios.get('https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/').then((response: { data:  { data: { september_18: Graph[] }} }) => {
+            console.log(response);
+            setData(response.data.data.september_18);
         })
     }, []);
 
@@ -26,7 +27,7 @@ function Dashboard() {
                 >
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey="time" label={{value: "Zeit", position: "insideBottomRight", dy: -20, dx: 60}}/>
-                    <YAxis label={{value: "Verbrauch", position: "insideLeft", dy: -360, dx: 20}}/>
+                    <YAxis domain={[0,2000]} label={{value: "Verbrauch", position: "insideLeft", dy: -360, dx: 20}}/>
 
                     <Line
                         name="Prognose"
