@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {HashRouter} from 'react-router-dom';
 import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
-import mockData from '../../static/september_18.json';
 import './dashboard.css';
 import axios from 'axios';
-import {Graph} from "../../models/graph";
+import {Graph} from 'src/models/graph';
 
 function Dashboard() {
-    const [data, setData] = useState({});
+    const [data, setData] = useState<Graph[]>([]);
 
     useEffect(() => {
         axios.get('https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/').then((response: { data: { september_18: Graph[] } }) => {

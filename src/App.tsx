@@ -2,7 +2,6 @@ import React from 'react';
 import { HashRouter } from 'react-router-dom';
 import './App.css';
 import PublicRoutes from './Routes';
-import LandingPage from './sites/landinpage/landingpage';
 
 class App extends React.Component<any, { count: number }> {
   constructor(props: any) {
