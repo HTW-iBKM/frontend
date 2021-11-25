@@ -1,4 +1,4 @@
-export class Graph {
+export class GraphData {
     constructor(public time: string,
                 public daily_cos: string,
                 public weekly_sin: string,
