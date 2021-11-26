@@ -27,7 +27,7 @@ interface GraphData {
 interface GraphDataResponse {
   data: {
     data: {
-      september_18: GraphData[]
+      [x: string]: GraphData[]
     }
   }
 }
