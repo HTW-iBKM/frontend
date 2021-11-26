@@ -2,6 +2,9 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import React from 'react';
 import dashboard from "./sites/dashboard/dashboard";
 import LandingPage from "./sites/landinpage/landingpage";
+import LoginPage from "./sites/loginpage/loginpage";
+import RegisterPage from "./sites/registerPage/registerPage";
+import PasswordForgottenPage from "./sites/passwordForgottenPage/passwordForgottenPage";
 
 function RestrictedRoute({ component: Component, isAuthorized, ...rest }: any) {
     return (
@@ -41,6 +44,27 @@ function PublicRoutes() {
                 path={'/dashboard'}
                 isAuthorized={true}
                 component={dashboard}
+            />
+
+            <RestrictedRoute
+                exact
+                path={'/login'}
+                isAuthorized={true}
+                component={LoginPage}
+            />
+
+            <RestrictedRoute
+                exact
+                path={'/passwordForgotten'}
+                isAuthorized={true}
+                component={PasswordForgottenPage}
+            />
+
+            <RestrictedRoute
+                exact
+                path={'/register'}
+                isAuthorized={true}
+                component={RegisterPage}
             />
         </Switch>
     )
