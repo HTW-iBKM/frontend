@@ -10,6 +10,7 @@ import GraphTest from "./sites/dashboard/GraphTest";
 import LoginPage from "./sites/loginpage/loginpage";
 import RegisterPage from "./sites/registerPage/registerPage";
 import PasswordForgottenPage from "./sites/passwordForgottenPage/passwordForgottenPage";
+import CreatedAccountPage from "./sites/createdAccountPage/createdAccountPage";
 
 interface RestrictedRouteProps extends RouteProps {
     isAuthorized: boolean;
@@ -79,6 +80,13 @@ function PublicRoutes(): ReactElement {
                 path={'/register'}
                 isAuthorized={true}
                 component={RegisterPage}
+            />
+
+            <RestrictedRoute
+                exact
+                path={'/createdAccount'}
+                isAuthorized={true}
+                component={CreatedAccountPage}
             />
         </Switch>
     );
