@@ -1,8 +1,24 @@
 import React, { ReactElement, useState } from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import axios from 'axios';
-import { GraphData } from '../../models/graph-data';
 import useAsyncEffect from "use-async-effect";
+
+interface GraphData {
+  time: string;
+  daily_cos: string;
+  weekly_sin: string;
+  forecast_2: object;
+  daily_sin: string;
+  weekly_cos: string;
+  intercept: string;
+  prediction: string;
+  ground_truth: string;
+  sumFeature: number;
+  day_hour: number;
+  weekday: number;
+  sun: number;
+  pressure: number
+}
 
 interface GraphDataResponse {
   data: {
@@ -11,6 +27,7 @@ interface GraphDataResponse {
     }
   }
 }
+
 function Dashboard(): ReactElement {
   const [data, setData] = useState<GraphData[]>([]);
 
