@@ -1,8 +1,8 @@
 import {Redirect, Route, Switch} from "react-router-dom";
 import React, {Component, ReactElement} from 'react';
-import GraphTest from "./sites/dashboard/GraphTest";
 import LandingPage from "./sites/landinpage/landingpage";
 import Dashboard from "./sites/dashboard/Dashboard";
+import GraphTest from "./sites/dashboard/GraphTest";
 
 function RestrictedRoute({ component: Component, isAuthorized, ...rest }: any): ReactElement {
     return (
