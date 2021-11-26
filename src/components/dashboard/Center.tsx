@@ -3,7 +3,6 @@ import {Route, Switch, useRouteMatch} from "react-router-dom";
 
 function Center(): ReactElement {
   const match = useRouteMatch();
-  console.log((match.path));
   return (
     <Switch>
       <Route exact path={match.path}>

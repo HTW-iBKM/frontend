@@ -6,13 +6,13 @@ function Navbar(): ReactElement {
   return (
     <>
       <h1 className={"text-xl font-medium"}>Exxeta iBKM</h1>
-      <div className="flex flex-row gap-8 px-4">
+      <div className="flex flex-row gap-16 px-4">
         {/* Dropdown: Bilanzkreisauswahl */}
         <Menu as="div" className="relative block text-left">
-          <Menu.Button>
+          <Menu.Button className="h-full">
               <span>
                 <LocationMarkerIcon className="h-8 w-8 text-blue-500 inline-block mr-3"/>
-              Bilanzkreis A
+                Bilanzkreis A
               </span>
 
           </Menu.Button>
