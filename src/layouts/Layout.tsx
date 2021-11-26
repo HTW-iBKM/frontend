@@ -7,20 +7,21 @@ interface LayoutProps {
 }
 function Layout(props: LayoutProps): ReactElement {
   const styles = {
-    headerContainer: 'h-full w-full flex flex-col',
-    navbarContainer: 'h-20 min-h-[5rem] bg-primary-dark rounded-b shadow-lg text-grayscale-light flex items-center justify-between px-4',
+    layoutContainer: 'h-full w-full flex flex-col',
+    headerContainer: 'h-20 shadow-lg min-h-[5rem] bg-primary-dark rounded-b text-grayscale-light flex items-center justify-between px-4',
+    mainContainer: 'flex-1 flex gap-4',
     sidebarContainer: 'bg-grayscale-light shadow-lg flex flex-col justify-between',
     contentContainer: 'flex-1'
   }
   return (
-    <div className={styles.headerContainer}>
-      <div className={styles.navbarContainer}>
+    <div className={styles.layoutContainer}>
+      <header className={styles.headerContainer}>
         {props.top}
-      </div>
-      <div className="flex-1 flex gap-4">
+      </header>
+      <main className={styles.mainContainer}>
         <div className={styles.sidebarContainer}>{props.left}</div>
         <div className={styles.contentContainer}>{props.center}</div>
-      </div>
+      </main>
     </div>
   )
 }

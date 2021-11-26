@@ -14,9 +14,10 @@ interface SidebarLink {
 function Sidebar(): ReactElement {
   const [isExpanded, setIsExpanded] = useState(false);
   const match = useRouteMatch<Match>();
+
   const styles = {
     sidebarLink: 'relative bg-primary px-3 py-5 flex flex-row items-center text-xs tracking-wider uppercase after:bg-primary ' +
-          'after:rounded-r-lg after:w-[10px] after:h-full after:absolute after:right-[-10px] after:top-0 after:bottom-0"',
+      'after:rounded-r-lg after:w-[10px] after:h-full after:absolute after:right-[-10px] after:top-0 after:bottom-0"',
   }
 
   const sidebarLinks: SidebarLink[] = [
@@ -26,7 +27,7 @@ function Sidebar(): ReactElement {
 
   return (
     <>
-      <div className="relative text-grayscale-light h-full flex flex-col gap-8 pt-8">
+      <div className="text-grayscale-light h-full flex flex-col gap-8 py-8">
         {sidebarLinks.map((sidebarLink: SidebarLink) => { return (
           <Link key={sidebarLink.id} to={sidebarLink.linkUrl} className={styles.sidebarLink}>
             {sidebarLink.icon}
@@ -50,14 +51,14 @@ function Sidebar(): ReactElement {
         onClick={() => {
           setIsExpanded(!isExpanded)
         }}
-        className="w-full p-1 text-center"
+        className="w-full py-3 text-center"
       >
         <ChevronDoubleRightIcon className={`${
           isExpanded ? '-rotate-180' : ''
         } transform transition-all ease-in-out duration-300 h-5 w-5 text-primary m-auto`}/>
       </button>
     </>
-  )
+  );
 }
 
 
