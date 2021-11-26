@@ -7,7 +7,11 @@ interface GraphData {
   time: string;
   daily_cos: string;
   weekly_sin: string;
-  forecast_2: object;
+  forecast_2: {
+    '0_globalstrahlung': string;
+    '0_temp': string;
+    '0_pressure': string;
+  };
   daily_sin: string;
   weekly_cos: string;
   intercept: string;
