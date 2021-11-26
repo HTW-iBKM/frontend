@@ -29,9 +29,7 @@ function Sidebar(): ReactElement {
       <div className="relative text-grayscale-light h-full flex flex-col gap-8 pt-8">
         {sidebarLinks.map((sidebarLink: SidebarLink) => { return (
           <Link key={sidebarLink.id} to={sidebarLink.linkUrl} className={styles.sidebarLink}>
-            <div>
-              {sidebarLink.icon}
-            </div>
+            {sidebarLink.icon}
             <div className="overflow-hidden">
               <Transition
                 as={Fragment}
@@ -41,25 +39,23 @@ function Sidebar(): ReactElement {
                 enterTo="ml-0"
                 leave="transition-all duration-500"
                 leaveTo="-ml-44">
-                <div className="w-full pl-6 pr-14">{sidebarLink.text}</div>
+                  <span className="w-full pl-6 pr-14">{sidebarLink.text}</span>
               </Transition>
             </div>
           </Link>
         )})}
       </div>
 
-      <div className="right-0">
-        <button
-          onClick={() => {
-            setIsExpanded(!isExpanded)
-          }}
-          className="w-full p-1 text-center"
-        >
-          <ChevronDoubleRightIcon className={`${
-            isExpanded ? '-rotate-180' : ''
-          } transform transition-all ease-in-out duration-300 h-5 w-5 text-primary m-auto`}/>
-        </button>
-      </div>
+      <button
+        onClick={() => {
+          setIsExpanded(!isExpanded)
+        }}
+        className="w-full p-1 text-center"
+      >
+        <ChevronDoubleRightIcon className={`${
+          isExpanded ? '-rotate-180' : ''
+        } transform transition-all ease-in-out duration-300 h-5 w-5 text-primary m-auto`}/>
+      </button>
     </>
   )
 }
