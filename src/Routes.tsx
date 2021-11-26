@@ -1,6 +1,6 @@
 import {Redirect, Route, RouteComponentProps, Switch} from "react-router-dom";
 import React, {Component,ComponentProps, JSXElementConstructor, ReactElement} from 'react';
-import LandingPage from "./sites/landinpage/landingpage";
+import Landingpage from "./sites/landinpage/Landingpage";
 import Dashboard from "./sites/dashboard/Dashboard";
 import GraphTest from "./sites/dashboard/GraphTest";
 
@@ -37,7 +37,7 @@ function PublicRoutes(): ReactElement {
                 exact
                 path={'/'}
                 isAuthorized={true}
-                component={LandingPage}
+                component={Landingpage}
             />
 
             <RestrictedRoute

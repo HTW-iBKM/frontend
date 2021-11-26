@@ -8,7 +8,7 @@ function App(): ReactElement {
   return (
       <HashRouter>
         <PublicRoutes></PublicRoutes>
-        {/* <LandingPage></LandingPage> */}
+        {/* <Landingpage></Landingpage> */}
       </HashRouter>
   );
 }
