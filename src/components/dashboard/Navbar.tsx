@@ -1,11 +1,12 @@
 import React, {Fragment, ReactElement} from "react";
 import {Menu, Transition} from "@headlessui/react";
-import {CogIcon, LocationMarkerIcon, LogoutIcon, UserCircleIcon} from "@heroicons/react/outline";
+import {LocationMarkerIcon, LogoutIcon, UserCircleIcon} from "@heroicons/react/outline";
+import {CogIcon} from "@heroicons/react/solid";
 
 function Navbar(): ReactElement {
   return (
     <>
-      <h1 className={"text-xl font-medium"}>Exxeta iBKM</h1>
+      <h6>Exxeta iBKM</h6>
       <div className="flex flex-row gap-16 px-4">
         {/* Dropdown: Bilanzkreisauswahl */}
         <Menu as="div" className="relative block text-left">
@@ -70,7 +71,7 @@ function Navbar(): ReactElement {
 
         {/* Dropdown: User Menü */}
         <Menu as="div" className="relative inline-block text-left">
-          <Menu.Button>
+          <Menu.Button className="h-full">
             <UserCircleIcon className="h-8 w-8 text-blue-500"/>
           </Menu.Button>
           <Transition

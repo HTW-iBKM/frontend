@@ -1,7 +1,17 @@
 // tailwind.config.js
 // eslint-disable-next-line no-undef
 module.exports = {
-    purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+    mode: 'jit',
+    future: {
+        removeDeprecatedGapUtilities: true,
+        purgeLayersByDefault: true,
+    },
+    purge: [
+        './public/**/*.html',
+        './src/**/*.{js,jsx,ts,tsx,vue}',
+        './src/components/**/*.{js,jsx,ts,tsx,vue}',
+        '.src/sites/**/*.{js,jsx,ts,tsx,vue}'
+    ],
     darkMode: false, // or 'media' or 'class'
     theme: {
         colors: {
@@ -27,6 +37,12 @@ module.exports = {
             warning: {
                 DEFAULT: '#E8BD50',
             },
+        },
+        extend: {
+            lineHeight: {
+                '11': '2.75rem',
+                '12': '3rem',
+            }
         }
     },
     variants: {

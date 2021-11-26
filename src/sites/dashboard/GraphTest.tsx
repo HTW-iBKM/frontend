@@ -1,20 +1,26 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
-import './dashboard.css';
 import axios from 'axios';
 import { GraphData } from '../../models/graph-data';
 
+interface GraphDataResponse {
+  data: {
+    data: {
+      september_18: GraphData[]
+    }
+  }
+}
 function Dashboard(): ReactElement {
   const [data, setData] = useState<GraphData[]>([]);
 
-  useEffect(() => {
-    axios.get('https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/').then(
-        (response: {data: {data: {september_18: GraphData[]}}}) => {
-          console.log(response);
-          setData(response.data.data.september_18);
-        });
-  }, []);
+  const getData = async () => {
+    const response: GraphDataResponse = await axios.get('https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/')
+    setData(response.data.data.september_18);
+  }
 
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (!data.length ? <>Waiting for data...</> :
           <div className={'w-full h-full box-border bg-white p-1.5 flex justify-center items-center'}>

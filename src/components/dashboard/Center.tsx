@@ -6,13 +6,15 @@ function Center(): ReactElement {
   return (
     <Switch>
       <Route exact path={match.path}>
-        Hello
+        Mount Dashboard Home Component here
       </Route>
 
       <Route exact path={`${match.path}/files`}>
-        files
+        Mount File Component here
       </Route>
     </Switch>
   )
 }
+
+
 export default Center

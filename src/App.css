@@ -1,11 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "Typography.css";
 
 html,
 body {
-    height: 100%;
+    @apply h-full;
 }
 
 body {
@@ -16,6 +15,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     height: 100%;
+    font-size: 16px;
     @apply bg-grayscale;
 }
 
@@ -28,9 +28,27 @@ p {
     @apply my-3
 }
 
+/* root Element Styling */
 #root {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @apply h-full;
+    @apply flex;
+    @apply items-center;
+    @apply justify-center;
+}
+
+/* Typography */
+@layer base {
+    h3 {
+        @apply text-5xl;
+        @apply leading-12;
+    }
+
+    h6 {
+        @apply text-xl;
+        @apply leading-12;
+        @apply font-medium;
+        @apply leading-snug;
+        @apply text-left;
+        @apply align-middle;
+    }
 }
