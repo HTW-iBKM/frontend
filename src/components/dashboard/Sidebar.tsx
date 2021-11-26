@@ -18,12 +18,12 @@ function Sidebar(): ReactElement {
   const styles = {
     sidebarLink: 'relative bg-primary px-3 py-5 flex flex-row items-center text-xs tracking-wider uppercase after:bg-primary ' +
       'after:rounded-r-lg after:w-[10px] after:h-full after:absolute after:right-[-10px] after:top-0 after:bottom-0"',
-  }
+  };
 
   const sidebarLinks: SidebarLink[] = [
     { id:  0, icon: <HomeIcon className="w-8 h-8"/>, linkUrl: match.url, text: 'Home' },
     { id: 1, icon: <CollectionIcon className="w-8 h-8"/>, linkUrl: `${match.url}/files`, text: 'Dateien' }
-  ]
+  ];
 
   return (
     <>
