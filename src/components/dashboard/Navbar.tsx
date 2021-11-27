@@ -10,11 +10,11 @@ function Navbar(): ReactElement {
       <div className="flex flex-row gap-16 px-4">
         {/* Dropdown: Bilanzkreisauswahl */}
         <Menu as="div" className="relative block text-left">
-          <Menu.Button className="h-full">
-              <span>
-                <LocationMarkerIcon className="h-8 w-8 text-blue-500 inline-block mr-3"/>
-                Bilanzkreis A
-              </span>
+          <Menu.Button className="h-full flex flex-row gap-3 items-center">
+
+            <LocationMarkerIcon className="h-8 w-8 text-blue-500"/>
+            Bilanzkreis A
+
 
           </Menu.Button>
           <Transition
