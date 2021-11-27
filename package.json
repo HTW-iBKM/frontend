@@ -29,7 +29,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "TAILWIND_MODE=watch craco start",
+    "start": "cross-env TAILWIND_MODE=watch craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
@@ -56,6 +56,7 @@
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
     "autoprefixer": "^9.8.8",
+    "cross-env": "^7.0.3",
     "eslint": "^7.11.0",
     "eslint-plugin-react": "^7.26.1",
     "postcss": "^7.0.39",
