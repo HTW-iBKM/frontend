@@ -5,6 +5,7 @@
 html,
 body {
     @apply h-full;
+    @apply text-sm;
 }
 
 body {
@@ -15,7 +16,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     height: 100%;
-    font-size: 16px;
+    font-size: 14px;
     @apply bg-grayscale;
 }
 

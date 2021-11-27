@@ -19,8 +19,10 @@ module.exports = {
             current: 'currentColor',
             primary: {
                 light: '#88B4CD',
+                DEFAULT: '#212E50',
+            },
+            secondary: {
                 DEFAULT: '#4074B2',
-                dark: '#212E50',
             },
             grayscale: {
                 darkest: '#0E0E0E',

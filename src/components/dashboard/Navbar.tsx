@@ -4,6 +4,10 @@ import {LocationMarkerIcon, LogoutIcon, UserCircleIcon} from "@heroicons/react/o
 import {CogIcon} from "@heroicons/react/solid";
 
 function Navbar(): ReactElement {
+  const styles = {
+    navbarIcon: 'h-7 w-7 text-blue-500',
+  }
+
   return (
     <>
       <h6>Exxeta iBKM</h6>
@@ -11,7 +15,7 @@ function Navbar(): ReactElement {
         {/* Dropdown: Bilanzkreisauswahl */}
         <Menu as="div" className="relative block text-left">
           <Menu.Button className="h-full flex flex-row gap-3 items-center">
-            <LocationMarkerIcon className="h-8 w-8 text-blue-500"/>
+            <LocationMarkerIcon className={styles.navbarIcon}/>
             <span>Bilanzkreis A</span>
           </Menu.Button>
           <Transition
@@ -24,7 +28,7 @@ function Navbar(): ReactElement {
             leaveTo="transform opacity-0 scale-95"
           >
             <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-grayscale-light text-grayscale-darkest divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-grayscale-dark ring-opacity-5 focus:outline-none">
-              <div className="p-1">
+              <div className="p-2">
                 <Menu.Item>
                   {({ active }) => (
                     <a
@@ -69,7 +73,7 @@ function Navbar(): ReactElement {
         {/* Dropdown: User Menü */}
         <Menu as="div" className="relative inline-block text-left">
           <Menu.Button className="h-full">
-            <UserCircleIcon className="h-8 w-8 text-blue-500"/>
+            <UserCircleIcon className={styles.navbarIcon}/>
           </Menu.Button>
           <Transition
             as={Fragment}
@@ -81,7 +85,7 @@ function Navbar(): ReactElement {
             leaveTo="transform opacity-0 scale-95"
           >
             <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-grayscale-light text-grayscale-darkest divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-grayscale-dark ring-opacity-5 focus:outline-none">
-              <div className="p-1">
+              <div className="p-2">
                 <Menu.Item>
                   {({ active }) => (
                     <a
