@@ -1,10 +1,10 @@
-import {Redirect, Route, RouteComponentProps, Switch} from "react-router-dom";
-import React, {Component,ComponentProps, JSXElementConstructor, ReactElement} from 'react';
+import {Redirect, Route, RouteProps, Switch} from "react-router-dom";
+import React, {Component,ReactElement} from 'react';
 import Landingpage from "./sites/landinpage/Landingpage";
 import Dashboard from "./sites/dashboard/Dashboard";
 import GraphTest from "./sites/dashboard/GraphTest";
 
-interface RestrictedRouteProps extends ComponentProps<JSXElementConstructor<any>> {
+interface RestrictedRouteProps extends RouteProps {
   isAuthorized: boolean;
 }
 
@@ -12,7 +12,7 @@ function RestrictedRoute({isAuthorized, ...rest}: RestrictedRouteProps): ReactEl
     return (
         <Route
             {...rest}
-            render={(props: RouteComponentProps<{[x: string]: string | undefined;}>) =>
+            render={(props: RouteProps) =>
                 isAuthorized ? (
                     <Component {...props} />
                 ) : (

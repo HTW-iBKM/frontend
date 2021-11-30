@@ -1,11 +1,13 @@
 import React, {Fragment, ReactElement} from "react";
 import {Menu, Transition} from "@headlessui/react";
-import {LocationMarkerIcon, LogoutIcon, UserCircleIcon} from "@heroicons/react/outline";
-import {CogIcon} from "@heroicons/react/solid";
+import UserIcon from "../icons/UserIcon"
+import LocationIcon from "../icons/LocationIcon";
+import PowerIcon from "../icons/PowerIcon";
+import SettingsIcon from "../icons/SettingsIcon";
 
 function Navbar(): ReactElement {
   const styles = {
-    navbarIcon: 'h-7 w-7 text-blue-500',
+    navbarIcon: 'h-10 w-10',
   }
 
   return (
@@ -15,7 +17,7 @@ function Navbar(): ReactElement {
         {/* Dropdown: Bilanzkreisauswahl */}
         <Menu as="div" className="relative block text-left">
           <Menu.Button className="h-full flex flex-row gap-3 items-center">
-            <LocationMarkerIcon className={styles.navbarIcon}/>
+            <LocationIcon className={styles.navbarIcon}/>
             <span>Bilanzkreis A</span>
           </Menu.Button>
           <Transition
@@ -73,7 +75,7 @@ function Navbar(): ReactElement {
         {/* Dropdown: User Menü */}
         <Menu as="div" className="relative inline-block text-left">
           <Menu.Button className="h-full">
-            <UserCircleIcon className={styles.navbarIcon}/>
+            <UserIcon className={styles.navbarIcon}/>
           </Menu.Button>
           <Transition
             as={Fragment}
@@ -93,7 +95,7 @@ function Navbar(): ReactElement {
                         active ? 'bg-grayscale text-white' : 'text-gray-900'
                       } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                     >
-                      <CogIcon className="h-5 w-5 mr-2 text-grayscale-darkest"/>
+                      <SettingsIcon className="h-5 w-5 mr-2 text-grayscale-darkest"/>
                       Einstellungen
                     </a>
                   )}
@@ -106,7 +108,7 @@ function Navbar(): ReactElement {
                       } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                       href="/account-settings"
                     >
-                      <LogoutIcon className="h-5 w-5 mr-2 text-grayscale-darkest"/>
+                      <PowerIcon className="h-5 w-5 mr-2 text-grayscale-darkest"/>
                       Abmelden
                     </a>
                   )}

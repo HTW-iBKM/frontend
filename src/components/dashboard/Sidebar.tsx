@@ -1,8 +1,10 @@
 import React, {Fragment, ReactElement, useState} from "react";
-import {ChevronDoubleRightIcon, HomeIcon, CollectionIcon} from "@heroicons/react/solid";
+import {ChevronDoubleRightIcon} from "@heroicons/react/solid";
+import HomeIcon from "../icons/HomeIcon";
 import {Transition} from "@headlessui/react";
-import {Link, useRouteMatch, NavLink} from "react-router-dom";
+import {useRouteMatch, NavLink} from "react-router-dom";
 import {Match} from "@testing-library/react";
+import FileIcon from "../icons/FileIcon";
 
 interface SidebarLink {
   id: number;
@@ -18,21 +20,21 @@ function Sidebar(): ReactElement {
 
   const styles = {
     sidebarLink: 'relative px-5 py-5 flex flex-row items-center text-sm tracking-wider uppercase ',
-    sidebarLinkInactive: ' text-grayscale-dark ',
+    sidebarLinkInactive: 'text-grayscale-dark ',
     sidebarLinkActive: 'text-sm bg-secondary after:bg-secondary after:rounded-r-lg after:w-[10px] after:h-full after:absolute after:right-[-10px] after:top-0 after:bottom-0',
-    sidebarIcon: 'w-7 h-7'
+    sidebarIcon: 'w-10 h-10'
   };
 
   const sidebarLinks: SidebarLink[] = [
     { id:  0, icon: <HomeIcon className={styles.sidebarIcon}/>, linkUrl: match.url, text: 'Home' },
-    { id: 1, icon: <CollectionIcon className={styles.sidebarIcon}/>, linkUrl: `${match.url}/files`, text: 'Dateien' }
+    { id: 1, icon: <FileIcon className={styles.sidebarIcon}/>, linkUrl: `${match.url}/files`, text: 'Dateien' }
   ];
 
   return (
     <>
       <div className="text-grayscale-light h-full flex flex-col gap-4 py-4">
         {sidebarLinks.map((sidebarLink: SidebarLink) => { return (
-          <NavLink exact key={sidebarLink.id} to={sidebarLink.linkUrl} className={(isActive) => {
+          <NavLink exact key={sidebarLink.id} to={sidebarLink.linkUrl} className={(isActive: boolean) => {
             return isActive
               ? `${styles.sidebarLink}`
               :  `${styles.sidebarLink + styles.sidebarLinkInactive}`;
