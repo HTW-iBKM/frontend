@@ -16,7 +16,6 @@ interface SidebarLink {
   text: string;
 }
 
-
 function Sidebar(): ReactElement {
   const [isExpanded, setIsExpanded] = useState(false);
   const match = useRouteMatch<Match>();
@@ -28,7 +27,6 @@ function Sidebar(): ReactElement {
     sidebarLinkActive: 'text-sm bg-secondary after:bg-secondary after:rounded-r-lg after:w-[10px] after:h-full after:absolute after:right-[-10px] after:top-0 after:bottom-0',
     sidebarIcon: 'w-10 h-10'
   };
-
 
   const sidebarLinks: SidebarLink[] = [
     { id:  0, iconActive: <HomeActiveIcon className={styles.sidebarIcon}/>, iconInactive: <HomeInactiveIcon className={styles.sidebarIcon}/>, linkUrl: '', text: 'Home' },
