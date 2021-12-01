@@ -43,7 +43,7 @@ function Sidebar(): ReactElement {
               exact
               key={sidebarLink.id}
               to={match.url + sidebarLink.linkUrl}
-              className={(isActive: boolean) => {
+              className={(isActive: boolean): string => {
                 return isActive
                   ? styles.sidebarLink
                   : styles.sidebarLink + styles.sidebarLinkInactive;
