@@ -1,6 +1,6 @@
 import React, {ReactElement} from "react";
 
-export default function FileIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
+export default function FileInactiveIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
     <svg className={props.className} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path opacity="0.3" d="M21.6667 6.66663H10V33.3333H30V15H21.6667V6.66663Z" fill="#C1C1C6"/>
