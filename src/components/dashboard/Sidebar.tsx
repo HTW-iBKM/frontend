@@ -1,4 +1,4 @@
-import React, {Fragment, ReactElement, useEffect, useState} from "react";
+import React, {Fragment, ReactElement, useState} from "react";
 import {ChevronDoubleRightIcon} from "@heroicons/react/solid";
 import HomeActiveIcon from "../icons/HomeActiveIcon";
 import HomeInactiveIcon from "../icons/HomeInactiveIcon";
