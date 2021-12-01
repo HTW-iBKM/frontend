@@ -1,5 +1,4 @@
 import React, {Fragment, ReactElement, useState} from "react";
-import {ChevronDoubleRightIcon} from "@heroicons/react/solid";
 import HomeActiveIcon from "../icons/HomeActiveIcon";
 import HomeInactiveIcon from "../icons/HomeInactiveIcon";
 import {Transition} from "@headlessui/react";
@@ -7,6 +6,7 @@ import {useRouteMatch, NavLink, useLocation} from "react-router-dom";
 import {Match} from "@testing-library/react";
 import FileActiveIcon from "../icons/FileActiveIcon";
 import FileInactiveIcon from "../icons/FileInactiveIcon";
+import DoubleArrowIcon from "../icons/DoubleArrowIcon";
 
 interface SidebarLink {
   id: number;
@@ -78,7 +78,7 @@ function Sidebar(): ReactElement {
         }}
         className="w-full py-3 text-center"
       >
-        <ChevronDoubleRightIcon className={`${
+        <DoubleArrowIcon className={`${
           isExpanded ? '-rotate-180' : ''
         } transform transition-all ease-in-out duration-300 h-5 w-5 text-secondary m-auto`}/>
       </button>
