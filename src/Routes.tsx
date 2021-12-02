@@ -3,10 +3,6 @@ import React, { Component, ReactElement } from 'react';
 import Landingpage from "./sites/landinpage/Landingpage";
 import Dashboard from "./sites/dashboard/Dashboard";
 import GraphTest from "./sites/dashboard/GraphTest";
-// import { Redirect, Route, Switch } from "react-router-dom";
-// import React from 'react';
-// import dashboard from "./sites/dashboard/dashboard";
-// import LandingPage from "./sites/landinpage/landingpage";
 import LoginPage from "./sites/loginpage/loginpage";
 import RegisterPage from "./sites/registerPage/registerPage";
 import PasswordForgottenPage from "./sites/passwordForgottenPage/passwordForgottenPage";
@@ -61,6 +57,34 @@ function PublicRoutes(): ReactElement {
                 component={Dashboard}
             >
             </RestrictedRoute>
+            <RestrictedRoute
+                exact
+                path={'/login'}
+                isAuthorized={true}
+                component={LoginPage}
+            />
+
+            <RestrictedRoute
+                exact
+                path={'/passwordForgotten'}
+                isAuthorized={true}
+                component={PasswordForgottenPage}
+            />
+
+            <RestrictedRoute
+                exact
+                path={'/register'}
+                isAuthorized={true}
+                component={RegisterPage}
+            />
+
+            <RestrictedRoute
+                exact
+                path={'/createdAccount'}
+                isAuthorized={true}
+                component={CreatedAccountPage}
+            />
+
             <RestrictedRoute
                 exact
                 path={'/login'}
