@@ -104,7 +104,7 @@ function Navbar(): ReactElement {
                         active ? 'bg-grayscale text-white' : 'text-gray-900'
                       } h-8 group flex gap-3 rounded-md items-center w-full px-2 py-2 text-sm hover:cursor-pointer`}
                     >
-                      <SettingsIcon className="h-4 w-4 mr-2 text-grayscale-darkest"/>
+                      <SettingsIcon className="h-4 w-4 text-grayscale-darkest"/>
                       Einstellungen
                     </a>
                   )}
@@ -117,7 +117,7 @@ function Navbar(): ReactElement {
                       } h-8 group flex gap-3 rounded-md items-center w-full px-2 py-2 text-sm hover:cursor-pointer`}
                       href="/account-settings"
                     >
-                      <PowerIcon className="h-4 w-4 mr-2 text-grayscale-darkest"/>
+                      <PowerIcon className="h-4 w-4 text-grayscale-darkest"/>
                       Abmelden
                     </a>
                   )}
