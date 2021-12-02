@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import { signUp } from '../../api/api';
 import LogoComponent from '../../components/logo/logoComponent';
 import { isEmail } from '../../utils/utility';
 
@@ -49,7 +50,7 @@ function RegisterPage() {
         lastname: formTouched.lastname && !form.lastname.trim() ? "Der Nachname muss definiert werden!" :
             form.lastname && form.lastname.trim().length < 3 ? "Der Nachname muss mindestens drei Buchstaben haben" : null,
         password: formTouched.password && !form.password.trim() ? "Das Passwort muss definiert werden!" :
-            form.password.trim() && form.password.trim().length < 5 ? "Passwort muss mindestens fünf Zeichen enthalten" : null,
+            form.password.trim() && form.password.trim().length < 6 ? "Passwort muss mindestens sechs Zeichen enthalten" : null,
         passwordConfirm: formTouched.passwordConfirm && !form.passwordConfirm.trim() ? "Das Wiederholungs-Passwort muss definiert werden!" :
             form.passwordConfirm.trim() && form.passwordConfirm.trim() !== form.password.trim() ? "Passwörter müssen übereinstimmen!" : null,
     }
@@ -58,6 +59,12 @@ function RegisterPage() {
         const isValid = Object.keys(formErr).every((key) => !formErr[key]);
         return isValid;
 
+    }
+
+    const register = () => {
+        signUp(form.email, form.firstname, form.lastname, form.password).then(() => {
+            history.push('/createdAccount')
+        }).catch(err => alert(err))
     }
 
     return (
@@ -164,8 +171,8 @@ function RegisterPage() {
                 </div>
                 <button className={styles.registerButton} disabled={
                     !form.email || !form.password || !form.firstname || !form.lastname || !form.password || !form.passwordConfirm || !validForm()}
-                    onClick={() => history.push('/createdAccount')}
-                    >REGISTRIEREN</button>
+                    onClick={register}
+                >REGISTRIEREN</button>
 
                 <footer className={styles.footer}>
                     <a className={styles.navigationAnchors} href="/#/login">Bereits registriert? &nbsp; Anmelden</a>
