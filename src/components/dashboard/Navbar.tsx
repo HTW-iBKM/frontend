@@ -10,7 +10,7 @@ import EditIcon from "../icons/EditIcon";
 
 function Navbar(): ReactElement {
   const styles = {
-    navbarIcon: 'h-10 w-10',
+    navbarIcon: 'h-[24px] w-[24px]',
   }
 
   const [balancingGroup, setBalancingGroup] = useState('Bilanzkreis A')
@@ -21,7 +21,7 @@ function Navbar(): ReactElement {
       <div className="flex flex-row gap-16 px-4">
         {/* Dropdown: Bilanzkreisauswahl */}
         <Menu as="div" className="relative block text-left">
-          <Menu.Button className="h-full flex flex-row gap-3 items-center">
+          <Menu.Button className="h-full flex flex-row gap-4 items-center">
             <LocationIcon className={styles.navbarIcon}/>
             <span>{balancingGroup}</span>
           </Menu.Button>
@@ -34,28 +34,28 @@ function Navbar(): ReactElement {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 w-44 mt-2 origin-top-right bg-grayscale-light text-grayscale-darkest divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-grayscale-dark ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute right-0 mt-2 origin-top-right bg-grayscale-light text-grayscale-darkest divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-grayscale-dark ring-opacity-5 focus:outline-none">
               <div className="p-2">
                 <RadioGroup value={balancingGroup} onChange={setBalancingGroup}>
 
-                  <RadioGroup.Option value="Bilanzkreis A" className={'h-8 group flex gap-3 rounded-md items-center content-center w-full px-2 py-2 text-sm hover:bg-grayscale'}>
+                  <RadioGroup.Option value="Bilanzkreis A" className={'h-8 group flex gap-2 rounded-md items-center content-center w-full px-2 py-2 text-sm hover:bg-grayscale hover:cursor-pointer'}>
                       {({ checked }) => (
                         <>
                           {checked ? (
-                            <CheckboxCheckedIcon className="w-5 h-5 text-grayscale-darkest" />
-                          ) : (<CheckboxUncheckedIcon className="w-5 h-5 text-grayscale-darkest" />)}
-                          <span>Bilanzkreis A</span>
+                            <CheckboxCheckedIcon className="w-4 h-4 text-grayscale-darkest" />
+                          ) : (<CheckboxUncheckedIcon className="w-4 h-4 text-grayscale-darkest" />)}
+                          <span className={"whitespace-nowrap"}>Bilanzkreis A</span>
                         </>
                       )}
                   </RadioGroup.Option>
 
-                  <RadioGroup.Option value="Bilanzkreis B" className={'h-8 group flex gap-3 rounded-md items-center content-center w-full px-2 py-2 text-sm hover:bg-grayscale'}>
+                  <RadioGroup.Option value="Bilanzkreis B" className={'h-8 group flex gap-2 rounded-md items-center content-center w-full px-2 py-2 text-sm hover:bg-grayscale hover:cursor-pointer'}>
                     {({ checked }) => (
                       <>
                         {checked ? (
-                          <CheckboxCheckedIcon className="w-5 h-5 text-grayscale-darkest" />
-                        ) : (<CheckboxUncheckedIcon className="w-5 h-5 text-grayscale-darkest" />)}
-                        <span>Bilanzkreis B</span>
+                          <CheckboxCheckedIcon className="w-4 h-4 text-grayscale-darkest" />
+                        ) : (<CheckboxUncheckedIcon className="w-4 h-4 text-grayscale-darkest" />)}
+                        <span className={"whitespace-nowrap"}>Bilanzkreis B</span>
                       </>
                     )}
                   </RadioGroup.Option>
@@ -67,10 +67,10 @@ function Navbar(): ReactElement {
                       <span
                         className={`${
                           active ? 'bg-grayscale' : ''
-                        } h-8 group flex gap-3 rounded-md items-center w-full px-2 py-2 text-sm hover:bg-grayscale`}
+                        } h-8 group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm hover:bg-grayscale`}
                       >
-                        <EditIcon className="w-5 h-5 text-grayscale-darkest"/>
-                        <span>Bearbeiten</span>
+                        <EditIcon className="w-4 h-4 text-grayscale-darkest"/>
+                        <span className={"inline-block whitespace-nowrap"}>Bearbeiten</span>
                       </span>
                     </>
                   )}
@@ -95,16 +95,16 @@ function Navbar(): ReactElement {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-grayscale-light text-grayscale-darkest divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-grayscale-dark ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute right-0 mt-2 origin-top-right bg-grayscale-light text-grayscale-darkest divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-grayscale-dark ring-opacity-5 focus:outline-none">
               <div className="p-2">
                 <Menu.Item>
                   {({ active }) => (
                     <a
                       className={`${
                         active ? 'bg-grayscale text-white' : 'text-gray-900'
-                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      } h-8 group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm hover:cursor-pointer`}
                     >
-                      <SettingsIcon className="h-5 w-5 mr-2 text-grayscale-darkest"/>
+                      <SettingsIcon className="h-4 w-4 text-grayscale-darkest"/>
                       Einstellungen
                     </a>
                   )}
@@ -114,10 +114,10 @@ function Navbar(): ReactElement {
                     <a
                       className={`${
                         active ? 'bg-grayscale text-white' : 'text-gray-900'
-                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      } h-8 group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm hover:cursor-pointer`}
                       href="/account-settings"
                     >
-                      <PowerIcon className="h-5 w-5 mr-2 text-grayscale-darkest"/>
+                      <PowerIcon className="h-4 w-4 text-grayscale-darkest"/>
                       Abmelden
                     </a>
                   )}
