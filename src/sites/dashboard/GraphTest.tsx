@@ -32,7 +32,7 @@ interface GraphDataResponse {
   }
 }
 
-function Dashboard(): ReactElement {
+function GraphTest(): ReactElement {
   const [data, setData] = useState<GraphData[]>([]);
 
   useAsyncEffect(async isMounted => {
@@ -75,4 +75,4 @@ function Dashboard(): ReactElement {
   );
 }
 
-export default Dashboard;
+export default GraphTest;
