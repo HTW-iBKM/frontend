@@ -12,7 +12,6 @@ export function singIn(username: string, password: string) {
         Pool: UserPool
     }
     const coginitoUser = new CognitoUser(userData);
-
     return new Promise((resolve, reject) => {
         coginitoUser.authenticateUser(authDetails, {
             onSuccess: () => {
