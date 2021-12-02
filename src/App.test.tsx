@@ -4,6 +4,6 @@ import App from './App';
 
 test('renders headline', () => {
   render(<App />);
-  const linkElement = screen.getByText(/iBKM Dashboard/i);
+  const linkElement = screen.getByText(/iBKM GraphTest/i);
   expect(linkElement).toBeInTheDocument();
 });
