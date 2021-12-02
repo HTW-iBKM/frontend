@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import { singIn } from '../../api/api';
 import LogoComponent from '../../components/logo/logoComponent';
 import { isEmail } from '../../utils/utility';
 function LoginPage() {
@@ -42,6 +43,8 @@ function LoginPage() {
         inputContained: "pl-6 pt-7",
         navigationAnchors: "cursor-pointer opacity-60 hover:opacity-100"
     }
+
+    const login = () => { singIn(form.email, form.password); }
 
     return (
         <LogoComponent>
@@ -87,7 +90,9 @@ function LoginPage() {
 
                     </span>
 
-                    <button className={styles.signInButton} disabled={!form.email || !form.password || !validForm()}>ANMELDEN</button>
+                    <button className={styles.signInButton} disabled={!form.email || !form.password || !validForm()}
+                        onClick={login}
+                    >ANMELDEN</button>
 
 
                 </div>
