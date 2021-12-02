@@ -21,7 +21,7 @@ function Navbar(): ReactElement {
       <div className="flex flex-row gap-16 px-4">
         {/* Dropdown: Bilanzkreisauswahl */}
         <Menu as="div" className="relative block text-left">
-          <Menu.Button className="h-full flex flex-row gap-5 items-center">
+          <Menu.Button className="h-full flex flex-row gap-4 items-center">
             <LocationIcon className={styles.navbarIcon}/>
             <span>{balancingGroup}</span>
           </Menu.Button>
@@ -38,7 +38,7 @@ function Navbar(): ReactElement {
               <div className="p-2">
                 <RadioGroup value={balancingGroup} onChange={setBalancingGroup}>
 
-                  <RadioGroup.Option value="Bilanzkreis A" className={'h-8 group flex gap-3 rounded-md items-center content-center w-full px-2 py-2 text-sm hover:bg-grayscale hover:cursor-pointer'}>
+                  <RadioGroup.Option value="Bilanzkreis A" className={'h-8 group flex gap-2 rounded-md items-center content-center w-full px-2 py-2 text-sm hover:bg-grayscale hover:cursor-pointer'}>
                       {({ checked }) => (
                         <>
                           {checked ? (
@@ -49,7 +49,7 @@ function Navbar(): ReactElement {
                       )}
                   </RadioGroup.Option>
 
-                  <RadioGroup.Option value="Bilanzkreis B" className={'h-8 group flex gap-3 rounded-md items-center content-center w-full px-2 py-2 text-sm hover:bg-grayscale hover:cursor-pointer'}>
+                  <RadioGroup.Option value="Bilanzkreis B" className={'h-8 group flex gap-2 rounded-md items-center content-center w-full px-2 py-2 text-sm hover:bg-grayscale hover:cursor-pointer'}>
                     {({ checked }) => (
                       <>
                         {checked ? (
@@ -67,7 +67,7 @@ function Navbar(): ReactElement {
                       <span
                         className={`${
                           active ? 'bg-grayscale' : ''
-                        } h-8 group flex gap-3 rounded-md items-center w-full px-2 py-2 text-sm hover:bg-grayscale`}
+                        } h-8 group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm hover:bg-grayscale`}
                       >
                         <EditIcon className="w-4 h-4 text-grayscale-darkest"/>
                         <span className={"inline-block whitespace-nowrap"}>Bearbeiten</span>
@@ -102,7 +102,7 @@ function Navbar(): ReactElement {
                     <a
                       className={`${
                         active ? 'bg-grayscale text-white' : 'text-gray-900'
-                      } h-8 group flex gap-3 rounded-md items-center w-full px-2 py-2 text-sm hover:cursor-pointer`}
+                      } h-8 group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm hover:cursor-pointer`}
                     >
                       <SettingsIcon className="h-4 w-4 text-grayscale-darkest"/>
                       Einstellungen
@@ -114,7 +114,7 @@ function Navbar(): ReactElement {
                     <a
                       className={`${
                         active ? 'bg-grayscale text-white' : 'text-gray-900'
-                      } h-8 group flex gap-3 rounded-md items-center w-full px-2 py-2 text-sm hover:cursor-pointer`}
+                      } h-8 group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm hover:cursor-pointer`}
                       href="/account-settings"
                     >
                       <PowerIcon className="h-4 w-4 text-grayscale-darkest"/>
