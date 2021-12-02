@@ -1,13 +1,18 @@
-import { Redirect, Route, Switch } from "react-router-dom";
-import React, { ReactElement } from 'react';
-import dashboard from "./sites/dashboard/dashboard";
-import LandingPage from "./sites/landinpage/landingpage";
+import {Redirect, Route, RouteProps, Switch} from "react-router-dom";
+import React, {Component,ReactElement} from 'react';
+import Landingpage from "./sites/landinpage/Landingpage";
+import Dashboard from "./sites/dashboard/Dashboard";
+import GraphTest from "./sites/dashboard/GraphTest";
 
-function RestrictedRoute({ component: Component, isAuthorized, ...rest }: any) {
+interface RestrictedRouteProps extends RouteProps {
+  isAuthorized: boolean;
+}
+
+function RestrictedRoute({isAuthorized, ...rest}: RestrictedRouteProps): ReactElement {
     return (
         <Route
             {...rest}
-            render={(props) =>
+            render={(props: RouteProps) =>
                 isAuthorized ? (
                     <Component {...props} />
                 ) : (
@@ -25,7 +30,6 @@ function RestrictedRoute({ component: Component, isAuthorized, ...rest }: any) {
     );
 }
 
-
 function PublicRoutes(): ReactElement {
     return (
         <Switch>
@@ -33,17 +37,24 @@ function PublicRoutes(): ReactElement {
                 exact
                 path={'/'}
                 isAuthorized={true}
-                component={LandingPage}
+                component={Landingpage}
             />
 
             <RestrictedRoute
                 exact
-                path={'/dashboard'}
+                path={'/graph-test'}
                 isAuthorized={true}
-                component={dashboard}
+                component={GraphTest}
             />
+
+            <RestrictedRoute
+              path={'/dashboard'}
+              isAuthorized={true}
+              component={Dashboard}
+            >
+          </RestrictedRoute>
         </Switch>
-    )
+    );
 }
 
 export default PublicRoutes;

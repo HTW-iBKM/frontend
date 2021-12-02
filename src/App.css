@@ -4,18 +4,20 @@
 
 html,
 body {
-    height: 100%;
+    @apply h-full;
+    @apply text-sm;
 }
 
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    font-family: 'Roboto', 'Segoe UI' , 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     height: 100%;
-    @apply bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500
+    font-size: 14px;
+    @apply bg-grayscale;
 }
 
 code {
@@ -27,9 +29,27 @@ p {
     @apply my-3
 }
 
+/* root Element Styling */
 #root {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @apply h-full;
+    @apply flex;
+    @apply items-center;
+    @apply justify-center;
+}
+
+/* Typography */
+@layer base {
+    h3 {
+        @apply text-5xl;
+        @apply leading-12;
+    }
+
+    h6 {
+        @apply text-xl;
+        @apply leading-12;
+        @apply font-medium;
+        @apply leading-snug;
+        @apply text-left;
+        @apply align-middle;
+    }
 }
