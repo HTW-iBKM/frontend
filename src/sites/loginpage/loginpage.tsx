@@ -44,7 +44,11 @@ function LoginPage() {
         navigationAnchors: "cursor-pointer opacity-60 hover:opacity-100"
     }
 
-    const login = () => { singIn(form.email, form.password); }
+    const login = () => {
+        singIn(form.email, form.password).then(() => {
+            history.push('graph-test')
+        }).catch((err) => alert(err.message));
+    }
 
     return (
         <LogoComponent>
