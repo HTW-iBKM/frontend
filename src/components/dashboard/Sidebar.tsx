@@ -70,7 +70,7 @@ function Sidebar(): ReactElement {
   );
 }
 
-const SidebarLink: React.FC<SidebarLinkProps> = (props: SidebarLinkProps): ReactElement => {
+const SidebarLink: React.FC<SidebarLinkProps> = ({children, sidebarLink}: SidebarLinkProps): ReactElement => {
   const styles = {
     sidebarLink: 'relative px-4 py-4 flex flex-row items-center text-sm tracking-wider uppercase hover:pointer ',
     sidebarLinkInactive: 'text-grayscale-dark ',
@@ -79,12 +79,12 @@ const SidebarLink: React.FC<SidebarLinkProps> = (props: SidebarLinkProps): React
 
   const location = useLocation<Location>();
   const match = useRouteMatch<Match>();
-  const isActive = location.pathname === match.url + props.sidebarLink.linkUrl;
+  const isActive = location.pathname === match.url + sidebarLink.linkUrl;
 
   return (
     <NavLink
       exact
-      to={match.url + props.sidebarLink.linkUrl}
+      to={match.url + sidebarLink.linkUrl}
       className={(isActive: boolean): string => {
         return isActive
           ? styles.sidebarLink
@@ -93,11 +93,11 @@ const SidebarLink: React.FC<SidebarLinkProps> = (props: SidebarLinkProps): React
       activeClassName={styles.sidebarLinkActive}
     >
       {isActive ? (
-        props.sidebarLink.iconActive
+        sidebarLink.iconActive
       ) : (
-        props.sidebarLink.iconInactive
+        sidebarLink.iconInactive
       )}
-      {props.children}
+      {children}
     </NavLink>
   );
 }
