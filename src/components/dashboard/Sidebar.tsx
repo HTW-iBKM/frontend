@@ -16,15 +16,15 @@ interface SidebarLink {
   text: string;
 }
 
+interface SidebarLinkProps {
+  sidebarLink: SidebarLink;
+  children: React.ReactNode
+}
+
 function Sidebar(): ReactElement {
   const [isExpanded, setIsExpanded] = useState(false);
-  const match = useRouteMatch<Match>();
-  const location = useLocation<Location>();
 
   const styles = {
-    sidebarLink: 'relative px-4 py-4 flex flex-row items-center text-sm tracking-wider uppercase hover:pointer ',
-    sidebarLinkInactive: 'text-grayscale-dark ',
-    sidebarLinkActive: 'text-sm bg-secondary after:bg-secondary after:rounded-r-lg after:w-[10px] after:h-full after:absolute after:right-[-10px] after:top-0 after:bottom-0',
     sidebarIcon: 'w-[24px] h-[24px]'
   };
 
@@ -37,24 +37,8 @@ function Sidebar(): ReactElement {
     <>
       <div className="text-grayscale-light h-full flex flex-col gap-4 py-4">
         {sidebarLinks.map((sidebarLink: SidebarLink) => {
-          const isActive = location.pathname === match.url + sidebarLink.linkUrl;
           return (
-            <NavLink
-              exact
-              key={sidebarLink.id}
-              to={match.url + sidebarLink.linkUrl}
-              className={(isActive: boolean): string => {
-                return isActive
-                  ? styles.sidebarLink
-                  : styles.sidebarLink + styles.sidebarLinkInactive;
-              }}
-              activeClassName={styles.sidebarLinkActive}
-            >
-              {isActive ? (
-               sidebarLink.iconActive
-              ) : (
-                sidebarLink.iconInactive
-              )}
+            <SidebarLink key={sidebarLink.id} sidebarLink={sidebarLink}>
               <div className="overflow-hidden">
                 <Transition
                   as={Fragment}
@@ -64,10 +48,10 @@ function Sidebar(): ReactElement {
                   enterTo="ml-0"
                   leave="transition-all duration-500"
                   leaveTo="-ml-44">
-                    <span className="w-full pl-4 pr-4">{sidebarLink.text}</span>
+                  <span className="w-full pl-4 pr-4">{sidebarLink.text}</span>
                 </Transition>
               </div>
-            </NavLink>
+            </SidebarLink>
           )}
         )}
       </div>
@@ -83,6 +67,38 @@ function Sidebar(): ReactElement {
         } transform transition-all ease-in-out duration-300 h-4 w-4 text-secondary m-auto`}/>
       </button>
     </>
+  );
+}
+
+const SidebarLink: React.FC<SidebarLinkProps> = ({children, sidebarLink}: SidebarLinkProps): ReactElement => {
+  const styles = {
+    sidebarLink: 'relative px-4 py-4 flex flex-row items-center text-sm tracking-wider uppercase hover:pointer ',
+    sidebarLinkInactive: 'text-grayscale-dark ',
+    sidebarLinkActive: 'text-sm bg-secondary after:bg-secondary after:rounded-r-lg after:w-[10px] after:h-full after:absolute after:right-[-10px] after:top-0 after:bottom-0',
+  };
+
+  const location = useLocation<Location>();
+  const match = useRouteMatch<Match>();
+  const isActive = location.pathname === match.url + sidebarLink.linkUrl;
+
+  return (
+    <NavLink
+      exact
+      to={match.url + sidebarLink.linkUrl}
+      className={(isActive: boolean): string => {
+        return isActive
+          ? styles.sidebarLink
+          : styles.sidebarLink + styles.sidebarLinkInactive;
+      }}
+      activeClassName={styles.sidebarLinkActive}
+    >
+      {isActive ? (
+        sidebarLink.iconActive
+      ) : (
+        sidebarLink.iconInactive
+      )}
+      {children}
+    </NavLink>
   );
 }
 
