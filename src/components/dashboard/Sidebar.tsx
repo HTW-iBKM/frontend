@@ -18,7 +18,7 @@ interface SidebarLink {
 
 interface SidebarLinkProps {
   sidebarLink: SidebarLink;
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 function Sidebar(): ReactElement {
