@@ -10,7 +10,8 @@ import EditIcon from "../icons/EditIcon";
 
 function Navbar(): ReactElement {
   const styles = {
-    navbarIcon: 'h-[24px] w-[24px]',
+    navbarIcon: 'h-[24px] w-[24px] ',
+    menuItem: 'absolute right-0 mt-2 origin-top-right bg-grayscale-light z-10 text-grayscale-darkest divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-grayscale-dark ring-opacity-5 focus:outline-none '
   }
 
   const [balancingGroup, setBalancingGroup] = useState('Bilanzkreis A')
@@ -34,7 +35,7 @@ function Navbar(): ReactElement {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 mt-2 origin-top-right bg-grayscale-light text-grayscale-darkest divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-grayscale-dark ring-opacity-5 focus:outline-none">
+            <Menu.Items className={styles.menuItem}>
               <div className="p-2">
                 <RadioGroup value={balancingGroup} onChange={setBalancingGroup}>
 
@@ -95,7 +96,7 @@ function Navbar(): ReactElement {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 mt-2 origin-top-right bg-grayscale-light text-grayscale-darkest divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-grayscale-dark ring-opacity-5 focus:outline-none">
+            <Menu.Items className={styles.menuItem}>
               <div className="p-2">
                 <Menu.Item>
                   {({ active }) => (
