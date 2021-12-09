@@ -14,6 +14,7 @@ function Center(): ReactElement {
 
     //Faking API call here
     setTimeout(() => {
+      setCount(count + 1)
       setLoading(false);
     }, 2000);
   };
@@ -34,6 +35,7 @@ function Center(): ReactElement {
             <Button variant={"secondary"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
 
             <Button variant={"text"} onClick={() => setCount(count + 1)}>button</Button>
+            <Button variant={"text"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
 
 
             <Button variant={"primary"} onClick={() => setCount(count + 1)} disabled>button</Button>

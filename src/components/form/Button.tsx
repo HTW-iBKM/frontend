@@ -17,6 +17,7 @@ const Button: FC<ButtonProps> = ({onClick, children, variant, isLoading, ...rest
 
   const isPrimary = variant === "primary";
   const isSecondary = variant === "secondary";
+  const isText = variant === "text";
 
   const className = (variant: ButtonVariant) => {
     switch (variant) {
@@ -34,12 +35,13 @@ const Button: FC<ButtonProps> = ({onClick, children, variant, isLoading, ...rest
   return (
     <button
       onClick={onClick}
-      className={`${className(variant)} ${isLoading && isPrimary ? "!bg-primary" : ""} ${isLoading && isSecondary ? "!border-primary" : ""}`}
+      className={`${className(variant)} ${isLoading && isPrimary ? "!bg-primary" : ""} ${isLoading && isSecondary ? "!border-primary" : ""} ${isLoading && isText ? "!text-primary" : ""}`}
       {...rest}
     >
       {!isLoading && children}
-      {isLoading && variant === 'primary' && <LoadingLightIcon className={"h-5 w-5 m-auto animate-spin"}></LoadingLightIcon>}
-      {isLoading && variant === 'secondary' && <LoadingDarkIcon className={"h-5 w-5 m-auto animate-spin"}></LoadingDarkIcon>}
+      {isLoading && isPrimary && <LoadingLightIcon className={"h-5 w-5 m-auto animate-spin"}></LoadingLightIcon>}
+      {isLoading && isSecondary && <LoadingDarkIcon className={"h-5 w-5 m-auto animate-spin"}></LoadingDarkIcon>}
+      {isLoading && isText && <>loading ...</>}
     </button>
   )
 }
