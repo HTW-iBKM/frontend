@@ -7,6 +7,16 @@ function Center(): ReactElement {
   const match = useRouteMatch();
   const [count, setCount] = useState(1);
   const [inputText, setInputText] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = () => {
+    setLoading(true);
+
+    //Faking API call here
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
   return (
     <Switch>
       <Route exact path={match.path}>
@@ -18,9 +28,10 @@ function Center(): ReactElement {
           <div>{count}</div>
           <div className={"flex"}>
             <Button variant={"primary"} onClick={() => setCount(count + 1)}>button</Button>
-            <Button variant={"primary"} isLoading={true} onClick={() => setCount(count + 1)}>button</Button>
+            <Button variant={"primary"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
 
             <Button variant={"secondary"} onClick={() => setCount(count + 1)}>button</Button>
+            <Button variant={"secondary"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
 
             <Button variant={"text"} onClick={() => setCount(count + 1)}>button</Button>
 
