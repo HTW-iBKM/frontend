@@ -1,11 +1,9 @@
 import React, {ReactElement} from 'react';
+import Sidebar from '../components/dashboard/Sidebar';
+import Center from '../components/dashboard/Center';
+import Navbar from '../components/dashboard/Navbar';
 
-interface LayoutProps {
-  top: ReactElement;
-  left: ReactElement;
-  center: ReactElement;
-}
-function Layout(props: LayoutProps): ReactElement {
+function DashboardLayout(): ReactElement {
   const styles = {
     layoutContainer: 'h-full w-full flex flex-col',
     headerContainer: 'h-14 shadow-lg min-h-[3.375rem] bg-primary text-grayscale-light flex items-center justify-between px-4',
@@ -16,14 +14,14 @@ function Layout(props: LayoutProps): ReactElement {
   return (
     <div className={styles.layoutContainer}>
       <header className={styles.headerContainer}>
-        {props.top}
+        <Navbar/>
       </header>
       <main className={styles.mainContainer}>
-        <div className={styles.sidebarContainer}>{props.left}</div>
-        <div className={styles.contentContainer}>{props.center}</div>
+        <div className={styles.sidebarContainer}><Sidebar/></div>
+        <div className={styles.contentContainer}><Center/></div>
       </main>
     </div>
   )
 }
 
-export default Layout;
+export default DashboardLayout;

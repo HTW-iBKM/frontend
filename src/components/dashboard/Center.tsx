@@ -1,6 +1,6 @@
 import React, {ReactElement} from "react";
 import {Route, Switch, useRouteMatch} from "react-router-dom";
-import Home from "../../sites/dashboard/Home";
+import Home from "../../sites/home/Home";
 
 function Center(): ReactElement {
   const match = useRouteMatch();
