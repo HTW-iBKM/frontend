@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import Graph from './Graph';
+import Graph from '../../components/graph/Graph';
 
 function Home(): ReactElement {
   const styles = {
@@ -10,22 +10,22 @@ function Home(): ReactElement {
   return <div className={styles.container}>
     {widgets.length > 1 ? (
         <>
-          <span className={styles.card + 'w-2/3'}>
+          <div className={styles.card + 'w-2/3'}>
             <Graph/>
-          </span>
+          </div>
           <div className="w-1/3 h-full flex flex-col gap-6">
-            <span className={styles.card}>
+            <div className={styles.card}>
               <Graph/>
-            </span>
-            {widgets[2] && <span className={styles.card}>
+            </div>
+            {widgets[2] && <div className={styles.card}>
               <Graph/>
-            </span>}
+            </div>}
           </div>
         </>
     ) : (
-        <span className={styles.card + 'w-full'}>
+        <div className={styles.card + 'w-full'}>
           <Graph/>
-        </span>
+        </div>
     )}
   </div>;
 }

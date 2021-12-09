@@ -1,8 +1,8 @@
 import {Redirect, Route, RouteProps, Switch} from "react-router-dom";
 import React, {Component,ReactElement} from 'react';
 import Landingpage from "./sites/landinpage/Landingpage";
-import Dashboard from "./sites/dashboard/Dashboard";
-import Graph from "./sites/dashboard/Graph";
+import Graph from "./components/graph/Graph";
+import DashboardLayout from './layouts/DashboardLayout';
 
 interface RestrictedRouteProps extends RouteProps {
   isAuthorized: boolean;
@@ -50,7 +50,7 @@ function PublicRoutes(): ReactElement {
             <RestrictedRoute
               path={'/dashboard'}
               isAuthorized={true}
-              component={Dashboard}
+              component={DashboardLayout}
             >
           </RestrictedRoute>
         </Switch>

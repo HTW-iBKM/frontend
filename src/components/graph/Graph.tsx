@@ -35,7 +35,7 @@ interface GraphDataResponse {
 
 function Graph(): ReactElement {
   const styles = {
-    graphContainer: 'w-[calc(100%-2.5rem)] h-[calc(100%-2.5rem)] m-5 flex justify-center items-center '
+    graphContainer: 'w-[calc(100%-2.5rem)] h-[calc(100%-2.5rem)] m-7 flex justify-center items-center '
   };
   const [data, setData] = useState<GraphData[]>([]);
 
