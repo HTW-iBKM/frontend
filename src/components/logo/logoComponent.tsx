@@ -5,9 +5,9 @@ import React from 'react';
 function LogoComponent({ children }: any) {
     const styles = {
         wrapper: "w-full h-full bg-white flex justify-center",
-        logo: "max-w-[111px] h-[90px] block",
-        content: "w-[450px] h-full flex flex-col",
-        logoContainer: 'flex justify-center mt-[30px]',
+        logo: "max-w-[111px] h-[90px] block mt-[20px]",
+        content: "w-[450px] h-full flex flex-col justify-between",
+        logoContainer: 'flex justify-center',
     }
 
     return (<div className={styles.wrapper}>
