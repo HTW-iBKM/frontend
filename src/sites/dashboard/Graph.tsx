@@ -2,6 +2,7 @@ import React, { ReactElement, useState } from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import axios from 'axios';
 import useAsyncEffect from "use-async-effect";
+import './Graph.css';
 
 interface GraphData {
   time: string;
@@ -46,7 +47,7 @@ function Graph(): ReactElement {
 
   return (!data.length ? <>Waiting for data...</> :
     <div className={styles.graphContainer}>
-      <ResponsiveContainer width="99%">
+      <ResponsiveContainer>
         <LineChart data={data.map((entry) => {
           const newTime = new Date(entry.time);
           const hours = newTime.toLocaleTimeString().slice(0, 5);
