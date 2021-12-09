@@ -10,14 +10,12 @@
     @apply text-grayscale-darkest;
 }
 
-.textfield-input:focus + label span {
-    @apply -translate-y-2/4;
-    @apply text-grayscale-darkest;
-}
-
+.textfield-input:focus + label span,
 .textfield-input:not(:placeholder-shown) + label span {
-    @apply -translate-y-2/4;
+    @apply -translate-y-5;
     @apply text-grayscale-darkest;
+    @apply bg-grayscale-light;
+    @apply px-1;
 }
 
 .textfield-input:disabled + label span {

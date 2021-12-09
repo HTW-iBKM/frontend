@@ -16,7 +16,7 @@ function Navbar(): ReactElement {
   const [balancingGroup, setBalancingGroup] = useState('Bilanzkreis A')
 
   return (
-    <>
+    <div className={"h-14 flex items-center justify-between "}>
       <h6>Exxeta iBKM</h6>
       <div className="flex flex-row gap-16 px-4">
         {/* Dropdown: Bilanzkreisauswahl */}
@@ -128,7 +128,7 @@ function Navbar(): ReactElement {
 
         </Menu>
       </div>
-    </>
+    </div>
   )
 }
 export default Navbar
