@@ -46,7 +46,7 @@ function Graph(): ReactElement {
 
   return (!data.length ? <>Waiting for data...</> :
     <div className={styles.graphContainer}>
-      <ResponsiveContainer>
+      <ResponsiveContainer width="99%">
         <LineChart data={data.map((entry) => {
           const newTime = new Date(entry.time);
           const hours = newTime.toLocaleTimeString().slice(0, 5);
