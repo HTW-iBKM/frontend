@@ -19,17 +19,21 @@ function RegisterPage() {
     const [showPW, setShowPW] = useState(false);
     const [showPWConfirm, setShowPWConfirm] = useState(false);
     const styles = {
-        h3Title: "font-sans text-[48px]",
-        content: "mt-[85px]",
-        input: "flex-grow h-16 rounded-2xl placeholder-primary",
-        inputContainer: "relative flex my-[33px] flex-col",
-        inputLabel: "absolute left-[24px] top-[5px]",
-        inputUntouched: "p-6",
-        inputContained: "pl-6 pt-7",
-        footer: "flex text-[#4074B2] mt-[100px] text-[12px] justify-center",
-        eyePassword: "absolute top-[22px] right-[21px]",
+        h3Title: "font-sans text-[34px] ",
+        content: "",
+        input: "flex-grow h-16 rounded-xl placeholder-grayscale-dark h-[43px] p-0 pl-4 border-grayscale-dark",
+        inputContainer: "relative flex my-[33px] flex-col mt-[50px]",
+        inputLabel: "absolute left-[14px] top-[-6px] bg-grayscale-white text-[12px] pl-[4px] pr-[4px]",
+        inputUntouched: "pl-6",
+        inputContained: "pl-6",
+        footer: "flex text-[#4074B2] mt-[100px] text-[12px] justify-center mb-[36px]",
+        eyePassword: "absolute top-[26%] right-[15px] hover:cursor-pointer",
         navigationAnchors: "cursor-pointer opacity-60 hover:opacity-100",
-        registerButton: "mt-[25px] bg-[#4074B2] h-16 rounded-[40px] text-white disabled:bg-opacity-50 w-full",
+        registerButton: "mt-[25px] bg-[#4074B2] h-16 rounded-[8px] text-white disabled:bg-opacity-50 w-full w-[240px] h-[43px] text-grayscale-white text-[16px]",
+        form: 'w-[240px] mt-0 mb-[150px] ml-auto mr-auto flex-grow',
+        errLabel: (string: any) => {
+            return (`text-danger absolute text-[12px] ${string.split(' ').length > 5 ? 'bottom-[-33px] left-[18px]' : 'bottom-[-25px] left-[24px]'}`)
+        },
     }
 
     const [formTouched, setFormTouched] = useState({
@@ -40,19 +44,23 @@ function RegisterPage() {
         passwordConfirm: false,
     })
 
-
+    const specialCharacters = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/;
+    const containsNumbers = /[0-9+]/;
     const formErr: any =
     {
-        email: formTouched.email && !form.email.trim() ? "Die Email muss definiert werden!" :
-            form.email.trim() && !isEmail(form.email.trim()) ? "Valide EMail-Addresse angeben!" : null,
-        firstname: formTouched.firstname && !form.firstname.trim() ? "Der Vorname muss definiert werden!" :
-            form.firstname.trim() && form.firstname.trim().length < 3 ? "Der Vorname muss mindestens drei Buchstaben haben  " : null,
-        lastname: formTouched.lastname && !form.lastname.trim() ? "Der Nachname muss definiert werden!" :
-            form.lastname && form.lastname.trim().length < 3 ? "Der Nachname muss mindestens drei Buchstaben haben" : null,
-        password: formTouched.password && !form.password.trim() ? "Das Passwort muss definiert werden!" :
-            form.password.trim() && form.password.trim().length < 6 ? "Passwort muss mindestens sechs Zeichen enthalten" : null,
-        passwordConfirm: formTouched.passwordConfirm && !form.passwordConfirm.trim() ? "Das Wiederholungs-Passwort muss definiert werden!" :
-            form.passwordConfirm.trim() && form.passwordConfirm.trim() !== form.password.trim() ? "Passwörter müssen übereinstimmen!" : null,
+        email: formTouched.email && !form.email.trim() ? "Die Email muss definiert werden" :
+            form.email.trim() && !isEmail(form.email.trim()) ? "Valide EMail-Addresse angeben" : null,
+        firstname: formTouched.firstname && !form.firstname.trim() ? "Der Vorname muss definiert werden" :
+            formTouched.firstname && form.firstname.match(/[0-9+]/) ? 'Der Vorname darf keine Zahlen enthalten' :
+                form.firstname.trim() && form.firstname.trim().length < 1 ? "Der Vorname muss mindestens drei Buchstaben haben  " : null,
+        lastname: formTouched.lastname && !form.lastname.trim() ? "Der Nachname muss definiert werden" :
+            formTouched.lastname && containsNumbers.test(form.lastname) ? 'Der Nachname darf keine Zahlen enthalten' :
+                form.lastname && form.lastname.trim().length < 1 ? "Der Nachname muss mindestens drei Buchstaben haben" : null,
+        password: formTouched.password && !form.password.trim() ? "Das Passwort muss definiert werden" :
+            formTouched.password && !specialCharacters.test(form.password) || !containsNumbers.test(form.password) ? "Dass Passwort muss ein Sonderzeichen enthalten und eine Zahl enthalen" :
+                form.password.trim() && form.password.trim().length < 8 ? "Passwort muss mindestens acht Zeichen enthalten" : null,
+        passwordConfirm: formTouched.passwordConfirm && !form.passwordConfirm.trim() ? "Das Wiederholungs-Passwort muss definiert werden" :
+            form.passwordConfirm.trim() && form.passwordConfirm.trim() !== form.password.trim() ? "Passwörter müssen übereinstimmen" : null,
     }
 
     const validForm = () => {
@@ -70,21 +78,26 @@ function RegisterPage() {
     return (
         <LogoComponent>
             <div className={styles.content}>
-                <h3 className={styles.h3Title}>
-                    Registrierung
-                </h3>
-                <div>
+
+                <div className={styles.form}>
+                    <h3 className={styles.h3Title}>
+                        Registrierung
+                    </h3>
                     <span className={`${styles.inputContainer}`}>
 
-                        <span className={`${styles.inputLabel} ${form.email ? "visible" : "hidden"} ${formErr['email'] && "text-[#D7382C]"}`}>Email-Addresse:</span>
+                        <span className={`${styles.inputLabel} ${form.email ? "visible" : "hidden"}`}>Email-Addresse:</span>
 
-                        <input type="text" className={`${styles.input} ${form.email ? styles.inputContained : styles.inputUntouched}`} placeholder="Email-Addresse"
+                        <input type="text" className={`${styles.input} ${form.email ? styles.inputContained : styles.inputUntouched}
+                                 ${formErr['email'] && 'border-danger'}
+                        
+                        `} placeholder="Email-Addresse"
                             onChange={(e) => setForm(oldForm => ({ ...oldForm, email: e.target.value }))}
-                            onFocus={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, email: true }))}
+                            onFocus={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, email: false }))}
+                            onBlur={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, email: true }))}
                         ></input>
 
-                        {formErr['email'] &&
-                            <span className={"text-[#D7382C] absolute bottom-[-25px] left-[24px]"}>{formErr['email']}</span>
+                        {formErr['email'] && formTouched.email &&
+                            <span className={styles.errLabel(formErr['email'])}>{formErr['email']}</span>
                         }
                     </span>
 
@@ -92,11 +105,12 @@ function RegisterPage() {
                         <span className={`${styles.inputLabel} ${form.firstname ? "visible" : "hidden"} ${formErr['firstname'] && "text-[#D7382C]"}`}>Vorname:</span>
                         <input type="text" className={`${styles.input} ${form.firstname ? styles.inputContained : styles.inputUntouched}`} placeholder="Vorname"
                             onChange={(e) => setForm(oldForm => ({ ...oldForm, firstname: e.target.value }))}
-                            onFocus={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, firstname: true }))}
+                            onFocus={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, firstname: false }))}
+                            onBlur={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, firstname: true }))}
                         ></input>
 
-                        {formErr['firstname'] &&
-                            <span className={"text-[#D7382C] absolute bottom-[-25px] left-[24px]"}>{formErr['firstname']}</span>
+                        {formErr['firstname'] && formTouched['firstname'] &&
+                            <span className={styles.errLabel(formErr['firstname'])}>{formErr['firstname']}</span>
                         }
                     </span>
 
@@ -106,11 +120,12 @@ function RegisterPage() {
 
                         <input type="text" className={`${styles.input} ${form.lastname ? styles.inputContained : styles.inputUntouched}`} placeholder="Nachname"
                             onChange={(e) => setForm(oldForm => ({ ...oldForm, lastname: e.target.value }))}
-                            onFocus={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, lastname: true }))}
+                            onFocus={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, lastname: false }))}
+                            onBlur={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, lastname: true }))}
                         ></input>
 
-                        {formErr['lastname'] &&
-                            <span className={"text-[#D7382C] absolute bottom-[-25px] left-[24px]"}>{formErr['lastname']}</span>
+                        {formErr['lastname'] && formTouched['lastname'] &&
+                            <span className={styles.errLabel(formErr['lastname'])}>{formErr['lastname']}</span>
                         }
                     </span>
 
@@ -131,14 +146,15 @@ function RegisterPage() {
                             </svg>
                         </div>
 
-                        <span className={`${styles.inputLabel} ${form.password ? "visible" : "hidden"} ${formErr['password'] && "text-[#D7382C]"}`}>Passwort:</span>
+                        <span className={`${styles.inputLabel} ${form.password ? "visible" : "hidden"}`}>Passwort:</span>
                         <input type={showPW ? "text" : "password"} className={`${styles.input} ${form.password ? styles.inputContained : styles.inputUntouched}`} placeholder="Passwort"
                             onChange={(e) => setForm(oldForm => ({ ...oldForm, password: e.target.value }))}
+                            onFocus={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, password: false }))}
+                            onBlur={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, password: true }))}
 
-                            onFocus={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, password: true }))}
                         ></input>
-                        {formErr['password'] &&
-                            <span className={"text-[#D7382C] absolute bottom-[-25px] left-[24px]"}>{formErr['password']}</span>
+                        {formErr['password'] && formTouched['password'] &&
+                            <span className={styles.errLabel(formErr['password'])}>{formErr['password']}</span>
                         }
                     </span>
 
@@ -159,20 +175,23 @@ function RegisterPage() {
                             </svg>
                         </div>
 
-                        <span className={`${styles.inputLabel} ${form.passwordConfirm ? "visible" : "hidden"} ${formErr['passwordConfirm'] && "text-[#D7382C]"}`}>Passwort wiederholen:</span>
+                        <span className={`${styles.inputLabel} ${form.passwordConfirm ? "visible" : "hidden"}`}>Passwort wiederholen:</span>
                         <input type={showPWConfirm ? "text" : "password"} className={`${styles.input} ${form.passwordConfirm ? styles.inputContained : styles.inputUntouched}`} placeholder="Passwort wiederholen"
                             onChange={(e) => setForm(oldForm => ({ ...oldForm, passwordConfirm: e.target.value }))}
-                            onFocus={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, passwordConfirm: true }))}
+                            onFocus={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, passwordConfirm: false }))}
+                            onBlur={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, passwordConfirm: true }))}
                         ></input>
-                        {formErr['passwordConfirm'] &&
-                            <span className={"text-[#D7382C] absolute bottom-[-25px] left-[24px]"}>{formErr['passwordConfirm']}</span>
+                        {formErr['passwordConfirm']
+                            && formTouched.passwordConfirm &&
+                            <span className={styles.errLabel(formErr['passwordConfirm'])}>{formErr['passwordConfirm']}</span>
                         }
                     </span>
+                    <button className={styles.registerButton} disabled={
+                        !form.email || !form.password || !form.firstname || !form.lastname || !form.password || !form.passwordConfirm || !validForm()}
+                        onClick={register}
+                    >REGISTRIEREN</button>
                 </div>
-                <button className={styles.registerButton} disabled={
-                    !form.email || !form.password || !form.firstname || !form.lastname || !form.password || !form.passwordConfirm || !validForm()}
-                    onClick={register}
-                >REGISTRIEREN</button>
+
 
                 <footer className={styles.footer}>
                     <a className={styles.navigationAnchors} href="/#/login">Bereits registriert? &nbsp; Anmelden</a>
