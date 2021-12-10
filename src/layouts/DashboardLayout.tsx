@@ -5,7 +5,7 @@ interface LayoutProps {
   left: ReactElement;
   center: ReactElement;
 }
-function Layout(props: LayoutProps): ReactElement {
+function DashboardLayout(props: LayoutProps): ReactElement {
   const styles = {
     layoutContainer: 'h-full w-full flex flex-col overflow-none',
     headerContainer: 'h-14 shadow-lg min-h-14 bg-primary text-grayscale-light px-4 sticky top-0 z-50',
@@ -26,4 +26,4 @@ function Layout(props: LayoutProps): ReactElement {
   )
 }
 
-export default Layout;
+export default DashboardLayout;

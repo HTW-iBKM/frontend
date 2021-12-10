@@ -8,6 +8,17 @@ function Center(): ReactElement {
   const match = useRouteMatch();
   const [count, setCount] = useState(1);
   const [inputText, setInputText] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = () => {
+    setLoading(true);
+
+    //Faking API call here
+    setTimeout(() => {
+      setCount(count + 1)
+      setLoading(false);
+    }, 2000);
+  };
   return (
     <Switch>
       <Route exact path={match.path}>
@@ -17,18 +28,27 @@ function Center(): ReactElement {
       <Route exact path={`${match.path}/files`}>
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
           <div>{count}</div>
-          <div className={"flex"}>
-            <Button variant={"primary"} onClick={() => setCount(count + 1)}>button</Button>
-            <Button variant={"primary"} isLoading={true} onClick={() => setCount(count + 1)}>button</Button>
+          <div className={"flex flex-col"}>
+            <div>
+              <span>Primary Button:</span>
+              <Button variant={"primary"} onClick={() => setCount(count + 1)}>button</Button>
+              <Button variant={"primary"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
+              <Button variant={"primary"} onClick={() => setCount(count + 1)} disabled>button</Button>
+            </div>
 
-            <Button variant={"secondary"} onClick={() => setCount(count + 1)}>button</Button>
+            <div>
+              <span>Secondary Button:</span>
+              <Button variant={"secondary"} onClick={() => setCount(count + 1)}>button</Button>
+              <Button variant={"secondary"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
+              <Button variant={"secondary"} onClick={() => setCount(count + 1)} disabled>button</Button>
+            </div>
 
-            <Button variant={"text"} onClick={() => setCount(count + 1)}>button</Button>
-
-
-            <Button variant={"primary"} onClick={() => setCount(count + 1)} disabled>button</Button>
-            <Button variant={"secondary"} onClick={() => setCount(count + 1)} disabled>button</Button>
-            <Button variant={"text"} onClick={() => setCount(count + 1)} disabled>button</Button>
+            <div>
+              <span>Text Button:</span>
+              <Button variant={"text"} onClick={() => setCount(count + 1)}>button</Button>
+              <Button variant={"text"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
+              <Button variant={"text"} onClick={() => setCount(count + 1)} disabled>button</Button>
+            </div>
           </div>
         </div>
 

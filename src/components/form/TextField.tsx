@@ -16,11 +16,9 @@ interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const TextField: React.FC<TextFieldProps> =({errorMessage, successMessage, label, name, disabled, type, visibilityButton, ...rest}: TextFieldProps) => {
   const styles = {
-    inputUntouched: "p-6",
-    inputContained: "pl-6 pt-7",
-    input: "textfield-input flex-grow h-13 pl-6 rounded-2xl placeholder-primary outline-none focus:outline-none focus:ring-0 disabled:border-2 disabled:border-grayscale-dark",
+    input: "textfield-input bg-transparent flex-grow h-13 pl-4 rounded-lg placeholder-primary outline-none focus:outline-none disabled:border-2 disabled:border-grayscale-dark",
     inputContainer: "relative flex my-5 flex-col",
-    inputLabel: "absolute pl-6 w-full h-full text-base pointer-events-none",
+    inputLabel: "absolute pl-4 w-full h-full text-base pointer-events-none",
     inputLabelSpan: "absolute top-1/4 transition-all duration-300 text-grayscale-dark",
   }
 
