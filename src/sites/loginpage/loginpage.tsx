@@ -13,6 +13,11 @@ function LoginPage() {
         password: ""
     })
 
+    const [formTouched, setFormTouched] = useState({
+        email: false,
+        password: false
+    })
+
     const formErr: any =
     {
         email: form.email && !isEmail(form.email) ? "Valide EMail-Addresse angeben!" : null
@@ -29,18 +34,18 @@ function LoginPage() {
     const styles = {
         content: "w-[450px] h-full flex flex-col",
         // logoContainer: 'flex justify-center mt-[30px] mb-[220px]',
-        loginContainer: 'h-[280px] w-[240px] ml-auto mr-auto mt-0 mb-[100px]',
+        loginContainer: 'h-[280px] w-[240px] ml-auto mr-auto mt-0 mb-[115px]',
         logo: "max-w-[111px] h-[90px] block",
         loginH3: "font-sans text-[34px]",
         inputs: " flex flex-col",
-        input: "flex-grow h-16 rounded-xl placeholder-grayscale-dark h-[43px] p-0 pl-3 border-grayscale-dark",
+        input: "flex-grow h-16 rounded-xl placeholder-grayscale-dark h-[43px] p-0 pl-4 border-grayscale-dark",
         inputContainer: "relative flex flex-col",
-        inputLabel: "absolute left-[24px] top-[5px]",
-        eyePassword: "absolute top-[26%] right-[21px]",
+        inputLabel: "absolute left-[14px] top-[-6px] bg-grayscale-white text-[12px] pl-[4px] pr-[4px]",
+        eyePassword: "absolute top-[26%] right-[15px] hover:cursor-pointer",
         signInButton: "bg-[#4074B2] h-16 rounded-[8px] text-grayscale-light disabled:bg-opacity-50 h-[43px]",
         footer: "flex text-[#4074B2] justify-between text-[12px] mb-[36px]",
-        inputUntouched: "p-6",
-        inputContained: "pl-6 pt-7",
+        inputUntouched: "",
+        inputContained: "",
         navigationAnchors: "cursor-pointer opacity-60 hover:opacity-100",
         inputUser: 'h-[116px] flex flex-col justify-between mt-[40px] mb-[40px]'
     }
@@ -61,14 +66,18 @@ function LoginPage() {
                     <div className={styles.inputUser}>
                         <span className={`${styles.inputContainer}`}>
 
-                            <span className={`${styles.inputLabel} ${form.email ? "visible" : "hidden"} ${formErr['email'] && "text-[#D7382C]"}`}>Email-Addresse:</span>
+                            <div className={`${styles.inputLabel} ${form.email ? "visible" : "hidden"}`}>Email-Addresse</div>
 
-                            <input type="text" className={`${styles.input} ${form.email ? styles.inputContained : styles.inputUntouched}`} placeholder="Email-Addresse"
+                            <input type="text" className={`${styles.input} ${form.email ? styles.inputContained : styles.inputUntouched}
+                                ${formErr['email'] && 'border-danger'}
+                            `} placeholder="Email-Addresse"
                                 onChange={(e) => setForm(oldForm => ({ ...oldForm, email: e.target.value }))}
+                                onBlur={(e) => setFormTouched((oldEle) => ({ ...oldEle, email: true }))}
+                                onFocus={(e) => setFormTouched((oldEle) => ({ ...oldEle, email: false }))}
                             ></input>
 
-                            {formErr['email'] &&
-                                <span className={"text-[#D7382C] absolute bottom-[-25px] left-[24px]"}>{formErr['email']}</span>
+                            {formErr['email'] && formTouched.email &&
+                                <span className={"text-danger absolute bottom-[-20px] left-[15px] text-[12px]"}>{formErr['email']}</span>
                             }
                         </span>
 
