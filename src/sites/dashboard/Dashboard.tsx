@@ -1,12 +1,12 @@
 import React, {ReactElement} from 'react';
-import Layout from "../../layouts/Layout";
+import DashboardLayout from "../../layouts/DashboardLayout";
 import Navbar from "../../components/dashboard/Navbar";
 import Center from "../../components/dashboard/Center";
 import Sidebar from "../../components/dashboard/Sidebar";
 
 function Dashboard(): ReactElement {
   return (
-    <Layout
+    <DashboardLayout
       left={<Sidebar/>}
       top={<Navbar/>}
       center={<Center/>}
