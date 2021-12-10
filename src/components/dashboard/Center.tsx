@@ -1,7 +1,8 @@
-import React, {ReactElement, useState} from "react";
-import {Route, Switch, useRouteMatch} from "react-router-dom";
+import React, { ReactElement, useState } from "react";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Button from "../form/Button";
 import TextField from "../form/TextField";
+import RadioButtonGroup from "../form/RadioButtonGroup";
 
 function Center(): ReactElement {
   const match = useRouteMatch();
@@ -33,21 +34,23 @@ function Center(): ReactElement {
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg flex flex-col gap-2"}>
           <div>{inputText}</div>
-          <TextField type={"text"} name={"inputField1"} label={"Username"} onChange={e => setInputText(e?.target?.value)}/>
+          <TextField type={"text"} name={"inputField1"} label={"Username"} onChange={e => setInputText(e?.target?.value)} />
           <TextField type={"password"} visibilityButton={true} name={"inputField2"} label={"Password"} errorMessage={"Password incorrect!"} />
           <TextField type={"text"} name={"inputField3"} label={"Username"} successMessage={"Username available"} />
-          <TextField type={"text"} name={"inputField4"} label={"Username"} successMessage={"Username available"} disabled/>
+          <TextField type={"text"} name={"inputField4"} label={"Username"} successMessage={"Username available"} disabled />
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg flex flex-col gap-2"}>
           <div>{inputText}</div>
-          <TextField type={"text"} name={"inputField1"} label={"Username"} onChange={e => setInputText(e?.target?.value)}/>
+          <TextField type={"text"} name={"inputField1"} label={"Username"} onChange={e => setInputText(e?.target?.value)} />
           <TextField type={"password"} visibilityButton={true} name={"inputField2"} label={"Password"} errorMessage={"Password incorrect!"} />
           <TextField type={"text"} name={"inputField3"} label={"Username"} successMessage={"Username available"} />
-          <TextField type={"text"} name={"inputField4"} label={"Username"} successMessage={"Username available"} disabled/>
+          <TextField type={"text"} name={"inputField4"} label={"Username"} successMessage={"Username available"} disabled />
         </div>
+
+        <RadioButtonGroup options={["test 1", "test 2", "test 3"]} disabledOptions={["test 3"]} onChange={(value) => console.log(value)}></RadioButtonGroup>
       </Route>
-    </Switch>
+    </Switch >
   )
 }
 
