@@ -3,15 +3,15 @@ import { RadioGroup } from "@headlessui/react";
 import CheckboxUncheckedIcon from "../icons/CheckboxUncheckedIcon";
 import CheckboxCheckedIcon from "../icons/CheckboxCheckedIcon";
 
-interface RadioButtonGroupProps extends React.HTMLAttributes<HTMLInputElement> {
+interface RadioButtonGroupProps<T> {
     options: string[];
     value?: string;
-    onChange: (value: any) => void;
     disabledOptions?: string[];
+    onChange(value: T): void;
 }
 
-const RadioButtonGroup: FC<RadioButtonGroupProps> = ({ onChange, options, disabledOptions, children, ...rest }: RadioButtonGroupProps) => {
-    const [value, setValue] = useState();
+const RadioButtonGroup: FC<RadioButtonGroupProps<string>> = ({ onChange, options, disabledOptions}: RadioButtonGroupProps<string>) => {
+    const [value, setValue] = useState(String);
     const [hover, setHover] = useState(String);
     const [active, setActive] = useState(String);
 
@@ -23,9 +23,14 @@ const RadioButtonGroup: FC<RadioButtonGroupProps> = ({ onChange, options, disabl
     const stylesText = 'whitespace-nowrap'
     const stylesDisabledText = 'text-grayscale-dark whitespace-nowrap'
 
+    const changeValue = (newValue: string) => {
+        setValue(newValue)
+        onChange(newValue)
+    }
+
 
     return (
-        <RadioGroup value={value} onChange={(newValue) => { setValue(newValue); onChange(newValue) }}>
+        <RadioGroup value={value} onChange={(newValue) => { (changeValue(newValue))}}>
             {options.map((option, index) => {
                 const isDisabled = disabledOptions && disabledOptions.includes(option);
                 const isActive = active == option;

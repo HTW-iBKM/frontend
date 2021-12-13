@@ -1,11 +1,9 @@
 import React, { Fragment, ReactElement, useState } from "react";
-import { Menu, Transition, RadioGroup } from "@headlessui/react";
+import { Menu, Transition } from "@headlessui/react";
 import UserIcon from "../icons/UserIcon"
 import LocationIcon from "../icons/LocationIcon";
 import PowerIcon from "../icons/PowerIcon";
 import SettingsIcon from "../icons/SettingsIcon";
-import CheckboxUncheckedIcon from "../icons/CheckboxUncheckedIcon";
-import CheckboxCheckedIcon from "../icons/CheckboxCheckedIcon";
 import EditIcon from "../icons/EditIcon";
 import RadioButtonGroup from "../form/RadioButtonGroup";
 

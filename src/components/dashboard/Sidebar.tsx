@@ -7,11 +7,13 @@ import {Match} from "@testing-library/react";
 import FileActiveIcon from "../icons/FileActiveIcon";
 import FileInactiveIcon from "../icons/FileInactiveIcon";
 import DoubleArrowIcon from "../icons/DoubleArrowIcon";
+import FileHoverIcon from "../icons/FileHoverIcon";
 
 interface SidebarLink {
   id: number;
   iconActive: ReactElement;
   iconInactive: ReactElement;
+  iconHover: ReactElement;
   linkUrl: string;
   text: string;
 }
@@ -29,8 +31,8 @@ function Sidebar(): ReactElement {
   };
 
   const sidebarLinks: SidebarLink[] = [
-    { id:  0, iconActive: <HomeActiveIcon className={styles.sidebarIcon}/>, iconInactive: <HomeInactiveIcon className={styles.sidebarIcon}/>, linkUrl: '', text: 'Home' },
-    { id: 1, iconActive: <FileActiveIcon className={styles.sidebarIcon}/>, iconInactive: <FileInactiveIcon className={styles.sidebarIcon}/>, linkUrl: `/files`, text: 'Dateien' }
+    { id:  0, iconHover: <></> , iconActive: <HomeActiveIcon className={styles.sidebarIcon}/>, iconInactive: <HomeInactiveIcon className={styles.sidebarIcon}/>, linkUrl: '', text: 'Home' },
+    { id: 1, iconHover: <FileHoverIcon className={styles.sidebarIcon}/>, iconActive: <FileActiveIcon className={styles.sidebarIcon}/>, iconInactive: <FileInactiveIcon className={styles.sidebarIcon}/>, linkUrl: `/files`, text: 'Dateien' }
   ];
 
   return (
@@ -71,6 +73,7 @@ function Sidebar(): ReactElement {
 }
 
 const SidebarLink: React.FC<SidebarLinkProps> = ({children, sidebarLink}: SidebarLinkProps): ReactElement => {
+  const [isHovered, setIsHovered] = useState(false);
   const styles = {
     sidebarLink: 'relative px-4 py-4 flex flex-row items-center text-sm tracking-wider uppercase hover:pointer ',
     sidebarLinkInactive: 'text-grayscale-dark ',
@@ -91,12 +94,16 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({children, sidebarLink}: Sideba
           : styles.sidebarLink + styles.sidebarLinkInactive;
       }}
       activeClassName={styles.sidebarLinkActive}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {isActive ? (
         sidebarLink.iconActive
-      ) : (
+      ) : isHovered ? (sidebarLink.iconHover) : (
         sidebarLink.iconInactive
       )}
+
+
       {children}
     </NavLink>
   );
