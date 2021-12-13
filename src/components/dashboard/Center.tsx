@@ -29,21 +29,21 @@ function Center(): ReactElement {
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
           <div>{count}</div>
           <div className={"flex flex-col"}>
-            <div>
+            <div className={"flex flex-row items-center"}>
               <span>Primary Button:</span>
               <Button variant={"primary"} onClick={() => setCount(count + 1)}>button</Button>
               <Button variant={"primary"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
               <Button variant={"primary"} onClick={() => setCount(count + 1)} disabled>button</Button>
             </div>
 
-            <div>
+            <div className={"flex flex-row items-center"}>
               <span>Secondary Button:</span>
               <Button variant={"secondary"} onClick={() => setCount(count + 1)}>button</Button>
               <Button variant={"secondary"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
               <Button variant={"secondary"} onClick={() => setCount(count + 1)} disabled>button</Button>
             </div>
 
-            <div>
+            <div className={"flex flex-row items-center"}>
               <span>Text Button:</span>
               <Button variant={"text"} onClick={() => setCount(count + 1)}>button</Button>
               <Button variant={"text"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
@@ -61,7 +61,9 @@ function Center(): ReactElement {
           <TextField type={"text"} name={"inputField5"} label={"Username"} successMessage={"Username available"} disabled />
         </div>
 
-        <RadioButtonGroup options={["test 1", "test 2", "test 3"]} disabledOptions={["test 3"]} onChange={(value) => console.log(value)}></RadioButtonGroup>
+        <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg flex flex-col gap-2"}>
+          <RadioButtonGroup options={["test 1", "test 2", "test 3"]} disabledOptions={["test 3"]} onChange={(value) => console.log(value)}></RadioButtonGroup>
+        </div>
       </Route>
     </Switch >
   )

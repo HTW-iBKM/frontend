@@ -28,7 +28,6 @@ const RadioButtonGroup: FC<RadioButtonGroupProps<string>> = ({ onChange, options
         onChange(newValue)
     }
 
-
     return (
         <RadioGroup value={value} onChange={(newValue) => { (changeValue(newValue))}}>
             {options.map((option, index) => {

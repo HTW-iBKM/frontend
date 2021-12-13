@@ -27,9 +27,10 @@ function Sidebar(): ReactElement {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const styles = {
-    sidebarIcon: 'w-[24px] h-[24px]'
+    sidebarIcon: 'w-6 h-6'
   };
 
+  {/* @TODO Add HomeHoverIcon SVG */}
   const sidebarLinks: SidebarLink[] = [
     { id:  0, iconHover: <></> , iconActive: <HomeActiveIcon className={styles.sidebarIcon}/>, iconInactive: <HomeInactiveIcon className={styles.sidebarIcon}/>, linkUrl: '', text: 'Home' },
     { id: 1, iconHover: <FileHoverIcon className={styles.sidebarIcon}/>, iconActive: <FileActiveIcon className={styles.sidebarIcon}/>, iconInactive: <FileInactiveIcon className={styles.sidebarIcon}/>, linkUrl: `/files`, text: 'Dateien' }
@@ -72,17 +73,20 @@ function Sidebar(): ReactElement {
   );
 }
 
+
 const SidebarLink: React.FC<SidebarLinkProps> = ({children, sidebarLink}: SidebarLinkProps): ReactElement => {
   const [isHovered, setIsHovered] = useState(false);
-  const styles = {
-    sidebarLink: 'relative px-4 py-4 flex flex-row items-center text-sm tracking-wider uppercase hover:pointer ',
-    sidebarLinkInactive: 'text-grayscale-dark ',
-    sidebarLinkActive: 'text-sm bg-secondary after:bg-secondary after:rounded-r-lg after:w-[10px] after:h-full after:absolute after:right-[-10px] after:top-0 after:bottom-0',
-  };
+
 
   const location = useLocation<Location>();
   const match = useRouteMatch<Match>();
   const isActive = location.pathname === match.url + sidebarLink.linkUrl;
+
+  const styles = {
+    sidebarLink: 'relative px-4 py-4 flex flex-row items-center text-sm tracking-wider uppercase hover:pointer font-medium ',
+    sidebarLinkInactive: 'text-grayscale-dark hover:text-secondary ',
+    sidebarLinkActive: 'text-sm bg-secondary after:bg-secondary after:rounded-r-lg after:w-[10px] after:h-full after:absolute after:right-[-10px] after:top-0 after:bottom-0',
+  };
 
   return (
     <NavLink

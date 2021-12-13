@@ -2,9 +2,16 @@ import React, {ReactElement} from "react";
 
 export default function FileInactiveIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
-    <svg className={props.className} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path opacity="0.3" d="M21.6667 6.66663H10V33.3333H30V15H21.6667V6.66663Z" fill="#C1C1C6"/>
-      <path d="M33.3333 13.3334L23.3333 3.33337H9.99996C8.16663 3.33337 6.68329 4.83337 6.68329 6.66671L6.66663 33.3334C6.66663 35.1667 8.14996 36.6667 9.98329 36.6667H30C31.8333 36.6667 33.3333 35.1667 33.3333 33.3334V13.3334ZM30 33.3334H9.99996V6.66671H21.6666V15H30V33.3334Z" fill="#C1C1C6"/>
+    <svg className={props.className} viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clipPath="url(#clip0_607_3297)">
+        <path opacity="0.3" d="M13.4126 4.97607H6.19043V20.9683H18.5714V9.97364H13.4126V4.97607Z" fill="#C1C1C6"/>
+        <path d="M20.6348 8.97412L14.4444 2.97705H6.19044C5.05552 2.97705 4.13727 3.87661 4.13727 4.97608L4.12695 20.9683C4.12695 22.0677 5.0452 22.9673 6.18012 22.9673H18.5714C19.7063 22.9673 20.6348 22.0677 20.6348 20.9683V8.97412ZM18.5714 20.9683H6.19044V4.97608H13.4126V9.97364H18.5714V20.9683Z" fill="#C1C1C6"/>
+      </g>
+      <defs>
+        <clipPath id="clip0_607_3297">
+          <path d="M0 0.978027H16.7618C21.1801 0.978027 24.7618 4.55975 24.7618 8.97803V16.9663C24.7618 21.3846 21.1801 24.9663 16.7618 24.9663H0V0.978027Z" fill="white"/>
+        </clipPath>
+      </defs>
     </svg>
   );
 }
