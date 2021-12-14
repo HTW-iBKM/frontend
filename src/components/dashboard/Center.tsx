@@ -1,8 +1,10 @@
-import React, { ReactElement, useState } from "react";
+import React, {ReactElement, useContext, useState} from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Button from "../form/Button";
 import TextField from "../form/TextField";
 import RadioButtonGroup from "../form/RadioButtonGroup";
+import {ToastContext} from "../../context/ToastContext";
+import { v4 as uuidv4 } from 'uuid';
 
 function Center(): ReactElement {
   const match = useRouteMatch();
@@ -18,6 +20,8 @@ function Center(): ReactElement {
       setLoading(false);
     }, 2000);
   };
+
+  const context = useContext(ToastContext);
 
   return (
     <Switch>
@@ -63,6 +67,12 @@ function Center(): ReactElement {
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg flex flex-col gap-2"}>
           <RadioButtonGroup options={["test 1", "test 2", "test 3"]} disabledOptions={["test 3"]} onChange={(value) => console.log(value)}></RadioButtonGroup>
+        </div>
+
+        <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
+          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "success", headline: "Success Message!", message: "success yeah!"}])}>Success Message</Button>
+          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "warning", headline: "Warning Message!", message: "warning okay lets seeh!"}])}>Warning Message</Button>
+          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "error", headline: "Error Message!", message: "error oh no!"}])}>Error Message</Button>
         </div>
       </Route>
     </Switch >

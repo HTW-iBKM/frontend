@@ -24,10 +24,6 @@ code {
     monospace;
 }
 
-p {
-    @apply my-3
-}
-
 /* root Element Styling */
 #root {
     @apply h-full;

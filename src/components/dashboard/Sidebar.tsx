@@ -1,19 +1,23 @@
 import React, {Fragment, ReactElement, useState} from "react";
-import HomeActiveIcon from "../icons/HomeActiveIcon";
+import HomeActiveLinkIcon from "../icons/HomeActiveLinkIcon";
 import HomeInactiveIcon from "../icons/HomeInactiveIcon";
 import {Transition} from "@headlessui/react";
 import {useRouteMatch, NavLink, useLocation} from "react-router-dom";
 import {Match} from "@testing-library/react";
-import FileActiveIcon from "../icons/FileActiveIcon";
+import FileActiveLinkIcon from "../icons/FileActiveLinkIcon";
 import FileInactiveIcon from "../icons/FileInactiveIcon";
 import DoubleArrowIcon from "../icons/DoubleArrowIcon";
 import FileHoverIcon from "../icons/FileHoverIcon";
+import HomeHoverIcon from "../icons/HomeHoverIcon";
+import HomeActiveIcon from "../icons/HomeActiveIcon";
+import FileActiveIcon from "../icons/FileActiveIcon";
 
 interface SidebarLink {
   id: number;
-  iconActive: ReactElement;
-  iconInactive: ReactElement;
+  iconActiveLink: ReactElement;
+  iconInactiveLink: ReactElement;
   iconHover: ReactElement;
+  iconActive: ReactElement;
   linkUrl: string;
   text: string;
 }
@@ -32,8 +36,8 @@ function Sidebar(): ReactElement {
 
   {/* @TODO Add HomeHoverIcon SVG */}
   const sidebarLinks: SidebarLink[] = [
-    { id:  0, iconHover: <></> , iconActive: <HomeActiveIcon className={styles.sidebarIcon}/>, iconInactive: <HomeInactiveIcon className={styles.sidebarIcon}/>, linkUrl: '', text: 'Home' },
-    { id: 1, iconHover: <FileHoverIcon className={styles.sidebarIcon}/>, iconActive: <FileActiveIcon className={styles.sidebarIcon}/>, iconInactive: <FileInactiveIcon className={styles.sidebarIcon}/>, linkUrl: `/files`, text: 'Dateien' }
+    { id:  0, iconActive: <HomeActiveIcon className={styles.sidebarIcon}/> , iconHover: <HomeHoverIcon className={styles.sidebarIcon}/> , iconActiveLink: <HomeActiveLinkIcon className={styles.sidebarIcon}/>, iconInactiveLink: <HomeInactiveIcon className={styles.sidebarIcon}/>, linkUrl: '', text: 'Home' },
+    { id: 1, iconActive: <FileActiveIcon className={styles.sidebarIcon}/> ,  iconHover: <FileHoverIcon className={styles.sidebarIcon}/>, iconActiveLink: <FileActiveLinkIcon className={styles.sidebarIcon}/>, iconInactiveLink: <FileInactiveIcon className={styles.sidebarIcon}/>, linkUrl: `/files`, text: 'Dateien' }
   ];
 
   return (
@@ -77,17 +81,15 @@ function Sidebar(): ReactElement {
 const SidebarLink: React.FC<SidebarLinkProps> = ({children, sidebarLink}: SidebarLinkProps): ReactElement => {
   const [isHovered, setIsHovered] = useState(false);
 
-
   const location = useLocation<Location>();
   const match = useRouteMatch<Match>();
-  const isActive = location.pathname === match.url + sidebarLink.linkUrl;
+  const isActiveLink = location.pathname === match.url + sidebarLink.linkUrl;
 
   const styles = {
     sidebarLink: 'relative px-4 py-4 flex flex-row items-center text-sm tracking-wider uppercase hover:pointer font-medium ',
-    sidebarLinkInactive: 'text-grayscale-dark hover:text-secondary ',
+    sidebarLinkInactive: 'text-grayscale-dark hover:text-secondary',
     sidebarLinkActive: 'text-sm bg-secondary after:bg-secondary after:rounded-r-lg after:w-[10px] after:h-full after:absolute after:right-[-10px] after:top-0 after:bottom-0',
   };
-
   return (
     <NavLink
       exact
@@ -101,18 +103,13 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({children, sidebarLink}: Sideba
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {isActive ? (
-        sidebarLink.iconActive
-      ) : isHovered ? (sidebarLink.iconHover) : (
-        sidebarLink.iconInactive
-      )}
-
-
+      {isActiveLink && !isHovered && sidebarLink.iconActiveLink}
+      {isHovered && !isActiveLink && sidebarLink.iconHover}
+      {isHovered && isActiveLink && sidebarLink.iconActiveLink}
+      {!isHovered && !isActiveLink && sidebarLink.iconInactiveLink}
       {children}
     </NavLink>
   );
 }
-
-
 
 export default Sidebar
