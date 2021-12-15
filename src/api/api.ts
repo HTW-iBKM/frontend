@@ -2,8 +2,7 @@
 
 import UserPool from '../services/CognitoUserPool'
 import { CognitoUser, AuthenticationDetails, CognitoUserAttribute } from 'amazon-cognito-identity-js';
-
-
+import auth from "../services/Auth";
 
 export function singIn(username: string, password: string) {
     const authDetails = new AuthenticationDetails({ Username: username, Password: password });
@@ -14,8 +13,11 @@ export function singIn(username: string, password: string) {
     const coginitoUser = new CognitoUser(userData);
     return new Promise((resolve, reject) => {
         coginitoUser.authenticateUser(authDetails, {
-            onSuccess: () => {
-                resolve(true);
+            onSuccess: (data) => {
+                auth.login(() => {
+                    localStorage.setItem("user", JSON.stringify(data))
+                    resolve(data);
+                })
             },
             onFailure: (err) => {
                 reject(err);

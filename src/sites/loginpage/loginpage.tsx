@@ -51,7 +51,7 @@ function LoginPage() {
     }
 
     const login = () => {
-        singIn(form.email, form.password).then(() => {
+        singIn(form.email, form.password).then((data) => {
             history.push('graph-test')
         }).catch((err) => alert(err.message));
     }
