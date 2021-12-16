@@ -34,17 +34,57 @@ code {
 
 /* Typography */
 @layer base {
-    h3 {
-        @apply text-5xl;
-        @apply leading-12;
+    h4 {
+        @apply font-roboto;
+        @apply font-normal;
+        @apply leading-10;
+        font-size: 2.125rem;
+        letter-spacing: 0.25px;
+    }
+
+    h5 {
+        @apply font-roboto;
+        @apply font-normal;
+        @apply text-2xl;
+        @apply leading-7;
     }
 
     h6 {
-        @apply text-xl;
-        @apply leading-12;
+        @apply font-roboto;
         @apply font-medium;
-        @apply leading-snug;
-        @apply text-left;
-        @apply align-middle;
+        @apply text-lg;
+        letter-spacing: 0.15px;
+    }
+
+    .text-subtitle {
+        @apply font-roboto;
+        @apply font-normal;
+        @apply text-base;
+        @apply leading-7-1/8;
+        letter-spacing: 0.15px;
+    }
+
+    .text-body1 {
+        @apply font-roboto;
+        @apply font-normal;
+        @apply text-base;
+        @apply leading-7-1/8;
+        letter-spacing: 0.15px;
+    }
+
+    .text-body2 {
+        @apply font-roboto;
+        @apply font-normal;
+        @apply text-sm;
+        @apply leading-4;
+        letter-spacing: 0.25px;
+    }
+
+    .text-caption {
+        @apply font-roboto;
+        @apply font-normal;
+        @apply text-xs;
+        @apply leading-3-1/8;
+        letter-spacing: 0.4px;
     }
 }
