@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import { singIn } from '../../api/api';
+import { signIn } from '../../api/api';
 import LogoComponent from '../../components/logo/logoComponent';
 import { isEmail } from '../../utils/utility';
 function LoginPage() {
@@ -51,7 +51,7 @@ function LoginPage() {
     }
 
     const login = () => {
-        singIn(form.email, form.password).then((data) => {
+        signIn(form.email, form.password).then((data) => {
             history.push('graph-test')
         }).catch((err) => alert(err.message));
     }
