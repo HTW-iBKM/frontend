@@ -16,7 +16,7 @@ function Navbar(): ReactElement {
 
   return (
     <div className={"h-14 flex items-center justify-between "}>
-      <h6>Exxeta iBKM</h6>
+      <h6 className={"text-h6"}>Exxeta iBKM</h6>
       <div className="flex flex-row gap-16 px-4">
         {/* Dropdown: Bilanzkreisauswahl */}
         <Menu as="div" className="relative block text-left">
