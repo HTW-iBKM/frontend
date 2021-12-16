@@ -6,9 +6,7 @@ function ToastContainer(): ReactElement {
   const styles = {
     toastContainer: 'absolute right-0 bottom-0 z-50 px-4 overflow-y-hidden',
   }
-
   const context = useContext(ToastContext);
-
 
   return (
       <div className={styles.toastContainer}>
