@@ -16,7 +16,7 @@ function Navbar(): ReactElement {
 
   return (
     <div className={"h-14 flex items-center justify-between "}>
-      <h6 className={"text-h6"}>Exxeta iBKM</h6>
+      <h6>Exxeta iBKM</h6>
       <div className="flex flex-row gap-16 px-4">
         {/* Dropdown: Bilanzkreisauswahl */}
         <Menu as="div" className="relative block text-left">
@@ -76,7 +76,7 @@ function Navbar(): ReactElement {
                   {({ active }) => (
                     <a
                       className={`${active ? 'bg-grayscale text-white' : 'text-gray-900'
-                        } h-8 group flex gap-2 rounded-md items-center w-full px-2 py-2 text-body1 hover:cursor-pointer`}
+                        } h-8 group flex gap-2 rounded-md items-center w-full px-2 py-2 text-base hover:cursor-pointer`}
                     >
                       <SettingsIcon className="h-4 w-4 text-grayscale-darkest" />
                       Einstellungen
@@ -87,7 +87,7 @@ function Navbar(): ReactElement {
                   {({ active }) => (
                     <a
                       className={`${active ? 'bg-grayscale text-white' : 'text-gray-900'
-                        } h-8 group flex gap-2 rounded-md items-center w-full px-2 py-2 text-body1 hover:cursor-pointer`}
+                        } h-8 group flex gap-2 rounded-md items-center w-full px-2 py-2 text-base hover:cursor-pointer`}
                       href="/account-settings"
                     >
                       <PowerIcon className="h-4 w-4 text-grayscale-darkest" />
