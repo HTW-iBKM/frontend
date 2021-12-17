@@ -20,7 +20,7 @@ const RadioButtonGroup: FC<RadioButtonGroupProps<string>> = ({ onChange, options
     const stylesActiveCheckmark = 'w-5 h-5 text-secondary';
     const stylesHoverCheckmark = 'w-5 h-5 text-primary-light';
     const stylesDisabledChechmark = 'w-5 h-5 text-grayscale-dark';
-    const stylesText = 'whitespace-nowrap'
+    const stylesText = 'whitespace-nowrap text-base'
     const stylesDisabledText = 'text-grayscale-dark whitespace-nowrap'
 
     const changeValue = (newValue: string) => {
@@ -45,8 +45,7 @@ const RadioButtonGroup: FC<RadioButtonGroupProps<string>> = ({ onChange, options
                             </>
                         )}
                     </RadioGroup.Option>
-                )
-            })
+                )})
             }
         </RadioGroup >
     )

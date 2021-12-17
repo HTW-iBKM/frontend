@@ -17,9 +17,9 @@ interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const TextField: React.FC<TextFieldProps> =({errorMessage, successMessage, label, name, disabled, type, hint, visibilityButton, ...rest}: TextFieldProps) => {
   const styles = {
-    input: "textfield-input bg-transparent flex-grow h-13 pl-4 rounded-lg placeholder-primary outline-none border-2 focus:outline-none disabled:border-2 disabled-bg-grayscale-dark disabled:border-grayscale-dark",
+    input: "textfield-input bg-transparent text-grayscale-darkest flex-grow h-13 pl-4 rounded-lg placeholder-primary border-none outline-none ring-2 ring-grayscale-dark focus:outline-none focus:ring-2 focus:ring-secondary disabled:border-2 disabled:bg-grayscale disabled:bg-opacity-50 disabled:border-grayscale-dark",
     inputContainer: "relative flex my-5 flex-col",
-    inputLabel: "absolute pl-4 w-full h-full text-base pointer-events-none",
+    inputLabel: "absolute pl-4 w-full h-full text-base pointer-events-none text-grayscale-darkest",
     inputLabelSpan: "absolute top-1/4 transition-all duration-300 text-grayscale-dark",
   }
 
@@ -30,7 +30,7 @@ const TextField: React.FC<TextFieldProps> =({errorMessage, successMessage, label
 
       <input
         id={name}
-        className={`${styles.input} ${errorMessage && "border-2 border-danger"} ${successMessage && "border-2 border-success"}`}
+        className={`${styles.input} ${errorMessage  && !disabled && "ring-2 !ring-danger"} ${successMessage && !disabled && "ring-2 !ring-success"}`}
         placeholder={" "}
         disabled={disabled}
         type={typeState}

@@ -14,6 +14,9 @@ module.exports = {
     ],
     darkMode: false, // or 'media' or 'class'
     theme: {
+        fontFamily: {
+            'roboto': ['"Roboto"']
+        },
         colors: {
             transparent: 'transparent',
             current: 'currentColor',
@@ -25,7 +28,7 @@ module.exports = {
                 DEFAULT: '#4074B2',
             },
             grayscale: {
-                darkest: '#0E0E0E',
+                darkest: '#494B51',
                 dark: '#C1C1C6',
                 DEFAULT: '#EFF0F6',
                 light: '#FAFAFA',
@@ -42,6 +45,8 @@ module.exports = {
         },
         extend: {
             lineHeight: {
+                '3-1/8': '0.875rem',
+                '7-1/8': '1.875rem',
                 '11': '2.75rem',
                 '12': '3rem',
             },

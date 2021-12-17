@@ -12,13 +12,15 @@ function Center(): ReactElement {
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const fetchData = () => {
+  const fetchData = async () => {
     setLoading(true);
     //Faking API call here
-    setTimeout(() => {
-      setCount(count + 1)
-      setLoading(false);
-    }, 2000);
+    return new Promise(() => {
+      setTimeout(() => {
+        setCount(count + 1)
+        setLoading(false);
+      }, 2000);
+    })
   };
 
   const context = useContext(ToastContext);
@@ -36,7 +38,7 @@ function Center(): ReactElement {
             <div className={"flex flex-row items-center"}>
               <span>Primary Button:</span>
               <Button variant={"primary"} onClick={() => setCount(count + 1)}>button</Button>
-              <Button variant={"primary"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
+              <Button variant={"primary"} isLoading={loading} onClick={async () => await fetchData()}>loading button</Button>
               <Button variant={"primary"} onClick={() => setCount(count + 1)} disabled>button</Button>
             </div>
 

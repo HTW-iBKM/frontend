@@ -34,7 +34,6 @@ function Sidebar(): ReactElement {
     sidebarIcon: 'w-6 h-6'
   };
 
-  {/* @TODO Add HomeHoverIcon SVG */}
   const sidebarLinks: SidebarLink[] = [
     { id:  0, iconActive: <HomeActiveIcon className={styles.sidebarIcon}/> , iconHover: <HomeHoverIcon className={styles.sidebarIcon}/> , iconActiveLink: <HomeActiveLinkIcon className={styles.sidebarIcon}/>, iconInactiveLink: <HomeInactiveIcon className={styles.sidebarIcon}/>, linkUrl: '', text: 'Home' },
     { id: 1, iconActive: <FileActiveIcon className={styles.sidebarIcon}/> ,  iconHover: <FileHoverIcon className={styles.sidebarIcon}/>, iconActiveLink: <FileActiveLinkIcon className={styles.sidebarIcon}/>, iconInactiveLink: <FileInactiveIcon className={styles.sidebarIcon}/>, linkUrl: `/files`, text: 'Dateien' }
