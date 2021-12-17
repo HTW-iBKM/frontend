@@ -2,8 +2,6 @@ import { Redirect, Route, RouteProps, Switch } from "react-router-dom";
 import React, { Component, ReactElement } from 'react';
 import Landingpage from "./sites/landinpage/Landingpage";
 import Graph from "./components/graph/Graph";
-// import Dashboard from "./sites/dashboard/Dashboard";
-// import GraphTest from "./sites/dashboard/GraphTest";
 import LoginPage from "./sites/loginpage/loginpage";
 import RegisterPage from "./sites/registerPage/registerPage";
 import PasswordForgottenPage from "./sites/passwordForgottenPage/passwordForgottenPage";
