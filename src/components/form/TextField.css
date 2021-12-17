@@ -12,7 +12,7 @@
 
 .textfield-input:focus + label span,
 .textfield-input:not(:placeholder-shown) + label span {
-    @apply -translate-y-5;
+    @apply -translate-y-6;
     @apply text-grayscale-darkest;
     @apply bg-grayscale-light;
     @apply px-1;

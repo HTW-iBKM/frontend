@@ -28,7 +28,7 @@ module.exports = {
                 DEFAULT: '#4074B2',
             },
             grayscale: {
-                darkest: '#0E0E0E',
+                darkest: '#494B51',
                 dark: '#C1C1C6',
                 DEFAULT: '#EFF0F6',
                 light: '#FAFAFA',

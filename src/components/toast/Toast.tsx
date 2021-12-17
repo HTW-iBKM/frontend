@@ -15,9 +15,9 @@ function Toast({toast}: ToastProps): ReactElement {
     toastSuccess: 'before:bg-success',
     toastWarning: 'before:bg-warning',
     toastError: 'before:bg-danger',
-    toastHeadline: 'text-sm text-grayscale-darker',
+    toastHeadline: 'text-base text-grayscale-darker font-medium',
     toastSubline: 'text-sm text-grayscale-dark',
-    toastIcon: 'h-6 w-6 ml-[0.125rem] mr-[1.625rem]',
+    toastIcon: 'h-6 w-6 mx-4',
     toastCloseIcon: 'h-4 w-4',
   }
 
