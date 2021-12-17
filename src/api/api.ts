@@ -14,8 +14,7 @@ export function signIn(username: string, password: string) {
     return new Promise((resolve, reject) => {
         coginitoUser.authenticateUser(authDetails, {
             onSuccess: (data) => {
-                auth.login(() => {
-                    localStorage.setItem("user", JSON.stringify(data))
+                auth.login(data, () => {
                     resolve(data);
                 })
             },

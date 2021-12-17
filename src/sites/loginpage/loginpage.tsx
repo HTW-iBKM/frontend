@@ -52,7 +52,7 @@ function LoginPage() {
 
     const login = () => {
         signIn(form.email, form.password).then((data) => {
-            history.push('graph-test')
+            history.push('dashboard')
         }).catch((err) => alert(err.message));
     }
 

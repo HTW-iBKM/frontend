@@ -16,26 +16,23 @@ import auth from "./services/Auth";
 //     isAuthorized: boolean;
 // }
 
-function RestrictedRoute({...rest }): ReactElement {
-    console.log("Userlogedin:" + auth.isAuthenticated());
+function RestrictedRoute({ ...rest }): ReactElement {
+    const isAuthenticated = auth.isAuthenticated();
     return (
-        <Route
-            {...rest}
-            render={(props: RouteProps) =>
-                auth.isAuthenticated() ? (
-                    <Component {...props} />
-                ) : (
-                    <Redirect
-                        to={{
-                            pathname: '/signin',
-                            state: {
-                                from: props.location,
-                            },
-                        }}
-                    />
-                )
-            }
-        />
+        !isAuthenticated ?
+            <Redirect
+                exact
+                to={{
+                    pathname: '/login',
+                }}
+            /> :
+
+            <Route
+                {...rest}
+                render={(props: RouteProps) => <Component {...props} />}
+            />
+
+
     );
 }
 
@@ -55,8 +52,8 @@ function PublicRoutes(): ReactElement {
             />
 
             <RestrictedRoute
-              path={'/dashboard'}
-              component={DashboardLayout}
+                path={'/dashboard'}
+                component={DashboardLayout}
             >
             </RestrictedRoute>
             <Route

@@ -1,23 +1,30 @@
 class Auth {
-    authenticated: boolean;
 
-    constructor(authenticated: boolean ) {
-        this.authenticated = authenticated;
-    }
+    user: {
+        email: string;
+        family_name: string;
+        name: string;
+    } | undefined;
+    // authenticated: boolean;
 
-    login(cb: () => any) {
-        this.authenticated = true;
+    // constructor(authenticated: boolean) {
+    //     this.authenticated = authenticated;
+    // }
+
+    login(data: any, cb: () => any) {
+        this.user = data.idToken.payload;
+        localStorage.setItem("user", JSON.stringify(this.user))
         cb();
     }
 
     logout(cb: () => any) {
-        this.authenticated = false;
+        localStorage.removeItem("user");
         cb();
     }
 
     isAuthenticated() {
-        return this.authenticated;
+        return this.user;
     }
 }
 
-export default new Auth(false);
+export default new Auth();
