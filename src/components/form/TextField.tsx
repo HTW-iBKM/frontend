@@ -53,15 +53,15 @@ const TextField: React.FC<TextFieldProps> =({errorMessage, successMessage, label
       }
 
       {hint && !disabled &&
-      <span className={"text-grayscale-darker absolute -bottom-6 left-4"}>{hint}</span>
+        <span className={"text-grayscale-darker text-sm absolute -bottom-6 left-4"}>{hint}</span>
       }
 
       {errorMessage && !disabled &&
-        <span className={"text-danger absolute -bottom-6 left-4"}>{errorMessage}</span>
+        <span className={"text-danger text-sm absolute -bottom-6 left-4"}>{errorMessage}</span>
       }
 
       {successMessage && !disabled &&
-        <span className={"text-success absolute -bottom-6 left-4"}>{successMessage}</span>
+        <span className={"text-success text-sm absolute -bottom-6 left-4"}>{successMessage}</span>
       }
     </div>
   )
