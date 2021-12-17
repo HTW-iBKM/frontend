@@ -2,13 +2,13 @@ import { Redirect, Route, RouteProps, Switch } from "react-router-dom";
 import React, { Component, ReactElement } from 'react';
 import Landingpage from "./sites/landinpage/Landingpage";
 import Graph from "./components/graph/Graph";
-import DashboardLayout from './layouts/DashboardLayout';
 // import Dashboard from "./sites/dashboard/Dashboard";
 // import GraphTest from "./sites/dashboard/GraphTest";
 import LoginPage from "./sites/loginpage/loginpage";
 import RegisterPage from "./sites/registerPage/registerPage";
 import PasswordForgottenPage from "./sites/passwordForgottenPage/passwordForgottenPage";
 import CreatedAccountPage from "./sites/createdAccountPage/createdAccountPage";
+import Dashboard from "./sites/dashboard/Dashboard";
 
 interface RestrictedRouteProps extends RouteProps {
     isAuthorized: boolean;
@@ -56,7 +56,7 @@ function PublicRoutes(): ReactElement {
             <RestrictedRoute
               path={'/dashboard'}
               isAuthorized={true}
-              component={DashboardLayout}
+              component={Dashboard}
             >
             </RestrictedRoute>
             <RestrictedRoute
