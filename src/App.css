@@ -88,3 +88,10 @@ code {
         letter-spacing: 0.4px;
     }
 }
+
+h6 {
+    @apply font-medium;
+    font-size: 20px;
+    line-height: 23px;
+    letter-spacing: 0.15px;
+}

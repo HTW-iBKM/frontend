@@ -1,12 +1,12 @@
 import { Redirect, Route, RouteProps, Switch } from "react-router-dom";
 import React, { Component, ReactElement } from 'react';
 import Landingpage from "./sites/landinpage/Landingpage";
-import Graph from "./components/graph/Graph";
 import LoginPage from "./sites/loginpage/loginpage";
 import RegisterPage from "./sites/registerPage/registerPage";
 import PasswordForgottenPage from "./sites/passwordForgottenPage/passwordForgottenPage";
 import CreatedAccountPage from "./sites/createdAccountPage/createdAccountPage";
 import Dashboard from "./sites/dashboard/Dashboard";
+import GraphDetails from './sites/graph-details/GraphDetails';
 
 interface RestrictedRouteProps extends RouteProps {
     isAuthorized: boolean;
@@ -46,9 +46,9 @@ function PublicRoutes(): ReactElement {
 
             <RestrictedRoute
                 exact
-                path={'/graph-test'}
+                path={'/graph-details'}
                 isAuthorized={true}
-                component={Graph}
+                component={GraphDetails}
             />
 
             <RestrictedRoute
