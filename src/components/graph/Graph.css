@@ -1,0 +1,4 @@
+/*necessary snippet for dynamic resizing of recharts charts*/
+.recharts-wrapper {
+    position: absolute !important;
+}

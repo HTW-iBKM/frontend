@@ -1,5 +1,6 @@
 import React, {ReactElement, useContext, useState} from "react";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import {Route, Switch, useRouteMatch} from "react-router-dom";
+import Home from "../../sites/home/Home";
 import Button from "../form/Button";
 import TextField from "../form/TextField";
 import RadioButtonGroup from "../form/RadioButtonGroup";
@@ -28,7 +29,7 @@ function Center(): ReactElement {
   return (
     <Switch>
       <Route exact path={match.path}>
-        Mount Dashboard Home Component here
+        <Home/>
       </Route>
 
       <Route exact path={`${match.path}/files`}>
@@ -77,7 +78,7 @@ function Center(): ReactElement {
           <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "error", headline: "Error Message!", message: "error oh no!"}])}>Error Message</Button>
         </div>
       </Route>
-    </Switch >
+    </Switch>
   )
 }
 

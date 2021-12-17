@@ -24,14 +24,14 @@ interface SidebarLink {
 
 interface SidebarLinkProps {
   sidebarLink: SidebarLink;
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 function Sidebar(): ReactElement {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const styles = {
-    sidebarIcon: 'w-6 h-6'
+    sidebarIcon: 'w-[24px] h-[24px]'
   };
 
   const sidebarLinks: SidebarLink[] = [
@@ -76,7 +76,6 @@ function Sidebar(): ReactElement {
   );
 }
 
-
 const SidebarLink: React.FC<SidebarLinkProps> = ({children, sidebarLink}: SidebarLinkProps): ReactElement => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -110,5 +109,7 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({children, sidebarLink}: Sideba
     </NavLink>
   );
 }
+
+
 
 export default Sidebar

@@ -1,40 +1,26 @@
-import React, {ReactElement, useState} from 'react';
-import ToastContainer from "../components/toast/ToastContainer";
-import {ToastInterface, ToastContext, ToastContextInterface} from "../context/ToastContext";
+import React, {ReactElement} from 'react';
+import Sidebar from '../components/dashboard/Sidebar';
+import Center from '../components/dashboard/Center';
+import Navbar from '../components/dashboard/Navbar';
 
-interface LayoutProps {
-  top: ReactElement;
-  left: ReactElement;
-  center: ReactElement;
-}
-
-function DashboardLayout(props: LayoutProps): ReactElement {
-
+function DashboardLayout(): ReactElement {
   const styles = {
-    layoutContainer: 'h-full w-full flex flex-col overflow-none relative',
-    headerContainer: 'h-14 shadow-lg min-h-14 bg-primary text-grayscale-light px-4 sticky top-0 z-50',
-    mainContainer: 'flex-1 flex gap-4 overflow-hidden',
+    layoutContainer: 'h-full w-full flex flex-col',
+    headerContainer: 'h-14 shadow-lg min-h-[3.375rem] bg-primary text-grayscale-light flex items-center justify-between px-4',
+    mainContainer: 'flex-1 flex',
     sidebarContainer: 'bg-grayscale-light shadow-lg flex flex-col justify-between',
-    contentContainer: 'flex-1 overflow-y-scroll relative'
-  }
-  const [toasts, setToasts] = useState<ToastInterface[]>([]);
-  const defaultToastContext: ToastContextInterface = {
-    toasts,
-    setToasts
+    contentContainer: 'flex-1'
   }
   return (
-    <ToastContext.Provider value={defaultToastContext}>
-      <div className={styles.layoutContainer}>
-        <ToastContainer></ToastContainer>
-        <header className={styles.headerContainer}>
-          {props.top}
-        </header>
-        <main className={styles.mainContainer}>
-          <div className={styles.sidebarContainer}>{props.left}</div>
-          <div className={styles.contentContainer}>{props.center}</div>
-        </main>
-      </div>
-    </ToastContext.Provider>
+    <div className={styles.layoutContainer}>
+      <header className={styles.headerContainer}>
+        <Navbar/>
+      </header>
+      <main className={styles.mainContainer}>
+        <div className={styles.sidebarContainer}><Sidebar/></div>
+        <div className={styles.contentContainer}><Center/></div>
+      </main>
+    </div>
   )
 }
 

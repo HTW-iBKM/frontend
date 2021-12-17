@@ -2,6 +2,7 @@ import React, { ReactElement, useState } from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import axios from 'axios';
 import useAsyncEffect from "use-async-effect";
+import './Graph.css';
 
 interface GraphData {
   time: string;
@@ -32,41 +33,43 @@ interface GraphDataResponse {
   }
 }
 
-function GraphTest(): ReactElement {
+function Graph(): ReactElement {
+  const styles = {
+    graphContainer: 'w-[calc(100%-2.5rem)] h-[calc(100%-2.5rem)] m-7 flex justify-center items-center '
+  };
   const [data, setData] = useState<GraphData[]>([]);
 
   useAsyncEffect(async isMounted => {
-    const { data }: GraphDataResponse = await axios.get('https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/')
+    const { data }: GraphDataResponse = await axios.get('https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/');
     if(!isMounted) return;
     setData(data.data.september_18);
   }, []);
 
   return (!data.length ? <>Waiting for data...</> :
-    <div className={'w-full h-full box-border bg-white p-1.5 flex justify-center items-center'}>
-      <ResponsiveContainer width="95%" height="95%">
+    <div className={styles.graphContainer}>
+      <ResponsiveContainer>
         <LineChart data={data.map((entry) => {
           const newTime = new Date(entry.time);
           const hours = newTime.toLocaleTimeString().slice(0, 5);
           return ({...entry, time: hours});
-        })} margin={{top: 50, bottom: 50, left: 50, right: 100}}
-        >
+        })}>
           <CartesianGrid strokeDasharray="3 3"/>
-          <XAxis dataKey="time" label={{value: 'Zeit', position: 'insideBottomRight', dy: -20, dx: 60}}/>
-          <YAxis domain={[0, 2000]} label={{value: 'Verbrauch', position: 'insideLeft', dy: -340, dx: 20}}/>
+          <XAxis dataKey="time" label={{value: 'Zeit', position: 'insideBottomRight', dy: 10}}/>
+          <YAxis domain={[0, 2000]} label={{value: 'Verbrauch', position: 'insideLeft', angle: -90, dy: -10}}/>
 
           <Line
               name="Prognose"
               dataKey={'prediction'}
               stroke="blue"
               type="monotone"
-              activeDot={{r: 0}}
+              dot={false}
           />
           <Line
               name="Tatsächlicher Verbrauch"
               dataKey={'ground_truth'}
               stroke="red"
               type="monotone"
-              activeDot={{r: 0}}
+              dot={false}
           />
           <Legend verticalAlign="top"/>
         </LineChart>
@@ -75,4 +78,4 @@ function GraphTest(): ReactElement {
   );
 }
 
-export default GraphTest;
+export default Graph;
