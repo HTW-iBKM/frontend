@@ -26,11 +26,11 @@ function RegisterPage() {
         inputLabel: "absolute left-[14px] top-[-6px] bg-grayscale-white text-[12px] pl-[4px] pr-[4px]",
         inputUntouched: "pl-6",
         inputContained: "pl-6",
-        footer: "flex text-[#4074B2] mt-[100px] text-[12px] justify-center mb-[36px]",
+        footer: "flex text-[#4074B2] text-[12px] justify-center mb-[36px]",
         eyePassword: "absolute top-[26%] right-[15px] hover:cursor-pointer",
         navigationAnchors: "cursor-pointer opacity-60 hover:opacity-100",
         registerButton: "mt-[25px] bg-[#4074B2] h-16 rounded-[8px] text-white disabled:bg-opacity-50 w-full w-[240px] h-[43px] text-grayscale-white text-[16px]",
-        form: 'w-[240px] mt-0 mb-[150px] ml-auto mr-auto flex-grow',
+        form: 'w-[240px] mt-0 ml-auto mr-auto flex-grow',
         errLabel: (string: any) => {
             return (`text-danger absolute text-[12px] ${string.split(' ').length > 5 ? 'bottom-[-33px] left-[18px]' : 'bottom-[-25px] left-[24px]'}`)
         },
@@ -191,13 +191,12 @@ function RegisterPage() {
                         onClick={register}
                     >REGISTRIEREN</button>
                 </div>
-
-
-                <footer className={styles.footer}>
-                    <a className={styles.navigationAnchors} href="/#/login">Bereits registriert? &nbsp; Anmelden</a>
-                </footer>
-
             </div>
+
+
+          <footer className={styles.footer}>
+            <a className={styles.navigationAnchors} href="/#/login">Bereits registriert? &nbsp; Anmelden</a>
+          </footer>
         </LogoComponent>
     )
 }
