@@ -7,6 +7,7 @@ import {
   ResponsiveContainer,
   XAxis,
   YAxis,
+  Tooltip,
 } from "recharts";
 import axios from "axios";
 import useAsyncEffect from "use-async-effect";
@@ -70,10 +71,11 @@ function Graph(): ReactElement {
           Math.max(Number(element.prediction), Number(element.ground_truth)) /
           yIntervall
         ) * yIntervall;
-      currentMin = Math.floor(
-        Math.min(Number(element.prediction), Number(element.ground_truth)) /
-        yIntervall
-      ) * yIntervall;
+      currentMin =
+        Math.floor(
+          Math.min(Number(element.prediction), Number(element.ground_truth)) /
+          yIntervall
+        ) * yIntervall;
       if (currentMax > maxValue) maxValue = currentMax;
       if (currentMin < minValue) minValue = currentMin;
     });
@@ -81,84 +83,109 @@ function Graph(): ReactElement {
   }
 
   function calculateTickCount() {
-    return maxValue != null && minValue != null ? ((maxValue - minValue) / yIntervall) + 1 : 5;
+    return maxValue != null && minValue != null
+      ? (maxValue - minValue) / yIntervall + 1
+      : 5;
   }
 
   return !data.length ? (
     <>Waiting for data...</>
-  ) :
-    (
-      <div className={styles.graphContainer}>
-        <ResponsiveContainer>
-          <LineChart
-            data={data.map((entry) => {
+  ) : (
+    <div className={styles.graphContainer}>
+      <ResponsiveContainer>
+        <LineChart
+          data={data
+            .map((entry) => {
               const newTime = new Date(entry.time);
               const hours = newTime.toLocaleTimeString().slice(0, 5);
-              return { ...entry, time: hours };
-            }).slice(0, 50)}
-            margin={{ top: 50, right: 50, left: 36 }}
+              const prediction = Math.round(parseInt(entry.prediction));
+              const ground_truth = Math.round(parseInt(entry.ground_truth));
+              return {
+                ...entry,
+                time: hours,
+                prediction: prediction,
+                ground_truth: ground_truth,
+              };
+            })
+            .slice(0, 50)}
+          margin={{ top: 50, right: 50, left: 36 }}
+        >
+          <CartesianGrid strokeDasharray="5 5" />
+          <Tooltip
+            cursor={{ stroke: "#494B51", strokeWidth: 1 }}
+            contentStyle={{ borderRadius: 8, padding: 16 }}
+          />
+          <XAxis
+            dataKey="time"
+            minTickGap={50}
+            interval="preserveStartEnd"
+            tick={{ fontSize: 12, color: "#494B51" }}
+            tickMargin={10}
+            tickSize={8}
+            tickCount={calculateTickCount()}
+            axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
+            tickLine={{ strokeWidth: 2, stroke: "#494B51" }}
           >
-            <CartesianGrid strokeDasharray="5 5" />
-            <XAxis
-              dataKey="time"
-              minTickGap={50}
-              interval="preserveStartEnd"
-              tick={{ fontSize: 12, color: "#494B51" }}
-              tickMargin={10}
-              tickSize={8}
-              tickCount={calculateTickCount()}
-              axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
-              tickLine={{ strokeWidth: 2, stroke: "#494B51" }}
-            >
-              <Label
-                className="axisLabel"
-                value="Zeit"
-                position="right"
-                dx={16}
-                dy={-14}
-              />
-            </XAxis>
-
-            <YAxis
-              type="number"
-              domain={calculateDomain()}
-              allowDecimals={false}
-              minTickGap={50}
-              interval="preserveStartEnd"
-              tickMargin={10}
-              tickSize={8}
-              tickCount={calculateTickCount()}
-              axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
-              tick={{ fontSize: 12, color: "#494B51" }}
-              tickLine={{ strokeWidth: 2, stroke: "#494B51" }}
-            >
-              <Label
-                className="axisLabel"
-                value="Verbrauch in KW"
-                position="top"
-                dy={-16}
-              />
-            </YAxis>
-            <Line
-              name="Prognose"
-              dataKey={"prediction"}
-              stroke={GraphLineColors[0]}
-              dot={{ fill: GraphLineColors[0], r: 1 }}
-              unit="KW"
-              strokeWidth={1.5}
+            <Label
+              className="axisLabel"
+              value="Zeit"
+              position="right"
+              dx={16}
+              dy={-14}
             />
-            <Line
-              name="Tatsächlicher Verbrauch"
-              dataKey={"ground_truth"}
-              stroke={GraphLineColors[1]}
-              dot={{ fill: GraphLineColors[1], r: 1 }}
-              unit="KW"
-              strokeWidth={1.5}
+          </XAxis>
+          <YAxis
+            type="number"
+            domain={calculateDomain()}
+            allowDecimals={false}
+            minTickGap={50}
+            interval="preserveStartEnd"
+            tickMargin={10}
+            tickSize={8}
+            tickCount={calculateTickCount()}
+            axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
+            tick={{ fontSize: 12, color: "#494B51" }}
+            tickLine={{ strokeWidth: 2, stroke: "#494B51" }}
+          >
+            <Label
+              className="axisLabel"
+              value="Verbrauch in KW"
+              position="top"
+              dy={-16}
             />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-    );
+          </YAxis>
+          <Line
+            name="Prognose"
+            dataKey={"prediction"}
+            stroke={GraphLineColors[0]}
+            dot={{ fill: GraphLineColors[0], r: 1 }}
+            activeDot={{
+              fill: "#FAFAFA",
+              stroke: GraphLineColors[0],
+              strokeWidth: 1.5,
+              r: 3,
+            }}
+            unit=" KW"
+            strokeWidth={1.5}
+          />
+          <Line
+            name="Tatsächlicher Verbrauch"
+            dataKey={"ground_truth"}
+            stroke={GraphLineColors[1]}
+            dot={{ fill: GraphLineColors[1], r: 1 }}
+            activeDot={{
+              fill: "#FAFAFA",
+              stroke: GraphLineColors[1],
+              strokeWidth: 1.5,
+              r: 3,
+            }}
+            unit=" KW"
+            strokeWidth={1.5}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
 }
 
 export default Graph;
