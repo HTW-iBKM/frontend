@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useHistory } from 'react-router';
 import LogoComponent from '../../components/logo/logoComponent';
 import { isEmail } from '../../utils/utility';
 
-function PasswordForgottenPage() {
+function PasswordForgottenPage(): ReactElement {
 
     const [email, setEmail] = useState('');
     const history = useHistory();
@@ -28,17 +28,12 @@ function PasswordForgottenPage() {
         email: false,
     })
 
-    const formErr: any =
+    const formErr: {email: string | null} =
     {
         email: email && !isEmail(email) ? "Valide EMail-Addresse angeben!" : null
     }
 
-    const validForm = () => {
-        const isValid = Object.keys(formErr).every((key) => !formErr[key]);
-        return isValid;
-
-    }
-
+    const validForm = () => !formErr['email'];
 
     return (
         <LogoComponent>
@@ -60,8 +55,8 @@ function PasswordForgottenPage() {
                     <span className={`${styles.inputLabel} ${email ? "visible" : "hidden"}`}>Email-Addresse:</span>
                     <input type="text" className={`${styles.input} ${email ? styles.inputContained : styles.inputUntouched}`} placeholder="Email-Addresse"
                         onChange={(e) => setEmail(e.target.value)}
-                        onBlur={(e) => setFormTouched((oldEle) => ({ ...oldEle, email: true }))}
-                        onFocus={(e) => setFormTouched((oldEle) => ({ ...oldEle, email: false }))}
+                        onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, email: true }))}
+                        onFocus={() => setFormTouched((oldEle) => ({ ...oldEle, email: false }))}
                     ></input>
 
                     {formErr['email'] && formTouched.email &&

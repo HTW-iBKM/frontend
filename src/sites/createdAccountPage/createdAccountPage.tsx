@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useHistory } from 'react-router';
 import LogoComponent from '../../components/logo/logoComponent';
 
 
-export default function CreatedAccountPage() {
+export default function CreatedAccountPage(): ReactElement {
     const history = useHistory();
     const styles = {
         h3Title: "font-sans text-[48px]",
