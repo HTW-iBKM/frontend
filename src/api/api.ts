@@ -1,9 +1,7 @@
 import UserPool from '../services/CognitoUserPool'
 import { CognitoUser, AuthenticationDetails, CognitoUserAttribute } from 'amazon-cognito-identity-js';
 
-
-
-export function singIn(username: string, password: string) {
+export function singIn(username: string, password: string): Promise<boolean>{
     const authDetails = new AuthenticationDetails({ Username: username, Password: password });
     const userData = {
         Username: username,
@@ -22,7 +20,7 @@ export function singIn(username: string, password: string) {
     })
 }
 
-export function signUp(email: string, name: string, familyName: string, password: string) {
+export function signUp(email: string, name: string, familyName: string, password: string): Promise<CognitoUser> {
     console.log("AJ")
     const attributeList: CognitoUserAttribute[] = [];
     attributeList.push(new CognitoUserAttribute({
@@ -45,10 +43,10 @@ export function signUp(email: string, name: string, familyName: string, password
             if (err) {
                 return reject(err);
             }
-            const cognitoUser = result!.user;
-            return resolve(cognitoUser);
+            if (result) {
+                const cognitoUser = result.user;
+                return resolve(cognitoUser);
+            }
         })
     })
-
-
 }
