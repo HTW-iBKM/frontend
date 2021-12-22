@@ -1,32 +1,36 @@
-import {Redirect, Route, RouteProps, Switch} from "react-router-dom";
-import React, {Component,ReactElement} from 'react';
+import { Redirect, Route, RouteProps, Switch } from "react-router-dom";
+import React, { Component, ReactElement } from 'react';
 import Landingpage from "./sites/landinpage/Landingpage";
+import LoginPage from "./sites/loginpage/loginpage";
+import RegisterPage from "./sites/registerPage/registerPage";
+import PasswordForgottenPage from "./sites/passwordForgottenPage/passwordForgottenPage";
+import CreatedAccountPage from "./sites/createdAccountPage/createdAccountPage";
 import Dashboard from "./sites/dashboard/Dashboard";
-import GraphTest from "./sites/dashboard/GraphTest";
+import GraphDetails from './sites/graph-details/GraphDetails';
 
-interface RestrictedRouteProps extends RouteProps {
-  isAuthorized: boolean;
-}
+import auth from "./services/Auth";
 
-function RestrictedRoute({isAuthorized, ...rest}: RestrictedRouteProps): ReactElement {
+// interface RestrictedRouteProps extends RouteProps {
+//     isAuthorized: boolean;
+// }
+
+function RestrictedRoute({ ...rest }): ReactElement {
+    const isAuthenticated = auth.isAuthenticated();
     return (
-        <Route
-            {...rest}
-            render={(props: RouteProps) =>
-                isAuthorized ? (
-                    <Component {...props} />
-                ) : (
-                    <Redirect
-                        to={{
-                            pathname: '/signin',
-                            state: {
-                                from: props.location,
-                            },
-                        }}
-                    />
-                )
-            }
-        />
+        !isAuthenticated ?
+            <Redirect
+                exact
+                to={{
+                    pathname: '/login',
+                }}
+            /> :
+
+            <Route
+                {...rest}
+                render={(props: RouteProps) => <Component {...props} />}
+            />
+
+
     );
 }
 
@@ -36,23 +40,51 @@ function PublicRoutes(): ReactElement {
             <RestrictedRoute
                 exact
                 path={'/'}
-                isAuthorized={true}
                 component={Landingpage}
             />
 
             <RestrictedRoute
                 exact
-                path={'/graph-test'}
-                isAuthorized={true}
-                component={GraphTest}
+                path={'/graph-details'}
+                component={GraphDetails}
             />
 
             <RestrictedRoute
-              path={'/dashboard'}
-              isAuthorized={true}
-              component={Dashboard}
+                path={'/dashboard'}
+                component={Dashboard}
             >
-          </RestrictedRoute>
+            </RestrictedRoute>
+            <Route
+                exact
+                path={'/login'}
+                // isAuthorized={true}
+                component={LoginPage}
+            />
+
+            <Route
+                exact
+                path={'/passwordForgotten'}
+                // isAuthorized={true}
+                component={PasswordForgottenPage}
+            />
+
+            <Route
+                exact
+                path={'/register'}
+                // isAuthorized={true}
+                component={RegisterPage}
+            />
+
+            <Route
+                exact
+                path={'/createdAccount'}
+                // isAuthorized={true}
+                component={CreatedAccountPage}
+            />
+
+
+
+            <Redirect to={'/'} />
         </Switch>
     );
 }
