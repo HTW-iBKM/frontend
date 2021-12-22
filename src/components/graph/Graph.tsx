@@ -1,27 +1,18 @@
-import React, { ReactElement, useState } from "react";
-import {
-  CartesianGrid,
-  Line,
-  Label,
-  LineChart,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-  Tooltip,
-} from "recharts";
-import axios from "axios";
+import React, { ReactElement, useState } from 'react';
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import axios from 'axios';
 import useAsyncEffect from "use-async-effect";
 import './Graph.css';
-import OpenInNewTabIcon from '../../components/icons/OpenInNewTabIcon';
+import Menu from './Menu';
 
 interface GraphData {
   time: string;
   daily_cos: string;
   weekly_sin: string;
   forecast_2: {
-    "0_globalstrahlung": string;
-    "0_temp": string;
-    "0_pressure": string;
+    '0_globalstrahlung': string;
+    '0_temp': string;
+    '0_pressure': string;
   };
   daily_sin: string;
   weekly_cos: string;
@@ -57,6 +48,12 @@ function Graph(): ReactElement {
   const showNewTabButton = url !== 'graph-details';
 
   const [data, setData] = useState<GraphData[]>([]);
+  const [grapType, setGraphType] = useState("");
+
+  useEffect(() => {
+    console.log(grapType);
+  }, [grapType])
+
 
   useAsyncEffect(async (isMounted) => {
     const { data }: GraphDataResponse = await axios.get(
@@ -194,6 +191,7 @@ function Graph(): ReactElement {
             unit=" KW"
             strokeWidth={1.5}
           />
+          <Legend verticalAlign="top"/>
         </LineChart>
       </ResponsiveContainer>
     </div>
