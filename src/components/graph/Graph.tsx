@@ -3,6 +3,7 @@ import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAx
 import axios from 'axios';
 import useAsyncEffect from "use-async-effect";
 import './Graph.css';
+import Menu from './Menu';
 
 interface GraphData {
   time: string;
@@ -35,7 +36,7 @@ interface GraphDataResponse {
 
 function Graph(): ReactElement {
   const styles = {
-    graphContainer: 'w-[calc(100%-2.5rem)] h-[calc(100%-2.5rem)] m-7 flex justify-center items-center '
+    graphContainer: 'w-[calc(100%-2.5rem)] h-[calc(100%-2.5rem)] m-7 flex-col justify-center items-center '
   };
   const [data, setData] = useState<GraphData[]>([]);
 
@@ -47,6 +48,8 @@ function Graph(): ReactElement {
 
   return (!data.length ? <>Waiting for data...</> :
     <div className={styles.graphContainer}>
+      <div className={"text-[24px] mb-[20px]"}>Bilanzkreis A Graph</div>
+      <Menu />
       <ResponsiveContainer>
         <LineChart data={data.map((entry) => {
           const newTime = new Date(entry.time);

@@ -43,6 +43,9 @@ module.exports = {
             warning: {
                 DEFAULT: '#E8BD50',
             },
+            border: {
+                DEFAULT: '#C1C1C6'
+            }
         },
         boxShadow: {
             card: '0px 2px 8px 2px #C1C1C680',
