@@ -32,15 +32,15 @@ interface GraphData {
   day_hour: number;
   weekday: number;
   sun: number;
-  pressure: number;
+  pressure: number
 }
 
 interface GraphDataResponse {
   data: {
     data: {
-      [x: string]: GraphData[];
-    };
-  };
+      [x: string]: GraphData[]
+    }
+  }
 }
 
 function Graph(): ReactElement {
