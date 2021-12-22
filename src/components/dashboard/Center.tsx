@@ -7,6 +7,8 @@ import RadioButtonGroup from "../form/RadioButtonGroup";
 import {ToastContext} from "../../context/ToastContext";
 import { v4 as uuidv4 } from 'uuid';
 import EditIcon from "../icons/EditIcon";
+import OpenInNewIcon from "../icons/OpenInNewIcon";
+import InsertDriveFileIcon from "../icons/InsertDriveFileIcon";
 
 function Center(): ReactElement {
   const match = useRouteMatch();
@@ -61,8 +63,8 @@ function Center(): ReactElement {
             <div className={"flex flex-row gap-6 items-center"}>
               <span>Icon Button:</span>
               <Button variant={"icon"} onClick={() => setCount(count + 1)}><EditIcon></EditIcon></Button>
-              <Button variant={"icon"} isLoading={loading} onClick={() => fetchData()}><EditIcon></EditIcon></Button>
-              <Button variant={"icon"} onClick={() => setCount(count + 1)} disabled><EditIcon></EditIcon></Button>
+              <Button variant={"icon"} isLoading={loading} onClick={() => fetchData()}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
+              <Button variant={"icon"} onClick={() => setCount(count + 1)} disabled><OpenInNewIcon></OpenInNewIcon></Button>
             </div>
           </div>
         </div>
