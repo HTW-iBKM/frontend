@@ -6,6 +6,7 @@ import TextField from "../form/TextField";
 import RadioButtonGroup from "../form/RadioButtonGroup";
 import {ToastContext} from "../../context/ToastContext";
 import { v4 as uuidv4 } from 'uuid';
+import EditIcon from "../icons/EditIcon";
 
 function Center(): ReactElement {
   const match = useRouteMatch();
@@ -55,6 +56,13 @@ function Center(): ReactElement {
               <Button variant={"text"} onClick={() => setCount(count + 1)}>button</Button>
               <Button variant={"text"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
               <Button variant={"text"} onClick={() => setCount(count + 1)} disabled>button</Button>
+            </div>
+
+            <div className={"flex flex-row gap-6 items-center"}>
+              <span>Icon Button:</span>
+              <Button variant={"icon"} onClick={() => setCount(count + 1)}><EditIcon></EditIcon></Button>
+              <Button variant={"icon"} isLoading={loading} onClick={() => fetchData()}><EditIcon></EditIcon></Button>
+              <Button variant={"icon"} onClick={() => setCount(count + 1)} disabled><EditIcon></EditIcon></Button>
             </div>
           </div>
         </div>
