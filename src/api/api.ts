@@ -1,9 +1,8 @@
 import UserPool from '../services/CognitoUserPool'
 import { CognitoUser, AuthenticationDetails, CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import auth from "../services/Auth";
 
-
-
-export function singIn(username: string, password: string) {
+export function signIn(username: string, password: string): Promise<boolean>{
     const authDetails = new AuthenticationDetails({ Username: username, Password: password });
     const userData = {
         Username: username,
@@ -12,8 +11,10 @@ export function singIn(username: string, password: string) {
     const coginitoUser = new CognitoUser(userData);
     return new Promise((resolve, reject) => {
         coginitoUser.authenticateUser(authDetails, {
-            onSuccess: () => {
-                resolve(true);
+            onSuccess: (data) => {
+                auth.login(data, () => {
+                    resolve(true);
+                })
             },
             onFailure: (err) => {
                 reject(err);
@@ -22,7 +23,7 @@ export function singIn(username: string, password: string) {
     })
 }
 
-export function signUp(email: string, name: string, familyName: string, password: string) {
+export function signUp(email: string, name: string, familyName: string, password: string): Promise<CognitoUser> {
     console.log("AJ")
     const attributeList: CognitoUserAttribute[] = [];
     attributeList.push(new CognitoUserAttribute({
@@ -45,10 +46,10 @@ export function signUp(email: string, name: string, familyName: string, password
             if (err) {
                 return reject(err);
             }
-            const cognitoUser = result!.user;
-            return resolve(cognitoUser);
+            if (result) {
+                const cognitoUser = result.user;
+                return resolve(cognitoUser);
+            }
         })
     })
-
-
 }

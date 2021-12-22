@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 
 
-function LogoComponent({ children }: any) {
+function LogoComponent({ children }: {children: ReactElement | ReactElement[]}): ReactElement {
     const styles = {
         wrapper: "w-full h-full bg-white flex justify-center",
         logo: "max-w-[111px] h-[90px] block mt-[20px]",

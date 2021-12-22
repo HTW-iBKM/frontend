@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useHistory } from 'react-router';
 import { signUp } from '../../api/api';
 import LogoComponent from '../../components/logo/logoComponent';
 import { isEmail } from '../../utils/utility';
 
 
-function RegisterPage() {
+function RegisterPage(): ReactElement {
     const [form, setForm] = useState({
         email: "",
         firstname: "",
@@ -31,7 +31,7 @@ function RegisterPage() {
         navigationAnchors: "cursor-pointer opacity-60 hover:opacity-100",
         registerButton: "mt-[25px] bg-[#4074B2] h-16 rounded-[8px] text-white disabled:bg-opacity-50 w-full w-[240px] h-[43px] text-grayscale-white text-[16px]",
         form: 'w-[240px] mt-0 ml-auto mr-auto flex-grow',
-        errLabel: (string: any) => {
+        errLabel: (string: string) => {
             return (`text-danger absolute text-[12px] ${string.split(' ').length > 5 ? 'bottom-[-33px] left-[18px]' : 'bottom-[-25px] left-[24px]'}`)
         },
     }
@@ -46,7 +46,7 @@ function RegisterPage() {
 
     const specialCharacters = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/;
     const containsNumbers = /[0-9+]/;
-    const formErr: any =
+    const formErr: {[x: string]: string | null} =
     {
         email: formTouched.email && !form.email.trim() ? "Die Email muss definiert werden" :
             form.email.trim() && !isEmail(form.email.trim()) ? "Valide EMail-Addresse angeben" : null,

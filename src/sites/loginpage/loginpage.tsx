@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useHistory } from 'react-router';
-import { singIn } from '../../api/api';
+import { signIn } from '../../api/api';
 import LogoComponent from '../../components/logo/logoComponent';
 import { isEmail } from '../../utils/utility';
-function LoginPage() {
+function LoginPage(): ReactElement {
 
-    const [anchor, setAnchor] = useState('');
     const history = useHistory();
 
     const [form, setForm] = useState({
@@ -18,16 +17,13 @@ function LoginPage() {
         password: false
     })
 
-    const formErr: any =
+    const formErr: {email: string | null, password: string | null} =
     {
-        email: form.email && !isEmail(form.email) ? "Valide EMail-Addresse angeben!" : null
+        email: form.email && !isEmail(form.email) ? "Valide EMail-Addresse angeben!" : null,
+        password: !form.password ? 'Bitte Password wählen.' : null
     }
 
-    const validForm = () => {
-        const isValid = Object.keys(formErr).every((key) => !formErr[key]);
-        return isValid;
-
-    }
+    const validForm = () => !formErr['email'] && !formErr['password'];
 
     const [showPW, setShowPW] = useState(false);
 
@@ -51,8 +47,8 @@ function LoginPage() {
     }
 
     const login = () => {
-        singIn(form.email, form.password).then(() => {
-            history.push('graph-test')
+        signIn(form.email, form.password).then((data) => {
+            history.push('dashboard')
         }).catch((err) => alert(err.message));
     }
 
@@ -72,8 +68,8 @@ function LoginPage() {
                                 ${formErr['email'] && 'border-danger'}
                             `} placeholder="Email-Addresse"
                                 onChange={(e) => setForm(oldForm => ({ ...oldForm, email: e.target.value }))}
-                                onBlur={(e) => setFormTouched((oldEle) => ({ ...oldEle, email: true }))}
-                                onFocus={(e) => setFormTouched((oldEle) => ({ ...oldEle, email: false }))}
+                                onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, email: true }))}
+                                onFocus={() => setFormTouched((oldEle) => ({ ...oldEle, email: false }))}
                             ></input>
 
                             {formErr['email'] && formTouched.email &&
