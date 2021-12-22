@@ -6,6 +6,13 @@ import TextField from "../form/TextField";
 import RadioButtonGroup from "../form/RadioButtonGroup";
 import {ToastContext} from "../../context/ToastContext";
 import { v4 as uuidv4 } from 'uuid';
+import EditIcon from "../icons/EditIcon";
+import OpenInNewIcon from "../icons/OpenInNewIcon";
+import InsertDriveFileIcon from "../icons/InsertDriveFileIcon";
+import ChevronLeftIcon from "../icons/ChevronLeftIcon";
+import ChevronRightIcon from "../icons/ChevronRightIcon";
+import DeleteForeverIcon from "../icons/DeleteForeverIcon";
+import DownloadIcon from "../icons/DownloadIcon";
 
 function Center(): ReactElement {
   const match = useRouteMatch();
@@ -34,6 +41,21 @@ function Center(): ReactElement {
 
       <Route exact path={`${match.path}/files`}>
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
+          <h1>Icons 24x24</h1>
+          <div className={"flex flex-col"}>
+            <div className={"flex flex-row gap-6 items-center"}>
+              <EditIcon className={"w-6 h-6"}></EditIcon>
+              <InsertDriveFileIcon className={"w-6 h-6"}></InsertDriveFileIcon>
+              <OpenInNewIcon className={"w-6 h-6"}></OpenInNewIcon>
+              <ChevronLeftIcon className={"w-6 h-6"}></ChevronLeftIcon>
+              <ChevronRightIcon className={"w-6 h-6"}></ChevronRightIcon>
+              <DeleteForeverIcon className={"w-6 h-6"}></DeleteForeverIcon>
+              <DownloadIcon className={"w-6 h-6"}></DownloadIcon>
+            </div>
+          </div>
+        </div>
+
+        <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
           <div>{count}</div>
           <div className={"flex flex-col"}>
             <div className={"flex flex-row items-center"}>
@@ -55,6 +77,13 @@ function Center(): ReactElement {
               <Button variant={"text"} onClick={() => setCount(count + 1)}>button</Button>
               <Button variant={"text"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
               <Button variant={"text"} onClick={() => setCount(count + 1)} disabled>button</Button>
+            </div>
+
+            <div className={"flex flex-row gap-6 items-center"}>
+              <span>Icon Button:</span>
+              <Button variant={"icon"} onClick={() => setCount(count + 1)}><EditIcon></EditIcon></Button>
+              <Button variant={"icon"} isLoading={loading} onClick={() => fetchData()}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
+              <Button variant={"icon"} onClick={() => setCount(count + 1)} disabled><OpenInNewIcon></OpenInNewIcon></Button>
             </div>
           </div>
         </div>

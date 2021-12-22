@@ -9,7 +9,7 @@ interface Styles {
   focus: string;
   active: string;
 }
-type ButtonVariant = "primary" | "secondary" | "text";
+type ButtonVariant = "primary" | "secondary" | "text" | "icon";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant: ButtonVariant;
@@ -42,11 +42,20 @@ const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, ...res
     active: 'active:text-primary active:outline-none'
   }
 
+  const stylesIcon = {
+    default: 'text-grayscale-darkest h-6 w-6 p-1 rounded',
+    hover: 'hover:text-primary-light hover:bg-grayscale',
+    focus: 'focus:text-grayscale-darkest focus:outline-none focus:bg-primary-light',
+    active: 'active:text-secondary active:outline-none active:bg-transparent',
+    disabled: 'disabled:text-grayscale-dark disabled:bg-transparent disabled:cursor-default'
+  }
+
   const combineStyles = (styles: Styles) => Object.keys(styles).map(key => styles[key as keyof Styles]).join(' ');
 
   const isPrimary = variant === "primary";
   const isSecondary = variant === "secondary";
   const isText = variant === "text";
+  const isIcon = variant === "icon";
 
   const className = (variant: ButtonVariant) => {
     switch (variant) {
@@ -56,6 +65,8 @@ const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, ...res
         return combineStyles(stylesPrimary);
       case 'secondary':
         return combineStyles(stylesSecondary);
+      case 'icon':
+        return combineStyles(stylesIcon);
       default:
         return combineStyles(stylesPrimary);
     }
@@ -70,6 +81,7 @@ const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, ...res
       {!isLoading && children}
       {isLoading && isPrimary && <LoadingLightIcon className={"h-5 w-5 m-auto animate-spin"}></LoadingLightIcon>}
       {isLoading && isSecondary && <LoadingDarkIcon className={"h-5 w-5 m-auto animate-spin"}></LoadingDarkIcon>}
+      {isLoading && isIcon && <LoadingDarkIcon className={"h-4 w-4 m-auto animate-spin"}></LoadingDarkIcon>}
       {isLoading && isText && <>loading ...</>}
     </button >
   )
