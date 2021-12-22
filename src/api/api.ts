@@ -1,7 +1,8 @@
 import UserPool from '../services/CognitoUserPool'
 import { CognitoUser, AuthenticationDetails, CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import auth from "../services/Auth";
 
-export function singIn(username: string, password: string): Promise<boolean>{
+export function signIn(username: string, password: string): Promise<boolean>{
     const authDetails = new AuthenticationDetails({ Username: username, Password: password });
     const userData = {
         Username: username,
@@ -10,8 +11,10 @@ export function singIn(username: string, password: string): Promise<boolean>{
     const coginitoUser = new CognitoUser(userData);
     return new Promise((resolve, reject) => {
         coginitoUser.authenticateUser(authDetails, {
-            onSuccess: () => {
-                resolve(true);
+            onSuccess: (data) => {
+                auth.login(data, () => {
+                    resolve(true);
+                })
             },
             onFailure: (err) => {
                 reject(err);
