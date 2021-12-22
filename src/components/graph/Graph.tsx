@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, {ReactElement, useEffect, useState} from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import axios from 'axios';
 import useAsyncEffect from "use-async-effect";
@@ -39,6 +39,12 @@ function Graph(): ReactElement {
     graphContainer: 'w-[calc(100%-2.5rem)] h-[calc(100%-2.5rem)] m-7 flex-col justify-center items-center '
   };
   const [data, setData] = useState<GraphData[]>([]);
+  const [grapType, setGraphType] = useState("");
+
+  useEffect(() => {
+    console.log(grapType);
+  }, [grapType])
+
 
   useAsyncEffect(async isMounted => {
     const { data }: GraphDataResponse = await axios.get('https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/');
@@ -49,7 +55,7 @@ function Graph(): ReactElement {
   return (!data.length ? <>Waiting for data...</> :
     <div className={styles.graphContainer}>
       <div className={"text-[24px] mb-[20px]"}>Bilanzkreis A Graph</div>
-      <Menu />
+      <Menu setGraph={setGraphType}/>
       <ResponsiveContainer>
         <LineChart data={data.map((entry) => {
           const newTime = new Date(entry.time);
