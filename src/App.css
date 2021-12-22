@@ -89,6 +89,12 @@ code {
     }
 }
 
+h5 {
+    @apply font-medium;
+    font-size: 24px;
+    line-height: 28px;
+}
+
 h6 {
     @apply font-medium;
     font-size: 20px;

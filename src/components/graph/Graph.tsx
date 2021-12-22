@@ -11,7 +11,8 @@ import {
 } from "recharts";
 import axios from "axios";
 import useAsyncEffect from "use-async-effect";
-import "./Graph.css";
+import './Graph.css';
+import OpenInNewTabIcon from '../../components/icons/OpenInNewTabIcon';
 
 interface GraphData {
   time: string;
@@ -50,8 +51,11 @@ function Graph(): ReactElement {
 
   const styles = {
     graphContainer:
-      "w-[calc(100%-3.5rem)] h-[calc(100%-3.5rem)] m-7 flex justify-center items-center ",
+      "w-[calc(100%-3.5rem)] h-[calc(100%-3.5rem)] m-7 flex justify-center items-center flex-col ",
   };
+  const url = window.location.href.split('/')[4];
+  const showNewTabButton = url !== 'graph-details';
+
   const [data, setData] = useState<GraphData[]>([]);
 
   useAsyncEffect(async (isMounted) => {
@@ -92,6 +96,14 @@ function Graph(): ReactElement {
     <>Waiting for data...</>
   ) : (
     <div className={styles.graphContainer}>
+      <div className="w-full flex justify-between">
+        <h5>Bilanzkreis A Graph</h5> {/* TODO add real title */}
+        {showNewTabButton &&
+          <a href="#/graph-details" title="Open in new tab">
+            <OpenInNewTabIcon className="w-4 h-4 text-[#494B51]" />
+          </a>
+        }
+      </div>
       <ResponsiveContainer>
         <LineChart
           data={data
