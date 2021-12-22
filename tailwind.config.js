@@ -62,9 +62,10 @@ module.exports = {
                 '12': '3rem',
             },
             height: {
+                '7-1/8': '1.875rem',
                 '13': '3.25rem',
                 '15': '3.75rem',
-            }
+            },
         }
     },
     variants: {
