@@ -11,13 +11,13 @@ class Auth {
     //     this.authenticated = authenticated;
     // }
 
-    login(data: any, cb: () => any) {
+    login(data: any, cb: () => void) {
         this.user = data.idToken.payload;
         localStorage.setItem("user", JSON.stringify(this.user))
         cb();
     }
 
-    logout(cb: () => any) {
+    logout(cb: () => void) {
         localStorage.removeItem("user");
         cb();
     }

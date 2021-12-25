@@ -14,12 +14,14 @@ import ChevronRightIcon from "../icons/ChevronRightIcon";
 import DeleteForeverIcon from "../icons/DeleteForeverIcon";
 import DownloadIcon from "../icons/DownloadIcon";
 import Tabs from "../tabs/Tabs";
+import SelectField from "../form/SelectField";
 
 function Center(): ReactElement {
   const match = useRouteMatch();
   const [count, setCount] = useState(1);
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(String);
 
   const fetchData = async () => {
     setLoading(true);
@@ -31,6 +33,12 @@ function Center(): ReactElement {
       }, 2000);
     })
   };
+
+  const selectOptions = [
+    { value: 'woche1', label: 'Erste Woche' },
+    { value: 'woche2', label: 'Zweite Woche' },
+    { value: 'woche3', label: 'Dritte Woche' }
+  ]
 
   const context = useContext(ToastContext);
 
@@ -111,6 +119,14 @@ function Center(): ReactElement {
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
           <Tabs type="default" tabs={["Tab 1", "Tab 2", "Tab 3"]} panels={[<>Panel 1</>, <>Panel 2</>, <>Panel 3</>]} />
           <Tabs type="small" tabs={["Tab 1", "Tab 2", "Tab 3"]} panels={[<>Panel 1</>, <>Panel 2</>, <>Panel 3</>]} />
+        </div>
+
+        <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
+          Selected Value: {selectedOption}
+          <div className={"flex gap-4"}>
+            <SelectField variant="default" label="Woche" options={selectOptions} onChange={(value) => setSelectedOption(value)}></SelectField>
+            <SelectField variant="small" label="Woche" options={selectOptions} onChange={(value) => console.log(value)}></SelectField>
+          </div>
         </div>
       </Route>
     </Switch>
