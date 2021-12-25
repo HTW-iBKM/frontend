@@ -4,7 +4,7 @@ import Toast from "./Toast";
 
 function ToastContainer(): ReactElement {
   const styles = {
-    toastContainer: 'absolute right-0 bottom-0 z-50 px-4 overflow-y-hidden',
+    toastContainer: 'absolute right-0 top-4 z-50 px-4 overflow-y-hidden',
   }
   const context = useContext(ToastContext);
 
