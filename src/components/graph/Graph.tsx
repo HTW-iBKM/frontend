@@ -99,7 +99,7 @@ function Graph(): ReactElement {
       <div className="w-full flex justify-between">
         <h5>Bilanzkreis A Graph</h5> {/* TODO add real title */}
         {showNewTabButton &&
-          <a href="#/graph-details" title="Open in new tab">
+          <a href="#/graph-details" title="Open in new tab" target="_blank" rel="noopener noreferrer">
             <OpenInNewTabIcon className="w-4 h-4 text-[#494B51]" />
           </a>
         }
