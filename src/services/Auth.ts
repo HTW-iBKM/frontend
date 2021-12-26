@@ -1,29 +1,26 @@
+import { CognitoUserSession } from 'amazon-cognito-identity-js';
+import { getUser, removeUser, setUser } from '../../src/global-data';
+
+export interface User {
+    email: string;
+    family_name: string;
+    name: string;
+}
+
 class Auth {
-
-    user: {
-        email: string;
-        family_name: string;
-        name: string;
-    } | undefined;
-    // authenticated: boolean;
-
-    // constructor(authenticated: boolean) {
-    //     this.authenticated = authenticated;
-    // }
-
-    login(data: any, cb: () => any) {
-        this.user = data.idToken.payload;
-        localStorage.setItem("user", JSON.stringify(this.user))
-        cb();
+    login(userSession: CognitoUserSession, callback: () => void) {
+        const user = userSession.getIdToken().payload as User;
+        setUser(user);
+        callback();
     }
 
-    logout(cb: () => any) {
-        localStorage.removeItem("user");
-        cb();
+    logout(callback: () => void) {
+        removeUser();
+        callback();
     }
 
-    isAuthenticated() {
-        return this.user;
+    isAuthenticated(): boolean {
+        return !!getUser();
     }
 }
 

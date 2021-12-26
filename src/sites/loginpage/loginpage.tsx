@@ -47,7 +47,7 @@ function LoginPage(): ReactElement {
     }
 
     const login = () => {
-        signIn(form.email, form.password).then((data) => {
+        signIn(form.email, form.password).then(() => {
             history.push('dashboard')
         }).catch((err) => alert(err.message));
     }
