@@ -1,5 +1,5 @@
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
-import { getUser, removeUser, setUser } from '../../src/global-data';
+import GlobalData from '../../src/global-data';
 
 export interface User {
     email: string;
@@ -10,17 +10,17 @@ export interface User {
 class Auth {
     login(userSession: CognitoUserSession, callback: () => void) {
         const user = userSession.getIdToken().payload as User;
-        setUser(user);
+        GlobalData.setUser(user);
         callback();
     }
 
     logout(callback: () => void) {
-        removeUser();
+        GlobalData.removeUser();
         callback();
     }
 
     isAuthenticated(): boolean {
-        return !!getUser();
+        return !!GlobalData.getUser();
     }
 }
 
