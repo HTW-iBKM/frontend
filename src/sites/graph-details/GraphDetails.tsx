@@ -15,7 +15,7 @@ function GraphDetails(): ReactElement {
         <ChevronLeftIcon className="h-4 w-4"/>
         <span>zurück zum Dashboard</span>
       </a>
-      <h6 className="absolute left-1/2">Bilanzkreis A</h6> {/* TODO add real title */}
+      <h6 className="absolute left-1/2 text-[#212E50]">Bilanzkreis A</h6> {/* TODO add real title */}
     </div>
     <div className={styles.card}>
       <Graph/>

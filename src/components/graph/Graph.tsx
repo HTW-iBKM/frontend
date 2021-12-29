@@ -13,6 +13,7 @@ import axios from "axios";
 import useAsyncEffect from "use-async-effect";
 import './Graph.css';
 import OpenInNewTabIcon from '../../components/icons/OpenInNewTabIcon';
+import Button from '../../components/form/Button';
 
 interface GraphData {
   time: string;
@@ -97,11 +98,13 @@ function Graph(): ReactElement {
   ) : (
     <div className={styles.graphContainer}>
       <div className="w-full flex justify-between">
-        <h5>Bilanzkreis A Graph</h5> {/* TODO add real title */}
+        <h5 className="text-[#212E50]">Bilanzkreis A Graph</h5> {/* TODO add real title */}
         {showNewTabButton &&
-          <a href="#/graph-details" title="Open in new tab" target="_blank" rel="noopener noreferrer">
-            <OpenInNewTabIcon className="w-4 h-4 text-[#494B51]" />
-          </a>
+          <Button variant={"icon"}
+                  onClick={() => window.open('#/graph-details', '_blank')}
+                  title="Open in new tab">
+            <OpenInNewTabIcon className="w-4 h-4 text-[#494B51]"/>
+          </Button>
         }
       </div>
       <ResponsiveContainer>
