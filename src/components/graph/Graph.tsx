@@ -94,7 +94,7 @@ function Graph(): ReactElement {
   }
 
   return !data.length ? (
-    <>Waiting for data...</>
+    <div className={styles.graphContainer}>Waiting for data...</div>
   ) : (
     <div className={styles.graphContainer}>
       <div className="w-full flex justify-between">
