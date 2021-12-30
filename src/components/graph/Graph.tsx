@@ -44,6 +44,21 @@ interface GraphDataResponse {
   };
 }
 
+enum GraphKey {
+  PREDICTION = 'prediction',
+  GROUND_TRUTH = 'ground_truth'
+}
+
+interface KeyData {
+  key: GraphKey,
+  name: string
+}
+
+const GraphData: KeyData[] = [
+  {key: GraphKey.PREDICTION, name: 'Prognose'},
+  {key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch'}
+];
+
 function Graph(): ReactElement {
   const yIntervall = 500;
   let maxValue = 0;
@@ -52,7 +67,7 @@ function Graph(): ReactElement {
 
   const styles = {
     graphContainer:
-      "w-[calc(100%-3.5rem)] h-[calc(100%-3.5rem)] m-7 flex justify-center items-center flex-col ",
+      "w-[calc(100%-3.5rem)] h-[calc(100%-3.5rem)] m-7 flex justify-center items-center flex-col "
   };
   const url = window.location.href.split('/')[4];
   const showNewTabButton = url !== 'graph-details';
@@ -98,7 +113,7 @@ function Graph(): ReactElement {
   ) : (
     <div className={styles.graphContainer}>
       <div className="w-full flex justify-between">
-        <h5 className="text-[#212E50]">Bilanzkreis A Graph</h5> {/* TODO add real title */}
+        <h5 className="text-h5">Bilanzkreis A Graph</h5> {/* TODO add real title */}
         {showNewTabButton &&
           <Button variant={"icon"}
                   onClick={() => window.open('#/graph-details', '_blank')}
@@ -169,36 +184,33 @@ function Graph(): ReactElement {
               dy={-16}
             />
           </YAxis>
-          <Line
-            name="Prognose"
-            dataKey={"prediction"}
-            stroke={GraphLineColors[0]}
-            dot={{ fill: GraphLineColors[0], r: 1 }}
-            activeDot={{
-              fill: "#FAFAFA",
-              stroke: GraphLineColors[0],
-              strokeWidth: 1.5,
-              r: 3,
-            }}
-            unit=" KW"
-            strokeWidth={1.5}
-          />
-          <Line
-            name="Tatsächlicher Verbrauch"
-            dataKey={"ground_truth"}
-            stroke={GraphLineColors[1]}
-            dot={{ fill: GraphLineColors[1], r: 1 }}
-            activeDot={{
-              fill: "#FAFAFA",
-              stroke: GraphLineColors[1],
-              strokeWidth: 1.5,
-              r: 3,
-            }}
-            unit=" KW"
-            strokeWidth={1.5}
-          />
+          {GraphData.map((data, index) =>
+              <Line key={index}
+                  name={data.name}
+                  dataKey={data.key}
+                  stroke={GraphLineColors[index]}
+                  dot={{ fill: GraphLineColors[index], r: 1 }}
+                  activeDot={{
+                    fill: "#FAFAFA",
+                    stroke: GraphLineColors[index],
+                    strokeWidth: 1.5,
+                    r: 3,
+                  }}
+                  unit=" KW"
+                  strokeWidth={1.5}
+              />
+          )}
         </LineChart>
       </ResponsiveContainer>
+      <div className="border border-[#E2E2E2] w-full m-5"/>
+      <div className="w-full flex justify-center">
+        {GraphData.map((data, index) =>
+            <div key={index} className="min-w-max flex items-center gap-3 mx-5">
+              <span className={`w-5 h-5 rounded-[2px]`} style={{backgroundColor: GraphLineColors[index]}}/>
+              <span className="text-body1">{data.name}</span>
+            </div>
+        )}
+      </div>
     </div>
   );
 }
