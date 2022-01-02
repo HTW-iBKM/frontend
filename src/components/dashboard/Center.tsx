@@ -17,6 +17,10 @@ import Tabs from "../tabs/Tabs";
 import SelectField from "../form/SelectField";
 import "flatpickr/dist/themes/material_blue.css";
 import DatePicker from "../datePicker/DatePicker";
+import NiceModal from '@ebay/nice-modal-react';
+import Modal from "../modal/Modal";
+
+NiceModal.register('modal', Modal);
 
 function Center(): ReactElement {
   const match = useRouteMatch();
@@ -25,6 +29,21 @@ function Center(): ReactElement {
   const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState(String);
   const [selectedDateRange , setSelectedDateRange] = useState<Date[]>([]);
+
+  const saveFileTemplate: JSX.Element = (
+    <h1>Hallo</h1>
+  )
+
+  const showModal = () => {
+    NiceModal.show(
+    'modal', 
+    { 
+      headline: 'Als Datei speichern', 
+      hasCancelButton: true, 
+      primaryButtonLabel: "Speichern", 
+      children: saveFileTemplate
+    })
+  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -97,7 +116,7 @@ function Center(): ReactElement {
 
             <div className={"flex flex-row gap-6 items-center"}>
               <span>Icon Button:</span>
-              <Button variant={"icon"} onClick={() => setCount(count + 1)}><EditIcon></EditIcon></Button>
+              <Button variant={"icon"} onClick={showModal}><EditIcon></EditIcon></Button>
               <Button variant={"icon"} isLoading={loading} onClick={() => fetchData()}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
               <Button variant={"icon"} onClick={() => setCount(count + 1)} disabled><OpenInNewIcon></OpenInNewIcon></Button>
             </div>
