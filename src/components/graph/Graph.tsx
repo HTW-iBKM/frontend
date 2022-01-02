@@ -15,6 +15,12 @@ import axios from 'axios';
 import useAsyncEffect from "use-async-effect";
 import './Graph.css';
 import OpenInNewTabIcon from '../../components/icons/OpenInNewTabIcon';
+// =======
+// import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+// import axios from 'axios';
+// import useAsyncEffect from "use-async-effect";
+// import './Graph.css';
+// >>>>>>> 13acd39a42838ae738455f034e8af3d50b7fb0ea
 import Menu from './Menu';
 
 interface GraphData {
