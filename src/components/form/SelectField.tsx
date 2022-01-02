@@ -1,5 +1,4 @@
 import React, {Fragment, ReactElement, useState} from "react";
-import 'react-nice-dates/build/style.css'
 import {Menu, Transition} from "@headlessui/react";
 import DropDownIcon from "../icons/DropDownIcon";
 import CheckIcon from "../icons/CheckIcon";

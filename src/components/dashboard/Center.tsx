@@ -15,6 +15,8 @@ import DeleteForeverIcon from "../icons/DeleteForeverIcon";
 import DownloadIcon from "../icons/DownloadIcon";
 import Tabs from "../tabs/Tabs";
 import SelectField from "../form/SelectField";
+import "flatpickr/dist/themes/material_blue.css";
+import DatePicker from "../datePicker/DatePicker";
 
 function Center(): ReactElement {
   const match = useRouteMatch();
@@ -22,6 +24,7 @@ function Center(): ReactElement {
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState(String);
+  const [selectedDateRange, setSelectedDateRange] = useState<Date[]>([]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -39,6 +42,9 @@ function Center(): ReactElement {
     { value: 'woche2', label: 'Zweite Woche' },
     { value: 'woche3', label: 'Dritte Woche' }
   ]
+  const handleDateRangeChange = (value: Date[]) => {
+    setSelectedDateRange(value)
+  }
 
   const context = useContext(ToastContext);
 
@@ -111,6 +117,14 @@ function Center(): ReactElement {
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
+          Selected Value: {selectedOption}
+          <div className={"flex gap-4"}>
+            <SelectField variant="default" label="Woche auswählen" options={selectOptions} onChange={(value) => setSelectedOption(value)}></SelectField>
+            <SelectField variant="small" label="Woche auswählen" options={selectOptions} onChange={(value) => console.log(value)}></SelectField>
+          </div>
+        </div>
+
+        <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
           <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "success", headline: "Success Message!", message: "success yeah!"}])}>Success Message</Button>
           <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "warning", headline: "Warning Message!", message: "warning okay lets seeh!"}])}>Warning Message</Button>
           <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "error", headline: "Error Message!", message: "error oh no!"}])}>Error Message</Button>
@@ -122,12 +136,9 @@ function Center(): ReactElement {
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
-          Selected Value: {selectedOption}
-          <div className={"flex gap-4"}>
-            <SelectField variant="default" label="Woche" options={selectOptions} onChange={(value) => setSelectedOption(value)}></SelectField>
-            <SelectField variant="small" label="Woche" options={selectOptions} onChange={(value) => console.log(value)}></SelectField>
-          </div>
+          <DatePicker onValueUpdate={(value) => handleDateRangeChange(value)}/>
         </div>
+
       </Route>
     </Switch>
   )
