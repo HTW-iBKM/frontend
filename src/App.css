@@ -18,6 +18,7 @@ body {
     height: 100%;
     font-size: 16px;
     @apply bg-grayscale;
+    @apply text-grayscale-darkest;
 }
 
 code {
@@ -38,6 +39,7 @@ code {
     .text-h4 {
         @apply font-normal;
         @apply leading-10;
+        @apply text-grayscale-darkest;
         font-size: 2.125rem;
         letter-spacing: 0.25px;
     }
@@ -46,6 +48,7 @@ code {
         @apply font-normal;
         @apply text-2xl;
         @apply leading-7;
+        @apply text-grayscale-darkest;
     }
 
     .text-h6 {
@@ -58,6 +61,7 @@ code {
         @apply font-normal;
         @apply text-base;
         @apply leading-7-1/8;
+        @apply text-grayscale-darkest;
         letter-spacing: 0.15px;
     }
 
@@ -65,6 +69,7 @@ code {
         @apply font-normal;
         @apply text-base;
         @apply leading-7-1/8;
+        @apply text-grayscale-darkest;
         letter-spacing: 0.15px;
     }
 
@@ -72,6 +77,7 @@ code {
         @apply font-normal;
         @apply text-sm;
         @apply leading-4;
+        @apply text-grayscale-darkest;
         letter-spacing: 0.25px;
     }
 
@@ -79,6 +85,7 @@ code {
         @apply font-normal;
         @apply text-xs;
         @apply leading-3-1/8;
+        @apply text-grayscale-darkest;
         letter-spacing: 0.4px;
     }
 }
