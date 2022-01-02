@@ -24,7 +24,7 @@ function Center(): ReactElement {
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState(String);
-  const [selectedDateRange, setSelectedDateRange] = useState<Date[]>([]);
+  const [selectedDateRange , setSelectedDateRange] = useState<Date[]>([]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -44,6 +44,7 @@ function Center(): ReactElement {
   ]
   const handleDateRangeChange = (value: Date[]) => {
     setSelectedDateRange(value)
+    console.log(selectedDateRange)
   }
 
   const context = useContext(ToastContext);

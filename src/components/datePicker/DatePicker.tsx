@@ -2,7 +2,7 @@ import React, {ReactElement} from 'react';
 import Flatpickr, {DateTimePickerProps} from "react-flatpickr";
 import TextField from "../form/TextField";
 
-function DatePicker(props: DateTimePickerProps)  {
+function DatePicker(props: DateTimePickerProps): ReactElement  {
   return (
     <Flatpickr
       {...props}
