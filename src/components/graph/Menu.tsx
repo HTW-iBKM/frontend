@@ -8,17 +8,17 @@ function Menu({setGraph} : any): ReactElement {
 
 
     return (
-        <div className={"flex items-center"}>
+        <div className={"w-full flex "}>
             <span>Graph:</span>
             <div className={"flex ml-4"}>
                 <div className={"w-[200px] h-[34px] rounded-xl border border-solid border-[#C1C1C6] flex"}>
-                    <div className={`${styles.graphItem}`} onClick={() => setGraph("A")}>
+                    <div className={`${styles.graphItem}`} onClick={() => setGraph("linechart")}>
                         A
                     </div>
-                    <div className={`${styles.graphItem}`} onClick={() => setGraph("B")}>
+                    <div className={`${styles.graphItem}`} onClick={() => setGraph("chartB")}>
                         B
                     </div>
-                    <div className={`${styles.graphItem}`} onClick={() => setGraph("C")}>
+                    <div className={`${styles.graphItem}`} onClick={() => setGraph("chartC")}>
                         C
                     </div>
                 </div>
