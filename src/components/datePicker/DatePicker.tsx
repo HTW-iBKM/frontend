@@ -13,7 +13,7 @@ function DatePicker(props: DateTimePickerProps): ReactElement  {
       }}
       render={
         ({defaultValue}, ref) => {
-          return <TextField type={"text"} name={"inputField7"} label={"Zeitraum"} defaultValue={defaultValue} inputRef={ref} />
+          return <TextField type={"text"} name={"DatePicker"} label={"Zeitraum"} defaultValue={defaultValue} inputRef={ref} />
         }
       }
     />
