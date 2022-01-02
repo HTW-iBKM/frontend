@@ -13,7 +13,7 @@ import axios from "axios";
 import useAsyncEffect from "use-async-effect";
 import './Graph.css';
 import OpenInNewTabIcon from '../../components/icons/OpenInNewTabIcon';
-import Button from '../../components/form/Button';
+import Button from '../../components/form/button/Button';
 
 interface GraphData {
   time: string;

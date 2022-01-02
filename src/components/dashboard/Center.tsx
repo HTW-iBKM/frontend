@@ -1,7 +1,7 @@
 import React, {ReactElement, useContext, useState} from "react";
 import {Route, Switch, useRouteMatch} from "react-router-dom";
 import Home from "../../sites/home/Home";
-import Button from "../form/Button";
+import Button from "../form/button/Button";
 import TextField from "../form/TextField";
 import RadioButtonGroup from "../form/RadioButtonGroup";
 import {ToastContext} from "../../context/ToastContext";
@@ -17,10 +17,10 @@ import Tabs from "../tabs/Tabs";
 import SelectField from "../form/SelectField";
 import "flatpickr/dist/themes/material_blue.css";
 import DatePicker from "../datePicker/DatePicker";
-import NiceModal from '@ebay/nice-modal-react';
 import Modal from "../modal/Modal";
 
-NiceModal.register('modal', Modal);
+import { commonModalStyles } from "../modal/Modal";
+import { ModalContext } from "../../context/ModalContext";
 
 function Center(): ReactElement {
   const match = useRouteMatch();
@@ -29,21 +29,6 @@ function Center(): ReactElement {
   const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState(String);
   const [selectedDateRange , setSelectedDateRange] = useState<Date[]>([]);
-
-  const saveFileTemplate: JSX.Element = (
-    <h1>Hallo</h1>
-  )
-
-  const showModal = () => {
-    NiceModal.show(
-    'modal', 
-    { 
-      headline: 'Als Datei speichern', 
-      hasCancelButton: true, 
-      primaryButtonLabel: "Speichern", 
-      children: saveFileTemplate
-    })
-  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -66,7 +51,30 @@ function Center(): ReactElement {
     console.log(selectedDateRange)
   }
 
-  const context = useContext(ToastContext);
+  const toastContext = useContext(ToastContext);
+  const modalContext = useContext(ModalContext);
+
+  function SaveFileTemplate(): ReactElement{
+    return (
+      <div>
+        <h1>Hallo</h1>
+        <div className={`${commonModalStyles.buttonGroup}`}>
+          <Button variant="secondary" onClick={() => modalContext.setIsOpen(false)}>Abbrechen</Button>
+          <Button variant="primary" onClick={() => modalContext.setIsOpen(false)}>Speichern</Button>
+        </div>
+      </div>
+    )
+  }
+
+  const showModal = () => {
+    modalContext.isOpen = true;
+    modalContext.setIsOpen(true);
+    modalContext.setModalContent({
+      id: uuidv4(), 
+      headline: "Als Datei speichern", 
+      content: <SaveFileTemplate></SaveFileTemplate>
+    });
+  };
 
   return (
     <Switch>
@@ -92,30 +100,30 @@ function Center(): ReactElement {
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
           <div>{count}</div>
-          <div className={"flex flex-col"}>
+          <div className={"flex flex-col gap-6"}>
+            <span>Primary Button:</span>
             <div className={"flex flex-row items-center"}>
-              <span>Primary Button:</span>
               <Button variant={"primary"} onClick={() => setCount(count + 1)}>button</Button>
               <Button variant={"primary"} isLoading={loading} onClick={async () => await fetchData()}>loading button</Button>
               <Button variant={"primary"} onClick={() => setCount(count + 1)} disabled>button</Button>
             </div>
 
+            <span>Secondary Button:</span>
             <div className={"flex flex-row items-center"}>
-              <span>Secondary Button:</span>
               <Button variant={"secondary"} onClick={() => setCount(count + 1)}>button</Button>
               <Button variant={"secondary"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
               <Button variant={"secondary"} onClick={() => setCount(count + 1)} disabled>button</Button>
             </div>
 
+            <span>Text Button:</span>
             <div className={"flex flex-row items-center"}>
-              <span>Text Button:</span>
               <Button variant={"text"} onClick={() => setCount(count + 1)}>button</Button>
               <Button variant={"text"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
               <Button variant={"text"} onClick={() => setCount(count + 1)} disabled>button</Button>
             </div>
 
+            <span>Icon Button:</span>
             <div className={"flex flex-row gap-6 items-center"}>
-              <span>Icon Button:</span>
               <Button variant={"icon"} onClick={showModal}><EditIcon></EditIcon></Button>
               <Button variant={"icon"} isLoading={loading} onClick={() => fetchData()}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
               <Button variant={"icon"} onClick={() => setCount(count + 1)} disabled><OpenInNewIcon></OpenInNewIcon></Button>
@@ -145,9 +153,9 @@ function Center(): ReactElement {
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
-          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "success", headline: "Success Message!", message: "success yeah!"}])}>Success Message</Button>
-          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "warning", headline: "Warning Message!", message: "warning okay lets seeh!"}])}>Warning Message</Button>
-          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "error", headline: "Error Message!", message: "error oh no!"}])}>Error Message</Button>
+          <Button variant={"primary"} onClick={() => toastContext.setToasts([...toastContext.toasts, {id: uuidv4(), type: "success", headline: "Success Message!", message: "success yeah!"}])}>Success Message</Button>
+          <Button variant={"primary"} onClick={() => toastContext.setToasts([...toastContext.toasts, {id: uuidv4(), type: "warning", headline: "Warning Message!", message: "warning okay lets seeh!"}])}>Warning Message</Button>
+          <Button variant={"primary"} onClick={() => toastContext.setToasts([...toastContext.toasts, {id: uuidv4(), type: "error", headline: "Error Message!", message: "error oh no!"}])}>Error Message</Button>
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
@@ -156,7 +164,7 @@ function Center(): ReactElement {
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
-          <DatePicker onValueUpdate={(value) => handleDateRangeChange(value)}/>
+          <DatePicker onValueUpdate={(value: any) => handleDateRangeChange(value)}/>
         </div>
 
       </Route>

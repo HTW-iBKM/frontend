@@ -1,7 +1,8 @@
 import React, {ReactElement, useState} from 'react';
 import ToastContainer from "../components/toast/ToastContainer";
 import {ToastInterface, ToastContext, ToastContextInterface} from "../context/ToastContext";
-import NiceModal from '@ebay/nice-modal-react';
+import { ModalContext, ModalContextInterface, ModalInterface } from '../context/ModalContext';
+import Modal from '../components/modal/Modal';
 
 interface LayoutProps {
   top: ReactElement;
@@ -10,7 +11,6 @@ interface LayoutProps {
 }
 
 function DashboardLayout(props: LayoutProps): ReactElement {
-
   const styles = {
     layoutContainer: 'h-full w-full flex flex-col overflow-none',
     headerContainer: 'h-14 shadow-lg min-h-14 bg-primary text-grayscale-light px-4 sticky top-0 z-40',
@@ -18,14 +18,29 @@ function DashboardLayout(props: LayoutProps): ReactElement {
     sidebarContainer: 'bg-grayscale-light shadow-lg flex flex-col justify-between',
     contentContainer: 'flex-1 overflow-y-scroll relative'
   }
+
   const [toasts, setToasts] = useState<ToastInterface[]>([]);
   const defaultToastContext: ToastContextInterface = {
     toasts,
     setToasts
   }
+
+  const [modalIsOpen, setmodalIsOpen] = useState(false)
+  const [modal, setModal] = useState<ModalInterface>({
+    id: "",
+    headline: ""
+  });
+  const defaultModalContext: ModalContextInterface = {
+    isOpen: modalIsOpen,
+    setIsOpen: setmodalIsOpen,
+    modalContent: modal,
+    setModalContent: setModal
+  }
+  
   return (
-    <NiceModal.Provider>
+    <ModalContext.Provider value={defaultModalContext}>
       <ToastContext.Provider value={defaultToastContext}>
+        <Modal></Modal>
         <div className={styles.layoutContainer}>
           <header className={styles.headerContainer}>
             {props.top}
@@ -37,7 +52,7 @@ function DashboardLayout(props: LayoutProps): ReactElement {
           </main>
         </div>
       </ToastContext.Provider>
-    </NiceModal.Provider>
+    </ModalContext.Provider>
   )
 }
 
