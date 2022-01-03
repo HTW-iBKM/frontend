@@ -17,10 +17,8 @@ import Tabs from "../tabs/Tabs";
 import SelectField from "../form/SelectField";
 import "flatpickr/dist/themes/material_blue.css";
 import DatePicker from "../datePicker/DatePicker";
-import Modal from "../modal/Modal";
-
-import { commonModalStyles } from "../modal/Modal";
 import { ModalContext } from "../../context/ModalContext";
+import SaveFileTemplate from "../modal/SaveFileModalTemplate";
 
 function Center(): ReactElement {
   const match = useRouteMatch();
@@ -54,19 +52,7 @@ function Center(): ReactElement {
   const toastContext = useContext(ToastContext);
   const modalContext = useContext(ModalContext);
 
-  function SaveFileTemplate(): ReactElement{
-    return (
-      <div>
-        <h1>Hallo</h1>
-        <div className={`${commonModalStyles.buttonGroup}`}>
-          <Button variant="secondary" onClick={() => modalContext.setIsOpen(false)}>Abbrechen</Button>
-          <Button variant="primary" onClick={() => modalContext.setIsOpen(false)}>Speichern</Button>
-        </div>
-      </div>
-    )
-  }
-
-  const showModal = () => {
+  const showSaveModalModal = () => {
     modalContext.isOpen = true;
     modalContext.setIsOpen(true);
     modalContext.setModalContent({
@@ -83,6 +69,10 @@ function Center(): ReactElement {
       </Route>
 
       <Route exact path={`${match.path}/files`}>
+        <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
+          <DatePicker onValueUpdate={(value: any) => handleDateRangeChange(value)}/>
+        </div>
+
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
           <h1>Icons 24x24</h1>
           <div className={"flex flex-col"}>
@@ -124,7 +114,7 @@ function Center(): ReactElement {
 
             <span>Icon Button:</span>
             <div className={"flex flex-row gap-6 items-center"}>
-              <Button variant={"icon"} onClick={showModal}><EditIcon></EditIcon></Button>
+              <Button variant={"icon"} onClick={showSaveModalModal}><EditIcon></EditIcon></Button>
               <Button variant={"icon"} isLoading={loading} onClick={() => fetchData()}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
               <Button variant={"icon"} onClick={() => setCount(count + 1)} disabled><OpenInNewIcon></OpenInNewIcon></Button>
             </div>
@@ -141,7 +131,7 @@ function Center(): ReactElement {
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg flex flex-col gap-2"}>
-          <RadioButtonGroup options={["test 1", "test 2", "test 3"]} disabledOptions={["test 3"]} onChange={(value) => console.log(value)}></RadioButtonGroup>
+          <RadioButtonGroup selected="test 1" options={["test 1", "test 2", "test 3"]} disabledOptions={["test 3"]} onChange={(value) => console.log(value)}></RadioButtonGroup>
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
@@ -162,11 +152,6 @@ function Center(): ReactElement {
           <Tabs type="default" tabs={["Tab 1", "Tab 2", "Tab 3"]} panels={[<>Panel 1</>, <>Panel 2</>, <>Panel 3</>]} />
           <Tabs type="small" tabs={["Tab 1", "Tab 2", "Tab 3"]} panels={[<>Panel 1</>, <>Panel 2</>, <>Panel 3</>]} />
         </div>
-
-        <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
-          <DatePicker onValueUpdate={(value: any) => handleDateRangeChange(value)}/>
-        </div>
-
       </Route>
     </Switch>
   )

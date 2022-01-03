@@ -5,13 +5,13 @@ import CheckboxCheckedIcon from "../icons/CheckboxCheckedIcon";
 
 interface RadioButtonGroupProps<T> {
     options: string[];
-    value?: string;
+    selected?: string;
     disabledOptions?: string[];
     onChange(value: T): void;
 }
 
-const RadioButtonGroup: FC<RadioButtonGroupProps<string>> = ({ onChange, options, disabledOptions}: RadioButtonGroupProps<string>) => {
-    const [value, setValue] = useState(String);
+const RadioButtonGroup: FC<RadioButtonGroupProps<string>> = ({ selected = "", onChange, options, disabledOptions}: RadioButtonGroupProps<string>) => {
+    const [value, setValue] = useState(selected);
     const [hover, setHover] = useState(String);
     const [active, setActive] = useState(String);
 
