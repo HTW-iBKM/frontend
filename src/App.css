@@ -12,6 +12,7 @@ body {
     font-family: 'Roboto', 'Segoe UI' , 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+    color: #212E50;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     height: 100%;
@@ -35,7 +36,6 @@ code {
 /* Typography */
 @layer base {
     .text-h4 {
-        @apply font-roboto;
         @apply font-normal;
         @apply leading-10;
         font-size: 2.125rem;
@@ -43,21 +43,18 @@ code {
     }
 
     .text-h5 {
-        @apply font-roboto;
         @apply font-normal;
         @apply text-2xl;
         @apply leading-7;
     }
 
     .text-h6 {
-        @apply font-roboto;
         @apply font-medium;
         @apply text-lg;
         letter-spacing: 0.15px;
     }
 
     .text-subtitle {
-        @apply font-roboto;
         @apply font-normal;
         @apply text-base;
         @apply leading-7-1/8;
@@ -65,7 +62,6 @@ code {
     }
 
     .text-body1 {
-        @apply font-roboto;
         @apply font-normal;
         @apply text-base;
         @apply leading-7-1/8;
@@ -73,7 +69,6 @@ code {
     }
 
     .text-body2 {
-        @apply font-roboto;
         @apply font-normal;
         @apply text-sm;
         @apply leading-4;
@@ -81,23 +76,9 @@ code {
     }
 
     .text-caption {
-        @apply font-roboto;
         @apply font-normal;
         @apply text-xs;
         @apply leading-3-1/8;
         letter-spacing: 0.4px;
     }
-}
-
-h5 {
-    @apply font-medium;
-    font-size: 24px;
-    line-height: 28px;
-}
-
-h6 {
-    @apply font-medium;
-    font-size: 20px;
-    line-height: 23px;
-    letter-spacing: 0.15px;
 }
