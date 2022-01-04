@@ -4,7 +4,7 @@ import Graph from '../../components/graph/Graph';
 function Home(): ReactElement {
   const styles = {
     container: 'w-[calc(100%-3rem)] h-[calc(100%-3rem)] m-6 flex gap-6 ',
-    card: 'shadow-card h-full bg-grayscale-light rounded-[8px] p-4 '
+    card: 'shadow-card h-full bg-grayscale-light rounded-[8px] '
   };
   const widgets = [1, 2, 3];
   return <div className={styles.container}>

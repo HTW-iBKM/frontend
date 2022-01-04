@@ -12,8 +12,8 @@ test:
   image: node
   script:
     - echo "Testing App"
-    - npm install
-    - CI=true npm test
+    - yarn install
+    - CI=true yarn test
     - echo "Test successfully!"
   only:
     - dev
@@ -24,8 +24,8 @@ build:
   script:
     - echo "Start building App"
     - export NODE_OPTIONS=--max_old_space_size=4098
-    - npm install
-    - CI=false npx yarn build
+    - yarn install
+    - CI=false yarn build
     - echo "Build successfully!"
   artifacts:
     expire_in: 1 hour

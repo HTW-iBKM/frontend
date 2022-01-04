@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Ref, useState} from 'react';
 import './TextField.css';
 import ShowPasswordIcon from "../icons/ShowPasswordIcon";
 import HidePasswordIcon from "../icons/HidePasswordIcon";
@@ -9,13 +9,15 @@ interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label: string;
   type: TextFieldType;
+  inputRef?: Ref<HTMLInputElement>;
+  defaultValue?: string;
   visibilityButton?: boolean;
   errorMessage?: string;
   successMessage?: string;
   hint?: string;
 }
 
-const TextField: React.FC<TextFieldProps> =({errorMessage, successMessage, label, name, disabled, type, hint, visibilityButton, ...rest}: TextFieldProps) => {
+const TextField: React.FC<TextFieldProps> =({errorMessage, successMessage, label, name, disabled, type, hint, visibilityButton, inputRef, defaultValue, ...rest}: TextFieldProps) => {
   const styles = {
     input: "textfield-input bg-transparent text-grayscale-darkest flex-grow h-13 pl-4 rounded-lg placeholder-primary border-none outline-none ring-2 ring-grayscale-dark focus:outline-none focus:ring-2 focus:ring-secondary disabled:border-2 disabled:bg-grayscale disabled:bg-opacity-50 disabled:border-grayscale-dark",
     inputContainer: "relative flex my-5 flex-col",
@@ -34,6 +36,8 @@ const TextField: React.FC<TextFieldProps> =({errorMessage, successMessage, label
         placeholder={" "}
         disabled={disabled}
         type={typeState}
+        ref={inputRef}
+        value={defaultValue}
         {...rest}
       />
       <label htmlFor={name} className={`${styles.inputLabel}`}>

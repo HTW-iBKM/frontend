@@ -11,14 +11,15 @@ interface ToastProps {
 
 function Toast({toast}: ToastProps): ReactElement {
   const styles = {
-    toast: 'h-15 relative px-6 bg-grayscale-light w-[23.625rem] mb-4 rounded-lg shadow-lg flex items-center before:absolute before:left-0 before:bottom-0 before:top-0 before:w-2 before:rounded-l-lg',
-    toastSuccess: 'before:bg-success',
-    toastWarning: 'before:bg-warning',
-    toastError: 'before:bg-danger',
-    toastHeadline: 'text-base text-grayscale-darker font-medium',
-    toastSubline: 'text-sm text-grayscale-dark',
+    toast: 'h-15 relative bg-grayscale-light w-[23.625rem] mb-4 rounded-lg shadow-lg flex items-center',
+    toastIndicator: 'w-[8px] h-full rounded-l-lg',
+    toastSuccess: 'bg-success',
+    toastWarning: 'bg-warning',
+    toastError: 'bg-danger',
+    toastHeadline: 'text-base text-grayscale-darkest leading-[18,75px]',
+    toastSubline: 'text-sm text-grayscale-dark leading-4',
     toastIcon: 'h-6 w-6 mx-4',
-    toastCloseIcon: 'h-4 w-4',
+    toastCloseIcon: 'h-4 w-4 mx-4',
   }
 
   const toastClass = (toastType: ToastType) => {
@@ -41,7 +42,8 @@ function Toast({toast}: ToastProps): ReactElement {
   });
 
   return (
-    <div className={`${styles.toast} ${toastClass(type)}`}>
+    <div className={`${styles.toast}`}>
+      <div className={`${styles.toastIndicator} ${toastClass(type)}`}></div>
       {type === 'success' && <CheckCircleIcon className={styles.toastIcon}/>}
       {type === 'warning' &&  <WarningIcon className={styles.toastIcon}/>}
       {type === 'error' && <ErrorIcon className={styles.toastIcon}/>}
