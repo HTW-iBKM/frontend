@@ -19,6 +19,7 @@ import "flatpickr/dist/themes/material_blue.css";
 import DatePicker from "../datePicker/DatePicker";
 import { ModalContext } from "../../context/ModalContext";
 import SaveFileTemplate from "../modal/SaveFileModalTemplate";
+import EditTimeSeriesTemplate from "../modal/EditTimeSeriesModalTemplate";
 
 function Center(): ReactElement {
   const match = useRouteMatch();
@@ -59,6 +60,16 @@ function Center(): ReactElement {
       id: uuidv4(), 
       headline: "Als Datei speichern", 
       content: <SaveFileTemplate></SaveFileTemplate>
+    });
+  };
+
+  const showEditModal = () => {
+    modalContext.isOpen = true;
+    modalContext.setIsOpen(true);
+    modalContext.setModalContent({
+      id: uuidv4(), 
+      headline: "Zeitreihen bearbeiten", 
+      content: <EditTimeSeriesTemplate></EditTimeSeriesTemplate>
     });
   };
 
@@ -115,6 +126,7 @@ function Center(): ReactElement {
             <span>Icon Button:</span>
             <div className={"flex flex-row gap-6 items-center"}>
               <Button variant={"icon"} onClick={showSaveModalModal}><EditIcon></EditIcon></Button>
+              <Button variant={"icon"} onClick={showEditModal}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
               <Button variant={"icon"} isLoading={loading} onClick={() => fetchData()}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
               <Button variant={"icon"} onClick={() => setCount(count + 1)} disabled><OpenInNewIcon></OpenInNewIcon></Button>
             </div>
