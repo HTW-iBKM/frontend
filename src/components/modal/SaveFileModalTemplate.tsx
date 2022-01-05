@@ -16,8 +16,9 @@ function SaveFileTemplate(): ReactElement{
 
   const textFileName = "Filename";
   const testRadioButtonGroupValue: RadioButtonGroupInterface = {
-    options: ["PNG", "PDF", "CSV"],
-    selected: "PDF",
+    options: ["CSV", "PNG", "PDF"],
+    disabledOptions: ["PDF"],
+    selected: "CSV",
   }
 
   const modalContext = useContext(ModalContext);
@@ -43,6 +44,7 @@ function SaveFileTemplate(): ReactElement{
             <RadioButtonGroup 
               options={bindRadioButtonGroup.radioButtonGroup.options} 
               selected={bindRadioButtonGroup.radioButtonGroup.selected}
+              disabledOptions={bindRadioButtonGroup.radioButtonGroup.disabledOptions}
               onChange={bindRadioButtonGroup.onChange}>
             </RadioButtonGroup>
         </div>
@@ -51,7 +53,7 @@ function SaveFileTemplate(): ReactElement{
             <legend className={`my-3`}><p>Wählen Sie alle Zeitreihen aus, die Sie als Datei abspeichern möchten*:</p></legend>
             <div>
               <input id="prediction" type="checkbox"/>
-              <label htmlFor="prediction">Prediction</label>
+              <label htmlFor="prediction">Prognose</label>
             </div>
             <div>
               <input id="groundTruth" type="checkbox"/>

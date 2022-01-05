@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useContext, useState } from "react";
 import {
   CartesianGrid,
   Line,
@@ -14,6 +14,12 @@ import useAsyncEffect from "use-async-effect";
 import './Graph.css';
 import OpenInNewTabIcon from '../../components/icons/OpenInNewTabIcon';
 import Button from '../../components/form/button/Button';
+import { v4 as uuidv4 } from 'uuid';
+import SaveFileTemplate from "../modal/SaveFileModalTemplate";
+import EditTimeSeriesTemplate from "../modal/EditTimeSeriesModalTemplate";
+import { ModalContext } from "../../context/ModalContext";
+import EditIcon from "../icons/EditIcon";
+import InsertDriveFileIcon from "../icons/InsertDriveFileIcon";
 
 interface GraphData {
   time: string;
@@ -107,6 +113,28 @@ function Graph(): ReactElement {
       ? (maxValue - minValue) / yIntervall + 1
       : 5;
   }
+
+  const modalContext = useContext(ModalContext);
+
+  const showSaveModalModal = () => {
+    modalContext.isOpen = true;
+    modalContext.setIsOpen(true);
+    modalContext.setModalContent({
+      id: uuidv4(), 
+      headline: "Als Datei speichern", 
+      content: <SaveFileTemplate></SaveFileTemplate>
+    });
+  };
+
+  const showEditModal = () => {
+    modalContext.isOpen = true;
+    modalContext.setIsOpen(true);
+    modalContext.setModalContent({
+      id: uuidv4(), 
+      headline: "Zeitreihen bearbeiten", 
+      content: <EditTimeSeriesTemplate></EditTimeSeriesTemplate>
+    });
+  };
 
   return !data.length ? (
     <div className={styles.graphContainer}>Waiting for data...</div>
@@ -210,6 +238,10 @@ function Graph(): ReactElement {
               <span className="text-body1">{data.name}</span>
             </div>
         )}
+        <div className="mx-5">
+          <Button variant={"icon"} onClick={showEditModal}><EditIcon></EditIcon></Button>
+          <Button variant={"icon"} onClick={showSaveModalModal}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
+        </div>
       </div>
     </div>
   );

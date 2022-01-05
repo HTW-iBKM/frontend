@@ -24,7 +24,8 @@ export const useRadioButtonGroup = (initialValue: RadioButtonGroupInterface) => 
       onChange: (label: string) => {
         const newSelected: RadioButtonGroupInterface = {
           options: radioButtonGroup.options,
-          selected: label
+          selected: label,
+          disabledOptions: radioButtonGroup.disabledOptions
         }
         setRadioButtonGroup(newSelected);
       }
