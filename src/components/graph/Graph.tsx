@@ -14,6 +14,8 @@ import useAsyncEffect from "use-async-effect";
 import './Graph.css';
 import OpenInNewTabIcon from '../../components/icons/OpenInNewTabIcon';
 import Button from '../../components/form/Button';
+import SelectField from '../../components/form/SelectField';
+import DatePicker from '../../components/datePicker/DatePicker';
 
 interface GraphData {
   time: string;
@@ -59,6 +61,20 @@ const GraphData: KeyData[] = [
   {key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch'}
 ];
 
+interface IntervalOption {
+  value: string,
+  label: string,
+  timespan: number
+}
+
+const intervalOptions: IntervalOption[] = [
+  { value: 'day', label: 'Tag', timespan: 1},
+  { value: 'week', label: 'Woche', timespan: 7},
+  { value: 'month', label: 'Monat', timespan: 30},
+  { value: 'year', label: 'Jahr', timespan: 365},
+  { value: 'calendar', label: 'Kalender', timespan: 0}
+]
+
 function Graph(): ReactElement {
   const yIntervall = 500;
   let maxValue = 0;
@@ -73,6 +89,22 @@ function Graph(): ReactElement {
   const showNewTabButton = url !== 'graph-details';
 
   const [data, setData] = useState<GraphData[]>([]);
+  const [selectedInterval, _setSelectedInterval] = useState<string>('');
+  const [interval, setInterval] = useState<{startDate: Date, endDate: Date}>({startDate: new Date(), endDate: new Date()});
+  const setSelectedInterval = (interval: string) => {
+    const intervalOption = intervalOptions.find(option => option.value === interval);
+    const startDate = new Date();
+    const endDate = new Date();
+    if (intervalOption && interval !== 'calendar') {
+      startDate.setDate(startDate.getDate() - intervalOption.timespan * 1000 * 60 * 60 * 24);
+      setInterval({startDate, endDate});
+    }
+    _setSelectedInterval(interval);
+  }
+
+  const filterInterval = (graphData: GraphData[]): GraphData[] => {
+    return graphData.filter(data => new Date(data.time) >= interval.startDate && new Date(data.time) <= interval.endDate);
+  };
 
   useAsyncEffect(async (isMounted) => {
     const { data }: GraphDataResponse = await axios.get(
@@ -122,6 +154,23 @@ function Graph(): ReactElement {
           </Button>
         }
       </div>
+      <div className="w-full flex justify-between items-center">
+        <span className="text-body2">Zeitraum:</span>
+        <div className="flex items-center gap-3">
+          <SelectField variant="small" label="Zeitraum auswählen"
+                       options={intervalOptions}
+                       onChange={(option: string) => setSelectedInterval(option)}/>
+          {selectedInterval === 'calendar' &&
+          <DatePicker
+              onValueUpdate={(value: Date[]) => value.length === 2 &&
+                  setInterval({
+                    startDate: value[0],
+                    endDate: value[1]
+                  })
+              }
+          />}
+        </div>
+      </div>
       <ResponsiveContainer>
         <LineChart
           data={data
@@ -137,7 +186,7 @@ function Graph(): ReactElement {
                 ground_truth: ground_truth,
               };
             })
-            .slice(0, 50)}
+          }
           margin={{ top: 50, right: 50, left: 36 }}
         >
           <CartesianGrid strokeDasharray="5 5" />
