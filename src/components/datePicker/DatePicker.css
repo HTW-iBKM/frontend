@@ -417,8 +417,7 @@ span.flatpickr-weekday {
     -ms-flex-align: start;
     align-items: flex-start;
     width: 307.875px;
-    border-left: 1px solid rgba(72,72,72,0.2);
-    border-right: 1px solid rgba(72,72,72,0.2);
+    @apply bg-grayscale-light;
 }
 .flatpickr-days:focus {
     outline: 0;
@@ -612,7 +611,6 @@ span.flatpickr-weekday {
     box-sizing: border-box;
     overflow: hidden;
     background: #fff;
-    border-bottom: 1px solid rgba(72,72,72,0.2);
 }
 .flatpickr-rContainer {
     display: inline-block;
