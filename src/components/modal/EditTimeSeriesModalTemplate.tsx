@@ -1,5 +1,4 @@
 import React, {ReactElement, useContext} from "react";
-import { GraphContext } from "../../context/GraphContext";
 import { ModalContext } from "../../context/ModalContext";
 import Button from "../form/Button";
 import { useCheckbox } from "../../hooks/useCheckbox";
@@ -9,12 +8,12 @@ import "./SaveFileModalTemplate.css";
 
 function EditTimeSeriesTemplate(): ReactElement{
   const modalContext = useContext(ModalContext);
-  const graphContext = useContext(GraphContext);
+  // const graphContext = useContext(GraphContext);
 
-  const checkboxFormControls = graphContext.graphs.map((data) => {
-    const { checked:checkbox, bind:bindCheckbox, reset:resetCheckbox } = useCheckbox(data.checked)
-    return {key: data.key, name: data.name, checked: checkbox, bind:bindCheckbox, reset:resetCheckbox}
-  });
+  // const checkboxFormControls = graphContext.graphs.map((data) => {
+  //   const { checked:checkbox, bind:bindCheckbox, reset:resetCheckbox } = useCheckbox(data.checked)
+  //   return {key: data.key, name: data.name, checked: checkbox, bind:bindCheckbox, reset:resetCheckbox}
+  // });
   
   const handleSubmit = (evt: React.FormEvent) => {
     // evt.preventDefault();
@@ -37,12 +36,12 @@ function EditTimeSeriesTemplate(): ReactElement{
         <div className="mb-8">
           <fieldset>
             <legend className="mb-3"><p>Wählen Sie alle Zeitreihen aus, die Sie im Graphen anzeigen möchten: </p></legend>
-            {checkboxFormControls.map((data, index) => 
+            {/* {checkboxFormControls.map((data, index) => 
               <div key={index} className="flex gap-2 items-center">
                 <input id={data.key} type="checkbox" {...data.bind}/>
                 <label htmlFor={data.key}>{data.name}</label>
               </div>
-            )}
+            )} */}
           </fieldset>
         </div>
         <div className={`${commonModalStyles.buttonGroup}`}>
