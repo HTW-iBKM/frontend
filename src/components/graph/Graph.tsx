@@ -22,8 +22,11 @@ import OpenInNewTabIcon from '../../components/icons/OpenInNewTabIcon';
 // import './Graph.css';
 // >>>>>>> 13acd39a42838ae738455f034e8af3d50b7fb0ea
 import Menu from './Menu';
+import Tabs from "../tabs/Tabs";
+import {calculateDomain, calculateTickCount, parseGraphData} from "./helpers";
+import LineChartPanel from "./LineChart";
 
-interface GraphData {
+export interface GraphData {
     time: string;
     daily_cos: string;
     weekly_sin: string;
@@ -53,11 +56,10 @@ interface GraphDataResponse {
 }
 
 function Graph(): ReactElement {
-    const yIntervall = 500;
-    let maxValue = 0;
-    let minValue = Infinity;
     const GraphLineColors = ["#4074B2", "#DE9D28", "#edabd1", "#92dbd0"];
-
+    const yIntervall = 500;
+    const maxValue = 0;
+    const minValue = Infinity;
     const styles = {
         graphContainer:
             "w-[calc(100%-3.5rem)] h-[calc(100%-3.5rem)] m-7 flex justify-center items-center flex-col ",
@@ -81,130 +83,9 @@ function Graph(): ReactElement {
         setData(data.data.september_18);
     }, []);
 
-    function calculateDomain() {
-        let currentMax = 0;
-        let currentMin = Infinity;
-        data.forEach((element) => {
-            currentMax =
-                Math.ceil(
-                    Math.max(Number(element.prediction), Number(element.ground_truth)) /
-                    yIntervall
-                ) * yIntervall;
-            currentMin =
-                Math.floor(
-                    Math.min(Number(element.prediction), Number(element.ground_truth)) /
-                    yIntervall
-                ) * yIntervall;
-            if (currentMax > maxValue) maxValue = currentMax;
-            if (currentMin < minValue) minValue = currentMin;
-        });
-        return [minValue, maxValue];
-    }
-
-    function calculateTickCount() {
-        return maxValue != null && minValue != null
-            ? (maxValue - minValue) / yIntervall + 1
-            : 5;
-    }
-
-    const parseGraphData = data
-            .map((entry) => {
-                const newTime = new Date(entry.time);
-                const hours = newTime.toLocaleTimeString().slice(0, 5);
-                const prediction = Math.round(parseInt(entry.prediction));
-                const ground_truth = Math.round(parseInt(entry.ground_truth));
-                return {
-                    ...entry,
-                    time: hours,
-                    prediction: prediction,
-                    ground_truth: ground_truth,
-                };
-            })
-            .slice(0, 50)
-
-    const lineChart = () => {
-        return <LineChart
-                data={parseGraphData}
-                margin={{top: 50, right: 50, left: 36}}
-            >
-                <CartesianGrid strokeDasharray="5 5"/>
-                <Tooltip
-                    cursor={{stroke: "#494B51", strokeWidth: 1}}
-                    contentStyle={{borderRadius: 8, padding: 16}}
-                />
-                <XAxis
-                    dataKey="time"
-                    minTickGap={50}
-                    interval="preserveStartEnd"
-                    tick={{fontSize: 12, color: "#494B51"}}
-                    tickMargin={10}
-                    tickSize={8}
-                    tickCount={calculateTickCount()}
-                    axisLine={{strokeWidth: 2, stroke: "#494B51"}}
-                    tickLine={{strokeWidth: 2, stroke: "#494B51"}}
-                >
-                    <Label
-                        className="axisLabel"
-                        value="Zeit"
-                        position="right"
-                        dx={16}
-                        dy={-14}
-                    />
-                </XAxis>
-                <YAxis
-                    type="number"
-                    domain={calculateDomain()}
-                    allowDecimals={false}
-                    minTickGap={50}
-                    interval="preserveStartEnd"
-                    tickMargin={10}
-                    tickSize={8}
-                    tickCount={calculateTickCount()}
-                    axisLine={{strokeWidth: 2, stroke: "#494B51"}}
-                    tick={{fontSize: 12, color: "#494B51"}}
-                    tickLine={{strokeWidth: 2, stroke: "#494B51"}}
-                >
-                    <Label
-                        className="axisLabel"
-                        value="Verbrauch in KW"
-                        position="top"
-                        dy={-16}
-                    />
-                </YAxis>
-                <Line
-                    name="Prognose"
-                    dataKey={"prediction"}
-                    stroke={GraphLineColors[0]}
-                    dot={{fill: GraphLineColors[0], r: 1}}
-                    activeDot={{
-                        fill: "#FAFAFA",
-                        stroke: GraphLineColors[0],
-                        strokeWidth: 1.5,
-                        r: 3,
-                    }}
-                    unit=" KW"
-                    strokeWidth={1.5}
-                />
-                <Line
-                    name="Tatsächlicher Verbrauch"
-                    dataKey={"ground_truth"}
-                    stroke={GraphLineColors[1]}
-                    dot={{fill: GraphLineColors[1], r: 1}}
-                    activeDot={{
-                        fill: "#FAFAFA",
-                        stroke: GraphLineColors[1],
-                        strokeWidth: 1.5,
-                        r: 3,
-                    }}
-                    unit=" KW"
-                    strokeWidth={1.5}
-                />
-            </LineChart>
-    }
-
 
     const chartB = () => {
-        return <BarChart data={parseGraphData}
+        return <BarChart data={parseGraphData(data)}
                 margin={{top: 50, right: 50, left: 36}}
             >
                 <CartesianGrid strokeDasharray="5 5"/>
@@ -219,7 +100,7 @@ function Graph(): ReactElement {
                     tick={{fontSize: 12, color: "#494B51"}}
                     tickMargin={10}
                     tickSize={8}
-                    tickCount={calculateTickCount()}
+                    tickCount={calculateTickCount(minValue, maxValue, yIntervall)}
                     axisLine={{strokeWidth: 2, stroke: "#494B51"}}
                     tickLine={{strokeWidth: 2, stroke: "#494B51"}}
                 >
@@ -233,13 +114,13 @@ function Graph(): ReactElement {
                 </XAxis>
                 <YAxis
                     type="number"
-                    domain={calculateDomain()}
+                    domain={calculateDomain(data, minValue, maxValue, yIntervall)}
                     allowDecimals={false}
                     minTickGap={50}
                     interval="preserveStartEnd"
                     tickMargin={10}
                     tickSize={8}
-                    tickCount={calculateTickCount()}
+                    tickCount={calculateTickCount(minValue, maxValue, yIntervall)}
                     axisLine={{strokeWidth: 2, stroke: "#494B51"}}
                     tick={{fontSize: 12, color: "#494B51"}}
                     tickLine={{strokeWidth: 2, stroke: "#494B51"}}
@@ -267,7 +148,7 @@ function Graph(): ReactElement {
     }
 
     const chartC = () => {
-        return <AreaChart data={parseGraphData}
+        return <AreaChart data={parseGraphData(data)}
                          margin={{top: 50, right: 50, left: 36}}
         >
             <CartesianGrid strokeDasharray="5 5"/>
@@ -292,7 +173,7 @@ function Graph(): ReactElement {
                 tick={{fontSize: 12, color: "#494B51"}}
                 tickMargin={10}
                 tickSize={8}
-                tickCount={calculateTickCount()}
+                tickCount={calculateTickCount(minValue, maxValue, yIntervall)}
                 axisLine={{strokeWidth: 2, stroke: "#494B51"}}
                 tickLine={{strokeWidth: 2, stroke: "#494B51"}}
             >
@@ -306,13 +187,13 @@ function Graph(): ReactElement {
             </XAxis>
             <YAxis
                 type="number"
-                domain={calculateDomain()}
+                domain={calculateDomain(data, minValue, maxValue, yIntervall)}
                 allowDecimals={false}
                 minTickGap={50}
                 interval="preserveStartEnd"
                 tickMargin={10}
                 tickSize={8}
-                tickCount={calculateTickCount()}
+                tickCount={calculateTickCount(minValue, maxValue, yIntervall)}
                 axisLine={{strokeWidth: 2, stroke: "#494B51"}}
                 tick={{fontSize: 12, color: "#494B51"}}
                 tickLine={{strokeWidth: 2, stroke: "#494B51"}}
@@ -348,13 +229,13 @@ function Graph(): ReactElement {
     function renderChart(graphType: any) {
         switch (graphType) {
             case "linechart":
-                return lineChart();
+                return;
             case "chartB":
                 return chartB();
             case "chartC":
                 return chartC();
             default:
-                return lineChart();
+                return;
         }
     }
 
@@ -371,10 +252,8 @@ function Graph(): ReactElement {
                 </a>
                 }
             </div>
-            <Menu setGraph={setGraphType}/>
-            <ResponsiveContainer>
-                {renderChart(graphType)}
-            </ResponsiveContainer>
+            <Tabs className="w-full h-20" type="default" tabs={["Tab 1", "Tab 2", "Tab 3"]} panels={[<><LineChartPanel data={data} graphLineColors={GraphLineColors} /></> , <>Test2</>, <>Test3</>]} />
+
         </div>
     );
 }

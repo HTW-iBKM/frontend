@@ -5,7 +5,7 @@ type TabType = "default" | "small"
 interface TabsProps extends React.HTMLAttributes<HTMLDivElement>{
   type: TabType;
   tabs: string[];
-  panels: string[] | ReactElement[];
+  panels: string[] | ReactElement[] | (() => JSX.Element)[];
 }
 function Tabs({type, tabs, panels}: TabsProps): ReactElement {
   const styles = {
@@ -42,7 +42,7 @@ function Tabs({type, tabs, panels}: TabsProps): ReactElement {
       </Tab.List>
       <Tab.Panels>
           {panels.map((panel, index) => (
-              <Tab.Panel key={index}>{panel}</Tab.Panel>
+              <Tab.Panel key={index} className={"w-full h-20"}>{panel}</Tab.Panel>
           ))}
       </Tab.Panels>
     </Tab.Group>

@@ -1,5 +1,7 @@
 import React, {ReactElement, useState} from 'react';
 import './Graph.css';
+import Tabs from "../tabs/Tabs";
+import {Route} from "react-router-dom";
 
 function Menu({setGraph} : any): ReactElement {
     const styles = {
@@ -22,7 +24,9 @@ function Menu({setGraph} : any): ReactElement {
                         C
                     </div>
                 </div>
-
+                <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
+                    <Tabs type="default" tabs={["Tab 1", "Tab 2", "Tab 3"]} panels={[<>Panel 1</>, <>Panel 2</>, <>Panel 3</>]} />
+                </div>
             </div>
         </div>
     );
