@@ -16,9 +16,6 @@ import DownloadIcon from "../icons/DownloadIcon";
 import Tabs from "../tabs/Tabs";
 import SelectField from "../form/SelectField";
 import DatePicker from "../datePicker/DatePicker";
-import { ModalContext } from "../../context/ModalContext";
-import SaveFileTemplate from "../modal/SaveFileModalTemplate";
-import EditTimeSeriesTemplate from "../modal/EditTimeSeriesModalTemplate";
 
 function Center(): ReactElement {
   const match = useRouteMatch();
@@ -49,28 +46,7 @@ function Center(): ReactElement {
     console.log(selectedDateRange)
   }
 
-  const toastContext = useContext(ToastContext);
-  const modalContext = useContext(ModalContext);
-
-  const showSaveModalModal = () => {
-    modalContext.isOpen = true;
-    modalContext.setIsOpen(true);
-    modalContext.setModalContent({
-      id: uuidv4(), 
-      headline: "Als Datei speichern", 
-      content: <SaveFileTemplate></SaveFileTemplate>
-    });
-  };
-
-  const showEditModal = () => {
-    modalContext.isOpen = true;
-    modalContext.setIsOpen(true);
-    modalContext.setModalContent({
-      id: uuidv4(), 
-      headline: "Zeitreihen bearbeiten", 
-      content: <EditTimeSeriesTemplate></EditTimeSeriesTemplate>
-    });
-  };
+  const context = useContext(ToastContext);
 
   return (
     <Switch>
@@ -79,10 +55,6 @@ function Center(): ReactElement {
       </Route>
 
       <Route exact path={`${match.path}/files`}>
-        <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
-          <DatePicker onValueUpdate={(value: any) => handleDateRangeChange(value)}/>
-        </div>
-
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
           <h1>Icons 24x24</h1>
           <div className={"flex flex-col"}>
@@ -100,32 +72,31 @@ function Center(): ReactElement {
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
           <div>{count}</div>
-          <div className={"flex flex-col gap-6"}>
-            <span>Primary Button:</span>
+          <div className={"flex flex-col"}>
             <div className={"flex flex-row items-center"}>
+              <span>Primary Button:</span>
               <Button variant={"primary"} onClick={() => setCount(count + 1)}>button</Button>
               <Button variant={"primary"} isLoading={loading} onClick={async () => await fetchData()}>loading button</Button>
               <Button variant={"primary"} onClick={() => setCount(count + 1)} disabled>button</Button>
             </div>
 
-            <span>Secondary Button:</span>
             <div className={"flex flex-row items-center"}>
+              <span>Secondary Button:</span>
               <Button variant={"secondary"} onClick={() => setCount(count + 1)}>button</Button>
               <Button variant={"secondary"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
               <Button variant={"secondary"} onClick={() => setCount(count + 1)} disabled>button</Button>
             </div>
 
-            <span>Text Button:</span>
             <div className={"flex flex-row items-center"}>
+              <span>Text Button:</span>
               <Button variant={"text"} onClick={() => setCount(count + 1)}>button</Button>
               <Button variant={"text"} isLoading={loading} onClick={() => fetchData()}>loading button</Button>
               <Button variant={"text"} onClick={() => setCount(count + 1)} disabled>button</Button>
             </div>
 
-            <span>Icon Button:</span>
             <div className={"flex flex-row gap-6 items-center"}>
-              <Button variant={"icon"} onClick={showSaveModalModal}><EditIcon></EditIcon></Button>
-              <Button variant={"icon"} onClick={showEditModal}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
+              <span>Icon Button:</span>
+              <Button variant={"icon"} onClick={() => setCount(count + 1)}><EditIcon></EditIcon></Button>
               <Button variant={"icon"} isLoading={loading} onClick={() => fetchData()}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
               <Button variant={"icon"} onClick={() => setCount(count + 1)} disabled><OpenInNewIcon></OpenInNewIcon></Button>
             </div>
@@ -142,7 +113,7 @@ function Center(): ReactElement {
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg flex flex-col gap-2"}>
-          <RadioButtonGroup selected="test 1" options={["test 1", "test 2", "test 3"]} disabledOptions={["test 3"]} onChange={(value) => console.log(value)}></RadioButtonGroup>
+          <RadioButtonGroup options={["test 1", "test 2", "test 3"]} disabledOptions={["test 3"]} onChange={(value) => console.log(value)}></RadioButtonGroup>
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
@@ -154,15 +125,20 @@ function Center(): ReactElement {
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
-          <Button variant={"primary"} onClick={() => toastContext.setToasts([...toastContext.toasts, {id: uuidv4(), type: "success", headline: "Success Message!", message: "success yeah!"}])}>Success Message</Button>
-          <Button variant={"primary"} onClick={() => toastContext.setToasts([...toastContext.toasts, {id: uuidv4(), type: "warning", headline: "Warning Message!", message: "warning okay lets seeh!"}])}>Warning Message</Button>
-          <Button variant={"primary"} onClick={() => toastContext.setToasts([...toastContext.toasts, {id: uuidv4(), type: "error", headline: "Error Message!", message: "error oh no!"}])}>Error Message</Button>
+          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "success", headline: "Success Message!", message: "success yeah!"}])}>Success Message</Button>
+          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "warning", headline: "Warning Message!", message: "warning okay lets seeh!"}])}>Warning Message</Button>
+          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "error", headline: "Error Message!", message: "error oh no!"}])}>Error Message</Button>
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
           <Tabs type="default" tabs={["Tab 1", "Tab 2", "Tab 3"]} panels={[<>Panel 1</>, <>Panel 2</>, <>Panel 3</>]} />
           <Tabs type="small" tabs={["Tab 1", "Tab 2", "Tab 3"]} panels={[<>Panel 1</>, <>Panel 2</>, <>Panel 3</>]} />
         </div>
+
+        <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
+          <DatePicker onValueUpdate={(value: Date[]) => handleDateRangeChange(value)}/>
+        </div>
+
       </Route>
     </Switch>
   )
