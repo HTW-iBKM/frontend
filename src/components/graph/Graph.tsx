@@ -73,7 +73,7 @@ const timespanOptions: TimespanOption[] = [
   { value: 'month', label: 'Monat', timespan: 30},
   { value: 'year', label: 'Jahr', timespan: 365},
   { value: 'calendar', label: 'Kalender', timespan: 0}
-]
+];
 
 function Graph(): ReactElement {
   const yIntervall = 500;
@@ -98,8 +98,29 @@ function Graph(): ReactElement {
     if (timespanOption && timespan !== 'calendar') {
       startDate.setDate(startDate.getDate() - timespanOption.timespan * 1000 * 60 * 60 * 24);
       setTimespan({startDate, endDate});
+      setCalenderOptionLabel('Kalender');
     }
     _setSelectedTimespan(timespan);
+  }
+
+  const [calendarTimespan, _setCalendarTimespan] = useState<{startDate: Date, endDate: Date}>({startDate: new Date(), endDate: new Date()});
+  const setCalendarTimespan = (dates: Date[]) => {
+    setCalenderOptionLabel(dates.map((date, index) => date.toLocaleDateString(undefined, {
+      year: index === 0 && dates[0].getFullYear() === dates[1].getFullYear() ? undefined : "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })).join('-'));
+
+    const timespan = {startDate: dates[0], endDate: dates[1]};
+    _setCalendarTimespan(timespan);
+    setTimespan(timespan);
+  }
+
+  const setCalenderOptionLabel = (value: string) => {
+    const calendarOption = timespanOptions.find(option => option.value === 'calendar');
+    if (calendarOption) {
+      calendarOption.label = value;
+    }
   }
 
   const formatData = (graphData: GraphData[]): GraphData[] => {
@@ -161,19 +182,12 @@ function Graph(): ReactElement {
                        options={timespanOptions}
                        onChange={(option: string) => setSelectedTimespan(option)}/>
           {selectedTimespan === 'calendar' &&
-          <DatePicker
-              onChange={(value: Date[]) => value.length === 2 &&
-                  setTimespan({
-                    startDate: value[0],
-                    endDate: value[1]
-                  })
-              }
-          />}
+          <DatePicker onChange={(value: Date[]) => value.length === 2 && setCalendarTimespan(value)}/>}
         </div>
       </div>
       <ResponsiveContainer>
         <LineChart
-          data={data
+          data={formatData(data)
             .map((entry) => {
               const newTime = new Date(entry.time);
               const hours = newTime.toLocaleTimeString().slice(0, 5);
