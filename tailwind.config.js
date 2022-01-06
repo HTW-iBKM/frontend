@@ -15,17 +15,17 @@ module.exports = {
     darkMode: false, // or 'media' or 'class'
     theme: {
         fontFamily: {
-            'roboto': ['"Roboto"']
+            'roboto': ['"Roboto", sans-serif']
         },
         colors: {
             transparent: 'transparent',
             current: 'currentColor',
             primary: {
-                light: '#88B4CD',
                 DEFAULT: '#212E50',
             },
             secondary: {
                 DEFAULT: '#4074B2',
+                light: '#88B4CD',
             },
             grayscale: {
                 darkest: '#494B51',
@@ -43,6 +43,9 @@ module.exports = {
             warning: {
                 DEFAULT: '#E8BD50',
             },
+            border: {
+                DEFAULT: '#C1C1C6'
+            }
         },
         boxShadow: {
             card: '0px 2px 8px 2px #C1C1C680',
@@ -55,6 +58,9 @@ module.exports = {
             none: 'none'
         },
         extend: {
+            margin: {
+                '5-1/8': '1.375rem'
+            },
             lineHeight: {
                 '3-1/8': '0.875rem',
                 '7-1/8': '1.875rem',

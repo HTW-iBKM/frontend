@@ -1,0 +1,7 @@
+.modal-dialog button {
+    flex-grow: 1;
+}
+
+.modal-dialog button + button {
+    @apply ml-8;
+}

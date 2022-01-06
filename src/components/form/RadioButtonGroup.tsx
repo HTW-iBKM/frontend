@@ -5,20 +5,20 @@ import CheckboxCheckedIcon from "../icons/CheckboxCheckedIcon";
 
 interface RadioButtonGroupProps<T> {
     options: string[];
-    value?: string;
+    selected?: string;
     disabledOptions?: string[];
     onChange(value: T): void;
 }
 
-const RadioButtonGroup: FC<RadioButtonGroupProps<string>> = ({ onChange, options, disabledOptions}: RadioButtonGroupProps<string>) => {
-    const [value, setValue] = useState(String);
+const RadioButtonGroup: FC<RadioButtonGroupProps<string>> = ({ selected = "", onChange, options, disabledOptions}: RadioButtonGroupProps<string>) => {
+    const [value, setValue] = useState(selected);
     const [hover, setHover] = useState(String);
     const [active, setActive] = useState(String);
 
     const stylesRadioButton = 'flex gap-3 px-2 py-2 text-base rounded-lg items-center hover:cursor-pointer rounded-lg';
     const stylesCheckmark = 'w-5 h-5 text-grayscale-darkest';
     const stylesActiveCheckmark = 'w-5 h-5 text-secondary';
-    const stylesHoverCheckmark = 'w-5 h-5 text-primary-light';
+    const stylesHoverCheckmark = 'w-5 h-5 text-secondary-light';
     const stylesDisabledChechmark = 'w-5 h-5 text-grayscale-dark';
     const stylesText = 'whitespace-nowrap text-base'
     const stylesDisabledText = 'text-grayscale-dark whitespace-nowrap'
