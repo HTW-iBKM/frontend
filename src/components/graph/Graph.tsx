@@ -47,14 +47,15 @@ interface GraphDataResponse {
     }
 }
 
-enum GraphKey {
+export enum GraphKey {
     PREDICTION = 'prediction',
     GROUND_TRUTH = 'ground_truth'
 }
 
-interface KeyData {
+export interface KeyData {
     key: GraphKey,
-    name: string
+    name: string,
+    checked: boolean
 }
 
 function Graph(): ReactElement {
@@ -64,10 +65,11 @@ function Graph(): ReactElement {
     };
     const GraphLineColors = ["#4074B2", "#DE9D28", "#edabd1", "#92dbd0"];
 
-    const KeyData: KeyData[] = [
-        {key: GraphKey.PREDICTION, name: 'Prognose'},
-        {key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch'}
+    const KeyDataDefault: KeyData[] = [
+        {key: GraphKey.PREDICTION, name: 'Prognose', checked: true},
+        {key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch', checked: true}
     ];
+    const [keyData, setKeyData] = useState(KeyDataDefault)
 
     const url = window.location.href.split('/')[4];
     const showNewTabButton = url !== 'graph-details';
@@ -78,9 +80,9 @@ function Graph(): ReactElement {
     const IconEqualizer = <><EqualizerIcon className={"h-5 w-5"}/></>
     const IconStackedLineChart = <><StackedLineChartIcon className={"h-5 w-5"}/></>
 
-    const LineChart = <LineChartPanel data={data} graphLineColors={GraphLineColors} />
-    const BarChart = <><BarChartPanel data={data} graphLineColors={GraphLineColors} /></>
-    const AreaChart = <><AreaChartPanel data={data} graphLineColors={GraphLineColors} /></>
+    const LineChart = <LineChartPanel data={data} graphLineColors={GraphLineColors} keyData={keyData}/>
+    const BarChart = <><BarChartPanel data={data} graphLineColors={GraphLineColors} keyData={keyData}/></>
+    const AreaChart = <><AreaChartPanel data={data} graphLineColors={GraphLineColors} keyData={keyData}/></>
 
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false)
     const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false)
@@ -110,15 +112,16 @@ function Graph(): ReactElement {
             </div>
             <div className="border border-[#E2E2E2] w-full m-5"/>
             <div className="w-full flex justify-center">
-                {KeyData.map((data: KeyData, index: number) =>
-                  <div key={index} className="min-w-max flex items-center gap-3 mx-5">
-                      <span className={`w-5 h-5 rounded-[2px]`} style={{backgroundColor: GraphLineColors[index]}}/>
-                      <span className="text-body1">{data.name}</span>
-                  </div>
+                {keyData.map((data: KeyData, index: number) =>
+                    data.checked &&
+                        <div key={index} className="min-w-max flex items-center gap-3 mx-5">
+                            <span className={`w-5 h-5 rounded-[2px]`} style={{backgroundColor: GraphLineColors[index]}}/>
+                            <span className="text-body1">{data.name}</span>
+                        </div>
                 )}
                 <div className="mx-5">
-                    <Button variant={"icon"} onClick={() => setIsSaveModalOpen(true)}><EditIcon></EditIcon></Button>
-                    <Button variant={"icon"} onClick={() => setIsEditModalOpen(true)}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
+                    <Button variant={"icon"} onClick={() => setIsEditModalOpen(true)}><EditIcon></EditIcon></Button>
+                    <Button variant={"icon"} onClick={() => setIsSaveModalOpen(true)}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
                 </div>
             </div>
 
@@ -127,7 +130,7 @@ function Graph(): ReactElement {
             </Modal>
 
             <Modal isOpen={isEditModalOpen} title={"Zeitreihen bearbeiten"} onClose={() => setIsEditModalOpen(false)}>
-                <EditTimeSeriesTemplate></EditTimeSeriesTemplate>
+                <EditTimeSeriesTemplate keyData={keyData} setKeyData={setKeyData} setModalOpen={setIsEditModalOpen}></EditTimeSeriesTemplate>
             </Modal>
         </div>
     );
