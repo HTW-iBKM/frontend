@@ -96,22 +96,24 @@ function Graph(): ReactElement {
     }, []);
 
     return !data.length ? (
-        <>Waiting for data...</>
+        <div className={styles.graphContainer}>Waiting for data ...</div>
     ) : (
         <div className={styles.graphContainer}>
             <div className="w-full flex justify-between">
                 <h5 className={"text-h5"}>Bilanzkreis A Graph</h5> {/* TODO add real title */}
                 {showNewTabButton &&
-                <a href="#/graph-details" title="Open in new tab">
-                    <OpenInNewTabIcon className="w-4 h-4 text-[#494B51]"/>
-                </a>
+                    <Button variant={"icon"}
+                            onClick={() => window.open('#/graph-details', '_blank')}
+                            title="Open in new tab">
+                        <OpenInNewTabIcon className="w-4 h-4"/>
+                    </Button>
                 }
             </div>
             <div className={"block w-full h-full mt-5-1/8"}>
                 <Tabs className="w-full h-20 mt-5-1/8" type="small" tabs={[IconTimeline, IconEqualizer, IconStackedLineChart]} panels={[LineChart, BarChart, AreaChart]} />
             </div>
             <div className="border border-[#E2E2E2] w-full m-5"/>
-            <div className="w-full flex justify-center">
+            <div className="w-full flex justify-center flex-wrap">
                 {keyData.map((data: KeyData, index: number) =>
                     data.checked &&
                         <div key={index} className="min-w-max flex items-center gap-3 mx-5">
@@ -119,14 +121,14 @@ function Graph(): ReactElement {
                             <span className="text-body1">{data.name}</span>
                         </div>
                 )}
-                <div className="mx-5">
+                <div className="mx-5 flex gap-7">
                     <Button variant={"icon"} onClick={() => setIsEditModalOpen(true)}><EditIcon></EditIcon></Button>
                     <Button variant={"icon"} onClick={() => setIsSaveModalOpen(true)}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
                 </div>
             </div>
 
             <Modal isOpen={isSaveModalOpen} title={"Als Datei speichern"} onClose={() => setIsSaveModalOpen(false)}>
-                <SaveFileTemplate></SaveFileTemplate>
+                <SaveFileTemplate keyData={keyData} setModalOpen={setIsSaveModalOpen}></SaveFileTemplate>
             </Modal>
 
             <Modal isOpen={isEditModalOpen} title={"Zeitreihen bearbeiten"} onClose={() => setIsEditModalOpen(false)}>
