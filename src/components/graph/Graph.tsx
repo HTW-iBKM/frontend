@@ -102,7 +102,7 @@ function Graph(): ReactElement {
     _setSelectedTimespan(timespan);
   }
 
-  const filterTimespan = (graphData: GraphData[]): GraphData[] => {
+  const formatData = (graphData: GraphData[]): GraphData[] => {
     return graphData.filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate);
   };
 
@@ -162,7 +162,7 @@ function Graph(): ReactElement {
                        onChange={(option: string) => setSelectedTimespan(option)}/>
           {selectedTimespan === 'calendar' &&
           <DatePicker
-              onValueUpdate={(value: Date[]) => value.length === 2 &&
+              onChange={(value: Date[]) => value.length === 2 &&
                   setTimespan({
                     startDate: value[0],
                     endDate: value[1]
