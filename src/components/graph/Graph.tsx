@@ -61,13 +61,13 @@ const GraphData: KeyData[] = [
   {key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch'}
 ];
 
-interface IntervalOption {
+interface TimespanOption {
   value: string,
   label: string,
   timespan: number
 }
 
-const intervalOptions: IntervalOption[] = [
+const timespanOptions: TimespanOption[] = [
   { value: 'day', label: 'Tag', timespan: 1},
   { value: 'week', label: 'Woche', timespan: 7},
   { value: 'month', label: 'Monat', timespan: 30},
@@ -89,21 +89,21 @@ function Graph(): ReactElement {
   const showNewTabButton = url !== 'graph-details';
 
   const [data, setData] = useState<GraphData[]>([]);
-  const [selectedInterval, _setSelectedInterval] = useState<string>('');
-  const [interval, setInterval] = useState<{startDate: Date, endDate: Date}>({startDate: new Date(), endDate: new Date()});
-  const setSelectedInterval = (interval: string) => {
-    const intervalOption = intervalOptions.find(option => option.value === interval);
+  const [selectedTimespan, _setSelectedTimespan] = useState<string>('');
+  const [timespan, setTimespan] = useState<{startDate: Date, endDate: Date}>({startDate: new Date(), endDate: new Date()});
+  const setSelectedTimespan = (timespan: string) => {
+    const timespanOption = timespanOptions.find(option => option.value === timespan);
     const startDate = new Date();
     const endDate = new Date();
-    if (intervalOption && interval !== 'calendar') {
-      startDate.setDate(startDate.getDate() - intervalOption.timespan * 1000 * 60 * 60 * 24);
-      setInterval({startDate, endDate});
+    if (timespanOption && timespan !== 'calendar') {
+      startDate.setDate(startDate.getDate() - timespanOption.timespan * 1000 * 60 * 60 * 24);
+      setTimespan({startDate, endDate});
     }
-    _setSelectedInterval(interval);
+    _setSelectedTimespan(timespan);
   }
 
-  const filterInterval = (graphData: GraphData[]): GraphData[] => {
-    return graphData.filter(data => new Date(data.time) >= interval.startDate && new Date(data.time) <= interval.endDate);
+  const filterTimespan = (graphData: GraphData[]): GraphData[] => {
+    return graphData.filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate);
   };
 
   useAsyncEffect(async (isMounted) => {
@@ -158,12 +158,12 @@ function Graph(): ReactElement {
         <span className="text-body2">Zeitraum:</span>
         <div className="flex items-center gap-3">
           <SelectField variant="small" label="Zeitraum auswählen"
-                       options={intervalOptions}
-                       onChange={(option: string) => setSelectedInterval(option)}/>
-          {selectedInterval === 'calendar' &&
+                       options={timespanOptions}
+                       onChange={(option: string) => setSelectedTimespan(option)}/>
+          {selectedTimespan === 'calendar' &&
           <DatePicker
               onValueUpdate={(value: Date[]) => value.length === 2 &&
-                  setInterval({
+                  setTimespan({
                     startDate: value[0],
                     endDate: value[1]
                   })
