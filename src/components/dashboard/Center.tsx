@@ -136,7 +136,7 @@ function Center(): ReactElement {
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
-          <DatePicker onValueUpdate={(value: any) => handleDateRangeChange(value)}/>
+          <DatePicker onValueUpdate={(value: Date[]) => handleDateRangeChange(value)}/>
         </div>
 
       </Route>

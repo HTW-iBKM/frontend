@@ -1,6 +1,6 @@
 import {GraphData} from "./Graph";
 
-export function parseGraphData(data: GraphData[]) {
+export function parseGraphData(data: GraphData[]): GraphData[] {
     return data.map((entry: GraphData) => {
             const newTime = new Date(entry.time);
             const hours = newTime.toLocaleTimeString().slice(0, 5);
@@ -8,34 +8,34 @@ export function parseGraphData(data: GraphData[]) {
             const ground_truth = Math.round(parseInt(entry.ground_truth));
             return {
                 ...entry,
-                time: hours,
-                prediction: prediction,
-                ground_truth: ground_truth,
+                time: hours.toString(),
+                prediction: prediction.toString(),
+                ground_truth: ground_truth.toString(),
             };
         })
         .slice(0, 50)
 }
 
-export function calculateTickCount(minValue: number, maxValue: number, yIntervall: number) {
+export function calculateTickCount(minValue: number, maxValue: number, yInterval: number): number {
     return maxValue && minValue != null
-        ? (maxValue - minValue) / yIntervall + 1
+        ? (maxValue - minValue) / yInterval + 1
         : 5;
 }
 
-export function calculateDomain(data: GraphData[], minValue: number, maxValue: number, yIntervall: number) {
+export function calculateDomain(data: GraphData[], minValue: number, maxValue: number, yInterval: number): [number, number] {
     let currentMax = 0;
     let currentMin = Infinity;
     data.forEach((element: GraphData) => {
         currentMax =
             Math.ceil(
                 Math.max(Number(element.prediction), Number(element.ground_truth)) /
-                yIntervall
-            ) * yIntervall;
+                yInterval
+            ) * yInterval;
         currentMin =
             Math.floor(
                 Math.min(Number(element.prediction), Number(element.ground_truth)) /
-                yIntervall
-            ) * yIntervall;
+                yInterval
+            ) * yInterval;
         if (currentMax > maxValue) maxValue = currentMax;
         if (currentMin < minValue) minValue = currentMin;
     });

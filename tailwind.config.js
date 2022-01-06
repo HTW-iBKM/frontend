@@ -58,6 +58,9 @@ module.exports = {
             none: 'none'
         },
         extend: {
+            margin: {
+                '5-1/8': '1.375rem'
+            },
             lineHeight: {
                 '3-1/8': '0.875rem',
                 '7-1/8': '1.875rem',
