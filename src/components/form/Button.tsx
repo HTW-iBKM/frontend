@@ -76,6 +76,7 @@ const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, classN
     <button
       onClick={onClick}
       className={`${className} ${combinedClassName(variant)} ${isLoading && isPrimary ? "!bg-primary" : ""} ${isLoading && isSecondary ? "!border-primary" : ""} ${isLoading && isText ? "!text-primary" : ""}`}
+      type="button"
       {...rest}
     >
       {!isLoading && children}

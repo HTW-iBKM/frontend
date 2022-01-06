@@ -2,6 +2,9 @@ import React, {ReactElement, useState} from 'react';
 import ToastContainer from "../components/toast/ToastContainer";
 import {ToastInterface, ToastContext, ToastContextInterface} from "../context/ToastContext";
 import { ModalContext, ModalContextInterface, ModalInterface } from '../context/ModalContext';
+import Modal from '../components/modal/Modal';
+import { GraphContext, GraphContextInterface } from '../context/graphContext';
+// import { GraphData, KeyData } from '../components/graph/Graph';
 
 interface LayoutProps {
   top: ReactElement;
@@ -35,22 +38,30 @@ function DashboardLayout(props: LayoutProps): ReactElement {
     modalContent: modal,
     setModalContent: setModal
   }
+
+  // const [graphs, setGraphs] = useState<KeyData[]>(GraphData)
+  // const defaultGraphContext: GraphContextInterface = {
+  //   graphs,
+  //   setGraphs
+  // }
   
   return (
-    <ModalContext.Provider value={defaultModalContext}>
-      <ToastContext.Provider value={defaultToastContext}>
-        <div className={styles.layoutContainer}>
-          <header className={styles.headerContainer}>
-            {props.top}
-          </header>
-          <main className={styles.mainContainer}>
-            <ToastContainer></ToastContainer>
-            <div className={styles.sidebarContainer}>{props.left}</div>
-            <div className={styles.contentContainer}>{props.center}</div>
-          </main>
-        </div>
-      </ToastContext.Provider>
-    </ModalContext.Provider>
+    // <GraphContext.Provider value={defaultGraphContext}>
+      <ModalContext.Provider value={defaultModalContext}>
+        <ToastContext.Provider value={defaultToastContext}>
+          <div className={styles.layoutContainer}>
+            <header className={styles.headerContainer}>
+              {props.top}
+            </header>
+            <main className={styles.mainContainer}>
+              <ToastContainer></ToastContainer>
+              <div className={styles.sidebarContainer}>{props.left}</div>
+              <div className={styles.contentContainer}>{props.center}</div>
+            </main>
+          </div>
+        </ToastContext.Provider>
+      </ModalContext.Provider>
+    // </GraphContext.Provider>
   )
 }
 

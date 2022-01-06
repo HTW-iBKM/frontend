@@ -1,6 +1,5 @@
-import React, {ReactElement, useContext, useState} from 'react';
+import React, {ReactElement, useState} from 'react';
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 import useAsyncEffect from "use-async-effect";
 import './Graph.css'
 import OpenInNewTabIcon from '../../components/icons/OpenInNewTabIcon';
