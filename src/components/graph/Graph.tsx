@@ -16,6 +16,7 @@ import InsertDriveFileIcon from "../icons/InsertDriveFileIcon";
 import SaveFileTemplate from "../modal/SaveFileModalTemplate";
 import EditTimeSeriesTemplate from "../modal/EditTimeSeriesModalTemplate";
 import Modal from "../modal/Modal";
+// import { GraphContext } from "../../context/GraphContext";
 
 export interface GraphData {
     time: string;

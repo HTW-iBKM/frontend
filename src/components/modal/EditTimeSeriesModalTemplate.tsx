@@ -1,5 +1,5 @@
 import React, {ReactElement, useContext} from "react";
-import { GraphContext } from "../../context/graphContext";
+import { GraphContext } from "../../context/GraphContext";
 import { ModalContext } from "../../context/ModalContext";
 import Button from "../form/Button";
 import { useCheckbox } from "../../hooks/useCheckbox";
@@ -36,14 +36,14 @@ function EditTimeSeriesTemplate(): ReactElement{
       <form name="saveFileForm" onSubmit={handleSubmit}>
         <div className="mb-8">
           <fieldset>
-            <legend className="mb-3"><p>Wählen Sie alle Zeitreihen aus, die Sie als Datei abspeichern möchten*:</p></legend>
+            <legend className="mb-3"><p>Wählen Sie alle Zeitreihen aus, die Sie im Graphen anzeigen möchten: </p></legend>
             {checkboxFormControls.map((data, index) => 
               <div key={index} className="flex gap-2 items-center">
                 <input id={data.key} type="checkbox" {...data.bind}/>
                 <label htmlFor={data.key}>{data.name}</label>
               </div>
             )}
-        </fieldset>
+          </fieldset>
         </div>
         <div className={`${commonModalStyles.buttonGroup}`}>
           <Button variant={"secondary"} onClick={() => modalContext.setIsOpen(false)}>Abbrechen</Button>

@@ -14,10 +14,10 @@ type ButtonVariant = "primary" | "secondary" | "text" | "icon";
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant: ButtonVariant;
   isLoading?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
-const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, className, ...rest }: ButtonProps) => {
+const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, className, disabled, ...rest }: ButtonProps) => {
   const stylesPrimary = {
     default: 'bg-secondary text-grayscale-light uppercase px-4 py-2 min-w-[113px] min-h-[43px] rounded-lg text-center text-base tracking-wider font-medium',
     disabled: 'disabled:bg-grayscale-dark disabled:text-grayscale-light',
@@ -77,6 +77,7 @@ const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, classN
       onClick={onClick}
       className={`${className} ${combinedClassName(variant)} ${isLoading && isPrimary ? "!bg-primary" : ""} ${isLoading && isSecondary ? "!border-primary" : ""} ${isLoading && isText ? "!text-primary" : ""}`}
       type="button"
+      disabled={disabled}
       {...rest}
     >
       {!isLoading && children}

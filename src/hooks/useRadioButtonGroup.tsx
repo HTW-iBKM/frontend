@@ -1,5 +1,14 @@
 import { useState } from "react";
 
+interface RadioButtonGroupFormControl {
+  radioButtonGroup: RadioButtonGroupInterface,
+  setRadioButtonGroup: React.Dispatch<React.SetStateAction<RadioButtonGroupInterface>>
+  reset: () => void,
+  bind: {
+    radioButtonGroup: RadioButtonGroupInterface,
+    onChange: (label: string) => void
+  }
+}
 export interface RadioButtonGroupInterface {
   options: string[];
   selected?: string;
@@ -12,7 +21,7 @@ const resetValue: RadioButtonGroupInterface = {
   disabledOptions: [],
 }
 
-export const useRadioButtonGroup = (initialValue: RadioButtonGroupInterface)  => {
+export const useRadioButtonGroup = (initialValue: RadioButtonGroupInterface): RadioButtonGroupFormControl => {
   const [radioButtonGroup, setRadioButtonGroup] = useState(initialValue);
   
   return {

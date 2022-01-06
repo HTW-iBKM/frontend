@@ -1,6 +1,16 @@
 import { useState } from "react";
 
-export const useInput = (initialValue: string) => {
+interface InputFormControl {
+  value: string,
+  setValue: React.Dispatch<React.SetStateAction<string>>
+  reset: () => void,
+  bind: {
+    value: string,
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  }
+}
+
+export const useInput = (initialValue: string): InputFormControl => {
   const [value, setValue] = useState(initialValue);
 
   return {
@@ -9,7 +19,7 @@ export const useInput = (initialValue: string) => {
     reset: () => setValue(""),
     bind: {
       value,
-      onChange: (event: any) => {
+      onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
       }
     }

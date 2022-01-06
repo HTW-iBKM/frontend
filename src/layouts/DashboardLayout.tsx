@@ -3,8 +3,9 @@ import ToastContainer from "../components/toast/ToastContainer";
 import {ToastInterface, ToastContext, ToastContextInterface} from "../context/ToastContext";
 import { ModalContext, ModalContextInterface, ModalInterface } from '../context/ModalContext';
 import Modal from '../components/modal/Modal';
-import { GraphContext, GraphContextInterface } from '../context/graphContext';
 // import { GraphData, KeyData } from '../components/graph/Graph';
+// import { GraphData, KeyData } from '../components/graph/Graph';
+// import { GraphContext, GraphContextInterface } from '../context/GraphContext';
 
 interface LayoutProps {
   top: ReactElement;
