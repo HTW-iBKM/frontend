@@ -49,11 +49,11 @@ function PublicRoutes(): ReactElement {
                 component={GraphDetails}
             />
 
-            <RestrictedRoute
+            <Route
                 path={'/dashboard'}
                 component={Dashboard}
             >
-            </RestrictedRoute>
+            </Route>
             <Route
                 exact
                 path={'/login'}

@@ -67,7 +67,7 @@ function SelectField({options, variant, label, onChange}: SelectFieldProps<strin
                 <button
                   className={`
                     ${option.value == selectedOption?.value && !active ? 'bg-secondary text-grayscale-light ring-x-1 ring-x-secondary' : 'text-grayscale-darkest'}
-                    ${active ? 'bg-secondary-light !text-grayscale-light ring-x-1 ring-x-secondary' : 'text-grayscale-light'}
+                    ${active ? 'bg-secondary-light !text-grayscale ring-x-1 ring-x-secondary' : 'text-grayscale-light'}
                     ${isDefaultVariant ? styles.selectItem.default : styles.selectItem.small}
                   `}
                   onClick={() => selectValue(option)}

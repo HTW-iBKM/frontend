@@ -1,0 +1,9 @@
+form[name="saveFileForm"] div[id*=headlessui-radiogroup] {
+  display: flex;
+  justify-content: space-between;
+}
+
+form[name="saveFileForm"] div[id*=headlessui-radiogroup] div[id*=headlessui-radiogroup-option] {
+  padding: 0;
+  @apply mt-3;
+}

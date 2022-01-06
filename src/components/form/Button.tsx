@@ -19,7 +19,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, className, ...rest }: ButtonProps) => {
   const stylesPrimary = {
-    default: 'bg-secondary m-5 text-grayscale-light uppercase px-4 py-2 min-w-[113px] min-h-[43px] rounded-lg text-center text-base tracking-wider font-medium',
+    default: 'bg-secondary text-grayscale-light uppercase px-4 py-2 min-w-[113px] min-h-[43px] rounded-lg text-center text-base tracking-wider font-medium',
     disabled: 'disabled:bg-grayscale-dark disabled:text-grayscale-light',
     hover: 'hover:bg-secondary-light !hover:ring-0 hover:focus:active:ring-0 hover:focus:active:outline-none',
     focus: 'focus:ring focus:ring-secondary focus:ring-opacity-20',
@@ -27,7 +27,7 @@ const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, classN
   }
 
   const stylesSecondary = {
-    default: 'border-secondary text-secondary m-5 border-2 uppercase text-grayscale-light px-4 py-2 min-w-[113px] min-h-[43px] rounded-lg text-center text-base tracking-wider font-medium',
+    default: 'border-secondary text-secondary border-2 uppercase text-grayscale-light px-4 py-2 min-w-[113px] min-h-[43px] rounded-lg text-center text-base tracking-wider font-medium',
     disabled: 'disabled:border-2 disabled:border-grayscale-dark disabled:text-grayscale-dark',
     hover: 'hover:border-secondary-light hover:text-secondary-light',
     focus: 'focus:outline-none focus:ring focus:ring-secondary focus:ring-opacity-20',
@@ -35,7 +35,7 @@ const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, classN
   }
 
   const stylesText = {
-    default: 'border-secondary text-secondary m-5 uppercase text-grayscale-light uppercase px-4 py-2 min-w-[113px] min-h-[43px] rounded-lg text-center text-base tracking-wider font-medium',
+    default: 'border-secondary text-secondary uppercase text-grayscale-light uppercase px-4 py-2 min-w-[113px] min-h-[43px] rounded-lg text-center text-base tracking-wider font-medium',
     disabled: 'disabled:text-grayscale-dark',
     hover: 'hover:text-secondary-light',
     focus: 'focus:outline-none focus:ring focus:ring-secondary focus:ring-opacity-20',
