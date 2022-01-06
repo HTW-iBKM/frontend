@@ -15,7 +15,6 @@ import DeleteForeverIcon from "../icons/DeleteForeverIcon";
 import DownloadIcon from "../icons/DownloadIcon";
 import Tabs from "../tabs/Tabs";
 import SelectField from "../form/SelectField";
-import "flatpickr/dist/themes/material_blue.css";
 import DatePicker from "../datePicker/DatePicker";
 
 function Center(): ReactElement {

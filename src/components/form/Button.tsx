@@ -17,11 +17,11 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   onClick: () => void;
 }
 
-const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, ...rest }: ButtonProps) => {
+const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, className, ...rest }: ButtonProps) => {
   const stylesPrimary = {
     default: 'bg-secondary m-5 text-grayscale-light uppercase px-4 py-2 min-w-[113px] min-h-[43px] rounded-lg text-center text-base tracking-wider font-medium',
     disabled: 'disabled:bg-grayscale-dark disabled:text-grayscale-light',
-    hover: 'hover:bg-primary-light !hover:ring-0 hover:focus:active:ring-0 hover:focus:active:outline-none',
+    hover: 'hover:bg-secondary-light !hover:ring-0 hover:focus:active:ring-0 hover:focus:active:outline-none',
     focus: 'focus:ring focus:ring-secondary focus:ring-opacity-20',
     active: 'active:bg-primary'
   }
@@ -29,7 +29,7 @@ const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, ...res
   const stylesSecondary = {
     default: 'border-secondary text-secondary m-5 border-2 uppercase text-grayscale-light px-4 py-2 min-w-[113px] min-h-[43px] rounded-lg text-center text-base tracking-wider font-medium',
     disabled: 'disabled:border-2 disabled:border-grayscale-dark disabled:text-grayscale-dark',
-    hover: 'hover:border-primary-light hover:text-primary-light',
+    hover: 'hover:border-secondary-light hover:text-secondary-light',
     focus: 'focus:outline-none focus:ring focus:ring-secondary focus:ring-opacity-20',
     active: 'active:border-primary active:text-primary active:outline-none'
   }
@@ -37,15 +37,15 @@ const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, ...res
   const stylesText = {
     default: 'border-secondary text-secondary m-5 uppercase text-grayscale-light uppercase px-4 py-2 min-w-[113px] min-h-[43px] rounded-lg text-center text-base tracking-wider font-medium',
     disabled: 'disabled:text-grayscale-dark',
-    hover: 'hover:text-primary-light',
+    hover: 'hover:text-secondary-light',
     focus: 'focus:outline-none focus:ring focus:ring-secondary focus:ring-opacity-20',
     active: 'active:text-primary active:outline-none'
   }
 
   const stylesIcon = {
     default: 'text-grayscale-darkest h-6 w-6 p-1 rounded',
-    hover: 'hover:text-primary-light hover:bg-grayscale',
-    focus: 'focus:text-grayscale-darkest focus:outline-none focus:bg-primary-light',
+    hover: 'hover:text-secondary-light hover:bg-grayscale',
+    focus: 'focus:text-grayscale-darkest focus:outline-none focus:bg-secondary-light',
     active: 'active:text-secondary active:outline-none active:bg-transparent',
     disabled: 'disabled:text-grayscale-dark disabled:bg-transparent disabled:cursor-default'
   }
@@ -57,7 +57,7 @@ const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, ...res
   const isText = variant === "text";
   const isIcon = variant === "icon";
 
-  const className = (variant: ButtonVariant) => {
+  const combinedClassName = (variant: ButtonVariant) => {
     switch (variant) {
       case 'text':
         return combineStyles(stylesText);
@@ -75,7 +75,7 @@ const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, ...res
   return (
     <button
       onClick={onClick}
-      className={`${className(variant)} ${isLoading && isPrimary ? "!bg-primary" : ""} ${isLoading && isSecondary ? "!border-primary" : ""} ${isLoading && isText ? "!text-primary" : ""}`}
+      className={`${className} ${combinedClassName(variant)} ${isLoading && isPrimary ? "!bg-primary" : ""} ${isLoading && isSecondary ? "!border-primary" : ""} ${isLoading && isText ? "!text-primary" : ""}`}
       {...rest}
     >
       {!isLoading && children}
