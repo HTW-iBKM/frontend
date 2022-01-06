@@ -21,11 +21,11 @@ module.exports = {
             transparent: 'transparent',
             current: 'currentColor',
             primary: {
-                light: '#88B4CD',
                 DEFAULT: '#212E50',
             },
             secondary: {
                 DEFAULT: '#4074B2',
+                light: '#88B4CD',
             },
             grayscale: {
                 darkest: '#494B51',
