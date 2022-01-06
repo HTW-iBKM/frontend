@@ -1,5 +1,6 @@
-import React, {ReactElement, useState} from 'react';
+import React, {ReactElement, useContext, useState} from 'react';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 import useAsyncEffect from "use-async-effect";
 import './Graph.css'
 import OpenInNewTabIcon from '../../components/icons/OpenInNewTabIcon';
@@ -10,6 +11,12 @@ import AreaChartPanel from "./AreaChartPanel";
 import TimelineIcon from "../icons/TimelineIcon";
 import EqualizerIcon from "../icons/EqualizerIcon";
 import StackedLineChartIcon from "../icons/StackedLineChartIcon";
+import Button from "../form/Button";
+import EditIcon from "../icons/EditIcon";
+import InsertDriveFileIcon from "../icons/InsertDriveFileIcon";
+import SaveFileTemplate from "../modal/SaveFileModalTemplate";
+import EditTimeSeriesTemplate from "../modal/EditTimeSeriesModalTemplate";
+import Modal from "../modal/Modal";
 
 export interface GraphData {
     time: string;
@@ -60,6 +67,9 @@ function Graph(): ReactElement {
     const BarChart = <><BarChartPanel data={data} graphLineColors={GraphLineColors} /></>
     const AreaChart = <><AreaChartPanel data={data} graphLineColors={GraphLineColors} /></>
 
+    const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false)
+    const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false)
+
     useAsyncEffect(async (isMounted) => {
         const {data}: GraphDataResponse = await axios.get(
           "https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/"
@@ -82,7 +92,19 @@ function Graph(): ReactElement {
             </div>
             <div className={"block w-full h-full mt-5-1/8"}>
                 <Tabs className="w-full h-20 mt-5-1/8" type="small" tabs={[IconTimeline, IconEqualizer, IconStackedLineChart]} panels={[LineChart, BarChart, AreaChart]} />
+                <div className="mx-5">
+                    <Button variant={"icon"} onClick={() => setIsSaveModalOpen(true)}><EditIcon></EditIcon></Button>
+                    <Button variant={"icon"} onClick={() => setIsEditModalOpen(true)}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
+                </div>
             </div>
+
+            <Modal isOpen={isSaveModalOpen} title={"Als Datei speichern"} onClose={() => setIsSaveModalOpen(false)}>
+                <SaveFileTemplate></SaveFileTemplate>
+            </Modal>
+
+            <Modal isOpen={isEditModalOpen} title={"Zeitreihen bearbeiten"} onClose={() => setIsEditModalOpen(false)}>
+                <EditTimeSeriesTemplate></EditTimeSeriesTemplate>
+            </Modal>
         </div>
     );
 }

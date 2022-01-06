@@ -4,8 +4,8 @@ type TabType = "default" | "small"
 
 interface TabsProps extends React.HTMLAttributes<HTMLDivElement>{
   type: TabType;
-  tabs: string[] | ReactElement[];
-  panels: string[] | ReactElement[];
+  tabs: (string | ReactElement)[];
+  panels: (string| ReactElement)[];
 }
 function Tabs({type, tabs, panels}: TabsProps): ReactElement {
   const styles = {
@@ -39,9 +39,9 @@ function Tabs({type, tabs, panels}: TabsProps): ReactElement {
           </Tab>
         ))}
       </Tab.List>
-      <Tab.Panels>
+      <Tab.Panels className={"block w-full h-full max-h-[calc(100%-56px)] "}>
           {panels.map((panel, index) => (
-              <Tab.Panel key={index}>{panel}</Tab.Panel>
+              <Tab.Panel key={index} className={"w-full h-full"}>{panel}</Tab.Panel>
           ))}
       </Tab.Panels>
     </Tab.Group>

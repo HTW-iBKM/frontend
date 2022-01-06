@@ -25,7 +25,7 @@ function SaveFileTemplate(): ReactElement{
   const { value:fileName, bind:bindFileName, reset:resetFileName } = useInput(textFileName);
   const { radioButtonGroup:radioButtonGroup, bind:bindRadioButtonGroup, reset:resetRadioButtonGroup } = useRadioButtonGroup(testRadioButtonGroupValue);
   
-  const handleSubmit = (evt: any) => {
+  const handleSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
     alert(`Submitting Filename ${fileName}, Format type ${radioButtonGroup.selected}, Time series TODO`);
     resetFileName();

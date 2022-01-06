@@ -1,15 +1,21 @@
-import React, { Fragment, ReactElement, useContext } from "react";
+import React, {Fragment, ReactElement} from "react";
 import { Dialog, Transition } from '@headlessui/react'
-import { ModalContext } from "../../context/ModalContext";
 import "./Modal.css";
+import ReactDOM from "react-dom";
 
 export const commonModalStyles = {
     buttonGroup: "mt-8 flex justify-between"
 }
 
-function Modal(): ReactElement {
-    const {isOpen, setIsOpen, modalContent} = useContext(ModalContext);
-    const {id, headline, content} = modalContent;
+interface ModalProps extends React.HTMLProps<HTMLElement>{
+    isOpen: boolean;
+    title: string;
+    onClose: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function Modal({isOpen, children, title, onClose}: ModalProps): ReactElement | null {
+    const container: HTMLElement | null = document.getElementById('modalContainer')
+    if(!isOpen || !container) return null;
 
     const styles = {
         backgroundDrop: "fixed inset-0 z-50 overflow-y-auto bg-grayscale-darkest bg-opacity-70",
@@ -18,13 +24,12 @@ function Modal(): ReactElement {
         headline: "text-h4 mb-8",
     }
 
-    return (
+    return ReactDOM.createPortal(
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog
                 as="div"
-                id={id}
                 className={`modal-dialog ${styles.backgroundDrop}`}
-                onClose={setIsOpen}
+                onClose={onClose}
             >
             <div className="min-h-screen px-4 text-center">
                 <Transition.Child
@@ -60,15 +65,15 @@ function Modal(): ReactElement {
                         as="h4"
                         className={`${styles.headline}`}
                     >
-                        {headline}
+                        {title}
                     </Dialog.Title>
-                    {content}
+                    {children}
                 </div>
                 </Transition.Child>
             </div>
             </Dialog>
         </Transition>
-    );
+    , container);
 }
 
 export default Modal;

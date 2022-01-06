@@ -12,7 +12,7 @@ const resetValue: RadioButtonGroupInterface = {
   disabledOptions: [],
 }
 
-export const useRadioButtonGroup = (initialValue: RadioButtonGroupInterface) => {
+export const useRadioButtonGroup = (initialValue: RadioButtonGroupInterface)  => {
   const [radioButtonGroup, setRadioButtonGroup] = useState(initialValue);
   
   return {

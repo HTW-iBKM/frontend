@@ -24,6 +24,7 @@ function Center(): ReactElement {
   const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState(String);
   const [selectedDateRange , setSelectedDateRange] = useState<Date[]>([]);
+  const context = useContext(ToastContext);
 
   const fetchData = async () => {
     setLoading(true);
@@ -45,8 +46,6 @@ function Center(): ReactElement {
     setSelectedDateRange(value)
     console.log(selectedDateRange)
   }
-
-  const context = useContext(ToastContext);
 
   return (
     <Switch>
@@ -113,7 +112,7 @@ function Center(): ReactElement {
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg flex flex-col gap-2"}>
-          <RadioButtonGroup options={["test 1", "test 2", "test 3"]} disabledOptions={["test 3"]} onChange={(value) => console.log(value)}></RadioButtonGroup>
+          <RadioButtonGroup selected="test 1" options={["test 1", "test 2", "test 3"]} disabledOptions={["test 3"]} onChange={(value) => console.log(value)}></RadioButtonGroup>
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>

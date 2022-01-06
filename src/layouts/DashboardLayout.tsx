@@ -2,7 +2,6 @@ import React, {ReactElement, useState} from 'react';
 import ToastContainer from "../components/toast/ToastContainer";
 import {ToastInterface, ToastContext, ToastContextInterface} from "../context/ToastContext";
 import { ModalContext, ModalContextInterface, ModalInterface } from '../context/ModalContext';
-import Modal from '../components/modal/Modal';
 
 interface LayoutProps {
   top: ReactElement;
@@ -40,7 +39,6 @@ function DashboardLayout(props: LayoutProps): ReactElement {
   return (
     <ModalContext.Provider value={defaultModalContext}>
       <ToastContext.Provider value={defaultToastContext}>
-        <Modal></Modal>
         <div className={styles.layoutContainer}>
           <header className={styles.headerContainer}>
             {props.top}
