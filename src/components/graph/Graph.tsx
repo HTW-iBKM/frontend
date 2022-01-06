@@ -47,12 +47,27 @@ interface GraphDataResponse {
     }
 }
 
+enum GraphKey {
+    PREDICTION = 'prediction',
+    GROUND_TRUTH = 'ground_truth'
+}
+
+interface KeyData {
+    key: GraphKey,
+    name: string
+}
+
 function Graph(): ReactElement {
     const styles = {
         graphContainer:
           "w-[calc(100%-3.5rem)] h-[calc(100%-3.5rem)] m-7 flex justify-center items-center flex-col ",
     };
     const GraphLineColors = ["#4074B2", "#DE9D28", "#edabd1", "#92dbd0"];
+
+    const KeyData: KeyData[] = [
+        {key: GraphKey.PREDICTION, name: 'Prognose'},
+        {key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch'}
+    ];
 
     const url = window.location.href.split('/')[4];
     const showNewTabButton = url !== 'graph-details';
@@ -92,6 +107,15 @@ function Graph(): ReactElement {
             </div>
             <div className={"block w-full h-full mt-5-1/8"}>
                 <Tabs className="w-full h-20 mt-5-1/8" type="small" tabs={[IconTimeline, IconEqualizer, IconStackedLineChart]} panels={[LineChart, BarChart, AreaChart]} />
+            </div>
+            <div className="border border-[#E2E2E2] w-full m-5"/>
+            <div className="w-full flex justify-center">
+                {KeyData.map((data: KeyData, index: number) =>
+                  <div key={index} className="min-w-max flex items-center gap-3 mx-5">
+                      <span className={`w-5 h-5 rounded-[2px]`} style={{backgroundColor: GraphLineColors[index]}}/>
+                      <span className="text-body1">{data.name}</span>
+                  </div>
+                )}
                 <div className="mx-5">
                     <Button variant={"icon"} onClick={() => setIsSaveModalOpen(true)}><EditIcon></EditIcon></Button>
                     <Button variant={"icon"} onClick={() => setIsEditModalOpen(true)}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
