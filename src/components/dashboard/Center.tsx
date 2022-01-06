@@ -15,7 +15,6 @@ import DeleteForeverIcon from "../icons/DeleteForeverIcon";
 import DownloadIcon from "../icons/DownloadIcon";
 import Tabs from "../tabs/Tabs";
 import SelectField from "../form/SelectField";
-import "flatpickr/dist/themes/material_blue.css";
 import DatePicker from "../datePicker/DatePicker";
 import { ModalContext } from "../../context/ModalContext";
 import SaveFileTemplate from "../modal/SaveFileModalTemplate";
