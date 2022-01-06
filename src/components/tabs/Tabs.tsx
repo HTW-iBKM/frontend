@@ -4,7 +4,7 @@ type TabType = "default" | "small"
 
 interface TabsProps extends React.HTMLAttributes<HTMLDivElement>{
   type: TabType;
-  tabs: string[];
+  tabs: string[] | ReactElement[];
   panels: string[] | ReactElement[];
 }
 function Tabs({type, tabs, panels}: TabsProps): ReactElement {

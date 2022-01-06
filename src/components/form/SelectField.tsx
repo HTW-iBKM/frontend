@@ -29,8 +29,8 @@ function SelectField({options, variant, label, onChange}: SelectFieldProps<strin
     },
     selectItems: 'absolute left-0 mt-2 min-w-full origin-top-left bg-grayscale-light z-10 text-grayscale-darkest divide-gray-100 ring-1 ring-grayscale-dark py-2 rounded-lg focus:outline-none ',
     selectItem: {
-      default: 'h-10-1/8 group border-none flex items-center justify-between w-full px-4 py-2 text-base hover:cursor-pointer whitespace-nowrap flex-nowrap leading-7-1/8 focus:bg-secondary focus:text-grayscale-light',
-      small: 'h-8-1/8 group border-none flex items-center justify-between w-full px-3 py-2 text-sm hover:cursor-pointer whitespace-nowrap flex-nowrap leading-4 focus:bg-secondary focus:text-grayscale-light',
+      default: 'h-10-1/8 group border-none flex items-center justify-between w-full px-4 py-2 text-base hover:cursor-pointer whitespace-nowrap flex-nowrap leading-7-1/8 focus:bg-secondary focus:text-grayscale-light active:bg-primary',
+      small: 'h-8-1/8 group border-none flex items-center justify-between w-full px-3 py-2 text-sm hover:cursor-pointer whitespace-nowrap flex-nowrap leading-4 focus:bg-secondary focus:text-grayscale-light active:bg-primary',
     }
   }
 
@@ -66,7 +66,8 @@ function SelectField({options, variant, label, onChange}: SelectFieldProps<strin
               {({ active }) => (
                 <button
                   className={`
-                    ${active || option.value == selectedOption?.value ? 'bg-secondary text-grayscale-light ring-x-1 ring-x-secondary' : 'text-grayscale-darkest'}
+                    ${option.value == selectedOption?.value && !active ? 'bg-secondary text-grayscale-light ring-x-1 ring-x-secondary' : 'text-grayscale-darkest'}
+                    ${active ? 'bg-primary-light !text-grayscale-light ring-x-1 ring-x-secondary' : 'text-grayscale-light'}
                     ${isDefaultVariant ? styles.selectItem.default : styles.selectItem.small}
                   `}
                   onClick={() => selectValue(option)}
