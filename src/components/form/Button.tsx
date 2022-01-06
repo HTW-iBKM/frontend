@@ -17,7 +17,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   onClick: () => void;
 }
 
-const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, ...rest }: ButtonProps) => {
+const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, className, ...rest }: ButtonProps) => {
   const stylesPrimary = {
     default: 'bg-secondary m-5 text-grayscale-light uppercase px-4 py-2 min-w-[113px] min-h-[43px] rounded-lg text-center text-base tracking-wider font-medium',
     disabled: 'disabled:bg-grayscale-dark disabled:text-grayscale-light',
@@ -57,7 +57,7 @@ const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, ...res
   const isText = variant === "text";
   const isIcon = variant === "icon";
 
-  const className = (variant: ButtonVariant) => {
+  const combinedClassName = (variant: ButtonVariant) => {
     switch (variant) {
       case 'text':
         return combineStyles(stylesText);
@@ -75,7 +75,7 @@ const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, ...res
   return (
     <button
       onClick={onClick}
-      className={`${className(variant)} ${isLoading && isPrimary ? "!bg-primary" : ""} ${isLoading && isSecondary ? "!border-primary" : ""} ${isLoading && isText ? "!text-primary" : ""}`}
+      className={`${className} ${combinedClassName(variant)} ${isLoading && isPrimary ? "!bg-primary" : ""} ${isLoading && isSecondary ? "!border-primary" : ""} ${isLoading && isText ? "!text-primary" : ""}`}
       {...rest}
     >
       {!isLoading && children}
