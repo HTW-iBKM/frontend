@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import LoadingDarkIcon from "../../icons/LoadingDarkIcon";
-import LoadingLightIcon from "../../icons/LoadingLightIcon";
-import './button.css';
+import LoadingDarkIcon from "../icons/LoadingDarkIcon";
+import LoadingLightIcon from "../icons/LoadingLightIcon";
+import './Button.css';
 
 interface Styles {
   default: string;

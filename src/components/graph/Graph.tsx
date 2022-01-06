@@ -13,7 +13,7 @@ import axios from "axios";
 import useAsyncEffect from "use-async-effect";
 import './Graph.css';
 import OpenInNewTabIcon from '../../components/icons/OpenInNewTabIcon';
-import Button from '../../components/form/button/Button';
+import Button from '../form/Button';
 import { v4 as uuidv4 } from 'uuid';
 import SaveFileTemplate from "../modal/SaveFileModalTemplate";
 import EditTimeSeriesTemplate from "../modal/EditTimeSeriesModalTemplate";

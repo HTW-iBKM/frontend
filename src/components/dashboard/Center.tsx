@@ -1,7 +1,7 @@
 import React, {ReactElement, useContext, useState} from "react";
 import {Route, Switch, useRouteMatch} from "react-router-dom";
 import Home from "../../sites/home/Home";
-import Button from "../form/button/Button";
+import Button from "../form/Button";
 import TextField from "../form/TextField";
 import RadioButtonGroup from "../form/RadioButtonGroup";
 import {ToastContext} from "../../context/ToastContext";

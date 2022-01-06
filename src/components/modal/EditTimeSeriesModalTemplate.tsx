@@ -1,6 +1,6 @@
 import React, {ReactElement, useContext} from "react";
 import { ModalContext } from "../../context/ModalContext";
-import Button from "../form/button/Button";
+import Button from "../form/Button";
 import { commonModalStyles } from "./Modal";
 import "./SaveFileModalTemplate.css";
 

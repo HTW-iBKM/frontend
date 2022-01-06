@@ -2,7 +2,7 @@ import React, {ReactElement, useContext} from "react";
 import { ModalContext } from "../../context/ModalContext";
 import { useInput } from "../../hooks/useInput";
 import { RadioButtonGroupInterface, useRadioButtonGroup } from "../../hooks/useRadioButtonGroup";
-import Button from "../form/button/Button";
+import Button from "../form/Button";
 import RadioButtonGroup from "../form/RadioButtonGroup";
 import TextField from "../form/TextField";
 import { commonModalStyles } from "./Modal";
