@@ -15,9 +15,8 @@ function Tabs({type, tabs, panels}: TabsProps): ReactElement {
       small: "rounded-lg h-7-1/8 px-4 text-sm font-normal leading-7-1/8 hover:bg-secondary-light hover:text-grayscale-light active:bg-primary active:text-grayscale-light focus:outline-none focus:ring-inset focus:ring-4 focus:ring-secondary focus:ring-opacity-20",
       selected: "bg-secondary text-grayscale-light hover:ring-0 focus:ring-0",
       unselected: "bg-transparent text-grayscale-darker"
-    }
-    ,
-    tabActive: "bg-secondary"
+    },
+    tabActive: "bg-secondary",
   }
 
   const isDefaultType = type === "default";
