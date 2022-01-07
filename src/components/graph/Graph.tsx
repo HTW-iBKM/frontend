@@ -114,7 +114,7 @@ function Graph(): ReactElement {
             </div>
             <div className="border border-[#E2E2E2] w-full m-6"/>
             <div className="w-full flex justify-center">
-                {KeyData.map((data: KeyData, index: number) =>
+                {keyData.map((data: KeyData, index: number) =>
                   <div key={index} className="min-w-max flex items-center gap-3 mx-7">
                       <span className={`w-4 h-4 rounded-[2px]`} style={{backgroundColor: GraphLineColors[index]}}/>
                       <span className="text-body1">{data.name}</span>
