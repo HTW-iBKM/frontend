@@ -61,6 +61,9 @@ module.exports = {
             margin: {
                 '5-1/8': '1.375rem'
             },
+            padding: {
+                '15': '3.75rem',
+            },
             lineHeight: {
                 '3-1/8': '0.875rem',
                 '7-1/8': '1.875rem',
@@ -70,10 +73,14 @@ module.exports = {
             height: {
                 '7-1/8': '1.875rem',
                 '8-1/8': '2.125rem',
+                '9-1/8': '2.125rem',
                 '10-1/8': '2.625rem',
                 '13': '3.25rem',
                 '15': '3.75rem',
             },
+            width: {
+                '33': '8.25rem',
+            }
         }
     },
     variants: {

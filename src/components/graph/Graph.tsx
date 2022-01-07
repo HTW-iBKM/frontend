@@ -61,7 +61,7 @@ export interface KeyData {
 function Graph(): ReactElement {
     const styles = {
         graphContainer:
-          "w-[calc(100%-3.5rem)] h-[calc(100%-3.5rem)] m-7 flex justify-center items-center flex-col ",
+          "w-full h-full p-7 flex justify-center items-center flex-col ",
     };
     const GraphLineColors = ["#4074B2", "#DE9D28", "#edabd1", "#92dbd0"];
 
