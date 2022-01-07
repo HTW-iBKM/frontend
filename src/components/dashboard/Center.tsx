@@ -38,6 +38,7 @@ function Center(): ReactElement {
     })
   };
 
+
   const selectOptions = [
     { value: 'woche1', label: 'Erste Woche' },
     { value: 'woche2', label: 'Zweite Woche' },
@@ -109,11 +110,11 @@ function Center(): ReactElement {
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg flex flex-col gap-2"}>
           <div>{inputText}</div>
-          <TextField type={"text"} name={"inputField1"} label={"Username"} onChange={e => setInputText(e?.target?.value)} />
-          <TextField type={"password"} visibilityButton={true} name={"inputField2"} label={"Password"} errorMessage={"Password incorrect!"} />
-          <TextField type={"text"} name={"inputField3"} label={"Username"} successMessage={"Username available"} />
-          <TextField type={"text"} name={"inputField4"} label={"Just some input field"} hint={"Just some hint"} />
-          <TextField type={"text"} name={"inputField5"} label={"Username"} successMessage={"Username available"} disabled />
+          <TextField className="my-5" type={"text"} name={"inputField1"} label={"Username"} onChange={e => setInputText(e?.target?.value)} />
+          <TextField className="my-5" type={"password"} visibilityButton={true} name={"inputField2"} label={"Password"} errorMessage={"Password incorrect!"} />
+          <TextField className="my-5" type={"text"} name={"inputField3"} label={"Username"} successMessage={"Username available"} />
+          <TextField className="my-5" type={"text"} name={"inputField4"} label={"Just some input field"} hint={"Just some hint"} />
+          <TextField className="my-5" type={"text"} name={"inputField5"} label={"Username"} successMessage={"Username available"} disabled />
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg flex flex-col gap-2"}>
