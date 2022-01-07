@@ -10,14 +10,15 @@ import {
   Area, AreaChart
 } from "recharts";
 import {parseGraphData, calculateTickCount, calculateDomain} from "./helpers";
-import {GraphData} from "./Graph";
+import {GraphData, KeyData} from "./Graph";
 
 interface AreaChartPanelProps {
     data: GraphData[];
+    keyData: KeyData[]
     graphLineColors: string[];
 }
 
-function AreaChartPanel({data, graphLineColors}: AreaChartPanelProps): ReactElement {
+function AreaChartPanel({data, keyData, graphLineColors}: AreaChartPanelProps): ReactElement {
     const yIntervall = 500;
     const maxValue = 0;
     const minValue = Infinity;
@@ -82,24 +83,19 @@ function AreaChartPanel({data, graphLineColors}: AreaChartPanelProps): ReactElem
                   dy={-16}
                 />
               </YAxis>
-              <Area
-                type="monotone"
-                name="Prognose"
-                dataKey={"prediction"}
-                stroke={graphLineColors[0]}
-                fill="url(#colorUv)"
-                fillOpacity={1}
-                unit=" KW"
-              />
-              <Area
-                type="monotone"
-                name="Tatsächlicher Verbrauch"
-                dataKey={"ground_truth"}
-                stroke={graphLineColors[1]}
-                fill="url(#colorUv)"
-                fillOpacity={1}
-                unit=" KW"
-              />
+              {keyData.map((data, index) =>
+                data.checked &&
+                  <Area
+                    key={index}
+                    type="monotone"
+                    name={data.name}
+                    dataKey={data.key}
+                    stroke={graphLineColors[index]}
+                    fill="url(#colorUv)"
+                    fillOpacity={1}
+                    unit=" KW"
+                  />
+              )}
             </AreaChart>
           </ResponsiveContainer>
         </div>

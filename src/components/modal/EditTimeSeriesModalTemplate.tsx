@@ -1,16 +1,36 @@
-import React, {ReactElement, useContext} from "react";
-import { ModalContext } from "../../context/ModalContext";
+import React, {ReactElement} from "react";
 import Button from "../form/Button";
+import { useCheckbox } from "../../hooks/useCheckbox";
 import { commonModalStyles } from "./Modal";
+import { GraphKey, KeyData } from "../graph/Graph";
 import "./SaveFileModalTemplate.css";
 
+interface EditTimeSeriesModalProps {
+  keyData: KeyData[],
+  setKeyData: React.Dispatch<React.SetStateAction<KeyData[]>>,
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-function EditTimeSeriesTemplate(): ReactElement{
-  const modalContext = useContext(ModalContext);
+const EditTimeSeriesTemplate = ({keyData, setKeyData, setModalOpen}: EditTimeSeriesModalProps): ReactElement => {
+  const checkboxFormControls = keyData.map((data) => {
+    const { checked:checkbox, bind:bindCheckbox, reset:resetCheckbox } = useCheckbox(data.checked)
+    return {key: data.key, name: data.name, checked: checkbox, bind:bindCheckbox, reset:resetCheckbox}
+  });
   
-  const handleSubmit = (evt: any) => {
+  const handleSubmit = (evt: React.FormEvent) => {
+    setModalOpen(false)
     evt.preventDefault();
-    alert(`Submitting Time series TODO`);
+    console.log(`Submitting Time series: ${checkboxFormControls.map((checkbox) => `${checkbox.name}: ${checkbox.checked}`)}`);
+    const newGraphData: KeyData[] = checkboxFormControls.map((checkbox) => {
+      const newValue: KeyData = {
+        key: checkbox.key as GraphKey,
+        name: checkbox.name,
+        checked: checkbox.checked
+      }
+      return newValue;
+    })
+    setKeyData(newGraphData)
+    checkboxFormControls.map((checkbox) => checkbox.reset())
   }
 
   return (
@@ -18,32 +38,18 @@ function EditTimeSeriesTemplate(): ReactElement{
       <form name="saveFileForm" onSubmit={handleSubmit}>
         <div className="mb-8">
           <fieldset>
-            <legend className="mb-3"><p>Wählen Sie alle Zeitreihen aus, die Sie als Datei abspeichern möchten*:</p></legend>
-            <div>
-              <input id="prediction" type="checkbox"/>
-              <label htmlFor="prediction">Prediction</label>
-            </div>
-            <div>
-              <input id="groundTruth" type="checkbox"/>
-              <label htmlFor="groundTruth">Ground Truth</label>
-            </div>
-            <div>
-              <input id="powerSupply" type="checkbox"/>
-              <label htmlFor="powerSupply">Strom Vorrat</label>
-            </div>
-            <div>
-              <input id="deltaPredictionPowerSupply" type="checkbox"/>
-              <label htmlFor="deltaPredictionPowerSupply">Delta aus Prediction & Strom Vorrat</label>
-            </div>
-            <div>
-              <input id="rateSpotMarket" type="checkbox"/>
-              <label htmlFor="rateSpotMarket">Preise Spottmarkt</label>
-            </div>
-        </fieldset>
+            <legend className="mb-3"><p>Wählen Sie alle Zeitreihen aus, die Sie im Graphen anzeigen möchten: </p></legend>
+            {checkboxFormControls.map((data, index) => 
+              <div key={index} className="flex gap-2 items-center">
+                <input id={data.key} type="checkbox" {...data.bind}/>
+                <label htmlFor={data.key}>{data.name}</label>
+              </div>
+            )}
+          </fieldset>
         </div>
         <div className={`${commonModalStyles.buttonGroup}`}>
-          <Button variant={"secondary"} onClick={() => modalContext.setIsOpen(false)}>Abbrechen</Button>
-          <Button type="submit" variant={"primary"} onClick={() => modalContext.setIsOpen(false)}>Speichern</Button>
+          <Button variant={"secondary"} onClick={() => setModalOpen(false)}>Abbrechen</Button>
+          <Button type="submit" variant={"primary"}>Speichern</Button>
         </div>
       </form>
     </div>

@@ -2,14 +2,15 @@ import React, {ReactElement} from 'react';
 import './Graph.css';
 import {LineChart, CartesianGrid, Label, Line, Tooltip, XAxis, YAxis, ResponsiveContainer} from "recharts";
 import {parseGraphData, calculateTickCount, calculateDomain} from "./helpers";
-import {GraphData} from "./Graph";
+import {GraphData, KeyData} from "./Graph";
 
 interface LineChartPanelProps {
     data: GraphData[];
+    keyData: KeyData[];
     graphLineColors: string[];
 }
 
-function LineChartPanel({data, graphLineColors}: LineChartPanelProps): ReactElement {
+function LineChartPanel({data, keyData, graphLineColors}: LineChartPanelProps): ReactElement {
     const yIntervall = 500;
     const maxValue = 0;
     const minValue = Infinity;
@@ -66,34 +67,24 @@ function LineChartPanel({data, graphLineColors}: LineChartPanelProps): ReactElem
                   dy={-16}
                 />
               </YAxis>
-              <Line
-                name="Prognose"
-                dataKey={"prediction"}
-                stroke={graphLineColors[0]}
-                dot={{fill: graphLineColors[0], r: 1}}
-                activeDot={{
-                  fill: "#FAFAFA",
-                  stroke: graphLineColors[0],
-                  strokeWidth: 1.5,
-                  r: 3,
-                }}
-                unit=" KW"
-                strokeWidth={1.5}
-              />
-              <Line
-                name="Tatsächlicher Verbrauch"
-                dataKey={"ground_truth"}
-                stroke={graphLineColors[1]}
-                dot={{fill: graphLineColors[1], r: 1}}
-                activeDot={{
-                  fill: "#FAFAFA",
-                  stroke: graphLineColors[1],
-                  strokeWidth: 1.5,
-                  r: 3,
-                }}
-                unit=" KW"
-                strokeWidth={1.5}
-              />
+              {keyData.map((data, index) =>
+                data.checked &&
+                  <Line 
+                    key={index}
+                    name={data.name}
+                    dataKey={data.key}
+                    stroke={graphLineColors[index]}
+                    dot={{ fill: graphLineColors[index], r: 1 }}
+                    activeDot={{
+                      fill: "#FAFAFA",
+                      stroke: graphLineColors[index],
+                      strokeWidth: 1.5,
+                      r: 3,
+                    }}
+                    unit=" KW"
+                    strokeWidth={1.5}
+                  />
+              )}
             </LineChart>
           </ResponsiveContainer>
         </div>
