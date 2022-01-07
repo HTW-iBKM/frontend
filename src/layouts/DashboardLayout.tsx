@@ -1,7 +1,6 @@
 import React, {ReactElement, useState} from 'react';
 import ToastContainer from "../components/toast/ToastContainer";
 import {ToastInterface, ToastContext, ToastContextInterface} from "../context/ToastContext";
-import { ModalContext, ModalContextInterface, ModalInterface } from '../context/ModalContext';
 
 interface LayoutProps {
   top: ReactElement;
@@ -23,34 +22,20 @@ function DashboardLayout(props: LayoutProps): ReactElement {
     toasts,
     setToasts
   }
-
-  const [modalIsOpen, setmodalIsOpen] = useState(false)
-  const [modal, setModal] = useState<ModalInterface>({
-    id: "",
-    headline: ""
-  });
-  const defaultModalContext: ModalContextInterface = {
-    isOpen: modalIsOpen,
-    setIsOpen: setmodalIsOpen,
-    modalContent: modal,
-    setModalContent: setModal
-  }
   
   return (
-    <ModalContext.Provider value={defaultModalContext}>
-      <ToastContext.Provider value={defaultToastContext}>
-        <div className={styles.layoutContainer}>
-          <header className={styles.headerContainer}>
-            {props.top}
-          </header>
-          <main className={styles.mainContainer}>
-            <ToastContainer></ToastContainer>
-            <div className={styles.sidebarContainer}>{props.left}</div>
-            <div className={styles.contentContainer}>{props.center}</div>
-          </main>
-        </div>
-      </ToastContext.Provider>
-    </ModalContext.Provider>
+    <ToastContext.Provider value={defaultToastContext}>
+      <div className={styles.layoutContainer}>
+        <header className={styles.headerContainer}>
+          {props.top}
+        </header>
+        <main className={styles.mainContainer}>
+          <ToastContainer></ToastContainer>
+          <div className={styles.sidebarContainer}>{props.left}</div>
+          <div className={styles.contentContainer}>{props.center}</div>
+        </main>
+      </div>
+    </ToastContext.Provider>
   )
 }
 

@@ -1,35 +1,72 @@
-import React, {ReactElement, useContext} from "react";
-import { ModalContext } from "../../context/ModalContext";
+import React, {ReactElement, useContext, useState} from "react";
+import { ToastContext } from "../../context/ToastContext";
+import { useCheckbox } from "../../hooks/useCheckbox";
 import { useInput } from "../../hooks/useInput";
 import { RadioButtonGroupInterface, useRadioButtonGroup } from "../../hooks/useRadioButtonGroup";
 import Button from "../form/Button";
 import RadioButtonGroup from "../form/RadioButtonGroup";
 import TextField from "../form/TextField";
+import { KeyData } from "../graph/Graph";
 import { commonModalStyles } from "./Modal";
+import { v4 as uuidv4 } from 'uuid';
 import "./SaveFileModalTemplate.css";
 
+interface SaveFileModalProps {
+  keyData: KeyData[],
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-function SaveFileTemplate(): ReactElement{
+const SaveFileTemplate = ({keyData, setModalOpen}: SaveFileModalProps): ReactElement => {
+  const toastContext = useContext(ToastContext);
+
   const styles = {
-    formElementGroup: "mb-8"
+    formElementGroup: "mb-8 relative"
   }
 
-  const textFileName = "Filename";
-  const testRadioButtonGroupValue: RadioButtonGroupInterface = {
+  const defaultRadioButtonGroupValue: RadioButtonGroupInterface = {
     options: ["CSV", "PNG", "PDF"],
     disabledOptions: ["PDF"],
     selected: "CSV",
   }
+  const { value:fileName, bind:bindFileName, reset:resetFileName } = useInput("");
+  const { radioButtonGroup:radioButtonGroup, bind:bindRadioButtonGroup, reset:resetRadioButtonGroup } = useRadioButtonGroup(defaultRadioButtonGroupValue);
+  const checkboxFormControls = keyData.map((data) => {
+    const { checked:checkbox, bind:bindCheckbox, reset:resetCheckbox } = useCheckbox(data.checked)
+    return {key: data.key, name: data.name, checked: checkbox, bind:bindCheckbox, reset:resetCheckbox}
+  });
 
-  const modalContext = useContext(ModalContext);
-  const { value:fileName, bind:bindFileName, reset:resetFileName } = useInput(textFileName);
-  const { radioButtonGroup:radioButtonGroup, bind:bindRadioButtonGroup, reset:resetRadioButtonGroup } = useRadioButtonGroup(testRadioButtonGroupValue);
+  const [formTouched, setFormTouched] = useState({
+    name: false,
+    format: false,
+    timeSeries: false,
+  })
+
+  const formErr: {name: string | null, format: string | null, timeSeries: string | null} = {
+    name: !fileName ? "Der Titel muss mindestens einem Buchstaben haben." : null,
+    format: !radioButtonGroup.selected ? 'Wählen sie ein Dateiformat.' : null,
+    timeSeries: checkboxFormControls.filter((checkbox) => !!checkbox.checked).length === 0 ? 'Wählen Sie mindestens eine Zeitreihe aus.' : null
+  }
   
-  const handleSubmit = (evt: React.FormEvent) => {
-    evt.preventDefault();
-    alert(`Submitting Filename ${fileName}, Format type ${radioButtonGroup.selected}, Time series TODO`);
-    resetFileName();
-    resetRadioButtonGroup();
+  const validForm = () => !formErr['name'] && !formErr['format'] && !formErr['timeSeries'];
+
+  const handleSubmit = (evt: React.FormEvent) => {    
+    if(validForm()) {
+      toastContext.setToasts([...toastContext.toasts, {id: uuidv4(), type: "success", headline: "Glückwunsch", message: "Die Datei wurde erfolgreich erstellt."}])
+      setModalOpen(false);
+      evt.preventDefault();
+      alert(`
+        Submitting 
+        Filename ${fileName}, 
+        Format type ${radioButtonGroup.selected}, 
+        Time series: ${checkboxFormControls.map((checkbox) => `${checkbox.name}: ${checkbox.checked}`)}`
+      );
+      resetFileName();
+      resetRadioButtonGroup();
+      checkboxFormControls.map((checkbox) => checkbox.reset())
+    } 
+
+    // Toast erscheint, wenn nach beim Submit etwas schief gelaufen ist. Formular fehler werden bereits im Formular abgefangen. Hier gehts eher um Fehler seitens der DB oder so
+    // toastContext.setToasts([...toastContext.toasts, {id: uuidv4(), type: "error", headline: "Error", message: "Etwas ist schief gelaufen."}])
   }
 
   return (
@@ -37,7 +74,14 @@ function SaveFileTemplate(): ReactElement{
       <form name="saveFileForm" onSubmit={handleSubmit}>
         <div className={`${styles.formElementGroup}`}>
           <p>Geben Sie der Datei einen Titel:</p>
-          <TextField type={"text"} name={"file-name"} label={"Dateiname*"} {...bindFileName} />
+          <TextField 
+            type={"text"} 
+            name={"file-name"} 
+            label={"Dateiname*"} 
+            onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, name: true }))} 
+            {...bindFileName}
+            errorMessage={`${formErr['name'] && formTouched.name ? formErr['name'] : ""}`}
+          />
         </div>
         <div className={`${styles.formElementGroup}`}>
           <p>Wählen Sie ein Dateiformat*:</p>
@@ -45,37 +89,27 @@ function SaveFileTemplate(): ReactElement{
               options={bindRadioButtonGroup.radioButtonGroup.options} 
               selected={bindRadioButtonGroup.radioButtonGroup.selected}
               disabledOptions={bindRadioButtonGroup.radioButtonGroup.disabledOptions}
-              onChange={bindRadioButtonGroup.onChange}>
+              onChange={bindRadioButtonGroup.onChange}
+            >
             </RadioButtonGroup>
         </div>
         <div className={`${styles.formElementGroup}`}>
           <fieldset>
             <legend className={`my-3`}><p>Wählen Sie alle Zeitreihen aus, die Sie als Datei abspeichern möchten*:</p></legend>
-            <div>
-              <input id="prediction" type="checkbox"/>
-              <label htmlFor="prediction">Prognose</label>
-            </div>
-            <div>
-              <input id="groundTruth" type="checkbox"/>
-              <label htmlFor="groundTruth">Ground Truth</label>
-            </div>
-            <div>
-              <input id="powerSupply" type="checkbox"/>
-              <label htmlFor="powerSupply">Strom Vorrat</label>
-            </div>
-            <div>
-              <input id="deltaPredictionPowerSupply" type="checkbox"/>
-              <label htmlFor="deltaPredictionPowerSupply">Delta aus Prediction & Strom Vorrat</label>
-            </div>
-            <div>
-              <input id="rateSpotMarket" type="checkbox"/>
-              <label htmlFor="rateSpotMarket">Preise Spottmarkt</label>
-            </div>
-        </fieldset>
+            {checkboxFormControls.map((data, index) => 
+              <div key={index} className="flex gap-2 items-center">
+                <input className={`${formErr['timeSeries'] ? 'border-danger' : ''}`} id={data.key} type="checkbox" {...data.bind}/>
+                <label htmlFor={data.key}>{data.name}</label>
+              </div>
+            )}
+          </fieldset>
+          {formErr['timeSeries'] &&
+            <span className={"text-danger text-sm pl-4"}>{formErr['timeSeries']}</span>
+          }
         </div>
         <div className={`${commonModalStyles.buttonGroup}`}>
-          <Button variant={"secondary"} onClick={() => modalContext.setIsOpen(false)}>Abbrechen</Button>
-          <Button type="submit" variant={"primary"} onClick={() => modalContext.setIsOpen(false)}>Speichern</Button>
+          <Button variant={"secondary"} onClick={() => setModalOpen(false)}>Abbrechen</Button>
+          <Button disabled={!validForm()} type="submit" variant={"primary"}>Speichern</Button>
         </div>
       </form>
     </div>

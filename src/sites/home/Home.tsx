@@ -6,7 +6,7 @@ function Home(): ReactElement {
     container: 'w-[calc(100%-3rem)] h-[calc(100%-3rem)] m-6 flex gap-6 ',
     card: 'shadow-card h-full bg-grayscale-light rounded-[8px] '
   };
-  const widgets = [1, 2, 3];
+  const widgets = [1, 2];
   return <div className={styles.container}>
     {widgets.length > 1 ? (
       <>
