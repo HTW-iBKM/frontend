@@ -17,6 +17,7 @@ import FormatPngIcon from "../icons/FormatPngIcon";
 import ChevronLeftIcon from "../icons/ChevronLeftIcon";
 import ChevronRightIcon from "../icons/ChevronRightIcon";
 import SelectField from "../form/SelectField";
+import SearchIcon from "../icons/SearchIcon";
 
 interface TableProps<T extends FileData> {
   columns: Column<T>[];
@@ -81,7 +82,8 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
     <>
       <div className={"flex items center mt-6 mb-4"}>
         <div className={"relative"}>
-          <input placeholder="Suche" className="focus:ring-transparent focus:ring-1  focus:ring-grayscale-dark focus:border-2 focus:border-grayscale-light outline-none ring-1 ring-grayscale-dark bg-transparent border-2 border-grayscale-light rounded-lg h-10-1/8  text-left text-base text-grayscale-darkest font-normal leading-7-1/8" onChange={handleFilterInputChange} type="text"/>
+          <input placeholder="Suche..." className="focus:ring-transparent focus:ring-1  focus:ring-grayscale-dark focus:border-2 focus:border-grayscale-light outline-none ring-1 ring-grayscale-dark bg-transparent border-2 border-grayscale-light rounded-lg h-10-1/8  text-left text-base text-grayscale-darkest font-normal leading-7-1/8" onChange={handleFilterInputChange} type="text"/>
+          <SearchIcon className={"absolute right-[18px] top-1/2 transform -translate-y-3 w-6 h-6"}/>
         </div>
       </div>
 
@@ -152,6 +154,7 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
         })}
         </tbody>
       </table>
+
       <div className="w-full flex justify-end mt-8">
         <div className={"flex items-center text-sm"}>
           <SelectField variant="small" label="Einträge pro Seite" options={pageSizeOptions} onChange={(value: string) => setPageSize(value === '' ? DEFAULT_PAGE_SIZE : Number(value))}></SelectField>
