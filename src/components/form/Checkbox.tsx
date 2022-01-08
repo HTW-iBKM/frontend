@@ -1,4 +1,6 @@
 import React, { FC } from "react";
+import CheckboxCheckedIcon from "../icons/CheckboxCheckedIcon";
+import CheckboxUncheckedIcon from "../icons/CheckboxUncheckedIcon";
 
 interface CheckboxProps<T> {
     name: string;
@@ -16,17 +18,25 @@ const Checkbox: FC<CheckboxProps<boolean>> = ({
     children,
     ...others
 }: CheckboxProps<boolean>) => {
+    const container = 'flex flex-row items-center';
+    const hiddenHMTLCheckbox = 'absolute opacity-0 left-0';
+    const basicCheckbox = 'w-5 h-5 text-grayscale-darkest inline-block mr-3';
     return (
-        <div {...others}>
+        <label {...others} className={container}>
             <input
+                className={hiddenHMTLCheckbox}
                 id={name}
                 type="checkbox"
                 checked={checked}
                 onChange={(event) => onChange(event.target.checked)}
                 disabled={disabled}
             />
-            <label htmlFor={name}>{children}</label>
-        </div>
+            {checked ? (
+                <CheckboxCheckedIcon className={basicCheckbox} />
+            ) : (<CheckboxUncheckedIcon className={basicCheckbox} />)}
+
+            {children}
+        </label>
     );
 };
 
