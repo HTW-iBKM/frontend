@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import CheckboxCheckedIcon from "../icons/CheckboxCheckedIcon";
 import CheckboxUncheckedIcon from "../icons/CheckboxUncheckedIcon";
 
@@ -18,11 +18,22 @@ const Checkbox: FC<CheckboxProps<boolean>> = ({
     children,
     ...others
 }: CheckboxProps<boolean>) => {
-    const container = 'flex flex-row items-center';
+    const [hover, setHover] = useState(false);
+    const [active, setActive] = useState(false);
+
+    const labelStyles = 'flex flex-row items-center text-grayscale-darkest';
+    const stylesDisabledLabel = 'flex flex-row items-center text-grayscale-dark'
+
     const hiddenHMTLCheckbox = 'absolute opacity-0 left-0';
-    const basicCheckbox = 'w-5 h-5 text-grayscale-darkest inline-block mr-3';
+
+    const basicCheckboxStyles = 'w-5 h-5 text-grayscale-darkest mr-3';
+    const stylesActiveCheckbox = 'w-5 h-5 text-secondary mr-3';
+    const stylesHoverCheckbox = 'w-5 h-5 text-secondary-light mr-3';
+    const stylesDisabledCheckbox = 'w-5 h-5 text-grayscale-dark mr-3';
+
+
     return (
-        <label {...others} className={container}>
+        <label {...others} className={disabled ? stylesDisabledLabel : labelStyles} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onMouseDown={() => setActive(true)} onMouseUp={() => setActive(false)}>
             <input
                 className={hiddenHMTLCheckbox}
                 id={name}
@@ -32,8 +43,8 @@ const Checkbox: FC<CheckboxProps<boolean>> = ({
                 disabled={disabled}
             />
             {checked ? (
-                <CheckboxCheckedIcon className={basicCheckbox} />
-            ) : (<CheckboxUncheckedIcon className={basicCheckbox} />)}
+                <CheckboxCheckedIcon className={disabled ? stylesDisabledCheckbox : active ? stylesActiveCheckbox : hover ? stylesHoverCheckbox : basicCheckboxStyles} />
+            ) : (<CheckboxUncheckedIcon className={disabled ? stylesDisabledCheckbox : active ? stylesActiveCheckbox : hover ? stylesHoverCheckbox : basicCheckboxStyles} />)}
 
             {children}
         </label>
