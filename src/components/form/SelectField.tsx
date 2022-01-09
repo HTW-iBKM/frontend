@@ -10,13 +10,14 @@ interface SelectFieldOption {
   value: string;
 }
 
-interface SelectFieldProps<T> {
+interface SelectFieldProps  {
   variant: SelectFieldVariant;
   options: SelectFieldOption[];
   label: string;
-  onChange(value: T): void;
+  onChange: (value: string) => void;
+  className?: string;
 }
-function SelectField({options, variant, label, onChange}: SelectFieldProps<string>): ReactElement {
+function SelectField({options, variant, label, onChange, className}: SelectFieldProps): ReactElement {
   const styles = {
     navbarIcon: 'h-[24px] w-[24px] ',
     selectFieldToggle: {
@@ -44,7 +45,7 @@ function SelectField({options, variant, label, onChange}: SelectFieldProps<strin
   }
 
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu as="div" className={`${className} relative inline-block text-left`}>
       <div className={`${isDefaultVariant ? styles.selectFieldToggle.default : styles.selectFieldToggle.small}`}>
         <Menu.Button className={`${isDefaultVariant ? styles.selectFieldButton.default : styles.selectFieldButton.small}`}>
           {selectedOption != null ? selectedOption.label : label}
@@ -66,8 +67,8 @@ function SelectField({options, variant, label, onChange}: SelectFieldProps<strin
               {({ active }) => (
                 <button
                   className={`
-                    ${option.value == selectedOption?.value && !active ? 'bg-secondary text-grayscale-light ring-x-1 ring-x-secondary' : 'text-grayscale-darkest'}
-                    ${active ? 'bg-secondary-light !text-grayscale ring-x-1 ring-x-secondary' : 'text-grayscale-light'}
+                    ${option.value == selectedOption?.value && !active && 'bg-secondary text-grayscale-light ring-x-1 ring-x-secondary'}
+                    ${active && 'bg-secondary-light !text-grayscale-light ring-x-1 ring-x-secondary'}
                     ${isDefaultVariant ? styles.selectItem.default : styles.selectItem.small}
                   `}
                   onClick={() => selectValue(option)}

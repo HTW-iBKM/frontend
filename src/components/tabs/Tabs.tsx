@@ -39,7 +39,7 @@ function Tabs({type, tabs, panels}: TabsProps): ReactElement {
           </Tab>
         ))}
       </Tab.List>
-      <Tab.Panels className={"block w-full h-full max-h-[calc(100%-56px)] "}>
+      <Tab.Panels className={"block w-full h-[calc(100%-56px)] min-h-[calc(100%-56px)] max-h-[calc(100%-56px)]"}>
           {panels.map((panel, index) => (
               <Tab.Panel key={index} className={"w-full h-full"}>{panel}</Tab.Panel>
           ))}

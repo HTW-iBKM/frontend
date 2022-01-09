@@ -11,14 +11,15 @@ import {
   BarChart
 } from "recharts";
 import {parseGraphData, calculateTickCount, calculateDomain} from "./helpers";
-import {GraphData} from "./Graph";
+import {GraphData, KeyData} from "./Graph";
 
 interface BarChartPanelProps {
     data: GraphData[];
+    keyData: KeyData[]
     graphLineColors: string[];
 }
 
-function BarChartPanel({data, graphLineColors}: BarChartPanelProps): ReactElement {
+function BarChartPanel({data, keyData, graphLineColors}: BarChartPanelProps): ReactElement {
     const yInterval = 500;
     const maxValue = 0;
     const minValue = Infinity;
@@ -73,18 +74,16 @@ function BarChartPanel({data, graphLineColors}: BarChartPanelProps): ReactElemen
                   dy={-16}
                 />
               </YAxis>
-              <Bar
-                name="Prognose"
-                dataKey={"prediction"}
-                fill={graphLineColors[0]}
-                unit=" KW"
-              />
-              <Bar
-                name="Tatsächlicher Verbrauch"
-                dataKey={"ground_truth"}
-                fill={graphLineColors[1]}
-                unit=" KW"
-              />
+              {keyData.map((data, index) =>
+                data.checked &&
+                  <Bar
+                    key={index}
+                    name={data.name}
+                    dataKey={data.key}
+                    fill={graphLineColors[index]}
+                    unit=" KW"
+                  />
+              )}
             </BarChart>
           </ResponsiveContainer>
         </div>
