@@ -93,11 +93,11 @@ function Graph(): ReactElement {
   const [data, setData] = useState<GraphData[]>([]);
 
   const [intervalOptions, setIntervalOptions] = useState<IntervalOption[]>([
-    {value: 'minutes', label: '15 Minuten', disabled: false, interval: 0.25},
-    {value: 'hour', label: 'Stunde', disabled: false, interval: 1},
-    {value: 'day', label: 'Tag', disabled: false, interval: 24},
-    {value: 'week', label: 'Woche', disabled: false, interval: 24 * 7},
-    {value: 'month', label: 'Monat', disabled: false, interval: 24 * 7 * 30}
+    {value: 'minutes', label: '15 Minuten', disabled: false, interval: 1},
+    {value: 'hour', label: 'Stunde', disabled: false, interval: 4},
+    {value: 'day', label: 'Tag', disabled: false, interval: 4 * 24},
+    {value: 'week', label: 'Woche', disabled: false, interval: 4 * 24 * 7},
+    {value: 'month', label: 'Monat', disabled: false, interval: 4 * 24 * 7 * 30}
   ]);
 
   const [interval, setInterval] = useState<string>('minutes');
@@ -196,8 +196,12 @@ function Graph(): ReactElement {
 
   useEffect(() => setDisabledFields(), [selectedTimespan, interval]);
 
+  // TODO apply formatData to graphData once we have more than a day of data
   const formatData = (graphData: GraphData[]): GraphData[] => {
-    return graphData.filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate);
+    const selectedInterval = intervalOptions.find(option => option.value === interval);
+    return graphData
+    .filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate)
+    .filter((data, index) => selectedInterval && index % selectedInterval.interval === 0);
   };
 
   const IconTimeline = <TimelineIcon className={'h-5 w-5'}/>;
