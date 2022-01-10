@@ -12,11 +12,13 @@ import { v4 as uuidv4 } from 'uuid';
 import "./SaveFileModalTemplate.css";
 
 interface SaveFileModalProps {
-  keyData: KeyData[],
-  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+  keyData: KeyData[];
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onSaveFile: (fileName: string, fileType: string, currentGraph: string) => void;
+  activeGraph: string;
 }
 
-const SaveFileTemplate = ({keyData, setModalOpen}: SaveFileModalProps): ReactElement => {
+const SaveFileTemplate = ({keyData, setModalOpen, onSaveFile, activeGraph}: SaveFileModalProps): ReactElement => {
   const toastContext = useContext(ToastContext);
 
   const styles = {
@@ -49,20 +51,39 @@ const SaveFileTemplate = ({keyData, setModalOpen}: SaveFileModalProps): ReactEle
   
   const validForm = () => !formErr['name'] && !formErr['format'] && !formErr['timeSeries'];
 
-  const handleSubmit = (evt: React.FormEvent) => {    
+
+  const handleSubmit = (evt: React.FormEvent) => {
+    evt.preventDefault();
     if(validForm()) {
-      toastContext.setToasts([...toastContext.toasts, {id: uuidv4(), type: "success", headline: "Glückwunsch", message: "Die Datei wurde erfolgreich erstellt."}])
-      setModalOpen(false);
-      evt.preventDefault();
       alert(`
         Submitting 
         Filename ${fileName}, 
         Format type ${radioButtonGroup.selected}, 
         Time series: ${checkboxFormControls.map((checkbox) => `${checkbox.name}: ${checkbox.checked}`)}`
       );
-      resetFileName();
-      resetRadioButtonGroup();
-      checkboxFormControls.map((checkbox) => checkbox.reset())
+
+      if(radioButtonGroup.selected) {
+        try {
+          onSaveFile(fileName, radioButtonGroup.selected, activeGraph);
+          resetFileName();
+          resetRadioButtonGroup();
+          checkboxFormControls.map((checkbox) => checkbox.reset())
+          toastContext.setToasts([...toastContext.toasts, {
+            id: uuidv4(),
+            type: "success",
+            headline: "Glückwunsch",
+            message: "Die Datei wurde erfolgreich erstellt."
+          }])
+          setModalOpen(false);
+        } catch {
+          toastContext.setToasts([...toastContext.toasts, {
+            id: uuidv4(),
+            type: "error",
+            headline: "Fehler",
+            message: "Die Datei konnte nicht erstellt werden."
+          }])
+        }
+      }
     } 
 
     // Toast erscheint, wenn nach beim Submit etwas schief gelaufen ist. Formular fehler werden bereits im Formular abgefangen. Hier gehts eher um Fehler seitens der DB oder so

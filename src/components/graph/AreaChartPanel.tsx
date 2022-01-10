@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'react';
+import React, {ReactElement, Ref} from 'react';
 import './Graph.css';
 import {
   CartesianGrid,
@@ -18,7 +18,7 @@ interface AreaChartPanelProps {
     graphLineColors: string[];
 }
 
-function AreaChartPanel({data, keyData, graphLineColors}: AreaChartPanelProps): ReactElement {
+function AreaChartPanel({data, keyData, graphLineColors}: AreaChartPanelProps, ref: Ref<any>): ReactElement {
     const yIntervall = 500;
     const maxValue = 0;
     const minValue = Infinity;
@@ -28,6 +28,7 @@ function AreaChartPanel({data, keyData, graphLineColors}: AreaChartPanelProps): 
           <ResponsiveContainer>
             <AreaChart data={parseGraphData(data)}
                        margin={{top: 50, right: 50, left: 36}}
+                       ref={ref}
             >
               <CartesianGrid strokeDasharray="5 5"/>
               <Tooltip
@@ -102,4 +103,4 @@ function AreaChartPanel({data, keyData, graphLineColors}: AreaChartPanelProps): 
     );
 }
 
-export default AreaChartPanel;
+export default React.forwardRef(AreaChartPanel);
