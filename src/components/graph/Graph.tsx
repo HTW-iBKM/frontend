@@ -133,10 +133,6 @@ function Graph(): ReactElement {
     }
     _setSelectedTimespan(option);
   };
-  const [calendarTimespan, _setCalendarTimespan] = useState<{startDate: Date, endDate: Date}>({
-    startDate: new Date(),
-    endDate: new Date()
-  });
   const setCalendarTimespan = (dates: Date[]) => {
     setCalenderOptionLabel(dates.map((date, index) => date.toLocaleDateString(undefined, {
       year: index === 0 && dates[0].getFullYear() === dates[1].getFullYear() ? undefined : 'numeric',
@@ -144,9 +140,7 @@ function Graph(): ReactElement {
       day: '2-digit',
     })).join('-'));
 
-    const timespan = {startDate: dates[0], endDate: dates[1]};
-    _setCalendarTimespan(timespan);
-    setTimespan(timespan);
+    setTimespan({startDate: dates[0], endDate: dates[1]});
   };
   const setCalenderOptionLabel = (value: string) => {
     setTimespanOptions((options: TimespanOption[]) => {
