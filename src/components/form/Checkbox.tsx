@@ -20,20 +20,23 @@ const Checkbox: FC<CheckboxProps<boolean>> = ({
 }: CheckboxProps<boolean>) => {
     const [hover, setHover] = useState(false);
     const [active, setActive] = useState(false);
+    const [focus, setFocus] = useState(false);
 
-    const labelStyles = 'flex flex-row items-center text-grayscale-darkest';
-    const stylesDisabledLabel = 'flex flex-row items-center text-grayscale-dark'
+    const label = 'flex flex-row items-center text-grayscale-darkest';
+    const disabledLabel = 'flex flex-row items-center text-grayscale-dark'
 
     const hiddenHMTLCheckbox = 'absolute opacity-0 left-0';
 
-    const basicCheckboxStyles = 'w-5 h-5 text-grayscale-darkest mr-3';
-    const stylesActiveCheckbox = 'w-5 h-5 text-secondary mr-3';
-    const stylesHoverCheckbox = 'w-5 h-5 text-secondary-light mr-3';
-    const stylesDisabledCheckbox = 'w-5 h-5 text-grayscale-dark mr-3';
+    const basicCheckbox = 'w-5 h-5 text-grayscale-darkest mr-3 z-10 relative';
+    const activeCheckbox = 'w-5 h-5 text-secondary mr-3 z-10';
+    const hoverCheckbox = 'w-5 h-5 text-secondary-light mr-3 z-10';
+    const disabledCheckbox = 'w-5 h-5 text-grayscale-dark mr-3 z-10';
 
+    const focusRing = 'w-[1.375rem] h-[1.375rem] absolute rounded-sm border-4 border-solid border-secondary -ml-px opacity-20';
 
     return (
-        <label {...others} className={disabled ? stylesDisabledLabel : labelStyles} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onMouseDown={() => setActive(true)} onMouseUp={() => setActive(false)}>
+        <label {...others} className={disabled ? disabledLabel : label} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onMouseDown={() => setActive(true)} onMouseUp={() => setActive(false)} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}>
+            {focus && <span className={focusRing}></span>}
             <input
                 className={hiddenHMTLCheckbox}
                 id={name}
@@ -43,9 +46,8 @@ const Checkbox: FC<CheckboxProps<boolean>> = ({
                 disabled={disabled}
             />
             {checked ? (
-                <CheckboxCheckedIcon className={disabled ? stylesDisabledCheckbox : active ? stylesActiveCheckbox : hover ? stylesHoverCheckbox : basicCheckboxStyles} />
-            ) : (<CheckboxUncheckedIcon className={disabled ? stylesDisabledCheckbox : active ? stylesActiveCheckbox : hover ? stylesHoverCheckbox : basicCheckboxStyles} />)}
-
+                <CheckboxCheckedIcon className={disabled ? disabledCheckbox : active ? activeCheckbox : hover ? hoverCheckbox : basicCheckbox} />
+            ) : (<CheckboxUncheckedIcon className={disabled ? disabledCheckbox : active ? activeCheckbox : hover ? hoverCheckbox : basicCheckbox} />)}
             {children}
         </label>
     );
