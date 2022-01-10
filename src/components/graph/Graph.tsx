@@ -87,9 +87,6 @@ function Graph(): ReactElement {
     const [getBarChartPng, { ref: barChartRef }] = useCurrentPng();
     const [getAreaChartPng, { ref: areaChartRef }] = useCurrentPng();
 
-    // Can also pass in options for html2canvas
-    // const [getPng, { ref }] = useCurrentPng({ backgroundColor: '#000' });
-
     const handlePngDownload = useCallback(async (fileName: string, currentGraph: string) => {
         let png;
         switch (currentGraph) {
