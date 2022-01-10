@@ -124,8 +124,8 @@ function Center(): ReactElement {
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg flex flex-col gap-2"}>
-          <Checkbox name="test1" checked={isCheckboxChecked} onChange={setIsCheckboxChecked}>Test 1</Checkbox>
-          <Checkbox name="test3" checked={true} disabled onChange={(value) => console.log(value)}>Test 2</Checkbox>
+          <Checkbox name="test1" checked={isCheckboxChecked} onChange={(event) => setIsCheckboxChecked(event.target.checked)}>Test 1</Checkbox>
+          <Checkbox name="test3" checked={true} disabled onChange={(event) => console.log(event)}>Test 2</Checkbox>
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
