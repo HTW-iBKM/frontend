@@ -19,8 +19,6 @@ import Modal from "../modal/Modal";
 import {useCurrentPng} from "recharts-to-png";
 import FileSaver from 'file-saver';
 
-
-
 export interface GraphData {
     time: string;
     daily_cos: string;
@@ -79,6 +77,7 @@ function Graph(): ReactElement {
 
     const [data, setData] = useState<GraphData[]>([]);
     const [activeGraph, setActiveGraph] = useState<string>(String);
+
     const IconTimeline = <><TimelineIcon className={"h-5 w-5"}/></>
     const IconEqualizer = <><EqualizerIcon className={"h-5 w-5"}/></>
     const IconStackedLineChart = <><StackedLineChartIcon className={"h-5 w-5"}/></>
