@@ -1,6 +1,5 @@
 import React, {Dispatch, Fragment, ReactElement, SetStateAction, useEffect} from "react";
 import { Tab } from '@headlessui/react'
-import {CssClasses} from "ag-grid-react/lib/reactUi/utils";
 type TabType = "default" | "small"
 
 interface TabsProps{
@@ -13,7 +12,7 @@ interface TabsProps{
   onTabChange?: Dispatch<SetStateAction<string>>;
   className?: string;
 }
-function Tabs({type, tabs, panels, onTabChange, className}: TabsProps): ReactElement {
+function Tabs({type, tabs, panels, onTabChange}: TabsProps): ReactElement {
   const styles = {
     tabList: "inline-block ring-1 ring-grayscale-dark border-2 border-grayscale-light rounded-lg",
     tab: {

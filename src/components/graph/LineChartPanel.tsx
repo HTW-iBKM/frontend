@@ -22,6 +22,7 @@ export interface LineChartPanelProps {
     graphLineColors: string[];
 }
 
+{/* @TODO Correct Ref Typing */}
 function LineChartPanel({data, keyData, graphLineColors}: LineChartPanelProps, ref: Ref<any>): ReactElement {
     const yIntervall = 500;
     const maxValue = 0;

@@ -18,6 +18,7 @@ interface AreaChartPanelProps {
     graphLineColors: string[];
 }
 
+{/* @TODO Correct Ref Typing */}
 function AreaChartPanel({data, keyData, graphLineColors}: AreaChartPanelProps, ref: Ref<any>): ReactElement {
     const yIntervall = 500;
     const maxValue = 0;

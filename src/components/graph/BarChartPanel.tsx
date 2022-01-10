@@ -19,6 +19,7 @@ interface BarChartPanelProps {
     graphLineColors: string[];
 }
 
+{/* @TODO Correct Ref Typing */}
 function BarChartPanel({data, keyData, graphLineColors}: BarChartPanelProps, ref: Ref<any>): ReactElement {
     const yInterval = 500;
     const maxValue = 0;
