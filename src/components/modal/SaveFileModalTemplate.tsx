@@ -55,13 +55,6 @@ const SaveFileTemplate = ({keyData, setModalOpen, onSaveFile, activeGraph}: Save
   const handleSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
     if(validForm()) {
-      alert(`
-        Submitting 
-        Filename ${fileName}, 
-        Format type ${radioButtonGroup.selected}, 
-        Time series: ${checkboxFormControls.map((checkbox) => `${checkbox.name}: ${checkbox.checked}`)}`
-      );
-
       if(radioButtonGroup.selected) {
         try {
           onSaveFile(fileName, radioButtonGroup.selected, activeGraph);
