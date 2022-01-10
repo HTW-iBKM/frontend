@@ -40,9 +40,9 @@ function Center(): ReactElement {
 
 
   const selectOptions = [
-    { value: 'woche1', label: 'Erste Woche' },
-    { value: 'woche2', label: 'Zweite Woche' },
-    { value: 'woche3', label: 'Dritte Woche' }
+    { value: 'woche1', label: 'Erste Woche', disabled: false },
+    { value: 'woche2', label: 'Zweite Woche', disabled: false },
+    { value: 'woche3', label: 'Dritte Woche', disabled: false }
   ]
   const handleDateRangeChange = (value: Date[]) => {
     setSelectedDateRange(value)

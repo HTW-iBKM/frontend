@@ -72,10 +72,10 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
   };
 
   const pageSizeOptions = [
-    { value: '2', label: '2' },
-    { value: '4', label: '4' },
-    { value: '6', label: '6' },
-    { value: '8', label: '8' },
+    { value: '2', label: '2', disabled: false },
+    { value: '4', label: '4', disabled: false },
+    { value: '6', label: '6', disabled: false },
+    { value: '8', label: '8', disabled: false },
   ]
 
   return (
