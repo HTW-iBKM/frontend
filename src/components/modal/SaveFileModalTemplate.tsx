@@ -73,7 +73,7 @@ const SaveFileTemplate = ({keyData, setModalOpen}: SaveFileModalProps): ReactEle
     <div>
       <form name="saveFileForm" onSubmit={handleSubmit}>
         <div className={`${styles.formElementGroup}`}>
-          <p>Geben Sie der Datei einen Titel:</p>
+          <p className="mb-4">Geben Sie der Datei einen Titel:</p>
           <TextField 
             type={"text"} 
             name={"file-name"} 
