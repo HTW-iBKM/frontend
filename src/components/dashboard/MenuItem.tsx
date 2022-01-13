@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactElement, ReactNode } from "react";
 
 export interface CoreMenuItemProps {
     onClick?(): void;
@@ -15,7 +15,7 @@ export const MenuItem = ({
     onClick,
     icon,
     buttonText,
-}: CoreMenuItemProps & AdditionalMenuItemProps) => {
+}: CoreMenuItemProps & AdditionalMenuItemProps): ReactElement => {
     const styles = {
         menuItem:
             "flex gap-3 rounded-md items-center p-2 text-base hover:bg-grayscale cursor-pointer",

@@ -34,7 +34,7 @@ function Navbar(): ReactElement {
   ];
 
   return (
-    <div className={"h-14 flex items-center justify-between "}>
+    <div className={"h-full flex items-center justify-between "}>
       <h6 className="text-h6">Exxeta iBKM</h6>
       <div className="flex flex-row gap-16 px-4">
         <ContextMenu

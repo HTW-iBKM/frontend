@@ -1,4 +1,4 @@
-import React, { ReactNode, Fragment } from "react";
+import React, { ReactNode, Fragment, ReactElement } from "react";
 import { Menu, Transition } from "@headlessui/react";
 
 import { MenuItem, CoreMenuItemProps } from "./MenuItem";
@@ -12,11 +12,11 @@ interface ContextMenuProps {
 
 const ContextMenu = ({
     anchorIcon, anchorLabel, customMenuItem, menuItems
-}: ContextMenuProps) => {
+}: ContextMenuProps): ReactElement => {
 
     const styles = {
         menu: "absolute right-0 mt-2 origin-top-right bg-grayscale-light z-10 text-grayscale-darkest rounded-md shadow-lg ring-1 ring-grayscale-dark ring-opacity-5 focus:outline-none flex flex-col gap-2 p-2",
-        anchor: "h-[24px] w-[24px] ",
+        anchor: "h-6 w-6",
         menuItem:
             "flex gap-3 rounded-md items-center p-2 text-base hover:bg-grayscale cursor-pointer",
         activeMenuItem:
@@ -42,19 +42,19 @@ const ContextMenu = ({
                 <Menu.Items className={styles.menu}>
                     {customMenuItem}
                     {menuItems.map((item, index) => {
-                        return (<>
-                            {!customMenuItem && index != 0 && <div className={"h-[1px] w-full bg-grayscale"}></div>}
-                            <Menu.Item key={index}>
+                        return (<span className="flex flex-col gap-2" key={item.buttonText}>
+                            {(!!customMenuItem || index != 0) && <div className={"h-[1px] w-full bg-grayscale"} ></div>}
+                            <Menu.Item>
                                 {({ active }) => (
                                     <MenuItem {...item} active={active}
                                     />
                                 )}
-                            </Menu.Item></>
+                            </Menu.Item></span>
                         )
                     })}
                 </Menu.Items>
             </Transition>
-        </Menu>
+        </Menu >
     )
 };
 
