@@ -1,8 +1,12 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import { signIn } from '../../api/api';
 import LogoComponent from '../../components/logo/logoComponent';
+import { ToastContext } from '../../context/ToastContext';
 import { isEmail } from '../../utils/utility';
+import { v4 as uuidv4 } from 'uuid';
+import ToastContainer from "../../components/toast/ToastContainer";
+
 function LoginPage(): ReactElement {
 
     const history = useHistory();
@@ -17,7 +21,7 @@ function LoginPage(): ReactElement {
         password: false
     })
 
-    const formErr: {email: string | null, password: string | null} =
+    const formErr: { email: string | null, password: string | null } =
     {
         email: form.email && !isEmail(form.email) ? "Valide EMail-Addresse angeben!" : null,
         password: !form.password ? 'Bitte Password wählen.' : null
@@ -46,14 +50,18 @@ function LoginPage(): ReactElement {
         inputUser: 'h-[116px] flex flex-col justify-between mt-[40px] mb-[40px]'
     }
 
+    const toastContext = useContext(ToastContext);
+
     const login = () => {
         signIn(form.email, form.password).then(() => {
             history.push('dashboard')
-        }).catch((err) => alert(err.message));
+        }).catch((err) =>
+            toastContext.setToasts([...toastContext.toasts, { id: uuidv4(), type: "error", headline: "Login fehlgeschlagen!", message: err.message }]));
     }
 
     return (
         <LogoComponent>
+            <ToastContainer />
             {/* <div className={styles.content}> */}
             <div className={styles.loginContainer}>
                 <h3 className={styles.loginH3}>Login</h3>

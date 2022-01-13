@@ -1,6 +1,6 @@
-import React, {ReactElement, useState} from 'react';
+import React, { ReactElement, useState } from 'react';
 import ToastContainer from "../components/toast/ToastContainer";
-import {ToastInterface, ToastContext, ToastContextInterface} from "../context/ToastContext";
+import { ToastInterface, ToastContext, ToastContextInterface } from "../context/ToastContext";
 
 interface LayoutProps {
   top: ReactElement;
@@ -17,25 +17,17 @@ function DashboardLayout(props: LayoutProps): ReactElement {
     contentContainer: 'flex-1 overflow-y-scroll relative'
   }
 
-  const [toasts, setToasts] = useState<ToastInterface[]>([]);
-  const defaultToastContext: ToastContextInterface = {
-    toasts,
-    setToasts
-  }
-  
   return (
-    <ToastContext.Provider value={defaultToastContext}>
-      <div className={styles.layoutContainer}>
-        <header className={styles.headerContainer}>
-          {props.top}
-        </header>
-        <main className={styles.mainContainer}>
-          <ToastContainer></ToastContainer>
-          <div className={styles.sidebarContainer}>{props.left}</div>
-          <div className={styles.contentContainer}>{props.center}</div>
-        </main>
-      </div>
-    </ToastContext.Provider>
+    <div className={styles.layoutContainer}>
+      <header className={styles.headerContainer}>
+        {props.top}
+      </header>
+      <main className={styles.mainContainer}>
+        <ToastContainer></ToastContainer>
+        <div className={styles.sidebarContainer}>{props.left}</div>
+        <div className={styles.contentContainer}>{props.center}</div>
+      </main>
+    </div>
   )
 }
 
