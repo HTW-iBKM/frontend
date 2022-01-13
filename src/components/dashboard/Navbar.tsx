@@ -7,8 +7,8 @@ import SettingsIcon from "../icons/SettingsIcon";
 import EditIcon from "../icons/EditIcon";
 import auth from "../../services/Auth";
 import { useHistory } from "react-router-dom";
-import CheckboxCheckedIcon from "../icons/CheckboxCheckedIcon";
-import CheckboxUncheckedIcon from "../icons/CheckboxUncheckedIcon";
+import RadioButtonCheckedIcon from "../icons/RadioButtonCheckedIcon";
+import RadioButtonUncheckedIcon from "../icons/RadioButtonUncheckedIcon";
 
 
 function Navbar(): ReactElement {
@@ -48,8 +48,8 @@ function Navbar(): ReactElement {
                     {({ checked }) => (
                       <>
                         {checked ? (
-                          <CheckboxCheckedIcon className="w-4 h-4 text-grayscale-darkest" />
-                        ) : (<CheckboxUncheckedIcon className="w-4 h-4 text-grayscale-darkest" />)}
+                          <RadioButtonCheckedIcon className="w-4 h-4 text-grayscale-darkest" />
+                        ) : (<RadioButtonUncheckedIcon className="w-4 h-4 text-grayscale-darkest" />)}
                         <span className={"whitespace-nowrap"}>Bilanzkreis A</span>
                       </>
                     )}
@@ -59,8 +59,8 @@ function Navbar(): ReactElement {
                     {({ checked }) => (
                       <>
                         {checked ? (
-                          <CheckboxCheckedIcon className="w-4 h-4 text-grayscale-darkest" />
-                        ) : (<CheckboxUncheckedIcon className="w-4 h-4 text-grayscale-darkest" />)}
+                          <RadioButtonCheckedIcon className="w-4 h-4 text-grayscale-darkest" />
+                        ) : (<RadioButtonUncheckedIcon className="w-4 h-4 text-grayscale-darkest" />)}
                         <span className={"whitespace-nowrap"}>Bilanzkreis B</span>
                       </>
                     )}

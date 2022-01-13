@@ -1,4 +1,4 @@
-import React, {ReactElement, useContext, useState} from "react";
+import React, { ReactElement, useContext, useState } from "react";
 import { ToastContext } from "../../context/ToastContext";
 import { useInput } from "../../hooks/useInput";
 import { RadioButtonGroupInterface, useRadioButtonGroup } from "../../hooks/useRadioButtonGroup";
@@ -9,13 +9,14 @@ import { KeyData } from "../graph/Graph";
 import { commonModalStyles } from "./Modal";
 import { v4 as uuidv4 } from 'uuid';
 import "./SaveFileModalTemplate.css";
+import Checkbox from "../form/Checkbox";
 
 interface SaveFileModalProps {
   keyData: KeyData[],
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SaveFileTemplate = ({keyData, setModalOpen}: SaveFileModalProps): ReactElement => {
+const SaveFileTemplate = ({ keyData, setModalOpen }: SaveFileModalProps): ReactElement => {
   const toastContext = useContext(ToastContext);
 
   const styles = {
@@ -43,9 +44,9 @@ const SaveFileTemplate = ({keyData, setModalOpen}: SaveFileModalProps): ReactEle
   
   const validForm = () => !formErr['name'] && !formErr['format'];
 
-  const handleSubmit = (evt: React.FormEvent) => {    
-    if(validForm()) {
-      toastContext.setToasts([...toastContext.toasts, {id: uuidv4(), type: "success", headline: "Glückwunsch", message: "Die Datei wurde erfolgreich erstellt."}])
+  const handleSubmit = (evt: React.FormEvent) => {
+    if (validForm()) {
+      toastContext.setToasts([...toastContext.toasts, { id: uuidv4(), type: "success", headline: "Glückwunsch", message: "Die Datei wurde erfolgreich erstellt." }])
       setModalOpen(false);
       evt.preventDefault();
       alert(`
@@ -67,9 +68,9 @@ const SaveFileTemplate = ({keyData, setModalOpen}: SaveFileModalProps): ReactEle
         <div className={`${styles.formElementGroup}`}>
           <p className="mb-4">Geben Sie der Datei einen Titel:</p>
           <TextField 
-            type={"text"} 
-            name={"file-name"} 
-            label={"Dateiname*"} 
+            type="text"
+            name="file-name"
+            label="Dateiname*"
             onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, name: true }))} 
             {...bindFileName}
             errorMessage={`${formErr['name'] && formTouched.name ? formErr['name'] : ""}`}
@@ -77,13 +78,13 @@ const SaveFileTemplate = ({keyData, setModalOpen}: SaveFileModalProps): ReactEle
         </div>
         <div className={`${styles.formElementGroup}`}>
           <p>Wählen Sie ein Dateiformat*:</p>
-            <RadioButtonGroup 
-              options={bindRadioButtonGroup.radioButtonGroup.options} 
-              selected={bindRadioButtonGroup.radioButtonGroup.selected}
-              disabledOptions={bindRadioButtonGroup.radioButtonGroup.disabledOptions}
-              onChange={bindRadioButtonGroup.onChange}
-            >
-            </RadioButtonGroup>
+          <RadioButtonGroup
+            options={bindRadioButtonGroup.radioButtonGroup.options}
+            selected={bindRadioButtonGroup.radioButtonGroup.selected}
+            disabledOptions={bindRadioButtonGroup.radioButtonGroup.disabledOptions}
+            onChange={bindRadioButtonGroup.onChange}
+          >
+          </RadioButtonGroup>
         </div>
         <div className={`${commonModalStyles.buttonGroup}`}>
           <Button variant={"secondary"} onClick={() => setModalOpen(false)}>Abbrechen</Button>
