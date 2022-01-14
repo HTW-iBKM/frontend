@@ -61,8 +61,8 @@ export interface KeyData {
 
 function Graph(): ReactElement {
     const styles = {
-        graphContainer:
-          "w-full h-full p-7 flex justify-center items-center flex-col ",
+        graphContainer: "w-[calc(100%-3.5rem)] h-[calc(100%-3.5rem)] m-7 flex justify-center items-center flex-col ",
+        loadingCommonStyle: "bg-[#E9EAF0] rounded-lg"
     };
 
     /**
@@ -132,7 +132,18 @@ function Graph(): ReactElement {
     }, []);
 
     return !data.length ? (
-        <div className={styles.graphContainer}>Waiting for data ...</div>
+        <div className={styles.graphContainer}>
+            <div className="w-full h-full animate-pulse-dramatic flex flex-col justify-between">
+                <div className={`h-8 w-1/3 ${styles.loadingCommonStyle}`}></div>
+                <div className={`mt-5 h-8 ${styles.loadingCommonStyle}`}></div>
+                <div className={`mt-7 h-5 flex-1 ${styles.loadingCommonStyle}`}></div>
+                <div className={`mt-9 border border-grayscale-disabled ${styles.loadingCommonStyle}`}></div>
+                <div className="mt-6 flex gap-5">
+                    <div className={`w-2/3 h-8 ${styles.loadingCommonStyle}`}></div>
+                    <div className={`w-1/3 h-8 ${styles.loadingCommonStyle}`}></div>
+                </div>
+            </div>
+        </div>
     ) : (
         <div className={styles.graphContainer}>
             <div className="w-full flex justify-between">
@@ -158,7 +169,7 @@ function Graph(): ReactElement {
                   ]}
                   panels={[LineChartComponent, BarChart, AreaChart]} />
             </div>
-            <div className="border border-[#E2E2E2] w-full m-6"/>
+            <div className="border border-disabled w-full m-6"/>
             <div className="w-full flex justify-center flex-wrap">
                 {keyData.map((data: KeyData, index: number) =>
                     data.checked &&

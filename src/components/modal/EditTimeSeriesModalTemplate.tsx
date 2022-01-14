@@ -49,8 +49,8 @@ const EditTimeSeriesTemplate = ({ keyData, setKeyData, setModalOpen }: EditTimeS
           </fieldset>
         </div>
         <div className={`${commonModalStyles.buttonGroup}`}>
-          <Button variant={"secondary"} onClick={() => setModalOpen(false)}>Abbrechen</Button>
-          <Button type="submit" variant={"primary"}>Speichern</Button>
+          <Button variant="secondary" onClick={() => setModalOpen(false)}>Abbrechen</Button>
+          <Button type="submit" variant="primary">Speichern</Button>
         </div>
       </form>
     </div>
