@@ -1,13 +1,18 @@
-import React, {Fragment, ReactElement} from "react";
+import React, {Dispatch, Fragment, ReactElement, SetStateAction, useEffect} from "react";
 import { Tab } from '@headlessui/react'
 type TabType = "default" | "small"
 
-interface TabsProps extends React.HTMLAttributes<HTMLDivElement>{
+interface TabsProps{
   type: TabType;
-  tabs: (string | ReactElement)[];
+  tabs: ({
+    title: (string | ReactElement);
+    accessor: string;
+  })[];
   panels: (string| ReactElement)[];
+  onTabChange?: Dispatch<SetStateAction<string>>;
+  className?: string;
 }
-function Tabs({type, tabs, panels}: TabsProps): ReactElement {
+function Tabs({type, tabs, panels, onTabChange}: TabsProps): ReactElement {
   const styles = {
     tabList: "inline-block ring-1 ring-grayscale-dark border-2 border-grayscale-light rounded-lg",
     tab: {
@@ -21,28 +26,36 @@ function Tabs({type, tabs, panels}: TabsProps): ReactElement {
 
   const isDefaultType = type === "default";
 
+  useEffect(() => {
+    if(onTabChange) onTabChange(tabs[0].accessor)
+  }, [onTabChange]);
+
   return (
-    <Tab.Group>
-      <Tab.List className={styles.tabList}>
+    <Tab.Group
+      onChange={(index) => {
+        if(onTabChange) onTabChange(tabs[index].accessor);
+      }}
+    >
+      <Tab.List className={`${styles.tabList}`}>
         {tabs.map((tab, index) => (
           <Tab key={index} as={Fragment}>
             {({ selected }) => (
               <button
                 className={`
-                  ${isDefaultType ? styles.tab.default : styles.tab.small} 
-                  ${selected ? styles.tab.selected : styles.tab.unselected}
-                `}
+                ${isDefaultType ? styles.tab.default : styles.tab.small} 
+                ${selected ? styles.tab.selected : styles.tab.unselected}
+              `}
               >
-                {tab}
+                {tab.title}
               </button>
             )}
           </Tab>
         ))}
       </Tab.List>
       <Tab.Panels className={"block w-full h-[calc(100%-56px)] min-h-[calc(100%-56px)] max-h-[calc(100%-56px)]"}>
-          {panels.map((panel, index) => (
-              <Tab.Panel key={index} className={"w-full h-full"}>{panel}</Tab.Panel>
-          ))}
+        {panels.map((panel, index) => (
+          <Tab.Panel key={index} className={"w-full h-full"}>{panel}</Tab.Panel>
+        ))}
       </Tab.Panels>
     </Tab.Group>
   )
