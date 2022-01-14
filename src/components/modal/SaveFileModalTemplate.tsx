@@ -32,10 +32,6 @@ const SaveFileTemplate = ({keyData, setModalOpen, onSaveFile, activeGraph}: Save
   }
   const { value:fileName, bind:bindFileName, reset:resetFileName } = useInput("");
   const { radioButtonGroup:radioButtonGroup, bind:bindRadioButtonGroup, reset:resetRadioButtonGroup } = useRadioButtonGroup(defaultRadioButtonGroupValue);
-  const checkboxFormControls = keyData.map((data) => {
-    const { checked:checkbox, bind:bindCheckbox, reset:resetCheckbox } = useCheckbox(data.checked)
-    return {key: data.key, name: data.name, checked: checkbox, bind:bindCheckbox, reset:resetCheckbox}
-  });
 
   const [formTouched, setFormTouched] = useState({
     name: false,
@@ -43,13 +39,12 @@ const SaveFileTemplate = ({keyData, setModalOpen, onSaveFile, activeGraph}: Save
     timeSeries: false,
   })
 
-  const formErr: {name: string | null, format: string | null, timeSeries: string | null} = {
+  const formErr: {name: string | null, format: string | null} = {
     name: !fileName ? "Der Titel muss mindestens einem Buchstaben haben." : null,
     format: !radioButtonGroup.selected ? 'Wählen sie ein Dateiformat.' : null,
-    timeSeries: checkboxFormControls.filter((checkbox) => !!checkbox.checked).length === 0 ? 'Wählen Sie mindestens eine Zeitreihe aus.' : null
   }
   
-  const validForm = () => !formErr['name'] && !formErr['format'] && !formErr['timeSeries'];
+  const validForm = () => !formErr['name'] && !formErr['format'];
 
 
   const handleSubmit = (evt: React.FormEvent) => {
@@ -60,7 +55,6 @@ const SaveFileTemplate = ({keyData, setModalOpen, onSaveFile, activeGraph}: Save
           onSaveFile(fileName, radioButtonGroup.selected, activeGraph);
           resetFileName();
           resetRadioButtonGroup();
-          checkboxFormControls.map((checkbox) => checkbox.reset())
           toastContext.setToasts([...toastContext.toasts, {
             id: uuidv4(),
             type: "success",
@@ -87,11 +81,11 @@ const SaveFileTemplate = ({keyData, setModalOpen, onSaveFile, activeGraph}: Save
     <div>
       <form name="saveFileForm" onSubmit={handleSubmit}>
         <div className={`${styles.formElementGroup}`}>
-          <p>Geben Sie der Datei einen Titel:</p>
+          <p className="mb-4">Geben Sie der Datei einen Titel:</p>
           <TextField 
-            type={"text"} 
-            name={"file-name"} 
-            label={"Dateiname*"} 
+            type="text"
+            name="file-name"
+            label="Dateiname*"
             onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, name: true }))} 
             {...bindFileName}
             errorMessage={`${formErr['name'] && formTouched.name ? formErr['name'] : ""}`}
@@ -99,27 +93,13 @@ const SaveFileTemplate = ({keyData, setModalOpen, onSaveFile, activeGraph}: Save
         </div>
         <div className={`${styles.formElementGroup}`}>
           <p>Wählen Sie ein Dateiformat*:</p>
-            <RadioButtonGroup 
-              options={bindRadioButtonGroup.radioButtonGroup.options} 
-              selected={bindRadioButtonGroup.radioButtonGroup.selected}
-              disabledOptions={bindRadioButtonGroup.radioButtonGroup.disabledOptions}
-              onChange={bindRadioButtonGroup.onChange}
-            >
-            </RadioButtonGroup>
-        </div>
-        <div className={`${styles.formElementGroup}`}>
-          <fieldset>
-            <legend className={`my-3`}><p>Wählen Sie alle Zeitreihen aus, die Sie als Datei abspeichern möchten*:</p></legend>
-            {checkboxFormControls.map((data, index) => 
-              <div key={index} className="flex gap-2 items-center">
-                <input className={`${formErr['timeSeries'] ? 'border-danger' : ''}`} id={data.key} type="checkbox" {...data.bind}/>
-                <label htmlFor={data.key}>{data.name}</label>
-              </div>
-            )}
-          </fieldset>
-          {formErr['timeSeries'] &&
-            <span className={"text-danger text-sm pl-4"}>{formErr['timeSeries']}</span>
-          }
+          <RadioButtonGroup
+            options={bindRadioButtonGroup.radioButtonGroup.options}
+            selected={bindRadioButtonGroup.radioButtonGroup.selected}
+            disabledOptions={bindRadioButtonGroup.radioButtonGroup.disabledOptions}
+            onChange={bindRadioButtonGroup.onChange}
+          >
+          </RadioButtonGroup>
         </div>
         <div className={`${commonModalStyles.buttonGroup}`}>
           <Button variant={"secondary"} onClick={() => setModalOpen(false)}>Abbrechen</Button>

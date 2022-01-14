@@ -37,14 +37,13 @@ function AreaChartPanel({data, keyData, graphLineColors}: AreaChartPanelProps, r
                 contentStyle={{borderRadius: 8, padding: 16}}
               />
               <defs>
-                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
-                </linearGradient>
-                <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
-                </linearGradient>
+              {keyData.map((data, index) =>
+                data.checked &&
+                  <linearGradient key={index} id={data.key} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={graphLineColors[index]} stopOpacity={0.6}/>
+                    <stop offset="95%" stopColor={graphLineColors[index]} stopOpacity={0}/>
+                  </linearGradient>
+              )}
               </defs>
               <XAxis
                 dataKey="time"
@@ -93,7 +92,7 @@ function AreaChartPanel({data, keyData, graphLineColors}: AreaChartPanelProps, r
                     name={data.name}
                     dataKey={data.key}
                     stroke={graphLineColors[index]}
-                    fill="url(#colorUv)"
+                    fill={`url(#${data.key})`}
                     fillOpacity={1}
                     unit=" KW"
                   />

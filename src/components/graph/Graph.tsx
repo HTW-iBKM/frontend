@@ -64,8 +64,15 @@ function Graph(): ReactElement {
         graphContainer:
           "w-full h-full p-7 flex justify-center items-center flex-col ",
     };
+
+    /**
+     * Definition of the line available colors.
+     */
     const GraphLineColors = ["#4074B2", "#DE9D28", "#edabd1", "#92dbd0"];
 
+    /**
+     * Inititial key data definition.
+     */
     const KeyDataDefault: KeyData[] = [
         {key: GraphKey.PREDICTION, name: 'Prognose', checked: true},
         {key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch', checked: true}
@@ -152,12 +159,13 @@ function Graph(): ReactElement {
                   panels={[LineChartComponent, BarChart, AreaChart]} />
             </div>
             <div className="border border-[#E2E2E2] w-full m-6"/>
-            <div className="w-full flex justify-center">
+            <div className="w-full flex justify-center flex-wrap">
                 {keyData.map((data: KeyData, index: number) =>
-                  <div key={index} className="min-w-max flex items-center gap-3 mx-7">
-                      <span className={`w-4 h-4 rounded-[2px]`} style={{backgroundColor: GraphLineColors[index]}}/>
-                      <span className="text-body1">{data.name}</span>
-                  </div>
+                    data.checked &&
+                        <div key={index} className="min-w-max flex items-center gap-3 mx-7">
+                            <span className={`w-4 h-4 rounded-[2px]`} style={{backgroundColor: GraphLineColors[index]}}/>
+                            <span className="text-body1">{data.name}</span>
+                        </div>
                 )}
                 <div className="mx-5 flex gap-7">
                     <Button variant={"icon"} onClick={() => setIsEditModalOpen(true)}><EditIcon></EditIcon></Button>
