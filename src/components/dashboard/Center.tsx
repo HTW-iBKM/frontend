@@ -1,10 +1,10 @@
-import React, {ReactElement, useContext, useState} from "react";
-import {Route, Switch, useRouteMatch} from "react-router-dom";
+import React, { ReactElement, useContext, useState } from "react";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Home from "../../sites/home/Home";
 import Button from "../form/Button";
 import TextField from "../form/TextField";
 import RadioButtonGroup from "../form/RadioButtonGroup";
-import {ToastContext} from "../../context/ToastContext";
+import { ToastContext } from "../../context/ToastContext";
 import { v4 as uuidv4 } from 'uuid';
 import EditIcon from "../icons/EditIcon";
 import OpenInNewIcon from "../icons/OpenInNewIcon";
@@ -16,6 +16,8 @@ import DownloadIcon from "../icons/DownloadIcon";
 import Tabs from "../tabs/Tabs";
 import SelectField from "../form/SelectField";
 import DatePicker from "../datePicker/DatePicker";
+import Files from "../../sites/files/Files";
+import Checkbox from "../form/Checkbox";
 
 function Center(): ReactElement {
   const match = useRouteMatch();
@@ -23,8 +25,9 @@ function Center(): ReactElement {
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState(String);
-  const [selectedDateRange , setSelectedDateRange] = useState<Date[]>([]);
+  const [selectedDateRange, setSelectedDateRange] = useState<Date[]>([]);
   const context = useContext(ToastContext);
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
   const fetchData = async () => {
     setLoading(true);
@@ -36,6 +39,7 @@ function Center(): ReactElement {
       }, 2000);
     })
   };
+
 
   const selectOptions = [
     { value: 'woche1', label: 'Erste Woche' },
@@ -50,10 +54,14 @@ function Center(): ReactElement {
   return (
     <Switch>
       <Route exact path={match.path}>
-        <Home/>
+        <Home />
       </Route>
 
       <Route exact path={`${match.path}/files`}>
+        <Files />
+      </Route>
+
+      <Route exact path={`${match.path}/components`}>
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
           <h1>Icons 24x24</h1>
           <div className={"flex flex-col"}>
@@ -104,15 +112,20 @@ function Center(): ReactElement {
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg flex flex-col gap-2"}>
           <div>{inputText}</div>
-          <TextField type={"text"} name={"inputField1"} label={"Username"} onChange={e => setInputText(e?.target?.value)} />
-          <TextField type={"password"} visibilityButton={true} name={"inputField2"} label={"Password"} errorMessage={"Password incorrect!"} />
-          <TextField type={"text"} name={"inputField3"} label={"Username"} successMessage={"Username available"} />
-          <TextField type={"text"} name={"inputField4"} label={"Just some input field"} hint={"Just some hint"} />
-          <TextField type={"text"} name={"inputField5"} label={"Username"} successMessage={"Username available"} disabled />
+          <TextField className="my-5" type={"text"} name={"inputField1"} label={"Username"} onChange={e => setInputText(e?.target?.value)} />
+          <TextField className="my-5" type={"password"} visibilityButton={true} name={"inputField2"} label={"Password"} errorMessage={"Password incorrect!"} />
+          <TextField className="my-5" type={"text"} name={"inputField3"} label={"Username"} successMessage={"Username available"} />
+          <TextField className="my-5" type={"text"} name={"inputField4"} label={"Just some input field"} hint={"Just some hint"} />
+          <TextField className="my-5" type={"text"} name={"inputField5"} label={"Username"} successMessage={"Username available"} disabled />
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg flex flex-col gap-2"}>
           <RadioButtonGroup selected="test 1" options={["test 1", "test 2", "test 3"]} disabledOptions={["test 3"]} onChange={(value) => console.log(value)}></RadioButtonGroup>
+        </div>
+
+        <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg flex flex-col gap-2"}>
+          <Checkbox name="test1" checked={isCheckboxChecked} onChange={(event) => setIsCheckboxChecked(event.target.checked)}>Test 1</Checkbox>
+          <Checkbox name="test3" checked={true} disabled onChange={(event) => console.log(event)}>Test 2</Checkbox>
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
@@ -124,9 +137,9 @@ function Center(): ReactElement {
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
-          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "success", headline: "Success Message!", message: "success yeah!"}])}>Success Message</Button>
-          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "warning", headline: "Warning Message!", message: "warning okay lets seeh!"}])}>Warning Message</Button>
-          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, {id: uuidv4(), type: "error", headline: "Error Message!", message: "error oh no!"}])}>Error Message</Button>
+          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, { id: uuidv4(), type: "success", headline: "Success Message!", message: "success yeah!" }])}>Success Message</Button>
+          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, { id: uuidv4(), type: "warning", headline: "Warning Message!", message: "warning okay lets seeh!" }])}>Warning Message</Button>
+          <Button variant={"primary"} onClick={() => context.setToasts([...context.toasts, { id: uuidv4(), type: "error", headline: "Error Message!", message: "error oh no!" }])}>Error Message</Button>
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
@@ -135,7 +148,7 @@ function Center(): ReactElement {
         </div>
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
-          <DatePicker onValueUpdate={(value: Date[]) => handleDateRangeChange(value)}/>
+          <DatePicker onValueUpdate={(value: Date[]) => handleDateRangeChange(value)} />
         </div>
 
       </Route>

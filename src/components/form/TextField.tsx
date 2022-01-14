@@ -17,10 +17,10 @@ interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   hint?: string;
 }
 
-const TextField: React.FC<TextFieldProps> =({errorMessage, successMessage, label, name, disabled, type, hint, visibilityButton, inputRef, defaultValue, ...rest}: TextFieldProps) => {
+const TextField: React.FC<TextFieldProps> =({errorMessage, successMessage, label, name, disabled, type, hint, visibilityButton, inputRef, defaultValue, className, ...rest}: TextFieldProps) => {
   const styles = {
     input: "textfield-input bg-transparent text-grayscale-darkest flex-grow h-13 pl-4 rounded-lg placeholder-primary border-none outline-none ring-2 ring-grayscale-dark focus:outline-none focus:ring-2 focus:ring-secondary disabled:border-2 disabled:bg-grayscale disabled:bg-opacity-50 disabled:border-grayscale-dark",
-    inputContainer: "relative flex my-5 flex-col",
+    inputContainer: "relative flex flex-col max-h-13",
     inputLabel: "absolute pl-4 w-full h-full text-base pointer-events-none text-grayscale-darkest",
     inputLabelSpan: "absolute top-1/4 transition-all duration-300 text-grayscale-dark",
   }
@@ -28,7 +28,7 @@ const TextField: React.FC<TextFieldProps> =({errorMessage, successMessage, label
   const [typeState, setTypeState] = useState(type);
 
   return (
-    <div className={`${styles.inputContainer}`}>
+    <div className={`${className} ${styles.inputContainer}`}>
 
       <input
         id={name}
