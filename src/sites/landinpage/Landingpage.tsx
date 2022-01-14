@@ -4,10 +4,14 @@ import { Transition } from "@headlessui/react";
 import {useHistory} from "react-router-dom";
 import "./Landingpage.css";
 import CloseIcon from "../../components/icons/CloseIcon";
+import auth from "../../services/Auth";
 
 function Landingpage(): ReactElement {
     const history = useHistory();
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+
+    const isAuthenticated = auth.isAuthenticated();
+
     return (
       <div className="overflow-hidden h-screen w-full relative ">
         <div className={"lp-background-clip pointer-events-none absolute w-full h-full -right-1/2 md:-right-1/3 lg:-right-1/4 bg-secondary-light bg-opacity-20"}></div>
@@ -46,7 +50,11 @@ function Landingpage(): ReactElement {
               <div className={"hidden md:block"}>
                 <Button className="mr-6" variant={"text"} onClick={() => history.push('Einloggen')}>Über uns</Button>
                 <Button className="mr-6" variant={"text"} onClick={() => history.push('Einloggen')}>Kontakt</Button>
-                <Button variant={"secondary"} onClick={() => history.push('login')}>Einloggen</Button>
+                {isAuthenticated
+                  ? <Button variant={"secondary"} onClick={() => history.push('dashboard')}>Zum Dashboard</Button>
+                  : <Button variant={"secondary"} onClick={() => history.push('login')}>Einloggen</Button>
+                }
+
               </div>
 
               <Button variant={"text"} className={"inline-block md:hidden"} onClick={() => setIsMenuOpen(true)}>Menü</Button>
