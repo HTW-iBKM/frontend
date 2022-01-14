@@ -46,21 +46,21 @@ function RegisterPage(): ReactElement {
 
     const specialCharacters = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/;
     const containsNumbers = /[0-9+]/;
-    const formErr: {[x: string]: string | null} =
+    const formErr: { [x: string]: string | null } =
     {
-        email: formTouched.email && !form.email.trim() ? "Die Email muss definiert werden" :
-            form.email.trim() && !isEmail(form.email.trim()) ? "Valide EMail-Addresse angeben" : null,
-        firstname: formTouched.firstname && !form.firstname.trim() ? "Der Vorname muss definiert werden" :
-            formTouched.firstname && form.firstname.match(/[0-9+]/) ? 'Der Vorname darf keine Zahlen enthalten' :
-                form.firstname.trim() && form.firstname.trim().length < 1 ? "Der Vorname muss mindestens drei Buchstaben haben  " : null,
-        lastname: formTouched.lastname && !form.lastname.trim() ? "Der Nachname muss definiert werden" :
+        email: formTouched.email && !form.email.trim() ? "Die E-Mail-Adresse muss angegeben werden" :
+            form.email.trim() && !isEmail(form.email.trim()) ? "Die E-Mail-Adresse muss valide sein" : null,
+        firstname: formTouched.firstname && !form.firstname.trim() ? "Der Vorname muss angegeben werden" :
+            formTouched.firstname && form.firstname.match(/[0-9+]/) ? "Der Vorname darf keine Zahlen enthalten" :
+                form.firstname.trim() && form.firstname.trim().length < 1 ? "Der Vorname muss mindestens drei Buchstaben lang sein" : null,
+        lastname: formTouched.lastname && !form.lastname.trim() ? "Der Nachname muss angegeben werden" :
             formTouched.lastname && containsNumbers.test(form.lastname) ? 'Der Nachname darf keine Zahlen enthalten' :
-                form.lastname && form.lastname.trim().length < 1 ? "Der Nachname muss mindestens drei Buchstaben haben" : null,
-        password: formTouched.password && !form.password.trim() ? "Das Passwort muss definiert werden" :
-            formTouched.password && !specialCharacters.test(form.password) || !containsNumbers.test(form.password) ? "Dass Passwort muss ein Sonderzeichen enthalten und eine Zahl enthalen" :
-                form.password.trim() && form.password.trim().length < 8 ? "Passwort muss mindestens acht Zeichen enthalten" : null,
-        passwordConfirm: formTouched.passwordConfirm && !form.passwordConfirm.trim() ? "Das Wiederholungs-Passwort muss definiert werden" :
-            form.passwordConfirm.trim() && form.passwordConfirm.trim() !== form.password.trim() ? "Passwörter müssen übereinstimmen" : null,
+                form.lastname && form.lastname.trim().length < 1 ? "Der Nachname muss mindestens drei Buchstaben lang sein" : null,
+        password: formTouched.password && !form.password.trim() ? "Das Passwort muss angegeben werden" :
+            formTouched.password && !specialCharacters.test(form.password) || !containsNumbers.test(form.password) ? "Das Passwort muss ein Sonderzeichen und eine Zahl enthalten" :
+                form.password.trim() && form.password.trim().length < 8 ? "Das Passwort muss mindestens acht Zeichen lang sein" : null,
+        passwordConfirm: formTouched.passwordConfirm && !form.passwordConfirm.trim() ? "Das Passwort muss wiederholt werden" :
+            form.passwordConfirm.trim() && form.passwordConfirm.trim() !== form.password.trim() ? "Die Passwörter müssen übereinstimmen" : null,
     }
 
     const validForm = () => {
@@ -85,12 +85,12 @@ function RegisterPage(): ReactElement {
                     </h3>
                     <span className={`${styles.inputContainer}`}>
 
-                        <span className={`${styles.inputLabel} ${form.email ? "visible" : "hidden"}`}>Email-Addresse:</span>
+                        <span className={`${styles.inputLabel} ${form.email ? "visible" : "hidden"}`}>E-Mail-Adresse</span>
 
                         <input type="text" className={`${styles.input} ${form.email ? styles.inputContained : styles.inputUntouched}
                                  ${formErr['email'] && 'border-danger'}
                         
-                        `} placeholder="Email-Addresse"
+                        `} placeholder="E-Mail-Adresse"
                             onChange={(e) => setForm(oldForm => ({ ...oldForm, email: e.target.value }))}
                             onFocus={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, email: false }))}
                             onBlur={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, email: true }))}
@@ -102,7 +102,7 @@ function RegisterPage(): ReactElement {
                     </span>
 
                     <span className={`${styles.inputContainer}`}>
-                        <span className={`${styles.inputLabel} ${form.firstname ? "visible" : "hidden"} ${formErr['firstname'] && "text-[#D7382C]"}`}>Vorname:</span>
+                        <span className={`${styles.inputLabel} ${form.firstname ? "visible" : "hidden"} ${formErr['firstname'] && "text-[#D7382C]"}`}>Vorname</span>
                         <input type="text" className={`${styles.input} ${form.firstname ? styles.inputContained : styles.inputUntouched}`} placeholder="Vorname"
                             onChange={(e) => setForm(oldForm => ({ ...oldForm, firstname: e.target.value }))}
                             onFocus={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, firstname: false }))}
@@ -116,7 +116,7 @@ function RegisterPage(): ReactElement {
 
                     <span className={`${styles.inputContainer}`}>
 
-                        <span className={`${styles.inputLabel} ${form.lastname ? "visible" : "hidden"} ${formErr['lastname'] && "text-[#D7382C]"}`}>Nachname:</span>
+                        <span className={`${styles.inputLabel} ${form.lastname ? "visible" : "hidden"} ${formErr['lastname'] && "text-[#D7382C]"}`}>Nachname</span>
 
                         <input type="text" className={`${styles.input} ${form.lastname ? styles.inputContained : styles.inputUntouched}`} placeholder="Nachname"
                             onChange={(e) => setForm(oldForm => ({ ...oldForm, lastname: e.target.value }))}
@@ -146,7 +146,7 @@ function RegisterPage(): ReactElement {
                             </svg>
                         </div>
 
-                        <span className={`${styles.inputLabel} ${form.password ? "visible" : "hidden"}`}>Passwort:</span>
+                        <span className={`${styles.inputLabel} ${form.password ? "visible" : "hidden"}`}>Passwort</span>
                         <input type={showPW ? "text" : "password"} className={`${styles.input} ${form.password ? styles.inputContained : styles.inputUntouched}`} placeholder="Passwort"
                             onChange={(e) => setForm(oldForm => ({ ...oldForm, password: e.target.value }))}
                             onFocus={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, password: false }))}
@@ -175,7 +175,7 @@ function RegisterPage(): ReactElement {
                             </svg>
                         </div>
 
-                        <span className={`${styles.inputLabel} ${form.passwordConfirm ? "visible" : "hidden"}`}>Passwort wiederholen:</span>
+                        <span className={`${styles.inputLabel} ${form.passwordConfirm ? "visible" : "hidden"}`}>Passwort wiederholen</span>
                         <input type={showPWConfirm ? "text" : "password"} className={`${styles.input} ${form.passwordConfirm ? styles.inputContained : styles.inputUntouched}`} placeholder="Passwort wiederholen"
                             onChange={(e) => setForm(oldForm => ({ ...oldForm, passwordConfirm: e.target.value }))}
                             onFocus={() => setFormTouched((oldFormTouch) => ({ ...oldFormTouch, passwordConfirm: false }))}
@@ -194,9 +194,9 @@ function RegisterPage(): ReactElement {
             </div>
 
 
-          <footer className={styles.footer}>
-            <a className={styles.navigationAnchors} href="/#/login">Bereits registriert? &nbsp; Anmelden</a>
-          </footer>
+            <footer className={styles.footer}>
+                <a className={styles.navigationAnchors} href="/#/login">Bereits registriert? &nbsp; Anmelden</a>
+            </footer>
         </LogoComponent>
     )
 }

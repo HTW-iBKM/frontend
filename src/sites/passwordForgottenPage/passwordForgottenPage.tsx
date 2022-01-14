@@ -28,9 +28,9 @@ function PasswordForgottenPage(): ReactElement {
         email: false,
     })
 
-    const formErr: {email: string | null} =
+    const formErr: { email: string | null } =
     {
-        email: email && !isEmail(email) ? "Valide EMail-Addresse angeben!" : null
+        email: email && !isEmail(email) ? "Die E-Mail-Adresse muss valide sein" : null
     }
 
     const validForm = () => !formErr['email'];
@@ -41,19 +41,19 @@ function PasswordForgottenPage(): ReactElement {
                 <h3 className={`${styles.h3Title}`}>
 
                     {sent ? "E-Mail versendet" :
-                        "Passwort setzen"
+                        "Passwort zurücksetzen"
                     }
 
 
 
                 </h3>
                 <p className={styles.paragraph}>{sent ?
-                    "Eine Email wurde an die angegebene E-Mail-Addresse gesendet. Folge den Anweisungen in der E-Mail,um dein Passwort zurückzusetzen"
-                    : "Geben sie ihre Addresse ein und wir helfen Ihnen, ein neues Passwort festzulegen"
+                    "Eine Nachricht wurde an die angegebene E-Mail-Adresse gesendet. Bitte folgen Sie den Anweisungen in der E-Mail, um das Passwort zurückzusetzen"
+                    : "Geben sie ihre E-Mail-Adresse ein und wir helfen Ihnen, ein neues Passwort festzulegen"
                 }</p>
                 {!sent && <span className={`${styles.inputContainer}`}>
-                    <span className={`${styles.inputLabel} ${email ? "visible" : "hidden"}`}>Email-Addresse:</span>
-                    <input type="text" className={`${styles.input} ${email ? styles.inputContained : styles.inputUntouched}`} placeholder="Email-Addresse"
+                    <span className={`${styles.inputLabel} ${email ? "visible" : "hidden"}`}>E-Mail-Adresse</span>
+                    <input type="text" className={`${styles.input} ${email ? styles.inputContained : styles.inputUntouched}`} placeholder="E-Mail-Adresse"
                         onChange={(e) => setEmail(e.target.value)}
                         onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, email: true }))}
                         onFocus={() => setFormTouched((oldEle) => ({ ...oldEle, email: false }))}

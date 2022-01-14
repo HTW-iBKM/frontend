@@ -9,7 +9,6 @@ import { KeyData } from "../graph/Graph";
 import { commonModalStyles } from "./Modal";
 import { v4 as uuidv4 } from 'uuid';
 import "./SaveFileModalTemplate.css";
-import Checkbox from "../form/Checkbox";
 
 interface SaveFileModalProps {
   keyData: KeyData[],
@@ -28,8 +27,8 @@ const SaveFileTemplate = ({ keyData, setModalOpen }: SaveFileModalProps): ReactE
     disabledOptions: ["PDF"],
     selected: "CSV",
   }
-  const { value:fileName, bind:bindFileName, reset:resetFileName } = useInput("");
-  const { radioButtonGroup:radioButtonGroup, bind:bindRadioButtonGroup, reset:resetRadioButtonGroup } = useRadioButtonGroup(defaultRadioButtonGroupValue);
+  const { value: fileName, bind: bindFileName, reset: resetFileName } = useInput("");
+  const { radioButtonGroup: radioButtonGroup, bind: bindRadioButtonGroup, reset: resetRadioButtonGroup } = useRadioButtonGroup(defaultRadioButtonGroupValue);
 
   const [formTouched, setFormTouched] = useState({
     name: false,
@@ -37,11 +36,11 @@ const SaveFileTemplate = ({ keyData, setModalOpen }: SaveFileModalProps): ReactE
     timeSeries: false,
   })
 
-  const formErr: {name: string | null, format: string | null} = {
-    name: !fileName ? "Der Titel muss mindestens einem Buchstaben haben." : null,
-    format: !radioButtonGroup.selected ? 'Wählen sie ein Dateiformat.' : null,
+  const formErr: { name: string | null, format: string | null } = {
+    name: !fileName ? "Der Dateiname muss angegeben werden" : null,
+    format: !radioButtonGroup.selected ? "Das Dateiformat muss gewählt werden" : null,
   }
-  
+
   const validForm = () => !formErr['name'] && !formErr['format'];
 
   const handleSubmit = (evt: React.FormEvent) => {
@@ -56,7 +55,7 @@ const SaveFileTemplate = ({ keyData, setModalOpen }: SaveFileModalProps): ReactE
       );
       resetFileName();
       resetRadioButtonGroup();
-    } 
+    }
 
     // Toast erscheint, wenn nach beim Submit etwas schief gelaufen ist. Formular fehler werden bereits im Formular abgefangen. Hier gehts eher um Fehler seitens der DB oder so
     // toastContext.setToasts([...toastContext.toasts, {id: uuidv4(), type: "error", headline: "Error", message: "Etwas ist schief gelaufen."}])
@@ -67,11 +66,11 @@ const SaveFileTemplate = ({ keyData, setModalOpen }: SaveFileModalProps): ReactE
       <form name="saveFileForm" onSubmit={handleSubmit}>
         <div className={`${styles.formElementGroup}`}>
           <p className="mb-4">Geben Sie der Datei einen Titel:</p>
-          <TextField 
+          <TextField
             type="text"
             name="file-name"
             label="Dateiname*"
-            onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, name: true }))} 
+            onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, name: true }))}
             {...bindFileName}
             errorMessage={`${formErr['name'] && formTouched.name ? formErr['name'] : ""}`}
           />

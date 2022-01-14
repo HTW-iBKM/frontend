@@ -23,8 +23,8 @@ function LoginPage(): ReactElement {
 
     const formErr: { email: string | null, password: string | null } =
     {
-        email: form.email && !isEmail(form.email) ? "Valide EMail-Addresse angeben!" : null,
-        password: !form.password ? 'Bitte Password wählen.' : null
+        email: form.email && !isEmail(form.email) ? "Die E-Mail-Adresse muss valide sein" : null,
+        password: !form.password ? "Das Passwort muss angegeben werden" : null
     }
 
     const validForm = () => !formErr['email'] && !formErr['password'];
@@ -70,11 +70,11 @@ function LoginPage(): ReactElement {
                     <div className={styles.inputUser}>
                         <span className={`${styles.inputContainer}`}>
 
-                            <div className={`${styles.inputLabel} ${form.email ? "visible" : "hidden"}`}>Email-Addresse</div>
+                            <div className={`${styles.inputLabel} ${form.email ? "visible" : "hidden"}`}>E-Mail-Adresse</div>
 
                             <input type="text" className={`${styles.input} ${form.email ? styles.inputContained : styles.inputUntouched}
                                 ${formErr['email'] && 'border-danger'}
-                            `} placeholder="Email-Addresse"
+                            `} placeholder="E-Mail-Adresse"
                                 onChange={(e) => setForm(oldForm => ({ ...oldForm, email: e.target.value }))}
                                 onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, email: true }))}
                                 onFocus={() => setFormTouched((oldEle) => ({ ...oldEle, email: false }))}
@@ -102,7 +102,7 @@ function LoginPage(): ReactElement {
                                 </svg>
                             </div>
 
-                            <span className={`${styles.inputLabel} ${form.password ? "visible" : "hidden"} ${formErr['password'] && "text-[#D7382C]"}`}>Passwort:</span>
+                            <span className={`${styles.inputLabel} ${form.password ? "visible" : "hidden"} ${formErr['password'] && "text-[#D7382C]"}`}>Passwort</span>
                             <input type={showPW ? "text" : "password"} className={`${styles.input} ${form.password ? styles.inputContained : styles.inputUntouched}`} placeholder="Passwort"
                                 onChange={(e) => setForm(oldForm => ({ ...oldForm, password: e.target.value }))}
                             ></input>
