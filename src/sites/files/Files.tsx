@@ -120,7 +120,7 @@ function Files(): ReactElement {
 
   return <div className={styles.container}>
       <div className={styles.card + 'w-full'}>
-        <h5 className="text-h5">Dateien</h5>
+        <h5 className="text-h5 ">Dateien</h5>
         <Table data={Data()} columns={columns}></Table>
       </div>
   </div>;

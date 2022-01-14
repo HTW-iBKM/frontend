@@ -12,9 +12,10 @@ interface SelectFieldOption {
 }
 
 interface SelectFieldProps  {
+  id?: string;
   variant: SelectFieldVariant;
   options: SelectFieldOption[];
-  label: string;
+  label?: string;
   onChange: (value: string) => void;
   defaultValue?: SelectFieldOption;
   className?: string;
@@ -23,12 +24,12 @@ function SelectField({options, variant, label, onChange, className, defaultValue
   const styles = {
     navbarIcon: 'h-[24px] w-[24px] ',
     selectFieldToggle: {
-      default: "ring-1 ring-grayscale-dark border-2 border-grayscale-light rounded-lg h-10-1/8  text-left text-base text-grayscale-darkest font-normal leading-7-1/8",
-      small: 'ring-1 ring-grayscale-dark border-2 border-grayscale-light rounded-lg h-8-1/8 text-left text-sm text-grayscale-darkest font-normal leading-4'
+      default: "ring-1 ring-grayscale-dark border-2 border-grayscale-light rounded-lg h-10-1/8  text-left text-base text-grayscale-darkest font-normal leading-7-1/8 min-w-[4rem]",
+      small: 'ring-1 ring-grayscale-dark border-2 border-grayscale-light rounded-lg h-8-1/8 text-left text-sm text-grayscale-darkest font-normal leading-4  min-w-[4rem]'
     },
     selectFieldButton: {
-      default: 'w-full h-full flex items-center text-grayscale-darker px-4',
-      small: 'w-full h-full flex items-center text-grayscale-darker px-3'
+      default: 'w-full h-full flex items-center text-grayscale-darker px-4 min-w-[4rem]',
+      small: 'w-full h-full flex items-center text-grayscale-darker px-3 min-w-[4rem]'
     },
     selectItems: 'absolute left-0 mt-2 min-w-full origin-top-left bg-grayscale-light z-10 text-grayscale-darkest divide-gray-100 ring-1 ring-grayscale-dark py-2 rounded-lg focus:outline-none ',
     selectItem: {
@@ -42,7 +43,7 @@ function SelectField({options, variant, label, onChange, className, defaultValue
 
   const selectValue = (option: SelectFieldOption) => {
     const match = selectedOption?.value === option.value;
-    setSelectedOption( match? null : option)
+    setSelectedOption( match ? defaultValue! : option)
     onChange(match ? '' : option.value)
   }
 
