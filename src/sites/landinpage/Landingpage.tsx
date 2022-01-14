@@ -57,7 +57,7 @@ function Landingpage(): ReactElement {
               <div className="flex-1 order-2 lg:order-1 mt-8 lg:mt-0">
                 <h4 className={"text-[2.375rem] lg:text-[3.75rem] leading-tight font-light mb-4 mt-0 md:mt-0 lg:mt-0 2xl:mt-20"}>Das Exxeta IBKM Dashboard</h4>
                 <p className={"text-xl lg:text-2xl font-medium leading-relaxed mt-8"}>
-                  Für modernes Bilanzkreismanagement mit Hilfe von visualisierten, durch Machine Learning erzeugten Bilanzkreisprognosen.
+                  Für intelligentes Bilanzkreismanagement mit Hilfe von visualisierten, durch Machine Learning erzeugten Bilanzkreisprognosen.
                 </p>
                 <div className={"mt-6"}>
                   <Button className="mr-4 mt-6" variant={"primary"} onClick={() => history.push('register')}>Jetzt loslegen!</Button>
