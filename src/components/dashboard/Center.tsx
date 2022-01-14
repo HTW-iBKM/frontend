@@ -42,9 +42,9 @@ function Center(): ReactElement {
 
 
   const selectOptions = [
-    { value: 'woche1', label: 'Erste Woche' },
-    { value: 'woche2', label: 'Zweite Woche' },
-    { value: 'woche3', label: 'Dritte Woche' }
+    { value: 'woche1', label: 'Erste Woche', disabled: false },
+    { value: 'woche2', label: 'Zweite Woche', disabled: false },
+    { value: 'woche3', label: 'Dritte Woche', disabled: false }
   ]
   const handleDateRangeChange = (value: Date[]) => {
     setSelectedDateRange(value)
@@ -163,6 +163,7 @@ function Center(): ReactElement {
 
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
           <DatePicker onValueUpdate={(value: Date[]) => handleDateRangeChange(value)} />
+          <DatePicker onChange={(value: Date[]) => handleDateRangeChange(value)}/>
         </div>
 
       </Route>
