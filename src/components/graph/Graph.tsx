@@ -110,7 +110,7 @@ function Graph(): ReactElement {
   ]);
 
   const [interval, setInterval] = useState<string>('minutes');
-  const IntervalSelectField = <div className="flex items-center gap-3">
+  const IntervalSelectField = <div className="flex items-center gap-3" key="interval">
     <span className="text-body2">Intervall:</span>
     <SelectField className="min-w-[116px]"
                  variant="small" label="Intervall auswählen"
@@ -161,7 +161,7 @@ function Graph(): ReactElement {
     });
   };
 
-  const TimespanSelectField = <div className="flex items-center gap-3">
+  const TimespanSelectField = <div className="flex items-center gap-3" key="timespan">
     <span className="text-body2">Zeitraum:</span>
     <SelectField className="min-w-[116px]"
                  variant="small" label="Zeitraum auswählen"
@@ -238,19 +238,20 @@ function Graph(): ReactElement {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);
 
-    const saveFile = async (fileName: string, fileType: string, currentGraph: string) => {
-        fileType === 'PNG'
-            ? await handlePngDownload(fileName, currentGraph)
-            : null;
-    }
+  const saveFile = async (fileName: string, fileType: string, currentGraph: string) => {
+    fileType === 'PNG'
+        ? await handlePngDownload(fileName, currentGraph)
+        : null;
+  }
 
-    useAsyncEffect(async (isMounted) => {
-        const {data}: GraphDataResponse = await axios.get(
-            "https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/"
-        );
-        if (!isMounted) return;
-        setData(data.data.september_18);
-    }, []);
+  useAsyncEffect(async (isMounted) => {
+    const {data}: GraphDataResponse = await axios.get(
+        "https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/"
+    );
+    if (!isMounted) return;
+    setData(data.data.september_18);
+    }, []
+  );
 
     return !data.length ? (
         <div className={styles.graphContainer}>Waiting for data ...</div>
@@ -268,6 +269,7 @@ function Graph(): ReactElement {
             </div>
             <div className={"block w-full h-full mt-5-1/8"}>
                 <Tabs className="w-full h-20 mt-5-1/8"
+                      label="Graph:"
                       type="small"
                       onTabChange={setActiveGraph}
                       tabs={[

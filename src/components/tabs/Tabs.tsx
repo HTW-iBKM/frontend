@@ -3,6 +3,7 @@ import { Tab } from '@headlessui/react'
 type TabType = "default" | "small"
 
 interface TabsProps{
+  label?: string;
   type: TabType;
   tabs: ({
     title: (string | ReactElement);
@@ -11,9 +12,9 @@ interface TabsProps{
   panels: (string| ReactElement)[];
   onTabChange?: Dispatch<SetStateAction<string>>;
   className?: string;
-  inlineSelectFields: ReactElement[];
+  inlineSelectFields?: ReactElement[];
 }
-function Tabs({type, tabs, panels, onTabChange, inlineSelectFields}: TabsProps): ReactElement {
+function Tabs({label, type, tabs, panels, onTabChange, inlineSelectFields}: TabsProps): ReactElement {
   const styles = {
     tabList: "inline-block ring-1 ring-grayscale-dark border-2 border-grayscale-light rounded-lg",
     tab: {
@@ -39,7 +40,7 @@ function Tabs({type, tabs, panels, onTabChange, inlineSelectFields}: TabsProps):
     >
       <div className="w-full flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <span className="text-body2">Graph:</span>
+          {label && <span className="text-body2">{label}</span>}
           <Tab.List className={styles.tabList}>
             {tabs.map((tab, index) => (
                 <Tab key={index} as={Fragment}>
@@ -48,9 +49,8 @@ function Tabs({type, tabs, panels, onTabChange, inlineSelectFields}: TabsProps):
                           className={`
                   ${isDefaultType ? styles.tab.default : styles.tab.small} 
                   ${selected ? styles.tab.selected : styles.tab.unselected}
-                `}
-                      >
-                        {tab}
+                `}>
+                        {tab.title}
                       </button>
                   )}
                 </Tab>
