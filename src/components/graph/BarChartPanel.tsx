@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'react';
+import React, {ReactElement, Ref} from 'react';
 import './Graph.css';
 import {
   CartesianGrid,
@@ -19,7 +19,8 @@ interface BarChartPanelProps {
     graphLineColors: string[];
 }
 
-function BarChartPanel({data, keyData, graphLineColors}: BarChartPanelProps): ReactElement {
+{/* @TODO Correct Ref Typing */}
+function BarChartPanel({data, keyData, graphLineColors}: BarChartPanelProps, ref: Ref<any>): ReactElement {
     const yInterval = 500;
     const maxValue = 0;
     const minValue = Infinity;
@@ -29,6 +30,7 @@ function BarChartPanel({data, keyData, graphLineColors}: BarChartPanelProps): Re
           <ResponsiveContainer>
             <BarChart data={parseGraphData(data)}
                       margin={{top: 50, right: 50, left: 36}}
+                      ref={ref}
             >
               <CartesianGrid strokeDasharray="5 5"/>
               <Tooltip
@@ -90,4 +92,4 @@ function BarChartPanel({data, keyData, graphLineColors}: BarChartPanelProps): Re
     );
 }
 
-export default BarChartPanel;
+export default React.forwardRef(BarChartPanel);

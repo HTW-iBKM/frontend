@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'react';
+import React, {ReactElement, Ref} from 'react';
 import './Graph.css';
 import {
   CartesianGrid,
@@ -18,7 +18,8 @@ interface AreaChartPanelProps {
     graphLineColors: string[];
 }
 
-function AreaChartPanel({data, keyData, graphLineColors}: AreaChartPanelProps): ReactElement {
+{/* @TODO Correct Ref Typing */}
+function AreaChartPanel({data, keyData, graphLineColors}: AreaChartPanelProps, ref: Ref<any>): ReactElement {
     const yIntervall = 500;
     const maxValue = 0;
     const minValue = Infinity;
@@ -28,6 +29,7 @@ function AreaChartPanel({data, keyData, graphLineColors}: AreaChartPanelProps): 
           <ResponsiveContainer>
             <AreaChart data={parseGraphData(data)}
                        margin={{top: 50, right: 50, left: 36}}
+                       ref={ref}
             >
               <CartesianGrid strokeDasharray="5 5"/>
               <Tooltip
@@ -35,14 +37,13 @@ function AreaChartPanel({data, keyData, graphLineColors}: AreaChartPanelProps): 
                 contentStyle={{borderRadius: 8, padding: 16}}
               />
               <defs>
-                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
-                </linearGradient>
-                <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
-                </linearGradient>
+              {keyData.map((data, index) =>
+                data.checked &&
+                  <linearGradient key={index} id={data.key} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={graphLineColors[index]} stopOpacity={0.6}/>
+                    <stop offset="95%" stopColor={graphLineColors[index]} stopOpacity={0}/>
+                  </linearGradient>
+              )}
               </defs>
               <XAxis
                 dataKey="time"
@@ -91,7 +92,7 @@ function AreaChartPanel({data, keyData, graphLineColors}: AreaChartPanelProps): 
                     name={data.name}
                     dataKey={data.key}
                     stroke={graphLineColors[index]}
-                    fill="url(#colorUv)"
+                    fill={`url(#${data.key})`}
                     fillOpacity={1}
                     unit=" KW"
                   />
@@ -102,4 +103,4 @@ function AreaChartPanel({data, keyData, graphLineColors}: AreaChartPanelProps): 
     );
 }
 
-export default AreaChartPanel;
+export default React.forwardRef(AreaChartPanel);

@@ -1,9 +1,10 @@
-import React, {ReactElement} from "react";
+import React, { ReactElement } from "react";
 import Button from "../form/Button";
 import { useCheckbox } from "../../hooks/useCheckbox";
 import { commonModalStyles } from "./Modal";
 import { GraphKey, KeyData } from "../graph/Graph";
 import "./SaveFileModalTemplate.css";
+import Checkbox from "../form/Checkbox";
 
 interface EditTimeSeriesModalProps {
   keyData: KeyData[],
@@ -11,12 +12,14 @@ interface EditTimeSeriesModalProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const EditTimeSeriesTemplate = ({keyData, setKeyData, setModalOpen}: EditTimeSeriesModalProps): ReactElement => {
+const EditTimeSeriesTemplate = ({ keyData, setKeyData, setModalOpen }: EditTimeSeriesModalProps): ReactElement => {
   const checkboxFormControls = keyData.map((data) => {
-    const { checked:checkbox, bind:bindCheckbox, reset:resetCheckbox } = useCheckbox(data.checked)
-    return {key: data.key, name: data.name, checked: checkbox, bind:bindCheckbox, reset:resetCheckbox}
+    const { checked: checkbox, bind: bindCheckbox, reset: resetCheckbox } = useCheckbox(data.checked)
+    return { key: data.key, name: data.name, checked: checkbox, bind: bindCheckbox, reset: resetCheckbox }
   });
-  
+
+  const CheckboxContainer = 'flex flex-col gap-y-2';
+
   const handleSubmit = (evt: React.FormEvent) => {
     setModalOpen(false)
     evt.preventDefault();
@@ -39,12 +42,10 @@ const EditTimeSeriesTemplate = ({keyData, setKeyData, setModalOpen}: EditTimeSer
         <div className="mb-8">
           <fieldset>
             <legend className="mb-3"><p>Wählen Sie alle Zeitreihen aus, die Sie im Graphen anzeigen möchten: </p></legend>
-            {checkboxFormControls.map((data, index) => 
-              <div key={index} className="flex gap-2 items-center">
-                <input id={data.key} type="checkbox" {...data.bind}/>
-                <label htmlFor={data.key}>{data.name}</label>
-              </div>
-            )}
+            <div className={CheckboxContainer}>
+              {checkboxFormControls.map((data, index) => (
+                <Checkbox name={data.key} key={index} {...data.bind}>{data.name}</Checkbox>))}
+            </div>
           </fieldset>
         </div>
         <div className={`${commonModalStyles.buttonGroup}`}>

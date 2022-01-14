@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { RadioGroup } from "@headlessui/react";
-import CheckboxUncheckedIcon from "../icons/CheckboxUncheckedIcon";
-import CheckboxCheckedIcon from "../icons/CheckboxCheckedIcon";
+import RadioButtonUncheckedIcon from "../icons/RadioButtonUncheckedIcon";
+import RadioButtonCheckedIcon from "../icons/RadioButtonCheckedIcon";
 
 interface RadioButtonGroupProps<T> {
     options: string[];
@@ -10,7 +10,7 @@ interface RadioButtonGroupProps<T> {
     onChange(value: T): void;
 }
 
-const RadioButtonGroup: FC<RadioButtonGroupProps<string>> = ({ selected = "", onChange, options, disabledOptions}: RadioButtonGroupProps<string>) => {
+const RadioButtonGroup: FC<RadioButtonGroupProps<string>> = ({ selected = "", onChange, options, disabledOptions }: RadioButtonGroupProps<string>) => {
     const [value, setValue] = useState(selected);
     const [hover, setHover] = useState(String);
     const [active, setActive] = useState(String);
@@ -29,7 +29,7 @@ const RadioButtonGroup: FC<RadioButtonGroupProps<string>> = ({ selected = "", on
     }
 
     return (
-        <RadioGroup value={value} onChange={(newValue) => { (changeValue(newValue))}}>
+        <RadioGroup value={value} onChange={(newValue) => { (changeValue(newValue)) }}>
             {options.map((option, index) => {
                 const isDisabled = disabledOptions && disabledOptions.includes(option);
                 const isActive = active == option;
@@ -39,13 +39,14 @@ const RadioButtonGroup: FC<RadioButtonGroupProps<string>> = ({ selected = "", on
                         {({ checked }) => (
                             <>
                                 {checked ? (
-                                    <CheckboxCheckedIcon className={stylesCheckmark} />
-                                ) : (<CheckboxUncheckedIcon className={isDisabled ? stylesDisabledChechmark : isActive ? stylesActiveCheckmark : isHover ? stylesHoverCheckmark : stylesCheckmark} />)}
+                                    <RadioButtonCheckedIcon className={stylesCheckmark} />
+                                ) : (<RadioButtonUncheckedIcon className={isDisabled ? stylesDisabledChechmark : isActive ? stylesActiveCheckmark : isHover ? stylesHoverCheckmark : stylesCheckmark} />)}
                                 <span className={isDisabled ? stylesDisabledText : stylesText}>{option}</span>
                             </>
                         )}
                     </RadioGroup.Option>
-                )})
+                )
+            })
             }
         </RadioGroup >
     )
