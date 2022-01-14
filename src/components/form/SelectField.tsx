@@ -8,6 +8,7 @@ type SelectFieldVariant = "default" | "small";
 interface SelectFieldOption {
   label: string;
   value: string;
+  disabled: boolean;
 }
 
 interface SelectFieldProps  {
@@ -15,9 +16,10 @@ interface SelectFieldProps  {
   options: SelectFieldOption[];
   label: string;
   onChange: (value: string) => void;
+  defaultValue?: SelectFieldOption;
   className?: string;
 }
-function SelectField({options, variant, label, onChange, className}: SelectFieldProps): ReactElement {
+function SelectField({options, variant, label, onChange, className, defaultValue}: SelectFieldProps): ReactElement {
   const styles = {
     navbarIcon: 'h-[24px] w-[24px] ',
     selectFieldToggle: {
@@ -25,8 +27,8 @@ function SelectField({options, variant, label, onChange, className}: SelectField
       small: 'ring-1 ring-grayscale-dark border-2 border-grayscale-light rounded-lg h-8-1/8 text-left text-sm text-grayscale-darkest font-normal leading-4'
     },
     selectFieldButton: {
-      default: 'h-full flex items-center text-grayscale-darker px-4',
-      small: 'h-full flex items-center text-grayscale-darker px-3'
+      default: 'w-full h-full flex items-center text-grayscale-darker px-4',
+      small: 'w-full h-full flex items-center text-grayscale-darker px-3'
     },
     selectItems: 'absolute left-0 mt-2 min-w-full origin-top-left bg-grayscale-light z-10 text-grayscale-darkest divide-gray-100 ring-1 ring-grayscale-dark py-2 rounded-lg focus:outline-none ',
     selectItem: {
@@ -36,7 +38,7 @@ function SelectField({options, variant, label, onChange, className}: SelectField
   }
 
   const isDefaultVariant = variant === "default";
-  const [selectedOption, setSelectedOption] = useState<SelectFieldOption | null>(null)
+  const [selectedOption, setSelectedOption] = useState<SelectFieldOption | null>(defaultValue || null )
 
   const selectValue = (option: SelectFieldOption) => {
     const match = selectedOption?.value === option.value;
@@ -49,7 +51,7 @@ function SelectField({options, variant, label, onChange, className}: SelectField
       <div className={`${isDefaultVariant ? styles.selectFieldToggle.default : styles.selectFieldToggle.small}`}>
         <Menu.Button className={`${isDefaultVariant ? styles.selectFieldButton.default : styles.selectFieldButton.small}`}>
           {selectedOption != null ? selectedOption.label : label}
-          <DropDownIcon className={"h-6 w-4 ml-6"}/>
+          <DropDownIcon className={"h-6 w-4 ml-auto"}/>
         </Menu.Button>
       </div>
       <Transition
@@ -70,6 +72,7 @@ function SelectField({options, variant, label, onChange, className}: SelectField
                     ${option.value == selectedOption?.value && !active && 'bg-secondary text-grayscale-light ring-x-1 ring-x-secondary'}
                     ${active && 'bg-secondary-light !text-grayscale-light ring-x-1 ring-x-secondary'}
                     ${isDefaultVariant ? styles.selectItem.default : styles.selectItem.small}
+                    ${option.disabled ? 'opacity-50 pointer-events-none' : ''}
                   `}
                   onClick={() => selectValue(option)}
                 >

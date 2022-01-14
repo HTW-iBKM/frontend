@@ -3,6 +3,7 @@ import { Tab } from '@headlessui/react'
 type TabType = "default" | "small"
 
 interface TabsProps{
+  label?: string;
   type: TabType;
   tabs: ({
     title: (string | ReactElement);
@@ -11,8 +12,9 @@ interface TabsProps{
   panels: (string| ReactElement)[];
   onTabChange?: Dispatch<SetStateAction<string>>;
   className?: string;
+  inlineSelectFields?: ReactElement[];
 }
-function Tabs({type, tabs, panels, onTabChange}: TabsProps): ReactElement {
+function Tabs({label, type, tabs, panels, onTabChange, inlineSelectFields}: TabsProps): ReactElement {
   const styles = {
     tabList: "inline-block ring-1 ring-grayscale-dark border-2 border-grayscale-light rounded-lg",
     tab: {
@@ -36,22 +38,27 @@ function Tabs({type, tabs, panels, onTabChange}: TabsProps): ReactElement {
         if(onTabChange) onTabChange(tabs[index].accessor);
       }}
     >
-      <Tab.List className={`${styles.tabList}`}>
-        {tabs.map((tab, index) => (
-          <Tab key={index} as={Fragment}>
-            {({ selected }) => (
-              <button
-                className={`
-                ${isDefaultType ? styles.tab.default : styles.tab.small} 
-                ${selected ? styles.tab.selected : styles.tab.unselected}
-              `}
-              >
-                {tab.title}
-              </button>
-            )}
-          </Tab>
-        ))}
-      </Tab.List>
+      <div className="w-full flex justify-between items-center">
+        <div className="flex items-center gap-3">
+          {label && <span className="text-body2">{label}</span>}
+          <Tab.List className={styles.tabList}>
+            {tabs.map((tab, index) => (
+                <Tab key={index} as={Fragment}>
+                  {({selected}) => (
+                      <button
+                          className={`
+                  ${isDefaultType ? styles.tab.default : styles.tab.small} 
+                  ${selected ? styles.tab.selected : styles.tab.unselected}
+                `}>
+                        {tab.title}
+                      </button>
+                  )}
+                </Tab>
+            ))}
+          </Tab.List>
+        </div>
+        {inlineSelectFields}
+      </div>
       <Tab.Panels className={"block w-full h-[calc(100%-56px)] min-h-[calc(100%-56px)] max-h-[calc(100%-56px)]"}>
         {panels.map((panel, index) => (
           <Tab.Panel key={index} className={"w-full h-full"}>{panel}</Tab.Panel>
