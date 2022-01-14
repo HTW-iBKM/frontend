@@ -1,4 +1,4 @@
-import React, {ReactElement, useCallback, useEffect} from "react";
+import React, {ReactElement, ReactHTMLElement, useCallback, useEffect} from "react";
 import {
   Cell,
   Column,
@@ -80,86 +80,89 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
 
   return (
     <>
-      <div className={"flex items center mt-6 mb-4"}>
+      <div className={"flex items center mt-[1.375rem] mb-[1.625rem]"}>
         <div className={"relative"}>
           <input placeholder="Suche..." className="focus:ring-transparent focus:ring-1  focus:ring-grayscale-dark focus:border-2 focus:border-grayscale-light outline-none ring-1 ring-grayscale-dark bg-transparent border-2 border-grayscale-light rounded-lg h-10-1/8  text-left text-base text-grayscale-darkest font-normal leading-7-1/8" onChange={handleFilterInputChange} type="text"/>
           <SearchIcon className={"absolute right-[18px] top-1/2 transform -translate-y-3 w-6 h-6"}/>
         </div>
       </div>
 
-      <table {...getTableProps()} className={"w-full text-left"}>
-        <thead className={"text-secondary border-b border-b-grayscale"}>
-        {headerGroups.map((headerGroup: HeaderGroup<T>) => (
-          <tr
-            key={headerGroup.getHeaderGroupProps().key}
-            role={headerGroup.getHeaderGroupProps().role}
-            className={headerGroup.getHeaderGroupProps().className}
-            style={headerGroup.getHeaderGroupProps().style}
-          >
-            {headerGroup.headers.map((column: HeaderGroup<T>, index) => (
-              <th
-                {...headerGroup.getHeaderGroupProps(column.getSortByToggleProps())}
-                key={column.getHeaderProps().key}
-                role={column.getHeaderProps().role}
-                className={`${column.getHeaderProps().className} ${index > 0 && 'w-32'} pb-3 first:pl-15 cursor-pointer`}
-                style={column.getHeaderProps().style}
-              >
-                {column.render("Header")}
-                <span>
+     <div className="overflow-y-scroll max-h-[calc(100%-18rem)]">
+       <table {...getTableProps()} className={"w-full text-left"}>
+         <thead className={"text-secondary border-b border-b-grayscale text-sm"}>
+         {headerGroups.map((headerGroup: HeaderGroup<T>) => (
+           <tr
+             key={headerGroup.getHeaderGroupProps().key}
+             role={headerGroup.getHeaderGroupProps().role}
+             className={headerGroup.getHeaderGroupProps().className}
+             style={headerGroup.getHeaderGroupProps().style}
+           >
+             {headerGroup.headers.map((column: HeaderGroup<T>, index) => (
+               <th
+                 {...headerGroup.getHeaderGroupProps(column.getSortByToggleProps())}
+                 key={column.getHeaderProps().key}
+                 role={column.getHeaderProps().role}
+                 className={`${column.getHeaderProps().className} ${index > 0 && 'w-32'} pb-3 first:pl-15 cursor-pointer`}
+                 style={column.getHeaderProps().style}
+               >
+                 {column.render("Header")}
+                 <span>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' 🔽'
                         : ' 🔼'
                       : ''}
                   </span>
-              </th>
-            ))}
-            <th className={"pb-3 w-33"}>
-              Aktion
-            </th>
-          </tr>
-        ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-        {page.map((row: Row<T>) => {
-          prepareRow(row);
-          return (
-            <tr
-              key={row.getRowProps().key}
-              role={row.getRowProps().role}
-              className={`${row.getRowProps().className} border-b border-b-grayscale h-13`}
-              style={row.getRowProps().style}
-            >
-              {row.cells.map((cell: Cell<T>) => {
-                return <td
-                  key={cell.getCellProps().key}
-                  role={cell.getCellProps().role}
-                  className={`${cell.getCellProps().className} border-b border-b-grayscale h-13 first:pl-7 first:pr-5 not:first:w-33 whitespace-nowrap`}
-                  style={cell.getCellProps().style}
-                >
-                  {cell.column.id === 'fileName' && row.original.fileType === 'csv' && <FormatCsvIcon className={"float-left align-baseline w-4 h-5 mr-4 mt-0.5"}/>}
-                  {cell.column.id === 'fileName' && row.original.fileType === 'png' && <FormatPngIcon className={"float-left align-baseline w-4 h-5 mr-4 mt-0.5"}/>}
+               </th>
+             ))}
+             <th className={"pb-3 w-33"}>
+               Aktion
+             </th>
+           </tr>
+         ))}
+         </thead>
+         <tbody {...getTableBodyProps()}>
+         {page.map((row: Row<T>) => {
+           prepareRow(row);
+           return (
+             <tr
+               key={row.getRowProps().key}
+               role={row.getRowProps().role}
+               className={`${row.getRowProps().className} border-b border-b-grayscale h-13`}
+               style={row.getRowProps().style}
+             >
+               {row.cells.map((cell: Cell<T>) => {
+                 return <td
+                   key={cell.getCellProps().key}
+                   role={cell.getCellProps().role}
+                   className={`${cell.getCellProps().className} border-b border-b-grayscale h-13 first:pl-7 first:pr-5 not:first:w-33 whitespace-nowrap`}
+                   style={cell.getCellProps().style}
+                 >
+                   {cell.column.id === 'fileName' && row.original.fileType === 'csv' && <FormatCsvIcon className={"float-left align-baseline w-4 h-5 mr-4 mt-0.5"}/>}
+                   {cell.column.id === 'fileName' && row.original.fileType === 'png' && <FormatPngIcon className={"float-left align-baseline w-4 h-5 mr-4 mt-0.5"}/>}
 
-                  {cell.render("Cell")}
-                  {cell.column.id === 'fileSize' && row.original.fileSizeUnit}
-                </td>;
-              })}
-              <td className={"flex justify-between items-center h-13 first:pl-7 last:pr-7 w-33"}>
-                <Button variant={"icon"}><DownloadIcon className="w-4 h-4"/></Button>
-                <Button variant={"icon"}><OpenInNewTabIcon className="w-4 h-4"/></Button>
-                <Button variant={"icon"}><DeleteForeverIcon className="w-4 h-4"/></Button>
-              </td>
-            </tr>
-          );
-        })}
-        </tbody>
-      </table>
+                   {cell.render("Cell")}
+                   {cell.column.id === 'fileSize' && row.original.fileSizeUnit}
+                 </td>;
+               })}
+               <td className={"flex justify-between items-center h-13 first:pl-7 last:pr-7 w-33"}>
+                 <Button variant={"icon"}><DownloadIcon className="w-4 h-4"/></Button>
+                 <Button variant={"icon"}><OpenInNewTabIcon className="w-4 h-4"/></Button>
+                 <Button variant={"icon"}><DeleteForeverIcon className="w-4 h-4"/></Button>
+               </td>
+             </tr>
+           );
+         })}
+         </tbody>
+       </table>
+     </div>
 
       <div className="w-full flex justify-end mt-8">
         <div className={"flex items-center text-sm"}>
-          <SelectField variant="small" label="Einträge pro Seite" options={pageSizeOptions} onChange={(value: string) => setPageSize(value === '' ? DEFAULT_PAGE_SIZE : Number(value))}></SelectField>
+          <label htmlFor="selectIntervall" className={"mr-3"}>Intervall:</label>
+          <SelectField id="selectIntervall" variant="small" defaultValue={{ value: '8', label: '8', disabled: false }} options={pageSizeOptions} onChange={(value: string) => setPageSize(value === '' ? DEFAULT_PAGE_SIZE : Number(value))}></SelectField>
           <span className={"ml-8 mr-8"}>
-            {pageIndex + 1} {' - '} {pageIndex * pageSize + page.length} von {pageOptions.length} {' '}
+            {pageIndex + 1} {' - '} {pageIndex * pageSize + page.length} von {data.length} {' '}
           </span>
           <Button variant="icon" onClick={() => previousPage()} disabled={!canPreviousPage}>
             {<ChevronLeftIcon className={"h-4 w-4"}/>}
