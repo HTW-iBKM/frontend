@@ -32,7 +32,8 @@ module.exports = {
                 dark: '#C1C1C6',
                 DEFAULT: '#EFF0F6',
                 light: '#FAFAFA',
-                white: '#FFFFFF'
+                white: '#FFFFFF',
+                disabled: '#E2E2E2'
             },
             danger: {
                 DEFAULT: '#D7382C',
@@ -58,6 +59,14 @@ module.exports = {
             none: 'none'
         },
         extend: {
+            keyframes: {
+                'opacity-transition': {
+                  '50%': { opacity: 0.3 },
+                }
+            },
+            animation: {
+                'pulse-dramatic': 'opacity-transition 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+            },
             margin: {
                 '5-1/8': '1.375rem'
             },
