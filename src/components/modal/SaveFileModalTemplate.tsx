@@ -80,7 +80,7 @@ const SaveFileTemplate = ({setModalOpen, onSaveFile, activeGraph}: SaveFileModal
         <div className={`${styles.formElementGroup}`}>
           <p className="mb-4">Geben Sie der Datei einen Titel:</p>
           <TextField 
-            type="text"
+            type="text" 
             name="file-name"
             label="Dateiname*"
             onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, name: true }))} 
@@ -99,8 +99,8 @@ const SaveFileTemplate = ({setModalOpen, onSaveFile, activeGraph}: SaveFileModal
           </RadioButtonGroup>
         </div>
         <div className={`${commonModalStyles.buttonGroup}`}>
-          <Button variant={"secondary"} onClick={() => setModalOpen(false)}>Abbrechen</Button>
-          <Button disabled={!validForm()} type="submit" variant={"primary"}>Speichern</Button>
+          <Button variant="secondary" onClick={() => setModalOpen(false)}>Abbrechen</Button>
+          <Button disabled={!validForm()} type="submit" variant="primary">Speichern</Button>
         </div>
       </form>
     </div>
