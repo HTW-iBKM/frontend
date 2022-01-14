@@ -10,7 +10,7 @@ function Landingpage(): ReactElement {
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
     return (
       <div className="overflow-hidden h-screen w-full relative ">
-        <div className={"lp-background-clip pointer-events-none absolute w-full h-full -right-1/2 lg:-right-1/4 bg-secondary-light bg-opacity-20"}></div>
+        <div className={"lp-background-clip pointer-events-none absolute w-full h-full -right-1/2 md:-right-1/3 lg:-right-1/4 bg-secondary-light bg-opacity-20"}></div>
 
         {/*Mobile Menu */}
         <Transition
