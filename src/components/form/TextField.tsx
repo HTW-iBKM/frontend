@@ -45,7 +45,7 @@ const TextField: React.FC<TextFieldProps> = ({ errorMessage, successMessage, lab
       </label>
 
       {visibilityButton &&
-        <button className={"absolute right-6 h-full w-6 flex flex-col p"} onClick={() => setTypeState(typeState === 'password' ? 'text' : 'password')}>
+        <button className={"absolute right-6 h-full w-6 flex flex-col p"} onClick={(event) => { setTypeState(typeState === 'password' ? 'text' : 'password'); event.preventDefault() }}>
           {typeState === "password" &&
             <ShowPasswordIcon className={"absolute h-6 w-6 top-1/2 transform -translate-y-1/2"} />
           }
