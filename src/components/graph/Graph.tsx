@@ -76,6 +76,7 @@ interface TimespanOption {
 }
 
 function Graph(): ReactElement {
+
     const styles = {
         graphContainer: "w-[calc(100%-3.5rem)] h-[calc(100%-3.5rem)] m-7 flex justify-center items-center flex-col ",
         loadingCommonStyle: "bg-[#E9EAF0] rounded-lg"
@@ -131,6 +132,7 @@ function Graph(): ReactElement {
     startDate: new Date(),
     endDate: new Date()
   });
+
   const setSelectedTimespan = (option: string) => {
     const timespanOption = timespanOptions.find(o => o.value === option);
     const startDate = new Date();
