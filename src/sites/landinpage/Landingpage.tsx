@@ -1,42 +1,72 @@
-import React, {ReactElement} from 'react';
+import React, {Fragment, ReactElement, useState} from 'react';
 import Button from "../../components/form/Button";
-import LogoComponent from "../../components/logo/logoComponent";
+import { Transition } from "@headlessui/react";
 import {useHistory} from "react-router-dom";
+import "./Landingpage.css";
+import CloseIcon from "../../components/icons/CloseIcon";
 
 function Landingpage(): ReactElement {
     const history = useHistory();
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
     return (
-      <div className="h-full w-full relative">
-        <div className={"bg-grayscale-light w-full shadow mb-6 md:mb-12"}>
-          <div className="container px-2 mx-auto flex items-center justify-between h-16">
-            <h6 className="text-h6">Exxeta iBKM Dashboard</h6>
-            <div className={"hidden sm:block md:block"}>
-              <Button className="mr-4" variant={"secondary"} onClick={() => history.push('register')}>Registrieren</Button>
-              <Button variant={"primary"} onClick={() => history.push('login')}>Login</Button>
+      <div className="overflow-hidden h-screen w-full relative ">
+        <div className={"lp-background-clip pointer-events-none absolute w-full h-full -right-1/2 lg:-right-1/4 bg-secondary-light bg-opacity-20"}></div>
+
+        {/*Mobile Menu */}
+        <Transition
+          as={Fragment}
+          show={isMenuOpen}
+          enter="transition ease-out duration-100"
+          enterFrom="transform opacity-0 scale-95"
+          enterTo="transform opacity-100 scale-100"
+          leave="transition ease-in duration-75"
+          leaveFrom="transform opacity-100 scale-100"
+          leaveTo="transform opacity-0 scale-95"
+        >
+          <div className={"absolute inset-0 bg-grayscale-light md:bg-transparent z-50 md:relative block md:hidden"}>
+            <div className={"h-full w-full flex flex-col px-8 justify-center relative md:flex-row md:px-0"}>
+              <Button variant={"icon"} className={"absolute top-6 right-6 h-10 w-10 inline-block md:hidden"} onClick={() => setIsMenuOpen(false)}>
+                <CloseIcon></CloseIcon>
+              </Button>
+              <Button className="mb-4" variant={"text"} onClick={() => history.push('Einloggen')}>Über uns</Button>
+              <Button className="mb-4" variant={"text"} onClick={() => history.push('Einloggen')}>Kontakt</Button>
+              <Button variant={"secondary"} onClick={() => history.push('login')}>Einloggen</Button>
             </div>
           </div>
-        </div>
-        <div className={"w-full"}>
-          <div className="container px-2 mx-auto relative flex justify-end">
-            <img src="/dashboard-screen.png" className={"rounded-lg shadow-lg lg:w-2/3"}></img>
+        </Transition>
 
-            <div className="absolute bg-grayscale-light bg-opacity-95 px-6 py-6 left-2 right-2 top-24 md:w-2/3 md:left-0 md:top-1/2 xl:w-1/2 md:transform  rounded-lg shadow-lg">
-              <h4 className={"text-2xl lg:text-h4 mb-4"}>Intelligentes Bilanzkreismanagement</h4>
-              <p>
-                Das Exxeta IBKM Dashboard ermöglicht ein modernes, zeitgemäßes Bilanzkreismanagement.
-                Hierbei werden die Kaufentscheidungen von Bilanzkreismanager*innen durch visualisierte, von Machine Learning Modellen erzeugte Progonosedaten über den kommenden Stromverbrauch eines Bilanzkreises unterstützt.
-              </p>
-              <div className={"mt-6"}>
-                <Button className="mr-4" variant={"secondary"} onClick={() => history.push('register')}>Registrieren</Button>
-                <Button variant={"primary"} onClick={() => history.push('login')}>Login</Button>
+        <div className={"absolute inset-0 overflow-y-scroll"}>
+          <div className={"w-full mb-6 md:mb-10"}>
+            <div className="container px-8 lg:px-2 mx-auto flex items-center justify-between h-32">
+              <h5 className="text-h5 flex flex-col md:flex-row items-start md:items-center">
+                <img src="/exxetalogo.png" className={"h-12 mr-4"}></img>
+                Exxeta iBKM
+              </h5>
+
+              <div className={"hidden md:block"}>
+                <Button className="mr-6" variant={"text"} onClick={() => history.push('Einloggen')}>Über uns</Button>
+                <Button className="mr-6" variant={"text"} onClick={() => history.push('Einloggen')}>Kontakt</Button>
+                <Button variant={"secondary"} onClick={() => history.push('login')}>Einloggen</Button>
+              </div>
+
+              <Button variant={"text"} className={"inline-block md:hidden"} onClick={() => setIsMenuOpen(true)}>Menü</Button>
+            </div>
+          </div>
+          <div className={"w-full"}>
+            <div className="container px-8 lg:px-2 mx-auto relative flex flex-col lg:flex-row space-between ">
+              <div className="flex-1 order-2 lg:order-1 mt-8 lg:mt-0">
+                <h4 className={"text-[2.375rem] lg:text-[3.75rem] leading-tight font-light mb-4 mt-0 md:mt-0 lg:mt-0 2xl:mt-20"}>Das Exxeta IBKM Dashboard</h4>
+                <p className={"text-xl lg:text-2xl font-medium leading-relaxed mt-8"}>
+                  Für modernes Bilanzkreismanagement mit Hilfe von visualisierten, durch Machine Learning erzeugten Bilanzkreisprognosen.
+                </p>
+                <div className={"mt-6"}>
+                  <Button className="mr-4 mt-6" variant={"primary"} onClick={() => history.push('register')}>Jetzt loslegen!</Button>
+                </div>
+              </div>
+              <div className={"w-full lg:w-2/3 flex order-1 lg:order-2 flex items-center justify-center"}>
+                <img src="/dashboard-screen.png" className={"object-contain block"}></img>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className={"w-full absolute bottom-0 md:relative md:mt-12"}>
-          <div className="container px-2 mx-auto flex items-center justify-between items-center h-14">
-            <LogoComponent><></></LogoComponent>
           </div>
         </div>
       </div>
