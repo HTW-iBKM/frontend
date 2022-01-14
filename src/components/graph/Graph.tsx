@@ -1,4 +1,4 @@
-import React, {ReactElement, useState} from 'react';
+import React, {ReactElement, useCallback, useState} from 'react';
 import axios from 'axios';
 import useAsyncEffect from "use-async-effect";
 import './Graph.css'
@@ -16,7 +16,8 @@ import InsertDriveFileIcon from "../icons/InsertDriveFileIcon";
 import SaveFileTemplate from "../modal/SaveFileModalTemplate";
 import EditTimeSeriesTemplate from "../modal/EditTimeSeriesModalTemplate";
 import Modal from "../modal/Modal";
-// import { GraphContext } from "../../context/GraphContext";
+import {useCurrentPng} from "recharts-to-png";
+import FileSaver from 'file-saver';
 
 export interface GraphData {
     time: string;
@@ -82,17 +83,45 @@ function Graph(): ReactElement {
     const showNewTabButton = url !== 'graph-details';
 
     const [data, setData] = useState<GraphData[]>([]);
+    const [activeGraph, setActiveGraph] = useState<string>(String);
 
     const IconTimeline = <><TimelineIcon className={"h-5 w-5"}/></>
     const IconEqualizer = <><EqualizerIcon className={"h-5 w-5"}/></>
     const IconStackedLineChart = <><StackedLineChartIcon className={"h-5 w-5"}/></>
 
-    const LineChart = <LineChartPanel data={data} graphLineColors={GraphLineColors} keyData={keyData}/>
-    const BarChart = <><BarChartPanel data={data} graphLineColors={GraphLineColors} keyData={keyData}/></>
-    const AreaChart = <><AreaChartPanel data={data} graphLineColors={GraphLineColors} keyData={keyData}/></>
+    const [getLineChartPng, { ref: lineChartRef }] = useCurrentPng();
+    const [getBarChartPng, { ref: barChartRef }] = useCurrentPng();
+    const [getAreaChartPng, { ref: areaChartRef }] = useCurrentPng();
+
+    const handlePngDownload = useCallback(async (fileName: string, currentGraph: string) => {
+        let png;
+        switch (currentGraph) {
+            case 'line_chart':
+                png =  await getLineChartPng();
+                break;
+            case 'bar_chart':
+                png =  await getBarChartPng();
+                break;
+            case 'area_chart':
+                png =  await getAreaChartPng();
+                break;
+        }
+        if (png) FileSaver.saveAs(png, `${fileName}.png`);
+    }, [getLineChartPng]);
+
+
+    const LineChartComponent = <><LineChartPanel data={data} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData}/></>;
+    const BarChart = <><BarChartPanel data={data} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData}/></>
+    const AreaChart = <><AreaChartPanel data={data} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData}/></>
 
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false)
     const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false)
+
+    const saveFile = async (fileName: string, fileType: string, currentGraph: string) => {
+        fileType === 'PNG'
+          ? await handlePngDownload(fileName, currentGraph)
+          : null;
+    }
 
     useAsyncEffect(async (isMounted) => {
         const {data}: GraphDataResponse = await axios.get(
@@ -116,8 +145,18 @@ function Graph(): ReactElement {
                     </Button>
                 }
             </div>
+
             <div className={"block w-full h-full mt-5-1/8"}>
-                <Tabs className="w-full h-20 mt-5-1/8" type="small" tabs={[IconTimeline, IconEqualizer, IconStackedLineChart]} panels={[LineChart, BarChart, AreaChart]} />
+                <Tabs
+                  className="w-full h-20 mt-5-1/8"
+                  type="small"
+                  onTabChange={setActiveGraph}
+                  tabs={[
+                    {title: IconTimeline, accessor: 'line_chart'},
+                    {title: IconEqualizer, accessor: 'bar_chart'},
+                    {title: IconStackedLineChart, accessor: 'area_chart'}
+                  ]}
+                  panels={[LineChartComponent, BarChart, AreaChart]} />
             </div>
             <div className="border border-[#E2E2E2] w-full m-6"/>
             <div className="w-full flex justify-center flex-wrap">
@@ -135,7 +174,7 @@ function Graph(): ReactElement {
             </div>
 
             <Modal isOpen={isSaveModalOpen} title={"Als Datei speichern"} onClose={() => setIsSaveModalOpen(false)}>
-                <SaveFileTemplate keyData={keyData} setModalOpen={setIsSaveModalOpen}></SaveFileTemplate>
+                <SaveFileTemplate activeGraph={activeGraph} onSaveFile={saveFile} setModalOpen={setIsSaveModalOpen}></SaveFileTemplate>
             </Modal>
 
             <Modal isOpen={isEditModalOpen} title={"Zeitreihen bearbeiten"} onClose={() => setIsEditModalOpen(false)}>
