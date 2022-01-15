@@ -6,7 +6,7 @@ import { RadioButtonGroupInterface, useRadioButtonGroup } from "../../hooks/useR
 import Button from "../form/Button";
 import RadioButtonGroup from "../form/RadioButtonGroup";
 import TextField from "../form/TextField";
-import { KeyData } from "../graph/Graph";
+import {GraphKey, KeyData} from "../graph/Graph";
 import { commonModalStyles } from "./Modal";
 import { v4 as uuidv4 } from 'uuid';
 import "./SaveFileModalTemplate.css";
@@ -14,7 +14,7 @@ import "./SaveFileModalTemplate.css";
 interface SaveFileModalProps {
   keyData: KeyData[];
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  onSaveFile: (fileName: string, fileType: string, currentGraph: string) => void;
+  onSaveFile: (fileName: string, fileType: string, currentGraph: string, timeSeries:string[]) => void;
   activeGraph: string;
 }
 
@@ -57,7 +57,15 @@ const SaveFileTemplate = ({keyData, setModalOpen, onSaveFile, activeGraph}: Save
     if(validForm()) {
       if(radioButtonGroup.selected) {
         try {
-          onSaveFile(fileName, radioButtonGroup.selected, activeGraph);
+          const checked = checkboxFormControls.filter((checked)=> {
+            return checked.checked;
+          })
+          const checkedTimeSeries =checked.map((obj) => {
+            return obj.key as string;
+          })
+
+          onSaveFile(fileName, radioButtonGroup.selected, activeGraph, checkedTimeSeries);
+
           resetFileName();
           resetRadioButtonGroup();
           checkboxFormControls.map((checkbox) => checkbox.reset())
