@@ -115,15 +115,14 @@ function Navbar(): ReactElement {
                 </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
-                    <a
+                    <button
                       className={`${active ? 'bg-grayscale text-white' : 'text-gray-900'
                         } h-8 group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm hover:cursor-pointer`}
-                      href="/account-settings"
                       onClick={() => auth.logout(() => history.push('login'))}
                     >
                       <PowerIcon className="h-4 w-4 text-grayscale-darkest" />
                       Abmelden
-                    </a>
+                    </button>
                   )}
                 </Menu.Item>
               </div>

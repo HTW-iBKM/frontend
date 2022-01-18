@@ -21,7 +21,7 @@ function RestrictedRoute({ ...rest }): ReactElement {
             <Redirect
                 exact
                 to={{
-                    pathname: '/login',
+                    pathname: '',
                 }}
             /> :
 
@@ -37,7 +37,7 @@ function RestrictedRoute({ ...rest }): ReactElement {
 function PublicRoutes(): ReactElement {
     return (
         <Switch>
-            <RestrictedRoute
+            <Route
                 exact
                 path={'/'}
                 component={Landingpage}
