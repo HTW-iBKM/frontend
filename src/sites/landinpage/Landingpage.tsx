@@ -13,8 +13,8 @@ function Landingpage(): ReactElement {
     const isAuthenticated = auth.isAuthenticated();
 
     return (
-      <div className="overflow-hidden h-screen w-full relative ">
-        <div className={"lp-background-clip pointer-events-none absolute w-full h-full -right-1/2 md:-right-1/3 lg:-right-1/4 bg-secondary-light bg-opacity-20"}></div>
+      <div className="w-full h-full relative">
+        <div className={"lp-background-clip pointer-events-none absolute inset-0 bg-secondary-light bg-opacity-20"}></div>
 
         {/*Mobile Menu */}
         <Transition
@@ -27,7 +27,7 @@ function Landingpage(): ReactElement {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <div className={"absolute inset-0 bg-grayscale-light md:bg-transparent z-50 md:relative block md:hidden"}>
+          <div className={"fixed inset-0 bg-grayscale-light md:bg-transparent z-50 md:relative block md:hidden"}>
             <div className={"h-full w-full flex flex-col px-8 justify-center relative md:flex-row md:px-0"}>
               <Button variant={"icon"} className={"absolute top-6 right-6 h-10 w-10 inline-block md:hidden"} onClick={() => setIsMenuOpen(false)}>
                 <CloseIcon></CloseIcon>
@@ -39,9 +39,11 @@ function Landingpage(): ReactElement {
           </div>
         </Transition>
 
-        <div className={"absolute inset-0 overflow-y-scroll"}>
+        {/* /Mobile Menu */}
+
+        <div className={"w-full h-full"}>
           <div className={"w-full mb-6 md:mb-10"}>
-            <div className="container px-8 lg:px-2 mx-auto flex items-center justify-between h-32">
+            <div className="container px-4 md:px-2 mx-auto flex items-center justify-between h-32">
               <h5 className="text-h5 flex flex-col md:flex-row items-start md:items-center">
                 <img src="/exxetalogo.png" className={"h-12 mr-4"}></img>
                 Exxeta iBKM
@@ -61,7 +63,7 @@ function Landingpage(): ReactElement {
             </div>
           </div>
           <div className={"w-full"}>
-            <div className="container px-8 lg:px-2 mx-auto relative flex flex-col lg:flex-row space-between ">
+            <div className="container px-4 md:px-2 mx-auto relative flex flex-col lg:flex-row space-between ">
               <div className="flex-1 order-2 lg:order-1 mt-8 lg:mt-0">
                 <h4 className={"text-[2.375rem] lg:text-[3.75rem] leading-tight font-light mb-4 mt-0 md:mt-0 lg:mt-0 2xl:mt-20"}>Das Exxeta IBKM Dashboard</h4>
                 <p className={"text-xl lg:text-2xl font-medium leading-relaxed mt-8"}>
