@@ -6,7 +6,7 @@ import { RadioButtonGroupInterface, useRadioButtonGroup } from "../../hooks/useR
 import Button from "../form/Button";
 import RadioButtonGroup from "../form/RadioButtonGroup";
 import TextField from "../form/TextField";
-import {GraphKey, KeyData} from "../graph/Graph";
+import {KeyData} from "../graph/Graph";
 import { commonModalStyles } from "./Modal";
 import { v4 as uuidv4 } from 'uuid';
 import "./SaveFileModalTemplate.css";

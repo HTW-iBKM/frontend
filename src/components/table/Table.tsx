@@ -1,4 +1,4 @@
-import React, {ReactElement, ReactHTMLElement, useCallback, useEffect} from "react";
+import React, {ReactElement, useCallback, useEffect} from "react";
 import {
   Cell,
   Column,
@@ -46,7 +46,6 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
     page,
     canPreviousPage,
     canNextPage,
-    pageOptions,
     nextPage,
     previousPage,
     setPageSize,
