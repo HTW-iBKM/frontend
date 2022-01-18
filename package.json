@@ -26,6 +26,7 @@
     "aws-sdk": "^2.1053.0",
     "axios": "^0.24.0",
     "date-fns": "^2.27.0",
+    "export-to-csv": "^0.2.1",
     "file-saver": "^2.0.5",
     "flatpickr": "^4.6.9",
     "react": "^17.0.2",

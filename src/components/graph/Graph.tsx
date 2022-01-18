@@ -1,4 +1,4 @@
-import React, {ReactElement, useEffect, useCallback, useState} from 'react';
+import React, {ReactElement, useCallback, useEffect, useState} from 'react';
 import axios from 'axios';
 import useAsyncEffect from "use-async-effect";
 import './Graph.css'
@@ -18,6 +18,7 @@ import EditTimeSeriesTemplate from "../modal/EditTimeSeriesModalTemplate";
 import Modal from "../modal/Modal";
 import {useCurrentPng} from "recharts-to-png";
 import FileSaver from 'file-saver';
+import { ExportToCsv } from 'export-to-csv';
 import SelectField from '../../components/form/SelectField';
 import DatePicker from '../../components/datePicker/DatePicker';
 
@@ -80,15 +81,8 @@ function Graph(): ReactElement {
         graphContainer: "w-[calc(100%-3.5rem)] h-[calc(100%-3.5rem)] m-7 flex justify-center items-center flex-col ",
         loadingCommonStyle: "bg-[#E9EAF0] rounded-lg"
     };
-
-    /**
-     * Definition of the line available colors.
-     */
     const GraphLineColors = ["#4074B2", "#DE9D28", "#edabd1", "#92dbd0"];
 
-    /**
-     * Inititial key data definition.
-     */
     const KeyDataDefault: KeyData[] = [
         {key: GraphKey.PREDICTION, name: 'Prognose', checked: true},
         {key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch', checked: true}
@@ -230,6 +224,35 @@ function Graph(): ReactElement {
   const IconTimeline = <TimelineIcon className={'h-5 w-5'}/>;
   const IconEqualizer = <EqualizerIcon className={'h-5 w-5'}/>;
   const IconStackedLineChart = <StackedLineChartIcon className={'h-5 w-5'}/>;
+    const handleCsvDownload = (filename: string, timeSeries: string[]) => {
+        timeSeries.push("time");
+        const dataToBeFiltered = JSON.parse(JSON.stringify(data));
+        const options = {
+            fieldSeparator: ',',
+            quoteStrings: '"',
+            decimalSeparator: '.',
+            showLabels: false,
+            showTitle: false,
+            useTextFile: false,
+            useBom: true,
+            useKeysAsHeaders: true,
+            filename: filename
+        };
+
+        const csvExporter = new ExportToCsv(options);
+        const filterData = (data:GraphData[], timeSeries: string []) => {
+            for(const i in data) {
+                Object.keys(data[i]).forEach((key) => {
+                    if(!timeSeries.includes(key)) {
+                       delete data[i][key as keyof GraphData];
+                    }
+                })
+            }
+        }
+
+        filterData(dataToBeFiltered,timeSeries);
+        csvExporter.generateCsv(dataToBeFiltered);
+    }
 
   const LineChart = <LineChartPanel data={data} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData}/>;
   const BarChart = <BarChartPanel data={data} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData}/>;
@@ -238,11 +261,14 @@ function Graph(): ReactElement {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);
 
-  const saveFile = async (fileName: string, fileType: string, currentGraph: string) => {
-    fileType === 'PNG'
-        ? await handlePngDownload(fileName, currentGraph)
-        : null;
-  }
+    const saveFile = async (fileName: string, fileType: string, currentGraph: string, timeSeries: string[]) => {
+        fileType === 'PNG'
+          ? await handlePngDownload(fileName, currentGraph)
+          : null;
+        fileType === 'CSV'
+        ? await handleCsvDownload(fileName, timeSeries)
+            :null;
+    }
 
   useAsyncEffect(async (isMounted) => {
     const {data}: GraphDataResponse = await axios.get(
@@ -307,7 +333,7 @@ function Graph(): ReactElement {
             </div>
 
             <Modal isOpen={isSaveModalOpen} title={"Als Datei speichern"} onClose={() => setIsSaveModalOpen(false)}>
-                <SaveFileTemplate activeGraph={activeGraph} onSaveFile={saveFile} setModalOpen={setIsSaveModalOpen}></SaveFileTemplate>
+                <SaveFileTemplate keyData={keyData} activeGraph={activeGraph} onSaveFile={saveFile} setModalOpen={setIsSaveModalOpen}></SaveFileTemplate>
             </Modal>
 
             <Modal isOpen={isEditModalOpen} title={"Zeitreihen bearbeiten"} onClose={() => setIsEditModalOpen(false)}>
