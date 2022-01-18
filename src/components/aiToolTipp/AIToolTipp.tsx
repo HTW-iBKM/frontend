@@ -49,8 +49,8 @@ function AIToolTipp(properties: ({ payload: (undefined | { payload: { [key: stri
                                 </svg>
                             }
                         </div>
-
-                        <div className='prediction-data-label'>{ele.key}</div>
+                        {/* The column has a typo thats why iam lowercassing it here */}
+                        <div className='prediction-data-label'>{(ele.key).replace('Nachgelagerte', 'nachgelagerte')}</div>
                         <div className='prediction-data-value'>{(ele.value * 100).toFixed(0) + "%"}</div>
 
                     </>)
