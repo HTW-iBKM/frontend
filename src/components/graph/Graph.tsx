@@ -22,6 +22,9 @@ import { ExportToCsv } from 'export-to-csv';
 import SelectField from '../../components/form/SelectField';
 import DatePicker from '../../components/datePicker/DatePicker';
 import { explainableAIData } from '../../api/mockdataTransformer';
+import '../aiToolTipp/AIToolTipp.css';
+
+
 // import { GraphContext } from "../../context/GraphContext";
 
 export interface GraphData {
