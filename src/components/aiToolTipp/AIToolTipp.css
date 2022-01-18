@@ -1,0 +1,70 @@
+.tool-tipp {
+    background-color: #fafafa;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    min-width: 250px;
+    font-size: 14px;
+}
+
+.tool-tipp-date {
+    margin-bottom: 12px;
+}
+.tool-tipp-data {
+    display: grid;
+    grid-template-columns: 16px 1fr auto;
+    column-gap: 12px;
+    row-gap: 12px;
+    grid-template-areas:
+        "first-box . ."
+        ". . ."
+        ". . .";
+}
+
+.tool-tipp-label {
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.data-box {
+    border-radius: 2px;
+    width: 100%;
+    height: 16px;
+    background-color: red;
+}
+
+.first-box {
+    grid-area: first-box;
+}
+
+.second-box {
+    grid-area: second-box;
+}
+
+.prediction-vertical-line {
+    border-left: 1px solid #c1c1c6;
+    transform: translate(8px, 0);
+}
+
+.prediction-data {
+    display: grid;
+    grid-template-columns: 16px 1fr auto;
+    column-gap: 15px;
+    row-gap: 15px;
+    font-size: 12px;
+}
+
+.prediction-data-chevron-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.prediction-data-label {
+    width: 130px;
+}
+
+.prediction-data-value {
+    text-align: right;
+}

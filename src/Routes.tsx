@@ -35,6 +35,8 @@ function RestrictedRoute({ ...rest }): ReactElement {
 }
 
 function PublicRoutes(): ReactElement {
+    const isAuthenticated = auth.isAuthenticated();
+    console.log(isAuthenticated)
     return (
         <Switch>
             <RestrictedRoute
@@ -49,16 +51,22 @@ function PublicRoutes(): ReactElement {
                 component={GraphDetails}
             />
 
-            <Route
+            <RestrictedRoute
+                exact
                 path={'/dashboard'}
                 component={Dashboard}
             >
-            </Route>
+            </RestrictedRoute>
             <Route
                 exact
                 path={'/login'}
                 // isAuthorized={true}
-                component={LoginPage}
+                component={(() => {
+                    const component = function () {
+                        return <Redirect exact to={{ pathname: 'dashboard' }} />
+                    }
+                    return isAuthenticated ? component : LoginPage
+                })()}
             />
 
             <Route

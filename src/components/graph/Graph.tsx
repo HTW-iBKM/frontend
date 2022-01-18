@@ -17,6 +17,9 @@ import SaveFileTemplate from "../modal/SaveFileModalTemplate";
 import EditTimeSeriesTemplate from "../modal/EditTimeSeriesModalTemplate";
 import Modal from "../modal/Modal";
 import { explainableAIData } from '../../api/mockdataTransformer';
+import '../aiToolTipp/AIToolTipp.css';
+
+
 // import { GraphContext } from "../../context/GraphContext";
 
 export interface GraphData {

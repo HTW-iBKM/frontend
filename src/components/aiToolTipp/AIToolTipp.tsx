@@ -16,36 +16,63 @@ function AIToolTipp(properties: ({ payload: (undefined | { payload: { [key: stri
     const date = new Date(payload?.berlin_time);
 
     return <div
-        style={{
-
-            backgroundColor: '#FAFAFA',
-            borderColor: '#E2E2E2',
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            borderRadius: '8px',
-            paddingLeft: 15,
-            paddingTop: 15,
-            paddingBottom: 15,
-            paddingRight: 5,
-            display: 'flex',
-            flexDirection: 'column',
-            minWidth: 250,
-        }}
+        className='tool-tipp'
     >
-        <b>{`${date.getDate() + 1}.${("0" + (date.getMonth() + 1)).slice(-2)}.${date.getFullYear()}`}</b>
-        <div style={{
-            display: 'flex', marginTop: 5,
-            marginBottom: 5,
+        <b className='tool-tipp-date'>{`${date.getDate() + 1}.${("0" + (date.getMonth() + 1)).slice(-2)}.${date.getFullYear()}`}</b>
+        <div
+            className='tool-tipp-data'
+        >
+            <div className='data-box first-box' style={{ backgroundColor: colors ? colors[1] : '' }}></div>
+            <label className='tool-tipp-label'>Ground Truth:</label>
+            <label className='tool-tipp-label'>N/A</label>
+
+
+            <div className='data-box ' style={{ backgroundColor: colors ? colors[0] : '' }}></div>
+            <label className='tool-tipp-label'>Prediction:</label>
+            <label className='tool-tipp-label'>{payload.prediction} KWH</label>
+
+
+            <div className='prediction-vertical-line'></div>
+            <div className='prediction-data'>
+                {currentValues.map((ele, index) => {
+                    // eslint-disable-next-line react/jsx-key
+                    return (<>
+
+                        <div className='prediction-data-chevron-wrapper'>
+                            {ele.value > 0 ?
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="green" viewBox="0 0 24 24" stroke="green">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0} d="M5 15l7-7 7 7" />
+                                </svg>
+                                :
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="red" viewBox="0 0 24 24" stroke="red">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            }
+                        </div>
+
+                        <div className='prediction-data-label'>{ele.key}</div>
+                        <div className='prediction-data-value'>{(ele.value * 100).toFixed(0) + "%"}</div>
+
+                    </>)
+                }
+                )}
+
+            </div>
+
+        </div>
+
+        {/* <div style={{
+            display: 'flex', 
+
 
             justifyContent: 'space-between'
         }}>
             <div style={{
-                width: 20,
-                height: 20,
+                width: 16,
+                height: 16,
                 backgroundColor: colors ? colors[0] : '',
                 fontSize: 14,
-                lineHeight: 30,
-                marginTop: 3
+
             }} />
             <span
             >Prediction:</span>
@@ -58,9 +85,9 @@ function AIToolTipp(properties: ({ payload: (undefined | { payload: { [key: stri
             >
                 {payload.prediction}
             </span>
-        </div>
+        </div> */}
 
-        <div style={{
+        {/* <div style={{
             flex: 1,
             // backgroundColor: "black",
             marginLeft: 9,
@@ -100,7 +127,7 @@ function AIToolTipp(properties: ({ payload: (undefined | { payload: { [key: stri
             </div>
 
 
-        </div>
+        </div> */}
 
 
 
