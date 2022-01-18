@@ -1,14 +1,13 @@
 import React, { ReactElement, useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import { signIn } from '../../api/api';
-import LogoComponent from '../../components/logo/logoComponent';
 import { ToastContext } from '../../context/ToastContext';
 import { isEmail } from '../../utils/utility';
 import { v4 as uuidv4 } from 'uuid';
-import ToastContainer from "../../components/toast/ToastContainer";
 import TextField from '../../components/form/TextField';
 import { useInput } from '../../hooks/useInput';
 import Button from '../../components/form/Button';
+import LoginLayout from '../../layouts/LoginLayout';
 
 function LoginPage(): ReactElement {
 
@@ -35,7 +34,7 @@ function LoginPage(): ReactElement {
         container: 'flex flex-col justify-between h-screen py-8',
         logo: 'w-20 self-center',
         headline: 'text-h4',
-        form: 'flex flex-col gap-9 my-10',
+        form: 'flex flex-col gap-9',
         footer: 'flex gap-16',
         link: 'text-caption text-secondary hover:text-secondary-light active:text-primary'
     }
@@ -52,39 +51,32 @@ function LoginPage(): ReactElement {
         }
     }
 
+    const footerLinks = [{ "href": "/#/register", "content": "Noch keinen Account? Registrieren" }, { "href": "/#/passwordForgotten", "content": "Passwort Vergessen?" }];
+
     return (
-        <div className={styles.container}>
-            <ToastContainer />
-            <img src="/exxetalogo.png" className={styles.logo}></img>
-            <div>
-                <h4 className={styles.headline}>Login</h4>
-                <form name="login" onSubmit={handleSubmit} className={styles.form}>
-                    <TextField
-                        type="text"
-                        name="email"
-                        label="E-Mail-Adresse*"
-                        onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, email: true }))}
-                        {...bindEmail}
-                        errorMessage={formTouched.email && formErr['email'] ? formErr['email'] : formTouched.email && formErr['validEmail'] ? formErr['validEmail'] : ""}
-                    />
-                    <TextField
-                        type="password"
-                        name="password"
-                        label="Passwort*"
-                        visibilityButton={true}
-                        onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, password: true }))}
-                        {...bindPassword}
-                        errorMessage={formTouched.password && formErr['password'] ? formErr['password'] : ""}
-                    />
-                    <Button type="submit" variant={"primary"} disabled={!validForm()}>Anmelden
-                    </Button>
-                </form>
-            </div>
-            <footer className={styles.footer}>
-                <a href="/#/register" className={styles.link}>Noch keinen Account? Registrieren</a>
-                <a href="/#/passwordForgotten" className={styles.link}>Passwort Vergessen? </a>
-            </footer>
-        </div >
+        <LoginLayout title="Login" links={footerLinks} >
+            <form name="login" onSubmit={handleSubmit} className={styles.form}>
+                <TextField
+                    type="text"
+                    name="email"
+                    label="E-Mail-Adresse*"
+                    onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, email: true }))}
+                    {...bindEmail}
+                    errorMessage={formTouched.email && formErr['email'] ? formErr['email'] : formTouched.email && formErr['validEmail'] ? formErr['validEmail'] : ""}
+                />
+                <TextField
+                    type="password"
+                    name="password"
+                    label="Passwort*"
+                    visibilityButton={true}
+                    onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, password: true }))}
+                    {...bindPassword}
+                    errorMessage={formTouched.password && formErr['password'] ? formErr['password'] : ""}
+                />
+                <Button type="submit" variant={"primary"} disabled={!validForm()}>Anmelden
+                </Button>
+            </form>
+        </LoginLayout >
     )
 }
 

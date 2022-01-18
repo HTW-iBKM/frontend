@@ -1,7 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { useHistory } from 'react-router';
 import { signUp } from '../../api/api';
-import LogoComponent from '../../components/logo/logoComponent';
 import { isEmail } from '../../utils/utility';
 
 
@@ -19,6 +18,10 @@ function RegisterPage(): ReactElement {
     const [showPW, setShowPW] = useState(false);
     const [showPWConfirm, setShowPWConfirm] = useState(false);
     const styles = {
+        logo: "w-20 self-center",
+
+
+
         h3Title: "font-sans text-[34px] ",
         content: "",
         input: "flex-grow h-16 rounded-xl placeholder-grayscale-dark h-[43px] p-0 pl-4 border-grayscale-dark",
@@ -76,9 +79,11 @@ function RegisterPage(): ReactElement {
     }
 
     return (
-        <LogoComponent>
-            <div className={styles.content}>
+        <div>
 
+
+            <img src="/exxetalogo.png" className={styles.logo}></img>
+            <div className={styles.content}>
                 <div className={styles.form}>
                     <h3 className={styles.h3Title}>
                         Registrierung
@@ -197,7 +202,7 @@ function RegisterPage(): ReactElement {
             <footer className={styles.footer}>
                 <a className={styles.navigationAnchors} href="/#/login">Bereits registriert? &nbsp; Anmelden</a>
             </footer>
-        </LogoComponent>
+        </div>
     )
 }
 
