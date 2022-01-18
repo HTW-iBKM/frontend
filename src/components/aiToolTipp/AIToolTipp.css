@@ -20,7 +20,7 @@
     grid-template-areas:
         "first-box . ."
         ". . ."
-        ". . .";
+        ". prediction-data prediction-data";
 }
 
 .tool-tipp-label {
@@ -54,6 +54,8 @@
     column-gap: 15px;
     row-gap: 15px;
     font-size: 12px;
+    grid-area: prediction-data;
+    margin-right: 60px;
 }
 
 .prediction-data-chevron-wrapper {
