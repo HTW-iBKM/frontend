@@ -1,5 +1,5 @@
-import React, {ReactElement, useContext, useEffect} from "react";
-import {ToastContext, ToastInterface, ToastType} from "../../context/ToastContext";
+import React, { ReactElement, useContext, useEffect } from "react";
+import { ToastContext, ToastInterface, ToastType } from "../../context/ToastContext";
 import CheckCircleIcon from "../icons/CheckCircleIcon";
 import WarningIcon from "../icons/WarningIcon";
 import ErrorIcon from "../icons/ErrorIcon";
@@ -9,9 +9,9 @@ interface ToastProps {
   toast: ToastInterface;
 }
 
-function Toast({toast}: ToastProps): ReactElement {
+function Toast({ toast }: ToastProps): ReactElement {
   const styles = {
-    toast: 'h-15 relative bg-grayscale-light w-[23.625rem] mb-4 rounded-lg shadow-lg flex items-center',
+    toast: 'h-15 relative bg-grayscale-light mb-4 rounded-lg shadow-lg flex items-center',
     toastIndicator: 'w-[8px] h-full rounded-l-lg',
     toastSuccess: 'bg-success',
     toastWarning: 'bg-warning',
@@ -33,8 +33,8 @@ function Toast({toast}: ToastProps): ReactElement {
     }
   }
 
-  const {id, type, message, headline} = toast;
-  const {toasts, setToasts} = useContext(ToastContext);
+  const { id, type, message, headline } = toast;
+  const { toasts, setToasts } = useContext(ToastContext);
 
   useEffect(() => {
     const timer = setTimeout(() => setToasts(toasts.filter(t => t.id != id)), 3000);
@@ -44,15 +44,15 @@ function Toast({toast}: ToastProps): ReactElement {
   return (
     <div className={`${styles.toast}`}>
       <div className={`${styles.toastIndicator} ${toastClass(type)}`}></div>
-      {type === 'success' && <CheckCircleIcon className={styles.toastIcon}/>}
-      {type === 'warning' &&  <WarningIcon className={styles.toastIcon}/>}
-      {type === 'error' && <ErrorIcon className={styles.toastIcon}/>}
+      {type === 'success' && <CheckCircleIcon className={styles.toastIcon} />}
+      {type === 'warning' && <WarningIcon className={styles.toastIcon} />}
+      {type === 'error' && <ErrorIcon className={styles.toastIcon} />}
       <div className={"flex-1"}>
         <p className={styles.toastHeadline}>{headline}</p>
         <span className={styles.toastSubline}>{message}</span>
       </div>
       <button onClick={() => setToasts(toasts.filter(t => t.id != id))}>
-        <CloseIcon className={styles.toastCloseIcon}/>
+        <CloseIcon className={styles.toastCloseIcon} />
       </button>
     </div>
   )

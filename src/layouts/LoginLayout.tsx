@@ -24,7 +24,7 @@ const LoginLayout = ({
         logo: "w-20 self-center",
         headline: "text-h4",
         headlineCenterAlign: "text-h4 text-center",
-        footer: "flex gap-4 justify-between",
+        footer: "flex gap-8 justify-evenly",
         link: "text-caption text-secondary hover:text-secondary-light active:text-primary",
         childrenWrapper: "my-10"
     };

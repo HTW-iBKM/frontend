@@ -51,7 +51,7 @@ function LoginPage(): ReactElement {
         }
     }
 
-    const footerLinks = [{ "href": "/#/register", "content": "Noch keinen Account? Registrieren" }, { "href": "/#/passwordForgotten", "content": "Passwort Vergessen?" }];
+    const footerLinks = [{ href: "/#/register", content: "Noch keinen Account? Registrieren" }, { href: "/#/passwordForgotten", content: "Passwort Vergessen?" }];
 
     return (
         <LoginLayout title="Login" links={footerLinks} >
