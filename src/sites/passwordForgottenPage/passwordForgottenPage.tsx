@@ -47,7 +47,7 @@ function PasswordForgottenPage(): ReactElement {
                         variant="primary"
                         onClick={() => history.push("/login")}
                     >
-                        ZURÜCK ZUM LOGIN
+                        Zurück zum Login
                     </Button>
                 </div>
             ) : (
@@ -82,7 +82,7 @@ function PasswordForgottenPage(): ReactElement {
                         </Button>
                     </form>
                     <Button variant="text" onClick={() => history.push("/login")}>
-                        ZURÜCK ZUM LOGIN
+                        Zurück zum Login
                     </Button>
                 </div>
             )}
