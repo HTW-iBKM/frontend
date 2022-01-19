@@ -135,9 +135,6 @@ function Graph(): ReactElement {
             setTimespan({ startDate, endDate });
             setCalenderOptionLabel('Kalender');
         }
-        console.log(startDate);
-        console.log(endDate);
-
         _setSelectedTimespan(option);
     };
     const setCalendarTimespan = (dates: Date[]) => {
@@ -199,19 +196,11 @@ function Graph(): ReactElement {
 
     // TODO apply formatData to graphData once we have more than a day of data
     const formatData = (graphData: GraphData[]): GraphData[] => {
-
-        console.log(timespan.startDate);
-        console.log(timespan.endDate);
         const selectedInterval = intervalOptions.find(option => option.value === interval);
         const newData = graphData
             .filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate)
             .filter((data, index) => selectedInterval && index % selectedInterval.interval === 0);
-
-        console.log(newData);
         return newData
-
-
-
     };
 
     const [getLineChartPng, { ref: lineChartRef }] = useCurrentPng();
@@ -289,7 +278,6 @@ function Graph(): ReactElement {
         const { data }: GraphDataResponse = await axios.get(
             "https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/"
         );
-        console.log({ data })
 
         const aiData: any = explainableAIData();
 
