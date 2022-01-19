@@ -128,13 +128,16 @@ function Graph(): ReactElement {
 
     const setSelectedTimespan = (option: string) => {
         const timespanOption = timespanOptions.find(o => o.value === option);
-        const startDate = new Date();
-        const endDate = new Date();
+        const startDate = new Date(data[data.length - 1].time);
+        const endDate = new Date(data[data.length - 1].time);
         if (timespanOption && option !== 'calendar') {
-            startDate.setDate(startDate.getDate() - timespanOption.timespan * 1000 * 60 * 60 * 24);
+            startDate.setDate(startDate.getDate() - timespanOption.timespan);
             setTimespan({ startDate, endDate });
             setCalenderOptionLabel('Kalender');
         }
+        console.log(startDate);
+        console.log(endDate);
+
         _setSelectedTimespan(option);
     };
     const setCalendarTimespan = (dates: Date[]) => {
@@ -196,10 +199,19 @@ function Graph(): ReactElement {
 
     // TODO apply formatData to graphData once we have more than a day of data
     const formatData = (graphData: GraphData[]): GraphData[] => {
+
+        console.log(timespan.startDate);
+        console.log(timespan.endDate);
         const selectedInterval = intervalOptions.find(option => option.value === interval);
-        return graphData
+        const newData = graphData
             .filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate)
             .filter((data, index) => selectedInterval && index % selectedInterval.interval === 0);
+
+        console.log(newData);
+        return newData
+
+
+
     };
 
     const [getLineChartPng, { ref: lineChartRef }] = useCurrentPng();
@@ -255,9 +267,11 @@ function Graph(): ReactElement {
         csvExporter.generateCsv(dataToBeFiltered);
     }
 
-    const LineChart = <LineChartPanel data={data} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} />;
-    const BarChart = <BarChartPanel data={data} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} />;
-    const AreaChart = <AreaChartPanel data={data} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} />;
+
+
+    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} />;
+    const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} />;
+    const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} />;
 
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
     const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);
@@ -277,16 +291,26 @@ function Graph(): ReactElement {
         );
         console.log({ data })
 
-        const aiData = explainableAIData();
-
-
-
-
+        const aiData: any = explainableAIData();
 
         if (!isMounted) return;
-        setData(aiData.september_18);
+        setData(aiData);
+        // setSelectedTimespan('day');
+        // setInterval('hour');
+        // setData(aiData.september_18);
         // setData(data.data.september_18);
     }, []);
+
+
+    useEffect(() => {
+        if (data.length > 0) {
+            setSelectedTimespan('day');
+            setInterval('minutes');
+
+        }
+    }, [data]);
+
+
 
     return !data.length ? (
         <div className={styles.graphContainer}>
@@ -326,30 +350,30 @@ function Graph(): ReactElement {
                     panels={[LineChart, BarChart, AreaChart]}
                     inlineSelectFields={[IntervalSelectField, TimespanSelectField]} />
             </div>
-            <div className="border border-disabled w-full m-6"/>
+            <div className="border border-disabled w-full m-6" />
             <div className="w-full flex justify-center flex-wrap">
                 {keyData.map((data: KeyData, index: number) =>
                     data.checked &&
                     <div key={index} className="min-w-max flex items-center gap-3 mx-7">
-                        <span className={`w-4 h-4 rounded-[2px]`} style={{backgroundColor: GraphLineColors[index]}}/>
-                                <span className="text-body1">{data.name}</span>
-                            </div>
-                        )}
-                        <div className="mx-5 flex gap-7">
-                            <Button variant={"icon"} onClick={() => setIsEditModalOpen(true)}><EditIcon></EditIcon></Button>
-                            <Button variant={"icon"} onClick={() => setIsSaveModalOpen(true)}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
-                        </div>
+                        <span className={`w-4 h-4 rounded-[2px]`} style={{ backgroundColor: GraphLineColors[index] }} />
+                        <span className="text-body1">{data.name}</span>
                     </div>
-
-                    <Modal isOpen={isSaveModalOpen} title={"Als Datei speichern"} onClose={() => setIsSaveModalOpen(false)}>
-                        <SaveFileTemplate keyData={keyData} activeGraph={activeGraph} onSaveFile={saveFile} setModalOpen={setIsSaveModalOpen}></SaveFileTemplate>
-                    </Modal>
-
-                    <Modal isOpen={isEditModalOpen} title={"Zeitreihen bearbeiten"} onClose={() => setIsEditModalOpen(false)}>
-                        <EditTimeSeriesTemplate keyData={keyData} setKeyData={setKeyData} setModalOpen={setIsEditModalOpen}></EditTimeSeriesTemplate>
-                    </Modal>
+                )}
+                <div className="mx-5 flex gap-7">
+                    <Button variant={"icon"} onClick={() => setIsEditModalOpen(true)}><EditIcon></EditIcon></Button>
+                    <Button variant={"icon"} onClick={() => setIsSaveModalOpen(true)}><InsertDriveFileIcon></InsertDriveFileIcon></Button>
                 </div>
-            );
+            </div>
+
+            <Modal isOpen={isSaveModalOpen} title={"Als Datei speichern"} onClose={() => setIsSaveModalOpen(false)}>
+                <SaveFileTemplate keyData={keyData} activeGraph={activeGraph} onSaveFile={saveFile} setModalOpen={setIsSaveModalOpen}></SaveFileTemplate>
+            </Modal>
+
+            <Modal isOpen={isEditModalOpen} title={"Zeitreihen bearbeiten"} onClose={() => setIsEditModalOpen(false)}>
+                <EditTimeSeriesTemplate keyData={keyData} setKeyData={setKeyData} setModalOpen={setIsEditModalOpen}></EditTimeSeriesTemplate>
+            </Modal>
+        </div>
+    );
 }
 
-            export default Graph;
+export default Graph;

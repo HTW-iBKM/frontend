@@ -2,9 +2,9 @@
 import { GraphData } from '../components/graph/Graph';
 import data from '../data/aiData.json';
 
-export function explainableAIData(): { [key: string]: GraphData[] } {
+export function explainableAIData(): any[] {
     const customObj: { [x: string]: GraphData[] } = {};
-    data.sort((a, b) => {
+    return data.sort((a, b) => {
         const firstDate = new Date(a.berlin_time);
         const secondDate = new Date(b.berlin_time);
         if (firstDate < secondDate) {
@@ -17,14 +17,15 @@ export function explainableAIData(): { [key: string]: GraphData[] } {
         single['time'] = single['berlin_time']
         // console.log(single)
         // delete single['berlin_time'];
-        const date = new Date(single['time']);
-        const monthNames = ["January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ].map((item) => item.toLowerCase());
-        const month_and_day = `${monthNames[date.getMonth()]}_${date.getDate() + 1}`;
-        if (!customObj[month_and_day]) customObj[month_and_day] = [];
-        customObj[month_and_day].push(single as unknown as GraphData);
+        // const date = new Date(single['time']);
+        // const monthNames = ["January", "February", "March", "April", "May", "June",
+        //     "July", "August", "September", "October", "November", "December"
+        // ].map((item) => item.toLowerCase());
+        // const month_and_day = `${monthNames[date.getMonth()]}_${date.getDate() + 1}`;
+        // if (!customObj[month_and_day]) customObj[month_and_day] = [];
+        // customObj[month_and_day].push(single as unknown as GraphData);
+        return single;
     });
 
-    return customObj;
+    // return customObj;
 }
