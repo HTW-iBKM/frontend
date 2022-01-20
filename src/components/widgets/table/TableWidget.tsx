@@ -275,7 +275,7 @@ export function TableWidget<T extends FileData>({ columns, data, variant, change
                         return <td
                           key={cell.getCellProps().key}
                           role={cell.getCellProps().role}
-                          className={`${cell.getCellProps().className} border-b border-b-grayscale h-13 first:pr-5 not:first:w-33 whitespace-nowrap`}
+                          className={`${cell.getCellProps().className} overflow-hidden overflow-ellipsis border-b border-b-grayscale h-13 first:pr-5 not:first:w-33 whitespace-nowrap`}
                           style={cell.getCellProps().style}
                         >
                           {cell.column.id === 'fileName' && row.original.fileType === 'csv' && <FormatCsvIcon className={"float-left align-baseline w-4 h-5 mr-4 mt-0.5"} />}
