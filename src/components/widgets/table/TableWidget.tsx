@@ -219,7 +219,7 @@ export function TableWidget<T extends FileData>({ columns, data, variant, change
           <small className={"text-subtitle2 ml-2"}>({data.length})</small>
         </div>
 
-        <div className="h-full max-h-[calc(100%-2rem)] flex flex-col justify-between mt-2">
+        <div className="h-full max-h-[calc(100%-2rem)] flex flex-col justify-between">
           <div className="overflow-y-auto mt-4" ref={wrapper}>
             <table {...getTableProps()} className={"w-full text-left"}>
               <thead className={"text-secondary border-b border-b-grayscale text-sm"}>
