@@ -25,13 +25,13 @@ export const MenuItem = ({
     };
 
     return (
-        <a
+        <button
             className={active ? styles.activeMenuItem : styles.menuItem}
             onClick={onClick}
         >
             <span className={styles.menuItemIcon}>{icon}</span>
             <span className={"inline-block whitespace-nowrap"}>{buttonText}</span>
-        </a>
+        </button>
     )
 };
 
