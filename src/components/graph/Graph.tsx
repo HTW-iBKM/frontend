@@ -1,4 +1,4 @@
-import React, {ReactElement, useState} from 'react';
+import React, { ReactElement, useState } from 'react';
 import axios from 'axios';
 import useAsyncEffect from "use-async-effect";
 import './Graph.css'
@@ -61,7 +61,7 @@ export interface KeyData {
 function Graph(): ReactElement {
     const styles = {
         graphContainer:
-          "w-full h-full p-7 flex justify-center items-center flex-col ",
+            "w-full h-full p-7 flex justify-center items-center flex-col ",
     };
 
     /**
@@ -73,8 +73,8 @@ function Graph(): ReactElement {
      * Inititial key data definition.
      */
     const KeyDataDefault: KeyData[] = [
-        {key: GraphKey.PREDICTION, name: 'Prognose', checked: true},
-        {key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch', checked: true}
+        { key: GraphKey.PREDICTION, name: 'Prognose', checked: true },
+        { key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch', checked: true }
     ];
     const [keyData, setKeyData] = useState(KeyDataDefault)
 
@@ -83,20 +83,20 @@ function Graph(): ReactElement {
 
     const [data, setData] = useState<GraphData[]>([]);
 
-    const IconTimeline = <><TimelineIcon className={"h-5 w-5"}/></>
-    const IconEqualizer = <><EqualizerIcon className={"h-5 w-5"}/></>
-    const IconStackedLineChart = <><StackedLineChartIcon className={"h-5 w-5"}/></>
+    const IconTimeline = <><TimelineIcon className={"h-5 w-5"} /></>
+    const IconEqualizer = <><EqualizerIcon className={"h-5 w-5"} /></>
+    const IconStackedLineChart = <><StackedLineChartIcon className={"h-5 w-5"} /></>
 
-    const LineChart = <LineChartPanel data={data} graphLineColors={GraphLineColors} keyData={keyData}/>
-    const BarChart = <><BarChartPanel data={data} graphLineColors={GraphLineColors} keyData={keyData}/></>
-    const AreaChart = <><AreaChartPanel data={data} graphLineColors={GraphLineColors} keyData={keyData}/></>
+    const LineChart = <LineChartPanel data={data} graphLineColors={GraphLineColors} keyData={keyData} />
+    const BarChart = <><BarChartPanel data={data} graphLineColors={GraphLineColors} keyData={keyData} /></>
+    const AreaChart = <><AreaChartPanel data={data} graphLineColors={GraphLineColors} keyData={keyData} /></>
 
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false)
     const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false)
 
     useAsyncEffect(async (isMounted) => {
-        const {data}: GraphDataResponse = await axios.get(
-          "https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/"
+        const { data }: GraphDataResponse = await axios.get(
+            "https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/"
         );
         if (!isMounted) return;
         setData(data.data.september_18);
@@ -110,23 +110,23 @@ function Graph(): ReactElement {
                 <h5 className={"text-h5"}>Bilanzkreis A Graph</h5> {/* TODO add real title */}
                 {showNewTabButton &&
                     <Button variant={"icon"}
-                            onClick={() => window.open('#/graph-details', '_blank')}
-                            title="Open in new tab">
-                        <OpenInNewTabIcon className="w-4 h-4"/>
+                        onClick={() => window.open('#/graph-details', '_blank')}
+                        title="Open in new tab">
+                        <OpenInNewTabIcon className="w-4 h-4" />
                     </Button>
                 }
             </div>
             <div className={"block w-full h-full mt-5-1/8"}>
                 <Tabs className="w-full h-20 mt-5-1/8" type="small" tabs={[IconTimeline, IconEqualizer, IconStackedLineChart]} panels={[LineChart, BarChart, AreaChart]} />
             </div>
-            <div className="border border-[#E2E2E2] w-full m-6"/>
+            <div className="bg-[#E2E2E2] w-full h-0.5 m-6" />
             <div className="w-full flex justify-center flex-wrap">
                 {keyData.map((data: KeyData, index: number) =>
                     data.checked &&
-                        <div key={index} className="min-w-max flex items-center gap-3 mx-7">
-                            <span className={`w-4 h-4 rounded-[2px]`} style={{backgroundColor: GraphLineColors[index]}}/>
-                            <span className="text-body1">{data.name}</span>
-                        </div>
+                    <div key={index} className="min-w-max flex items-center gap-3 mx-7">
+                        <span className={`w-4 h-4 rounded-[2px]`} style={{ backgroundColor: GraphLineColors[index] }} />
+                        <span className="text-body1">{data.name}</span>
+                    </div>
                 )}
                 <div className="mx-5 flex gap-7">
                     <Button variant={"icon"} onClick={() => setIsEditModalOpen(true)}><EditIcon></EditIcon></Button>
