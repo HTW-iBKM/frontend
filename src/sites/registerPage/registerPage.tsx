@@ -47,7 +47,7 @@ function RegisterPage(): ReactElement {
             containsNumbers.test(lastname) ? 'Der Nachname darf keine Zahlen enthalten' :
                 lastname.trim().length < 1 ? "Der Nachname muss mindestens drei Buchstaben lang sein" : null,
         password: !password ? "Das Passwort muss angegeben werden" :
-            !specialCharacters.test(password) || !containsNumbers.test(password) ? "Das Passwort muss ein Sonderzeichen und eine Zahl enthalten" :
+            !specialCharacters.test(password) || !containsNumbers.test(password) ? "Das Passwort muss Sonderzeichen und Zahlen enthalten" :
                 password.trim().length < 8 ? "Das Passwort muss mindestens acht Zeichen lang sein" : null,
         passwordConfirmed: !passwordConfirmed ? "Das Passwort muss wiederholt werden" :
             passwordConfirmed !== password ? "Die Passwörter müssen übereinstimmen" : null,
