@@ -25,6 +25,7 @@
     "amazon-cognito-identity-js": "^5.2.3",
     "aws-sdk": "^2.1053.0",
     "axios": "^0.24.0",
+    "csvtojson": "^2.0.10",
     "date-fns": "^2.27.0",
     "export-to-csv": "^0.2.1",
     "file-saver": "^2.0.5",

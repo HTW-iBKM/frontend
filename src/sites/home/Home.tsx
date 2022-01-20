@@ -15,16 +15,16 @@ function Home(): ReactElement {
         </div>
         <div className="w-1/3 h-full flex flex-col gap-6">
           <div className={styles.card}>
-            <Graph />
+            {/* <Graph /> */}
           </div>
           {widgets[2] && <div className={styles.card}>
-            <Graph />
+            {/* <Graph /> */}
           </div>}
         </div>
       </>
     ) : (
       <div className={styles.card + 'w-full'}>
-        <Graph />
+        {/* <Graph /> */}
       </div>
     )}
   </div>;

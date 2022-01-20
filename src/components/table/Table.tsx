@@ -87,7 +87,7 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
         </div>
       </div>
 
-     <div className="overflow-y-scroll max-h-[calc(100%-18rem)]">
+     <div className="overflow-y-auto max-h-[calc(100%-18rem)]">
        <table {...getTableProps()} className={"w-full text-left"}>
          <thead className={"text-secondary border-b border-b-grayscale text-sm"}>
          {headerGroups.map((headerGroup: HeaderGroup<T>) => (
