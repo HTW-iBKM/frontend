@@ -5,7 +5,8 @@ import React, {
   useCallback,
   useEffect,
   useRef,
-  useState
+  useState,
+  useContext,
 } from "react";
 import {
   Cell,
@@ -27,16 +28,23 @@ import ChevronRightIcon from "../icons/ChevronRightIcon";
 import SelectField from "../form/SelectField";
 import SearchIcon from "../icons/SearchIcon";
 import useWindowSize from "../hooks/UseWindowSize";
+import Modal, { commonModalStyles } from "../modal/Modal";
+import { parse } from "csv-parse/dist/esm/index";
+import FileSaver from "file-saver";
+import { ToastContext } from "../../context/ToastContext";
+import { v4 as uuidv4 } from 'uuid';
+import { GraphDetailsProps } from "../../sites/graph-details/GraphDetails";
+import axios from "axios";
 
 interface TableProps<T extends FileData> {
   columns: Column<T>[];
   data: T[];
+  changeData: React.Dispatch<React.SetStateAction<FileData[]>>;
 }
 
 const DEFAULT_PAGE_SIZE = 8;
 
-export function Table<T extends FileData>({ columns, data }: TableProps<T>): ReactElement {
-
+export function Table<T extends FileData>({ columns, data, changeData }: TableProps<T>): ReactElement {
   const [width, height] = useWindowSize();
   const thRefs: RefObject<HTMLTableHeaderCellElement>[] = [];
   const tdRefs: RefObject<HTMLTableHeaderCellElement>[] = [];
@@ -104,7 +112,136 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
     }
   }, [width, height, trigger, wrapper, tBody, thRefs, tdRefs])
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
+  const [fileInAction, setFileInAction] = useState<string>("")
 
+  /**
+   * Opens a modal and sets the fileID for the file which will get deleted.
+   * @param fileId - string
+   */
+  const prepareFileRemoval = (fileId: string) => {
+    setIsDeleteModalOpen(true);
+    setFileInAction(fileId);
+  }
+
+  const searchInput = useRef<any>(null)
+  /**
+   *  Filters the current data array, removes the file with the given id and sents new data to parent component.
+   *  (Should return the file, which gets deleted from our database.)
+   */
+  const removeFile = () => {
+    const newData = data.filter(file => file.id !== fileInAction);
+    changeData(newData);
+    setIsDeleteModalOpen(false);
+    // TODO: Nachdem man auf Löschen klickt und das Modal schliesst, ist der Delete-Button des nächsten Tabelleneintrags fokussiert ...
+    // Hier sollte nach dem Modal schliessen das Suchfeld fokussiert werden, aber es funktioniert nicht ...
+    searchInput.current.focus();
+  };
+
+  const toastContext = useContext(ToastContext);
+  /**
+   * Opens either PNG or CSV files.
+   * PNG - PNG opens in new tab
+   * CSV - CSV is loaded into the graph details component in a new tab
+   * @param format - string: "png" or "csv"
+   * @param fileName - string
+   */
+  const openInNewTab = async (format: string, fileName: string) => {
+    switch (format) {
+      case "csv": {
+        fetch(`./files/${fileName}`)
+          .then(response => response.text())
+          .then(responseText => {
+            parse(responseText, { delimiter: ',', columns: true }, function (err, data) {
+              if (!err) {
+                const graphDetails: GraphDetailsProps = {
+                  group: "",
+                  header: fileName,
+                  data: data
+                }
+                localStorage.removeItem("graphData");
+                localStorage.setItem("graphData", JSON.stringify(graphDetails));
+                const newWindow = window.open('#/graph-details', '_blank', 'noopener,noreferrer');
+                if (newWindow) newWindow.opener = null;
+              } else {
+                console.error(err);
+                toastContext.setToasts([...toastContext.toasts, {
+                  id: uuidv4(),
+                  type: "error",
+                  headline: "Etwas ist schief gelaufen ...",
+                  message: "Die Datei existiert nicht."
+                }])
+              }
+            });
+          })
+        break;
+      }
+      case "png": {
+        axios.get(`/files/${fileName}`).then((response) => {
+          if (response.status === 200) {
+            const newWindow = window.open(`/files/${fileName}`, '_blank', 'noopener,noreferrer');
+            if (newWindow) newWindow.opener = null;
+          }
+        }).catch((error) => {
+          console.error(error);
+          toastContext.setToasts([...toastContext.toasts, {
+            id: uuidv4(),
+            type: "error",
+            headline: "Etwas ist schief gelaufen ...",
+            message: `${error}`
+          }])
+        })
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
+  /**
+   * Downloads the chosen file to the users file system.
+   * @param format - string: "csv" or "png"
+   * @param fileName - string
+   */
+  const downloadToFileSystem = (format: string, fileName: string) => {
+    switch (format) {
+      case "csv": {
+        axios.get(`/files/${fileName}`).then((response) => {
+          if (response.status === 200) {
+            const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+            FileSaver.saveAs(blob, `${fileName}`);
+          }
+        }).catch((error) => {
+          console.error(error);
+          toastContext.setToasts([...toastContext.toasts, {
+            id: uuidv4(),
+            type: "error",
+            headline: "Etwas ist schief gelaufen ...",
+            message: `${error}`
+          }])
+        })
+        break;
+      }
+      case "png": {
+        axios.get(`/files/${fileName}`).then((response) => {
+          if (response.status === 200) {
+            FileSaver.saveAs(`./files/${fileName}`, `${fileName}`);
+          }
+        }).catch((error) => {
+          console.error(error);
+          toastContext.setToasts([...toastContext.toasts, {
+            id: uuidv4(),
+            type: "error",
+            headline: "Etwas ist schief gelaufen ...",
+            message: `${error}`
+          }])
+        })
+        break;
+      }
+      default:
+        break;
+    }
+  }
 
   return (
     <>
@@ -115,9 +252,7 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
         </div>
       </div>
 
-      <div className="max-h-[calc(100%-18rem)]"
-        ref={wrapper}
-      >
+      <div className="max-h-[calc(100%-18rem)]" ref={wrapper}>
         <table {...getTableProps()}
           className={"w-full text-left table table-fixed w-[100%]"}>
           <thead className={"text-secondary border-b border-b-grayscale text-sm table table-fixed w-[100%]"}  >
@@ -168,7 +303,7 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
                 <tr
                   key={row.getRowProps().key}
                   role={row.getRowProps().role}
-                  className={`${row.getRowProps().className} border-b border-b-grayscale h-13 table table-fixed w-[100%] `}
+                  className={`${row.getRowProps().className} border-b border-b-grayscale h-13 text-sm table table-fixed w-[100%] `}
                   style={row.getRowProps().style
                   }
                 >
@@ -192,11 +327,11 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
                     </td>;
                   })}
                   <td className={"flex justify-between items-center h-13 first:pl-7 last:pr-7 w-33"}>
-                    <Button variant={"icon"}><DownloadIcon className="w-4 h-4" /></Button>
-                    <Button variant={"icon"}><OpenInNewTabIcon className="w-4 h-4" /></Button>
-                    <Button variant={"icon"}><DeleteForeverIcon className="w-4 h-4" /></Button>
-                  </td>
-                </tr>
+                    <Button variant={"icon"} onClick={() => downloadToFileSystem(row.original.fileType, row.original.fileName)}><DownloadIcon className="w-4 h-4" /></Button>
+                    <Button variant={"icon"} onClick={() => openInNewTab(row.original.fileType, row.original.fileName)}><OpenInNewTabIcon className="w-4 h-4" /></Button>
+                    <Button variant={"icon"} onClick={() => prepareFileRemoval(row.original.id)}><DeleteForeverIcon className="w-4 h-4" /></Button>
+                  </td >
+                </tr >
               );
             })}
           </tbody>
@@ -205,13 +340,16 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
 
       <div className="w-full flex justify-end mt-8">
         <div className={"flex items-center text-sm"}>
-          <label htmlFor="selectIntervall" className={"mr-3"}>Intervall:</label>
+          <label htmlFor="selectIntervall" className={"mr-3"}>Einträge pro Seite:</label>
           <SelectField id="selectIntervall" variant="small" defaultValue={{ value: '8', label: '8', disabled: false }} options={pageSizeOptions} onChange={(value: string) => {
             setPageSize(value === '' ? DEFAULT_PAGE_SIZE : Number(value))
             setTrigger((prevValue) => !prevValue)
           }}></SelectField>
           <span className={"ml-8 mr-8"}>
-            {pageIndex + 1} {' - '} {pageIndex * pageSize + page.length} von {data.length} {' '}
+            {(pageIndex === 0) && 1}
+            {(pageIndex !== 0) && (pageIndex * pageSize) + 1}
+            {' - '}
+            {pageIndex * pageSize + page.length} von {data.length} {' '}
           </span>
           <Button variant="icon" onClick={() => {
             previousPage();
@@ -227,6 +365,13 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
           </Button>
         </div>
       </div>
+
+      <Modal isOpen={isDeleteModalOpen} title={"Datei löschen?"} onClose={() => setIsDeleteModalOpen(false)}>
+        <div className={`${commonModalStyles.buttonGroup}`}>
+          <Button variant="secondary" onClick={() => setIsDeleteModalOpen(false)}>Abbrechen</Button>
+          <Button variant="danger" onClick={() => removeFile()}>Löschen</Button>
+        </div>
+      </Modal>
     </>
   );
 }

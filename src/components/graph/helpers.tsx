@@ -1,17 +1,26 @@
-import { GraphData } from "./Graph";
 import { getFormattedDate } from '../../utils/utility';
+import { GraphData, GraphKey, KeyData } from "./Graph";
 
-export function parseGraphData(data: GraphData[]): GraphData[] {
+export function parseGraphData(data: GraphData[], keyData: KeyData[]): GraphData[] {
     return data.map((entry: GraphData) => {
-        const prediction = Math.round(parseInt(entry.prediction));
-        const ground_truth = Math.round(parseInt(entry.ground_truth || "0"));
+        let parsedData = {};
+        // Get the keys which are available in the data
+        const availableKeys: GraphKey[] = keyData.map(key => key.key);
+
+        // Filter entry data by available keys + parse the entry data
+        const entryKeyValuePair = Object.entries(entry);
+        const filteredParsed = entryKeyValuePair.map(([key, value]) => {
+            if (availableKeys.includes(key as GraphKey)) {
+                return { [key]: Math.round(parseInt(value || "0")) }
+            }
+        }).filter(value => value);
+        filteredParsed.map(el => parsedData = { ...el, ...parsedData })
+
         return {
             ...entry,
-            prediction: prediction.toString(),
-            ground_truth: ground_truth.toString(),
+            ...parsedData,
         };
-    })
-    .filter((entry, index) => index % Math.round(data.length / 50) === 0);
+    }).filter((entry, index) => index % Math.round(data.length / 50) === 0);
 }
 
 export function calculateTickCount(minValue: number, maxValue: number, yInterval: number): number {
@@ -20,18 +29,22 @@ export function calculateTickCount(minValue: number, maxValue: number, yInterval
         : 5;
 }
 
-export function calculateDomain(data: GraphData[], minValue: number, maxValue: number, yInterval: number): [number, number] {
+export function calculateDomain(data: GraphData[], keyData: KeyData[], minValue: number, maxValue: number, yInterval: number): [number, number] {
     let currentMax = 0;
     let currentMin = Infinity;
+
     data.forEach((element: GraphData) => {
+        const availableKeys: GraphKey[] = keyData.map(key => key.key);
+        const filteredElements: number[] = Object.entries(element).map(([key, value]) => availableKeys.includes(key as GraphKey) ? value : null).filter(value => value);
+
         currentMax =
             Math.ceil(
-                Math.max(Number(element.prediction), Number(element.ground_truth)) /
+                Math.max(...filteredElements) /
                 yInterval
             ) * yInterval;
         currentMin =
             Math.floor(
-                Math.min(Number(element.prediction), Number(element.ground_truth)) /
+                Math.min(...filteredElements) /
                 yInterval
             ) * yInterval;
         if (currentMax > maxValue) maxValue = currentMax;
