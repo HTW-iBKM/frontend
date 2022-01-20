@@ -290,7 +290,7 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
           </thead>
           <tbody {...getTableBodyProps()}
             ref={tBody}
-            className="block overflow-y-scroll overflow-x-hidden"
+            className="block overflow-y-auto overflow-x-hidden"
           >
             {page.map((row: Row<T>) => {
               prepareRow(row);
