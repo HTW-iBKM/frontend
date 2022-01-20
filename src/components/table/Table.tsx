@@ -32,8 +32,12 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
   const [width, height] = useWindowSize();
   const thRefs: any[] = [];
   const tdRefs: any[] = [];
-  const tBody = useRef<HTMLTableSectionElement>(null)
-  const wrapper = useRef<HTMLDivElement>(null)
+  const tBody = useRef<HTMLTableSectionElement>(null);
+  const wrapper = useRef<HTMLDivElement>(null);
+  const [trigger, setTrigger] = useState(false);
+
+
+
 
   const globalFilterFunction = useCallback(
     (rows: Row<T>[], ids: IdType<T>[], query: string) => {
@@ -98,7 +102,7 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
         }
       }
     }
-  }, [width, height])
+  }, [width, height, trigger])
 
 
 
@@ -207,10 +211,16 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
           <span className={"ml-8 mr-8"}>
             {pageIndex + 1} {' - '} {pageIndex * pageSize + page.length} von {data.length} {' '}
           </span>
-          <Button variant="icon" onClick={() => previousPage()} disabled={!canPreviousPage}>
+          <Button variant="icon" onClick={() => {
+            previousPage();
+            setTrigger((prev) => !prev)
+          }} disabled={!canPreviousPage}>
             {<ChevronLeftIcon className={"h-4 w-4"} />}
           </Button>
-          <Button variant="icon" onClick={() => nextPage()} disabled={!canNextPage}>
+          <Button variant="icon" onClick={() => {
+            nextPage();
+            setTrigger((prev) => !prev)
+          }} disabled={!canNextPage}>
             {<ChevronRightIcon className={"h-4 w-4"} />}
           </Button>
         </div>
