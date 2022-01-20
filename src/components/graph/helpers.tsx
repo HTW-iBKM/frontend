@@ -13,7 +13,7 @@ export function parseGraphData(data: GraphData[]): GraphData[] {
             ground_truth: ground_truth.toString(),
         };
     })
-        .slice(0, 50)
+    .filter((entry, index) => index % Math.round(data.length / 50) === 0);
 }
 
 export function calculateTickCount(minValue: number, maxValue: number, yInterval: number): number {

@@ -36,8 +36,7 @@ function AIToolTipp(properties: ({ payload: (undefined | { payload: { [key: stri
             <div className='prediction-data'>
                 {currentValues.map((ele, index) => {
                     // eslint-disable-next-line react/jsx-key
-                    return (<>
-
+                    return (<React.Fragment key={index}>
                         <div className='prediction-data-chevron-wrapper'>
                             {ele.value > 0 ?
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="green" viewBox="0 0 24 24" stroke="green">
@@ -53,7 +52,7 @@ function AIToolTipp(properties: ({ payload: (undefined | { payload: { [key: stri
                         <div className='prediction-data-label'>{(ele.key).replace('Nachgelagerte', 'nachgelagerte')}</div>
                         <div className='prediction-data-value'>{(ele.value * 100).toFixed(0) + "%"}</div>
 
-                    </>)
+                    </React.Fragment>)
                 }
                 )}
 

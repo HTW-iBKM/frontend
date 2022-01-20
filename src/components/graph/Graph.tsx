@@ -211,7 +211,6 @@ function Graph(): ReactElement {
 
     useEffect(() => setDisabledFields(), [selectedTimespan, interval]);
 
-    // TODO apply formatData to graphData once we have more than a day of data
     const formatData = (graphData: GraphData[]): GraphData[] => {
         const selectedInterval = intervalOptions.find(option => option.value === interval);
         const newData = graphData
