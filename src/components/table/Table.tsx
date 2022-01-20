@@ -207,7 +207,10 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
       <div className="w-full flex justify-end mt-8">
         <div className={"flex items-center text-sm"}>
           <label htmlFor="selectIntervall" className={"mr-3"}>Intervall:</label>
-          <SelectField id="selectIntervall" variant="small" defaultValue={{ value: '8', label: '8', disabled: false }} options={pageSizeOptions} onChange={(value: string) => setPageSize(value === '' ? DEFAULT_PAGE_SIZE : Number(value))}></SelectField>
+          <SelectField id="selectIntervall" variant="small" defaultValue={{ value: '8', label: '8', disabled: false }} options={pageSizeOptions} onChange={(value: string) => {
+            setPageSize(value === '' ? DEFAULT_PAGE_SIZE : Number(value))
+            setTrigger((prev) => !prev)
+          }}></SelectField>
           <span className={"ml-8 mr-8"}>
             {pageIndex + 1} {' - '} {pageIndex * pageSize + page.length} von {data.length} {' '}
           </span>
