@@ -1,4 +1,12 @@
-import React, { createRef, ReactElement, ReactHTMLElement, useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  createRef,
+  ReactElement,
+  RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import {
   Cell,
   Column,
@@ -30,10 +38,10 @@ const DEFAULT_PAGE_SIZE = 8;
 export function Table<T extends FileData>({ columns, data }: TableProps<T>): ReactElement {
 
   const [width, height] = useWindowSize();
-  const thRefs: any[] = [];
-  const tdRefs: any[] = [];
-  const tBody = useRef<HTMLTableSectionElement>();
-  const wrapper = useRef<HTMLDivElement>();
+  const thRefs: RefObject<HTMLTableHeaderCellElement>[] = [];
+  const tdRefs: RefObject<HTMLTableHeaderCellElement>[] = [];
+  const tBody = useRef<HTMLTableSectionElement>(null);
+  const wrapper = useRef<HTMLDivElement>(null);
   const [trigger, setTrigger] = useState(false);
 
   const globalFilterFunction = useCallback(
@@ -87,18 +95,14 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
   ]
 
   useEffect(() => {
-    if (wrapper.current && tBody.current && thRefs.length > 0) {
-      const firstHeaderRowWidthFirstItem = window.getComputedStyle(thRefs[0].current).getPropertyValue('width');
+    if (wrapper.current && tBody.current && thRefs.length > 0 && tdRefs.length > 0) {
+      const firstHeaderRowWidthFirstItem = window.getComputedStyle(thRefs[0].current as Element).getPropertyValue('width');
       const wrapperHeight = window.getComputedStyle(wrapper.current).getPropertyValue("height")
       tBody.current.style.height = wrapperHeight;
-      for (let i = 0; i < tdRefs.length; i++) {
-        if ((i % 3 === 0)) {
-          const htmlEle = tdRefs[i].current;
-          htmlEle.style.width = firstHeaderRowWidthFirstItem;
-        }
-      }
+      tdRefs.map((tdRef, index) => { return (index % 3 === 0 && tdRef.current) ? tdRef.current.style.width = firstHeaderRowWidthFirstItem : false})
+
     }
-  }, [width, height, trigger])
+  }, [width, height, trigger, wrapper, tBody, thRefs, tdRefs])
 
 
 
@@ -113,7 +117,6 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
 
       <div className="max-h-[calc(100%-18rem)]"
         ref={wrapper}
-
       >
         <table {...getTableProps()}
           className={"w-full text-left table table-fixed w-[100%]"}>

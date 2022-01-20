@@ -1,4 +1,4 @@
-import React, {ReactElement, useEffect} from "react";
+import React, {createRef, ReactElement, RefObject, useEffect, useRef} from "react";
 import {
   Cell,
   Column,
@@ -16,6 +16,7 @@ import DeleteForeverIcon from "../../icons/DeleteForeverIcon";
 import FormatCsvIcon from "../../icons/FormatCsvIcon";
 import FormatPngIcon from "../../icons/FormatPngIcon";
 import {useHistory} from "react-router-dom";
+import useWindowSize from "../../hooks/UseWindowSize";
 
 type TableWidgetVariant = "short" | "long"
 interface TableWidgetProps<T extends FileData> {
@@ -24,10 +25,16 @@ interface TableWidgetProps<T extends FileData> {
   variant: TableWidgetVariant;
 }
 
-
-
 export function TableWidget<T extends FileData>({ columns, data, variant }: TableWidgetProps<T>): ReactElement {
   const DEFAULT_PAGE_SIZE = variant === 'long' ? 8 : 2;
+
+  const [width, height] = useWindowSize();
+  const thRefs: RefObject<HTMLTableHeaderCellElement>[] = [];
+  const tdRefs: RefObject<HTMLTableHeaderCellElement>[] = [];
+  const tBody = useRef<HTMLTableSectionElement>(null);
+  const wrapper = useRef<HTMLDivElement>(null);
+
+
   const history = useHistory();
   const { getTableProps,
     getTableBodyProps,
@@ -49,6 +56,16 @@ export function TableWidget<T extends FileData>({ columns, data, variant }: Tabl
     setPageSize(DEFAULT_PAGE_SIZE)
   }, [setPageSize]);
 
+  useEffect(() => {
+    if (wrapper.current && tBody.current && thRefs.length > 0 && tdRefs.length > 0) {
+      const firstHeaderRowWidthFirstItem = window.getComputedStyle(thRefs[0].current as Element).getPropertyValue('width');
+      const wrapperHeight = window.getComputedStyle(wrapper.current).getPropertyValue("height")
+      tBody.current.style.height = wrapperHeight;
+      tdRefs.map((tdRef, index) => { return (index % 3 === 0 && tdRef.current) ? tdRef.current.style.width = firstHeaderRowWidthFirstItem : false})
+
+    }
+  }, [width, height, wrapper, tBody, thRefs, tdRefs])
+
 
   return (
     <>
@@ -59,7 +76,7 @@ export function TableWidget<T extends FileData>({ columns, data, variant }: Tabl
         </div>
 
         <div className="h-full max-h-[calc(100%-2rem)] flex flex-col justify-between mt-2">
-          <div className="overflow-y-scroll mt-4">
+          <div className="overflow-y-scroll mt-4" ref={wrapper}>
             <table {...getTableProps()} className={"w-full text-left"}>
               <thead className={"text-secondary border-b border-b-grayscale text-sm"}>
               {headerGroups.map((headerGroup: HeaderGroup<T>) => (
@@ -69,24 +86,28 @@ export function TableWidget<T extends FileData>({ columns, data, variant }: Tabl
                   className={headerGroup.getHeaderGroupProps().className}
                   style={headerGroup.getHeaderGroupProps().style}
                 >
-                  {headerGroup.headers.map((column: HeaderGroup<T>, index) => (
-                    <th
-                      {...headerGroup.getHeaderGroupProps(column.getSortByToggleProps())}
-                      key={column.getHeaderProps().key}
-                      role={column.getHeaderProps().role}
-                      className={`${column.getHeaderProps().className} ${index > 0 && 'w-32'} pb-3 first:pl-15 cursor-pointer`}
-                      style={column.getHeaderProps().style}
-                    >
-                      {column.render("Header")}
-                      <span>
+                  {headerGroup.headers.map((column: HeaderGroup<T>, index) => {
+                    const newRef = createRef<HTMLTableHeaderCellElement>();
+                    thRefs.push(newRef);
+                    return (
+                      <th
+                        {...headerGroup.getHeaderGroupProps(column.getSortByToggleProps())}
+                        key={column.getHeaderProps().key}
+                        role={column.getHeaderProps().role}
+                        className={`${column.getHeaderProps().className} ${index > 0 && 'w-32'} pb-3 first:pl-15 cursor-pointer`}
+                        style={column.getHeaderProps().style}
+                      >
+                        {column.render("Header")}
+                        <span>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' 🔽'
                         : ' 🔼'
                       : ''}
                   </span>
-                    </th>
-                  ))}
+                      </th>
+                    )
+                  })}
                   <th className={"pb-3 w-33"}>
                     Aktion
                   </th>
@@ -104,6 +125,9 @@ export function TableWidget<T extends FileData>({ columns, data, variant }: Tabl
                     style={row.getRowProps().style}
                   >
                     {row.cells.map((cell: Cell<T>) => {
+                      const newRef = createRef<HTMLTableHeaderCellElement>();
+                      tdRefs.push(newRef);
+
                       return <td
                         key={cell.getCellProps().key}
                         role={cell.getCellProps().role}
