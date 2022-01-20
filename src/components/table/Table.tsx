@@ -209,20 +209,20 @@ export function Table<T extends FileData>({ columns, data }: TableProps<T>): Rea
           <label htmlFor="selectIntervall" className={"mr-3"}>Intervall:</label>
           <SelectField id="selectIntervall" variant="small" defaultValue={{ value: '8', label: '8', disabled: false }} options={pageSizeOptions} onChange={(value: string) => {
             setPageSize(value === '' ? DEFAULT_PAGE_SIZE : Number(value))
-            setTrigger((prev) => !prev)
+            setTrigger((prevValue) => !prevValue)
           }}></SelectField>
           <span className={"ml-8 mr-8"}>
             {pageIndex + 1} {' - '} {pageIndex * pageSize + page.length} von {data.length} {' '}
           </span>
           <Button variant="icon" onClick={() => {
             previousPage();
-            setTrigger((prev) => !prev)
+            setTrigger((prevValue) => !prevValue)
           }} disabled={!canPreviousPage}>
             {<ChevronLeftIcon className={"h-4 w-4"} />}
           </Button>
           <Button variant="icon" onClick={() => {
             nextPage();
-            setTrigger((prev) => !prev)
+            setTrigger((prevValue) => !prevValue)
           }} disabled={!canNextPage}>
             {<ChevronRightIcon className={"h-4 w-4"} />}
           </Button>
