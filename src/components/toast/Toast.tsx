@@ -37,7 +37,7 @@ function Toast({ toast }: ToastProps): ReactElement {
   const { toasts, setToasts } = useContext(ToastContext);
 
   useEffect(() => {
-    const timer = setTimeout(() => setToasts(toasts.filter(t => t.id != id)), 3000);
+    const timer = setTimeout(() => setToasts(toasts.filter(t => t.id != id)), 4000);
     return () => clearTimeout(timer)
   });
 

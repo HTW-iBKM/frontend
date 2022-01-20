@@ -26,6 +26,7 @@ import '../aiToolTipp/AIToolTipp.css';
 
 
 // import { GraphContext } from "../../context/GraphContext";
+import { GraphDetailsProps } from '../../sites/graph-details/GraphDetails';
 
 export interface GraphData {
     time: string;
@@ -42,7 +43,7 @@ export interface GraphData {
     ground_truth?: string;
 }
 
-interface GraphDataResponse {
+export interface GraphDataResponse {
     data: {
         data: {
             [x: string]: GraphData[]
@@ -75,24 +76,36 @@ interface TimespanOption {
     timespan: number
 }
 
-function Graph(): ReactElement {
+interface GraphProps {
+    group: string,
+    header: string,
+    data: GraphData[]
+}
 
+function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement {
     const styles = {
         graphContainer: "w-full h-full p-7 flex justify-center items-center flex-col ",
         loadingCommonStyle: "bg-[#E9EAF0] rounded-lg"
     };
+
+    /**
+     * Definition of the line available colors.
+     */
     const GraphLineColors = ["#4074B2", "#DE9D28", "#edabd1", "#92dbd0"];
 
+    /**
+     * Inititial key data definition.
+     */
     const KeyDataDefault: KeyData[] = [
         { key: GraphKey.PREDICTION, name: 'Prognose', checked: true },
         { key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch', checked: true }
     ];
+
     const [keyData, setKeyData] = useState(KeyDataDefault)
 
     const url = window.location.href.split('/')[4];
     const showNewTabButton = url !== 'graph-details';
 
-    const [data, setData] = useState<GraphData[]>([]);
     const [activeGraph, setActiveGraph] = useState<string>(String);
 
     const [intervalOptions, setIntervalOptions] = useState<IntervalOption[]>([
@@ -209,9 +222,19 @@ function Graph(): ReactElement {
         });
     }
 
-    useEffect(() => setDisabledFields(), [selectedTimespan, interval]);
+    useEffect(() => {
+        setDisabledFields();
+        if (data.length > 0) {
+            setKeyData(KeyDataDefault.filter((keyData) => Object.keys(data[0]).includes(keyData.key)));
+            setSelectedTimespan('day');
+            setInterval('minutes');
+        }
+    }, [data]);
+
 
     const formatData = (graphData: GraphData[]): GraphData[] => {
+        console.log("hi");
+
         const selectedInterval = intervalOptions.find(option => option.value === interval);
         const newData = graphData
             .filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate)
@@ -272,11 +295,9 @@ function Graph(): ReactElement {
         csvExporter.generateCsv(dataToBeFiltered);
     }
 
-
-
-    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan}/>;
-    const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan}/>;
-    const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan}/>;
+    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
+    const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
+    const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
 
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
     const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);
@@ -290,31 +311,27 @@ function Graph(): ReactElement {
             : null;
     }
 
-    useAsyncEffect(async (isMounted) => {
-        const { data }: GraphDataResponse = await axios.get(
-            "https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/"
-        );
-
-        const aiData: any = explainableAIData();
-
-        if (!isMounted) return;
-        setData(aiData);
-        // setSelectedTimespan('day');
-        // setInterval('hour');
-        // setData(aiData.september_18);
-        // setData(data.data.september_18);
-    }, []);
-
-
-    useEffect(() => {
-        if (data.length > 0) {
-            setSelectedTimespan('day');
-            setInterval('minutes');
-
+    /**
+     * Opens the graph in a new tab.
+     */
+    const openInTab = () => {
+        const graphDetails: GraphDetailsProps = {
+            group: group,
+            header: header,
+            data: data
         }
-    }, [data]);
+        localStorage.removeItem("graphData");
+        localStorage.setItem("graphData", JSON.stringify(graphDetails));
+        const newWindow = window.open('#/graph-details', '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+    }
 
-
+    // useAsyncEffect(async (isMounted) => {
+    // setSelectedTimespan('day');
+    // setInterval('hour');
+    // setData(aiData.september_18);
+    // setData(data.data.september_18);
+    // }, []);
 
     return !data.length ? (
         <div className={styles.graphContainer}>
@@ -332,10 +349,10 @@ function Graph(): ReactElement {
     ) : (
         <div className={styles.graphContainer}>
             <div className="w-full flex justify-between">
-                <h5 className={"text-h5"}>Bilanzkreis A Graph</h5> {/* TODO add real title */}
+                <h5 className={"text-h5"}>{header}</h5> {/* TODO add real title */}
                 {showNewTabButton &&
                     <Button variant={"icon"}
-                        onClick={() => window.open('#/graph-details', '_blank')}
+                        onClick={() => openInTab()}
                         title="Open in new tab">
                         <OpenInNewTabIcon className="w-4 h-4" />
                     </Button>
