@@ -78,7 +78,7 @@ interface TimespanOption {
 function Graph(): ReactElement {
 
     const styles = {
-        graphContainer: "w-[calc(100%-3.5rem)] h-[calc(100%-3.5rem)] m-7 flex justify-center items-center flex-col ",
+        graphContainer: "w-full h-full p-7 flex justify-center items-center flex-col ",
         loadingCommonStyle: "bg-[#E9EAF0] rounded-lg"
     };
     const GraphLineColors = ["#4074B2", "#DE9D28", "#edabd1", "#92dbd0"];
@@ -354,7 +354,7 @@ function Graph(): ReactElement {
                     panels={[LineChart, BarChart, AreaChart]}
                     inlineSelectFields={[IntervalSelectField, TimespanSelectField]} />
             </div>
-            <div className="border border-disabled w-full m-6" />
+            <div className="bg-[#E2E2E2] w-full h-0.5 m-6" />
             <div className="w-full flex justify-center flex-wrap">
                 {keyData.map((data: KeyData, index: number) =>
                     data.checked &&
@@ -376,7 +376,7 @@ function Graph(): ReactElement {
             <Modal isOpen={isEditModalOpen} title={"Zeitreihen bearbeiten"} onClose={() => setIsEditModalOpen(false)}>
                 <EditTimeSeriesTemplate keyData={keyData} setKeyData={setKeyData} setModalOpen={setIsEditModalOpen}></EditTimeSeriesTemplate>
             </Modal>
-        </div>
+        </div >
     );
 }
 

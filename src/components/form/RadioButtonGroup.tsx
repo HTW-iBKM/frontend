@@ -15,7 +15,7 @@ const RadioButtonGroup: FC<RadioButtonGroupProps<string>> = ({ selected = "", on
     const [hover, setHover] = useState(String);
     const [active, setActive] = useState(String);
 
-    const stylesRadioButton = 'flex gap-3 px-2 py-2 text-base rounded-lg items-center hover:cursor-pointer rounded-lg';
+    const stylesRadioButton = 'flex gap-3 px-2 py-2 text-base rounded-lg items-center hover:cursor-pointer rounded-lg focus:outline-none';
     const stylesCheckmark = 'w-5 h-5 text-grayscale-darkest';
     const stylesActiveCheckmark = 'w-5 h-5 text-secondary';
     const stylesHoverCheckmark = 'w-5 h-5 text-secondary-light';
