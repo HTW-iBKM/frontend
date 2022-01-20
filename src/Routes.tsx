@@ -22,7 +22,7 @@ function RestrictedRoute({ ...rest }): ReactElement {
             <Redirect
                 exact
                 to={{
-                    pathname: '/login',
+                    pathname: '',
                 }}
             /> :
 
@@ -43,7 +43,7 @@ function PublicRoutes(): ReactElement {
     return (
         <ToastContext.Provider value={defaultToastContext}>
             <Switch>
-                <RestrictedRoute
+                <Route
                     exact
                     path={'/'}
                     component={Landingpage}
