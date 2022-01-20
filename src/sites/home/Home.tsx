@@ -10,7 +10,7 @@ function Home(): ReactElement {
     container: 'w-full h-full p-6 flex gap-6 ',
     card: 'shadow-card h-full bg-grayscale-light rounded-[8px] '
   };
-  const widgets = [1, 2, 3];
+  const widgets = [1, 2];
 
   const columns: Column<FileData>[] = [
     {
@@ -18,7 +18,6 @@ function Home(): ReactElement {
       accessor: "fileName",
     },
   ]
-
 
   return <div className={styles.container}>
     {widgets.length > 1 ? (
