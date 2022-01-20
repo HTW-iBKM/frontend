@@ -9,7 +9,6 @@ import auth from "../../services/Auth";
 function Landingpage(): ReactElement {
     const history = useHistory();
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
-
     const isAuthenticated = auth.isAuthenticated();
 
     return (
@@ -39,11 +38,11 @@ function Landingpage(): ReactElement {
           </div>
         </Transition>
 
-        {/* /Mobile Menu */}
+        {/* Header */}
 
         <div className={"w-full h-full"}>
           <div className={"w-full mb-6 md:mb-10"}>
-            <div className="container px-4 md:px-2 mx-auto flex items-center justify-between h-32">
+            <div className="container px-8 py-8 mx-auto flex items-center justify-between">
               <h5 className="text-h5 flex flex-col md:flex-row items-start md:items-center">
                 <img src="/exxetalogo.png" className={"h-12 mr-4"}></img>
                 Exxeta iBKM
@@ -63,8 +62,8 @@ function Landingpage(): ReactElement {
             </div>
           </div>
           <div className={"w-full"}>
-            <div className="container px-4 md:px-2 mx-auto relative flex flex-col lg:flex-row space-between ">
-              <div className="flex-1 order-2 lg:order-1 mt-8 lg:mt-0">
+            <div className="container px-8 mx-auto relative flex flex-col lg:flex-row space-between ">
+              <div className="flex-1 order-2 lg:order-1 mt-8 lg:mt-0 text-center lg:text-left">
                 <h4 className={"text-[2.375rem] lg:text-[3.75rem] leading-tight font-light mb-4 mt-0 md:mt-0 lg:mt-0 2xl:mt-20"}>Das Exxeta IBKM Dashboard</h4>
                 <p className={"text-xl lg:text-2xl font-medium leading-relaxed mt-8"}>
                   Für intelligentes Bilanzkreismanagement mit Hilfe von visualisierten, durch Machine Learning erzeugten Bilanzkreisprognosen.
@@ -74,7 +73,7 @@ function Landingpage(): ReactElement {
                 </div>
               </div>
               <div className={"w-full lg:w-2/3 flex order-1 lg:order-2 flex items-center justify-center"}>
-                <img src="/dashboard-screen.png" className={"object-contain block"}></img>
+                <img src="/dashboard-screen.png" className={"object-contain block max-h-screen"}></img>
               </div>
             </div>
           </div>
