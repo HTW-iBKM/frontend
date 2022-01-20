@@ -1,0 +1,15 @@
+
+.lp-background-clip {
+    clip-path: polygon(45% 0, 100% 0, 100% 60%);;
+}
+
+@media (min-width: 640px) {
+    .lp-background-clip {
+        clip-path: polygon(45% 0, 100% 0, 100% 90%);
+    }
+}
+@media (min-width: 768px) {
+    .lp-background-clip {
+        clip-path: polygon(35% 0, 100% 0, 100% 100%);
+    }
+}

@@ -1,19 +1,17 @@
-import {GraphData} from "./Graph";
+import { GraphData } from "./Graph";
+import { getFormattedDate } from '../../utils/utility';
 
 export function parseGraphData(data: GraphData[]): GraphData[] {
     return data.map((entry: GraphData) => {
-            const newTime = new Date(entry.time);
-            const hours = newTime.toLocaleTimeString().slice(0, 5);
-            const prediction = Math.round(parseInt(entry.prediction));
-            const ground_truth = Math.round(parseInt(entry.ground_truth));
-            return {
-                ...entry,
-                time: hours.toString(),
-                prediction: prediction.toString(),
-                ground_truth: ground_truth.toString(),
-            };
-        })
-        .slice(0, 50)
+        const prediction = Math.round(parseInt(entry.prediction));
+        const ground_truth = Math.round(parseInt(entry.ground_truth || "0"));
+        return {
+            ...entry,
+            prediction: prediction.toString(),
+            ground_truth: ground_truth.toString(),
+        };
+    })
+    .filter((entry, index) => index % Math.round(data.length / 50) === 0);
 }
 
 export function calculateTickCount(minValue: number, maxValue: number, yInterval: number): number {
@@ -40,4 +38,13 @@ export function calculateDomain(data: GraphData[], minValue: number, maxValue: n
         if (currentMin < minValue) minValue = currentMin;
     });
     return [minValue, maxValue];
+}
+
+export const formatXAxisLabel = (value: string, showTime: boolean) => {
+    const time = new Date(value);
+    if (showTime) {
+        return time.toLocaleTimeString().slice(0, -3);
+    } else {
+        return getFormattedDate(time);
+    }
 }
