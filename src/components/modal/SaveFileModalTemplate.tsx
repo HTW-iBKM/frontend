@@ -1,12 +1,11 @@
 import React, { ReactElement, useContext, useState } from "react";
 import { ToastContext } from "../../context/ToastContext";
-import { useCheckbox } from "../../hooks/useCheckbox";
 import { useInput } from "../../hooks/useInput";
 import { RadioButtonGroupInterface, useRadioButtonGroup } from "../../hooks/useRadioButtonGroup";
 import Button from "../form/Button";
 import RadioButtonGroup from "../form/RadioButtonGroup";
 import TextField from "../form/TextField";
-import { GraphKey, KeyData } from "../graph/Graph";
+import { KeyData } from "../graph/Graph";
 import { commonModalStyles } from "./Modal";
 import { v4 as uuidv4 } from 'uuid';
 import "./SaveFileModalTemplate.css";
@@ -116,5 +115,6 @@ const SaveFileTemplate = ({ keyData, setModalOpen, onSaveFile, activeGraph }: Sa
     </div >
   )
 }
+
 
 export default SaveFileTemplate;

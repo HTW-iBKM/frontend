@@ -53,7 +53,7 @@ export function calculateDomain(data: GraphData[], keyData: KeyData[], minValue:
     return [minValue, maxValue];
 }
 
-export const formatXAxisLabel = (value: string, showTime: boolean) => {
+export const formatXAxisLabel = (value: string, showTime: boolean): string => {
     const time = new Date(value);
     if (showTime) {
         return time.toLocaleTimeString().slice(0, -3);

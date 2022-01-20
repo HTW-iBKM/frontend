@@ -1,4 +1,13 @@
-import React, { createRef, ReactElement, useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  createRef,
+  ReactElement,
+  RefObject,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import {
   Cell,
   Column,
@@ -37,8 +46,8 @@ const DEFAULT_PAGE_SIZE = 8;
 
 export function Table<T extends FileData>({ columns, data, changeData }: TableProps<T>): ReactElement {
   const [width, height] = useWindowSize();
-  const thRefs: any[] = [];
-  const tdRefs: any[] = [];
+  const thRefs: RefObject<HTMLTableHeaderCellElement>[] = [];
+  const tdRefs: RefObject<HTMLTableHeaderCellElement>[] = [];
   const tBody = useRef<HTMLTableSectionElement>(null);
   const wrapper = useRef<HTMLDivElement>(null);
   const [trigger, setTrigger] = useState(false);
@@ -94,22 +103,17 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
   ]
 
   useEffect(() => {
-    if (wrapper.current && tBody.current && thRefs.length > 0) {
-      const firstHeaderRowWidthFirstItem = window.getComputedStyle(thRefs[0].current).getPropertyValue('width');
+    if (wrapper.current && tBody.current && thRefs.length > 0 && tdRefs.length > 0) {
+      const firstHeaderRowWidthFirstItem = window.getComputedStyle(thRefs[0].current as Element).getPropertyValue('width');
       const wrapperHeight = window.getComputedStyle(wrapper.current).getPropertyValue("height")
       tBody.current.style.height = wrapperHeight;
-      for (let i = 0; i < tdRefs.length; i++) {
-        if ((i % 3 === 0)) {
-          const htmlEle = tdRefs[i].current;
-          htmlEle.style.width = firstHeaderRowWidthFirstItem;
-        }
-      }
+      tdRefs.map((tdRef, index) => { return (index % 3 === 0 && tdRef.current) ? tdRef.current.style.width = firstHeaderRowWidthFirstItem : false })
+
     }
-  }, [width, height, trigger])
+  }, [width, height, trigger, wrapper, tBody, thRefs, tdRefs])
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const [fileInAction, setFileInAction] = useState<string>("")
-
   /**
    * Opens a modal and sets the fileID for the file which will get deleted.
    * @param fileId - string
@@ -337,8 +341,8 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
                     </td>;
                   })}
                   <td className={"flex justify-between items-center h-13 first:pl-7 last:pr-7 w-33"}>
-                    <Button variant={"icon"} onClick={() => downloadToFileSystem(row.original.fileType, row.original.fileName)}><DownloadIcon className="w-4 h-4" /></Button>
                     <Button variant={"icon"} onClick={() => openInNewTab(row.original.fileType, row.original.fileName)}><OpenInNewTabIcon className="w-4 h-4" /></Button>
+                    <Button variant={"icon"} onClick={() => downloadToFileSystem(row.original.fileType, row.original.fileName)}><DownloadIcon className="w-4 h-4" /></Button>
                     <Button variant={"icon"} onClick={() => prepareFileRemoval(row.original.id)}><DeleteForeverIcon className="w-4 h-4" /></Button>
                   </td >
                 </tr >
