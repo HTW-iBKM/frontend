@@ -128,9 +128,24 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
     const newData = data.filter(file => file.id !== fileInAction);
     changeData(newData);
     setIsDeleteModalOpen(false);
+    toastContext.setToasts([...toastContext.toasts, {
+      id: uuidv4(),
+      type: "success",
+      headline: "Löschvorgang erfolgreich!",
+      message: "Die Datei wurde entfernt."
+    }])
+
+    // TODO: Error toast, when something went wrong, but at the moment we don't have this case.
+    // toastContext.setToasts([...toastContext.toasts, {
+    //   id: uuidv4(),
+    //   type: "error",
+    //   headline: "Löschvorgang ist schief gelaufen!",
+    //   message: "Die Datei konnte nicht entfernt werden."
+    // }])
+
     // TODO: Nachdem man auf Löschen klickt und das Modal schliesst, ist der Delete-Button des nächsten Tabelleneintrags fokussiert ...
     // Hier sollte nach dem Modal schliessen das Suchfeld fokussiert werden, aber es funktioniert nicht ...
-    searchInput.current.focus();
+    // searchInput.current.focus();
   };
 
   const toastContext = useContext(ToastContext);
@@ -362,6 +377,7 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
       </div >
 
       <Modal isOpen={isDeleteModalOpen} title={"Datei löschen?"} onClose={() => setIsDeleteModalOpen(false)}>
+        <p>Sind Sie sich sicher, dass Sie diese Datei löschen möchten? Der Vorgang kann nicht rückgängig gemacht werden.</p>
         <div className={`${commonModalStyles.buttonGroup}`}>
           <Button variant="secondary" onClick={() => setIsDeleteModalOpen(false)}>Abbrechen</Button>
           <Button variant="danger" onClick={() => removeFile()}>Löschen</Button>
