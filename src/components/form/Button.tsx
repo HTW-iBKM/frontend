@@ -45,7 +45,7 @@ const Button: FC<ButtonProps> = ({ onClick, children, variant, isLoading, classN
   const stylesIcon = {
     default: 'text-grayscale-darkest h-6 w-6 p-1 rounded',
     hover: 'hover:text-secondary-light hover:bg-grayscale',
-    focus: 'focus:text-grayscale-darkest focus:outline-none focus:bg-secondary-light',
+    focus: 'focus:text-grayscale-darkest focus:outline-none focus:bg-secondary focus:bg-opacity-20',
     active: 'active:text-secondary active:outline-none active:bg-transparent',
     disabled: 'disabled:text-grayscale-dark disabled:bg-transparent disabled:cursor-default'
   }

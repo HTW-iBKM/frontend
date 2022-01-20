@@ -13,7 +13,7 @@ import {
   YAxis,
   ResponsiveContainer,
 } from "recharts";
-import { parseGraphData, calculateTickCount, calculateDomain } from "./helpers";
+import { parseGraphData, calculateTickCount, calculateDomain, formatXAxisLabel } from './helpers';
 import { GraphData, KeyData } from "./Graph";
 import AIToolTipp from '../aiToolTipp/AIToolTipp';
 
@@ -21,18 +21,21 @@ export interface LineChartPanelProps {
   data: GraphData[];
   keyData: KeyData[];
   graphLineColors: string[];
+  timespan: string
 }
 
 {/* @TODO Correct Ref Typing */ }
-function LineChartPanel({ data, keyData, graphLineColors }: LineChartPanelProps, ref: Ref<any>): ReactElement {
+function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartPanelProps, ref: Ref<any>): ReactElement {
   const yIntervall = 500;
   const maxValue = 0;
   const minValue = Infinity;
+  const parsedData = parseGraphData(data);
+
   return (
     <div className={"w-full h-full"}>
       <ResponsiveContainer>
         <LineChart
-          data={parseGraphData(data)}
+          data={parsedData}
           margin={{ top: 50, right: 50, left: 36 }}
           className={"w-full h-full"}
           ref={ref}
@@ -46,8 +49,8 @@ function LineChartPanel({ data, keyData, graphLineColors }: LineChartPanelProps,
           <XAxis
             dataKey="time"
             minTickGap={50}
-            interval="preserveStartEnd"
             tick={{ fontSize: 12, color: "#494B51" }}
+            tickFormatter={(value: string) => formatXAxisLabel(value, timespan === 'day')}
             tickMargin={10}
             tickSize={8}
             tickCount={calculateTickCount(minValue, maxValue, yIntervall)}
@@ -64,7 +67,7 @@ function LineChartPanel({ data, keyData, graphLineColors }: LineChartPanelProps,
           </XAxis>
           <YAxis
             type="number"
-            domain={calculateDomain(data, minValue, maxValue, yIntervall)}
+            domain={calculateDomain(parsedData, minValue, maxValue, yIntervall)}
             allowDecimals={false}
             minTickGap={50}
             interval="preserveStartEnd"

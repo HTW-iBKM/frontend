@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
   Area, AreaChart
 } from "recharts";
-import { parseGraphData, calculateTickCount, calculateDomain } from "./helpers";
+import { parseGraphData, calculateTickCount, calculateDomain, formatXAxisLabel } from './helpers';
 import { GraphData, KeyData } from "./Graph";
 import AIToolTipp from '../aiToolTipp/AIToolTipp';
 
@@ -17,18 +17,20 @@ interface AreaChartPanelProps {
   data: GraphData[];
   keyData: KeyData[]
   graphLineColors: string[];
+  timespan: string;
 }
 
 {/* @TODO Correct Ref Typing */ }
-function AreaChartPanel({ data, keyData, graphLineColors }: AreaChartPanelProps, ref: Ref<any>): ReactElement {
+function AreaChartPanel({ data, keyData, graphLineColors, timespan }: AreaChartPanelProps, ref: Ref<any>): ReactElement {
   const yIntervall = 500;
   const maxValue = 0;
   const minValue = Infinity;
+  const parsedData = parseGraphData(data);
 
   return (
     <div className={"w-full h-full"}>
       <ResponsiveContainer>
-        <AreaChart data={parseGraphData(data)}
+        <AreaChart data={parsedData}
           margin={{ top: 50, right: 50, left: 36 }}
           ref={ref}
         >
@@ -52,6 +54,7 @@ function AreaChartPanel({ data, keyData, graphLineColors }: AreaChartPanelProps,
             minTickGap={50}
             interval="preserveStartEnd"
             tick={{ fontSize: 12, color: "#494B51" }}
+            tickFormatter={(value: string) => formatXAxisLabel(value, timespan === 'day')}
             tickMargin={10}
             tickSize={8}
             tickCount={calculateTickCount(minValue, maxValue, yIntervall)}
@@ -68,7 +71,7 @@ function AreaChartPanel({ data, keyData, graphLineColors }: AreaChartPanelProps,
           </XAxis>
           <YAxis
             type="number"
-            domain={calculateDomain(data, minValue, maxValue, yIntervall)}
+            domain={calculateDomain(parsedData, minValue, maxValue, yIntervall)}
             allowDecimals={false}
             minTickGap={50}
             interval="preserveStartEnd"
