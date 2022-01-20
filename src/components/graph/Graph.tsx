@@ -106,7 +106,7 @@ function Graph(): ReactElement {
     const [interval, setInterval] = useState<string>('minutes');
     const IntervalSelectField = <div className="flex items-center gap-3" key="interval">
         <span className="text-body2">Intervall:</span>
-        <SelectField className="min-w-[116px]"
+        <SelectField className="min-w-[124px]"
             variant="small" label="Intervall auswählen"
             options={intervalOptions} defaultValue={intervalOptions.find(o => o.value === interval)}
             onChange={(option: string) => setInterval(option)} />
@@ -145,6 +145,7 @@ function Graph(): ReactElement {
         })).join('-'));
 
         setTimespan({ startDate: dates[0], endDate: dates[1] });
+        setDisabledFieldsCalendar(dates[0], dates[1]);
     };
     const setCalenderOptionLabel = (value: string) => {
         setTimespanOptions((options: TimespanOption[]) => {
@@ -158,7 +159,7 @@ function Graph(): ReactElement {
 
     const TimespanSelectField = <div className="flex items-center gap-3" key="timespan">
         <span className="text-body2">Zeitraum:</span>
-        <SelectField className="min-w-[116px]"
+        <SelectField className="min-w-[124px]"
             variant="small" label="Zeitraum auswählen"
             options={timespanOptions} defaultValue={timespanOptions.find(o => o.value === selectedTimespan)}
             onChange={(option: string) => setSelectedTimespan(option)} />
@@ -187,6 +188,22 @@ function Graph(): ReactElement {
                 dayOption.disabled = interval === 'day' || interval === 'week' || interval === 'month';
                 weekOption.disabled = interval === 'week' || interval === 'month';
                 monthOption.disabled = interval === 'month';
+            }
+            return options;
+        });
+    }
+
+    const setDisabledFieldsCalendar = (startDate: Date, endDate: Date) => {
+        const timeDifference = Math.abs(startDate.getTime() - endDate.getTime());
+        const differenceInDays = timeDifference / (1000 * 3600 * 24);
+        setIntervalOptions(options => {
+            const dayOption = options.find(o => o.value === 'day');
+            const weekOption = options.find(o => o.value === 'week');
+            const monthOption = options.find(o => o.value === 'month');
+            if (dayOption && weekOption && monthOption) {
+                dayOption.disabled = differenceInDays === 1;
+                weekOption.disabled = differenceInDays <= 7;
+                monthOption.disabled = differenceInDays <= 30;
             }
             return options;
         });
