@@ -274,9 +274,9 @@ function Graph(): ReactElement {
 
 
 
-    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} />;
-    const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} />;
-    const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} />;
+    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan}/>;
+    const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan}/>;
+    const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan}/>;
 
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
     const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);

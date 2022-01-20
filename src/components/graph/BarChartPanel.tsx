@@ -10,7 +10,7 @@ import {
   Bar,
   BarChart
 } from "recharts";
-import { parseGraphData, calculateTickCount, calculateDomain } from "./helpers";
+import { parseGraphData, calculateTickCount, calculateDomain, formatXAxisLabel } from './helpers';
 import { GraphData, KeyData } from "./Graph";
 import AIToolTipp from '../aiToolTipp/AIToolTipp';
 
@@ -18,18 +18,20 @@ interface BarChartPanelProps {
   data: GraphData[];
   keyData: KeyData[]
   graphLineColors: string[];
+  timespan: string;
 }
 
 {/* @TODO Correct Ref Typing */ }
-function BarChartPanel({ data, keyData, graphLineColors }: BarChartPanelProps, ref: Ref<any>): ReactElement {
+function BarChartPanel({ data, keyData, graphLineColors, timespan }: BarChartPanelProps, ref: Ref<any>): ReactElement {
   const yInterval = 500;
   const maxValue = 0;
   const minValue = Infinity;
+  const parsedData = parseGraphData(data);
 
   return (
     <div className={"w-full h-full"}>
       <ResponsiveContainer>
-        <BarChart data={parseGraphData(data)}
+        <BarChart data={parsedData}
           margin={{ top: 50, right: 50, left: 36 }}
           ref={ref}
         >
@@ -44,6 +46,7 @@ function BarChartPanel({ data, keyData, graphLineColors }: BarChartPanelProps, r
             minTickGap={50}
             interval="preserveStartEnd"
             tick={{ fontSize: 12, color: "#494B51" }}
+            tickFormatter={(value: string) => formatXAxisLabel(value, timespan === 'day')}
             tickMargin={10}
             tickSize={8}
             tickCount={calculateTickCount(minValue, maxValue, yInterval)}
@@ -60,7 +63,7 @@ function BarChartPanel({ data, keyData, graphLineColors }: BarChartPanelProps, r
           </XAxis>
           <YAxis
             type="number"
-            domain={calculateDomain(data, minValue, maxValue, yInterval)}
+            domain={calculateDomain(parsedData, minValue, maxValue, yInterval)}
             allowDecimals={false}
             minTickGap={50}
             interval="preserveStartEnd"
