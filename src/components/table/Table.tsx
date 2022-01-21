@@ -1,4 +1,13 @@
-import React, { createRef, ReactElement, useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  createRef,
+  ReactElement,
+  RefObject,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import {
   Cell,
   Column,
@@ -37,8 +46,8 @@ const DEFAULT_PAGE_SIZE = 8;
 
 export function Table<T extends FileData>({ columns, data, changeData }: TableProps<T>): ReactElement {
   const [width, height] = useWindowSize();
-  const thRefs: any[] = [];
-  const tdRefs: any[] = [];
+  const thRefs: RefObject<HTMLTableHeaderCellElement>[] = [];
+  const tdRefs: RefObject<HTMLTableHeaderCellElement>[] = [];
   const tBody = useRef<HTMLTableSectionElement>(null);
   const wrapper = useRef<HTMLDivElement>(null);
   const [trigger, setTrigger] = useState(false);
@@ -94,22 +103,17 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
   ]
 
   useEffect(() => {
-    if (wrapper.current && tBody.current && thRefs.length > 0) {
-      const firstHeaderRowWidthFirstItem = window.getComputedStyle(thRefs[0].current).getPropertyValue('width');
-      const wrapperHeight = window.getComputedStyle(wrapper.current).getPropertyValue("height")
-      tBody.current.style.height = wrapperHeight;
-      for (let i = 0; i < tdRefs.length; i++) {
-        if ((i % 3 === 0)) {
-          const htmlEle = tdRefs[i].current;
-          htmlEle.style.width = firstHeaderRowWidthFirstItem;
-        }
-      }
+    if (wrapper.current && tBody.current && thRefs.length > 0 && tdRefs.length > 0) {
+      const firstHeaderRowWidthFirstItem = window.getComputedStyle(thRefs[0].current as Element).getPropertyValue('width');
+      const firstHeaderRowHeightFirstItem = window.getComputedStyle(thRefs[0].current as Element).getPropertyValue('height');
+      const wrapperHeight = window.getComputedStyle(wrapper.current).getPropertyValue("height");
+      tBody.current.style.height = `${parseInt(wrapperHeight) - parseInt(firstHeaderRowHeightFirstItem)}px`;
+      tdRefs.map((tdRef, index) => { return (index % 3 === 0 && tdRef.current) ? tdRef.current.style.width = firstHeaderRowWidthFirstItem : false })
     }
-  }, [width, height, trigger])
+  }, [width, height, trigger, wrapper, tBody, thRefs, tdRefs])
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const [fileInAction, setFileInAction] = useState<string>("")
-
   /**
    * Opens a modal and sets the fileID for the file which will get deleted.
    * @param fileId - string
@@ -128,9 +132,24 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
     const newData = data.filter(file => file.id !== fileInAction);
     changeData(newData);
     setIsDeleteModalOpen(false);
+    toastContext.setToasts([...toastContext.toasts, {
+      id: uuidv4(),
+      type: "success",
+      headline: "Löschvorgang erfolgreich!",
+      message: "Die Datei wurde entfernt."
+    }])
+
+    // TODO: Error toast, when something went wrong, but at the moment we don't have this case.
+    // toastContext.setToasts([...toastContext.toasts, {
+    //   id: uuidv4(),
+    //   type: "error",
+    //   headline: "Löschvorgang ist schief gelaufen!",
+    //   message: "Die Datei konnte nicht entfernt werden."
+    // }])
+
     // TODO: Nachdem man auf Löschen klickt und das Modal schliesst, ist der Delete-Button des nächsten Tabelleneintrags fokussiert ...
     // Hier sollte nach dem Modal schliessen das Suchfeld fokussiert werden, aber es funktioniert nicht ...
-    searchInput.current.focus();
+    // searchInput.current.focus();
   };
 
   const toastContext = useContext(ToastContext);
@@ -247,7 +266,7 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
         </div>
       </div>
 
-      <div className="max-h-[calc(100%-18rem)]" ref={wrapper}>
+      <div className="max-h-[calc(100%-11.5rem)] h-[100%]" ref={wrapper}>
         <table {...getTableProps()}
           className={"w-full text-left table table-fixed w-[100%]"}>
           <thead className={"text-secondary border-b border-b-grayscale text-sm table table-fixed w-[100%]"}  >
@@ -290,7 +309,7 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
           </thead>
           <tbody {...getTableBodyProps()}
             ref={tBody}
-            className="block overflow-y-scroll overflow-x-hidden"
+            className="block overflow-y-auto overflow-x-hidden"
           >
             {page.map((row: Row<T>) => {
               prepareRow(row);
@@ -311,7 +330,7 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
                       ref={newRef}
                       key={cell.getCellProps().key}
                       role={cell.getCellProps().role}
-                      className={`${cell.getCellProps().className} border-b border-b-grayscale h-13 first:pl-7 first:pr-5 not:first:w-33 whitespace-nowrap`}
+                      className={`${cell.getCellProps().className} overflow-hidden overflow-ellipsis border-b border-b-grayscale h-13 first:pl-7 first:pr-5 not:first:w-33 whitespace-nowrap`}
                       style={cell.getCellProps().style}
                     >
                       {cell.column.id === 'fileName' && row.original.fileType === 'csv' && <FormatCsvIcon className={"float-left align-baseline w-4 h-5 mr-4 mt-0.5"} />}
@@ -322,8 +341,8 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
                     </td>;
                   })}
                   <td className={"flex justify-between items-center h-13 first:pl-7 last:pr-7 w-33"}>
-                    <Button variant={"icon"} onClick={() => downloadToFileSystem(row.original.fileType, row.original.fileName)}><DownloadIcon className="w-4 h-4" /></Button>
                     <Button variant={"icon"} onClick={() => openInNewTab(row.original.fileType, row.original.fileName)}><OpenInNewTabIcon className="w-4 h-4" /></Button>
+                    <Button variant={"icon"} onClick={() => downloadToFileSystem(row.original.fileType, row.original.fileName)}><DownloadIcon className="w-4 h-4" /></Button>
                     <Button variant={"icon"} onClick={() => prepareFileRemoval(row.original.id)}><DeleteForeverIcon className="w-4 h-4" /></Button>
                   </td >
                 </tr >
@@ -362,6 +381,7 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
       </div >
 
       <Modal isOpen={isDeleteModalOpen} title={"Datei löschen?"} onClose={() => setIsDeleteModalOpen(false)}>
+        <p>Sind Sie sich sicher, dass Sie diese Datei löschen möchten? Der Vorgang kann nicht rückgängig gemacht werden.</p>
         <div className={`${commonModalStyles.buttonGroup}`}>
           <Button variant="secondary" onClick={() => setIsDeleteModalOpen(false)}>Abbrechen</Button>
           <Button variant="danger" onClick={() => removeFile()}>Löschen</Button>

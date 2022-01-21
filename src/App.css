@@ -73,6 +73,14 @@ code {
         letter-spacing: 0.15px;
     }
 
+    .text-subtitle2 {
+        @apply font-medium;
+        @apply text-base;
+        @apply leading-7-1/8;
+        @apply text-grayscale-darkest;
+        letter-spacing: 0.15px;
+    }
+
     .text-body1 {
         @apply font-normal;
         @apply text-base;

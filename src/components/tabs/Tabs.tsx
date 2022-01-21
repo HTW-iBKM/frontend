@@ -13,8 +13,9 @@ interface TabsProps {
   onTabChange?: Dispatch<SetStateAction<string>>;
   className?: string;
   inlineSelectFields?: ReactElement[];
+  index?: number
 }
-function Tabs({ label, type, tabs, panels, onTabChange, inlineSelectFields }: TabsProps): ReactElement {
+function Tabs({ label, type, tabs, panels, onTabChange, inlineSelectFields, index }: TabsProps): ReactElement {
   const styles = {
     tabList: "inline-block border border-grayscale-dark rounded-lg p-px",
     tab: {
@@ -34,6 +35,7 @@ function Tabs({ label, type, tabs, panels, onTabChange, inlineSelectFields }: Ta
 
   return (
     <Tab.Group
+      defaultIndex={index}
       onChange={(index) => {
         if (onTabChange) onTabChange(tabs[index].accessor);
       }}
@@ -41,7 +43,7 @@ function Tabs({ label, type, tabs, panels, onTabChange, inlineSelectFields }: Ta
       <div className="w-full flex justify-between items-center">
         <div className="flex items-center gap-3">
           {label && <span className="text-body2">{label}</span>}
-          <Tab.List className={styles.tabList}>
+          <Tab.List className={styles.tabList} >
             {tabs.map((tab, index) => (
               <Tab key={index} as={Fragment}>
                 {({ selected }) => (

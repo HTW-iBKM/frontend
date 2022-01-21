@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ReactElement} from "react";
 import ToastContainer from "../components/toast/ToastContainer";
 import {useHistory} from "react-router-dom";
 
@@ -19,7 +19,7 @@ const LoginLayout = ({
     title,
     centerTitle,
     links,
-}: LoginLayoutProps) => {
+}: LoginLayoutProps): ReactElement => {
     const styles = {
         container: "flex flex-col justify-between h-screen py-8 max-w-sm w-6/12 min-w-[200px]",
         logo: "w-20 self-center",

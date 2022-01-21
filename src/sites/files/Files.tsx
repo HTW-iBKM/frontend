@@ -1,8 +1,7 @@
 import React, { ReactElement, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { Table } from "../../components/table/Table";
 import { Column } from "react-table";
-import { getFormattedDate } from "../../utils/utility";
+import { TableMockData } from '../../utils/TableMockData';
 
 export interface FileData {
   id: string;
@@ -35,111 +34,7 @@ function Files(): ReactElement {
     },
   ]
 
-
-
-  const Data = (): FileData[] => [
-    {
-      id: uuidv4(),
-      fileType: "png",
-      fileName: "Graph.png",
-      fileSize: 60,
-      fileSizeUnit: "KB",
-      fileDateCreated: getFormattedDate(new Date()),
-      fileUrl: "test",
-    },
-    {
-      id: uuidv4(),
-      fileType: "csv",
-      fileName: "september_18.csv",
-      fileSize: 20,
-      fileSizeUnit: "KB",
-      fileDateCreated: getFormattedDate(new Date()),
-      fileUrl: "test",
-    },
-    {
-      id: uuidv4(),
-      fileType: "csv",
-      fileName: "september_20.csv",
-      fileSize: 20,
-      fileSizeUnit: "KB",
-      fileDateCreated: getFormattedDate(new Date()),
-      fileUrl: "test",
-    },
-    {
-      id: uuidv4(),
-      fileType: "csv",
-      fileName: "september_22.csv",
-      fileSize: 20,
-      fileSizeUnit: "KB",
-      fileDateCreated: getFormattedDate(new Date()),
-      fileUrl: "test",
-    },
-    {
-      id: uuidv4(),
-      fileType: "png",
-      fileName: "PNG-Graph-Prediction.png",
-      fileSize: 580,
-      fileSizeUnit: "KB",
-      fileDateCreated: getFormattedDate(new Date('2019-07-13')),
-      fileUrl: "test",
-    },
-    {
-      id: uuidv4(),
-      fileType: "csv",
-      fileName: "CSV-Graph-Prediction.csv",
-      fileSize: 20,
-      fileSizeUnit: "KB",
-      fileDateCreated: getFormattedDate(new Date()),
-      fileUrl: "test",
-    },
-    {
-      id: uuidv4(),
-      fileType: "csv",
-      fileName: "CSV-Graph-GroundTruth.csv",
-      fileSize: 20,
-      fileSizeUnit: "KB",
-      fileDateCreated: getFormattedDate(new Date()),
-      fileUrl: "test",
-    },
-    {
-      id: uuidv4(),
-      fileType: "png",
-      fileName: "PNG-Graph-GroundTruth.png",
-      fileSize: 2,
-      fileSizeUnit: "MB",
-      fileDateCreated: getFormattedDate(new Date('2021-07-20')),
-      fileUrl: "test",
-    },
-    {
-      id: uuidv4(),
-      fileType: "csv",
-      fileName: "CSV-Existiert-nicht.csv",
-      fileSize: 128,
-      fileSizeUnit: "GB",
-      fileDateCreated: getFormattedDate(new Date('2021-08-12')),
-      fileUrl: "test",
-    },
-    {
-      id: uuidv4(),
-      fileType: "png",
-      fileName: "Graph-Existiert-nicht.png",
-      fileSize: 12,
-      fileSizeUnit: "MB",
-      fileDateCreated: getFormattedDate(new Date('2022-01-01')),
-      fileUrl: "test",
-    },
-    {
-      id: uuidv4(),
-      fileType: "png",
-      fileName: "Graph.png",
-      fileSize: 12,
-      fileSizeUnit: "MB",
-      fileDateCreated: getFormattedDate(new Date('2022-01-01')),
-      fileUrl: "test",
-    },
-  ];
-
-  const [data, setData] = useState(Data)
+  const [data, setData] = useState(TableMockData())
 
   return <div className={styles.container}>
     <div className={styles.card + 'w-full'}>

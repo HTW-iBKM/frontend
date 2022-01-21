@@ -1,8 +1,11 @@
-import axios from 'axios';
 import React, { ReactElement, useState } from 'react';
 import useAsyncEffect from 'use-async-effect';
 import { explainableAIData } from '../../api/mockdataTransformer';
-import Graph, { GraphData, GraphDataResponse } from '../../components/graph/Graph';
+import Graph, { GraphData } from '../../components/graph/Graph';
+import { TableWidget } from "../../components/widgets/table/TableWidget";
+import { Column } from "react-table";
+import { FileData } from "../files/Files";
+import { TableMockData } from "../../utils/TableMockData";
 
 function Home(): ReactElement {
   const styles = {
@@ -10,6 +13,7 @@ function Home(): ReactElement {
     card: 'shadow-card h-full bg-grayscale-light rounded-[8px] '
   };
 
+  const [exampleFiles, setExampleFiles] = useState(TableMockData());
   const [exampleData, setExampleData] = useState<GraphData[]>([])
   const exampleHeader = "Bilanzkreis A Graph"
   const exampleGroup = "Bilanzkreis A"
@@ -26,6 +30,14 @@ function Home(): ReactElement {
   }, []);
 
   const widgets = [1, 2];
+
+  const columns: Column<FileData>[] = [
+    {
+      Header: "Name",
+      accessor: "fileName",
+    },
+  ]
+
   return <div className={styles.container}>
     {widgets.length > 1 ? (
       <>
@@ -34,10 +46,10 @@ function Home(): ReactElement {
         </div>
         <div className="w-1/3 h-full flex flex-col gap-6">
           <div className={styles.card}>
-            {/* <Graph /> */}
+            <TableWidget columns={columns} data={exampleFiles} changeData={setExampleFiles} variant={widgets[2] ? "short" : "long"} />
           </div>
           {widgets[2] && <div className={styles.card}>
-            {/* <Graph /> */}
+            <TableWidget columns={columns} data={exampleFiles} changeData={setExampleFiles} variant={"short"} />
           </div>}
         </div>
       </>
