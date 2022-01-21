@@ -110,10 +110,10 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
 
     const [intervalOptions, setIntervalOptions] = useState<IntervalOption[]>([
         { value: 'minutes', label: '15 Minuten', disabled: false, interval: 1 },
-        { value: 'hour', label: 'Stunde', disabled: false, interval: 4 },
-        { value: 'day', label: 'Tag', disabled: false, interval: 4 * 24 },
-        { value: 'week', label: 'Woche', disabled: false, interval: 4 * 24 * 7 },
-        { value: 'month', label: 'Monat', disabled: false, interval: 4 * 24 * 7 * 30 }
+        { value: 'hour', label: 'Stunde', disabled: false, interval: 3 },
+        { value: 'day', label: 'Tag', disabled: false, interval: 3 * 23 },
+        { value: 'week', label: 'Woche', disabled: false, interval: 3 * 23 * 6 },
+        { value: 'month', label: 'Monat', disabled: false, interval: 3 * 23 * 29 }
     ]);
 
     const [interval, setInterval] = useState<string>('minutes');
@@ -223,7 +223,6 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
     }
 
     useEffect(() => {
-        setDisabledFields();
         if (data.length > 0) {
             setKeyData(KeyDataDefault.filter((keyData) => Object.keys(data[0]).includes(keyData.key)));
             setSelectedTimespan('day');
@@ -231,15 +230,13 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         }
     }, [data]);
 
+    useEffect(() => setDisabledFields(), [timespan, interval]);
 
     const formatData = (graphData: GraphData[]): GraphData[] => {
-        console.log("hi");
-
         const selectedInterval = intervalOptions.find(option => option.value === interval);
-        const newData = graphData
+        return graphData
             .filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate)
             .filter((data, index) => selectedInterval && index % selectedInterval.interval === 0);
-        return newData
     };
 
     const [getLineChartPng, { ref: lineChartRef }] = useCurrentPng();
@@ -325,13 +322,6 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         const newWindow = window.open('#/graph-details', '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
     }
-
-    // useAsyncEffect(async (isMounted) => {
-    // setSelectedTimespan('day');
-    // setInterval('hour');
-    // setData(aiData.september_18);
-    // setData(data.data.september_18);
-    // }, []);
 
     return !data.length ? (
         <div className={styles.graphContainer}>

@@ -2,7 +2,7 @@ import { getFormattedDate } from '../../utils/utility';
 import { GraphData, GraphKey, KeyData } from "./Graph";
 
 export function parseGraphData(data: GraphData[], keyData: KeyData[]): GraphData[] {
-    return data.map((entry: GraphData) => {
+    const dataWithKeys = data.map((entry: GraphData) => {
         let parsedData = {};
         // Get the keys which are available in the data
         const availableKeys: GraphKey[] = keyData.map(key => key.key);
@@ -20,7 +20,8 @@ export function parseGraphData(data: GraphData[], keyData: KeyData[]): GraphData
             ...entry,
             ...parsedData,
         };
-    }).filter((entry, index) => index % Math.round(data.length / 50) === 0);
+    })
+    return data.length > 50 ? dataWithKeys.filter((entry, index) => index % Math.round(data.length / 50) === 0) : dataWithKeys;
 }
 
 export function calculateTickCount(minValue: number, maxValue: number, yInterval: number): number {
