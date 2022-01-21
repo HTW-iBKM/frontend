@@ -27,7 +27,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 export interface GraphData {
     time: string;
     berlin_time: string;
-    'Bk-Verbrauch': number,
+    'BK-Verbrauch': number,
     'Sonnenenergie': number,
     'Synthetische Daten': number,
     'Tageszeit': number,
