@@ -62,3 +62,7 @@ export const formatXAxisLabel = (value: string, showTime: boolean): string => {
         return getFormattedDate(time);
     }
 }
+
+export const formatDate = (date: Date): string => {
+    return `${`0${date.getDate()}`.slice(-2) + '.' + `0${date.getMonth()}`.slice(-2) + '.' + date.getFullYear()}`;
+}

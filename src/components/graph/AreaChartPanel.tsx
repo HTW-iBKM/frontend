@@ -36,7 +36,7 @@ function AreaChartPanel({ data, keyData, graphLineColors, timespan }: AreaChartP
         >
           <CartesianGrid strokeDasharray="5 5" />
           <Tooltip
-            content={<AIToolTipp payload={undefined} graphColors={graphLineColors}></AIToolTipp>}
+            content={<AIToolTipp payload={undefined} graphColors={graphLineColors} keyData={keyData} timespan={timespan}></AIToolTipp>}
             cursor={{ stroke: "#494B51", strokeWidth: 1 }}
             contentStyle={{ borderRadius: 8, padding: 16 }}
           />

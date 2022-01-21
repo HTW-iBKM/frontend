@@ -61,7 +61,6 @@ export function TableWidget<T extends FileData>({ columns, data, variant, change
 
   useEffect(() => {
     setPageSize(DEFAULT_PAGE_SIZE)
-
     if (wrapper.current && tBody.current && thRefs.length > 0 && tdRefs.length > 0) {
       const firstHeaderRowWidthFirstItem = window.getComputedStyle(thRefs[0].current as Element).getPropertyValue('width');
       const wrapperHeight = window.getComputedStyle(wrapper.current).getPropertyValue("height")
@@ -69,7 +68,7 @@ export function TableWidget<T extends FileData>({ columns, data, variant, change
       tdRefs.map((tdRef, index) => { return (index % 3 === 0 && tdRef.current) ? tdRef.current.style.width = firstHeaderRowWidthFirstItem : false })
 
     }
-  }, [setPageSize, width, height, wrapper, tBody, thRefs, tdRefs])
+  }, [width, height])
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const [fileInAction, setFileInAction] = useState<string>("")

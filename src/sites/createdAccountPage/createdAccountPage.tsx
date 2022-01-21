@@ -26,7 +26,10 @@ export default function CreatedAccountPage(): ReactElement {
             title={"Account erstellt"}
             centerTitle={true}
         ><div className={styles.contentWrapper}>
-                <div className={styles.textCentered}>Sie haben erfolgreich einen neuen Account bei iBKM erstellt. Loggen sie sich nun mit Ihren Daten ein</div>
+                <div className={styles.textCentered}>
+                    Sie haben erfolgreich einen neuen Account bei iBKM erstellt. Sie müssen nun ihren Account über ihre E-Mail verifizieren, sodass Sie die Plattform nutzen können.
+                    Anschließend können Sie sich mit Ihren Daten einloggen.
+                </div>
                 <Button
                     className={styles.backToLoginButton}
                     variant="primary"

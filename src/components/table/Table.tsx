@@ -105,10 +105,10 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
   useEffect(() => {
     if (wrapper.current && tBody.current && thRefs.length > 0 && tdRefs.length > 0) {
       const firstHeaderRowWidthFirstItem = window.getComputedStyle(thRefs[0].current as Element).getPropertyValue('width');
-      const wrapperHeight = window.getComputedStyle(wrapper.current).getPropertyValue("height")
-      tBody.current.style.height = wrapperHeight;
+      const firstHeaderRowHeightFirstItem = window.getComputedStyle(thRefs[0].current as Element).getPropertyValue('height');
+      const wrapperHeight = window.getComputedStyle(wrapper.current).getPropertyValue("height");
+      tBody.current.style.height = `${parseInt(wrapperHeight) - parseInt(firstHeaderRowHeightFirstItem)}px`;
       tdRefs.map((tdRef, index) => { return (index % 3 === 0 && tdRef.current) ? tdRef.current.style.width = firstHeaderRowWidthFirstItem : false })
-
     }
   }, [width, height, trigger, wrapper, tBody, thRefs, tdRefs])
 
@@ -266,7 +266,7 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
         </div>
       </div>
 
-      <div className="max-h-[calc(100%-18rem)]" ref={wrapper}>
+      <div className="max-h-[calc(100%-11.5rem)] h-[100%]" ref={wrapper}>
         <table {...getTableProps()}
           className={"w-full text-left table table-fixed w-[100%]"}>
           <thead className={"text-secondary border-b border-b-grayscale text-sm table table-fixed w-[100%]"}  >
