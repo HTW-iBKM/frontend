@@ -1,5 +1,6 @@
 import React from "react";
 import ToastContainer from "../components/toast/ToastContainer";
+import {useHistory} from "react-router-dom";
 
 interface FooterLink {
     href: string;
@@ -29,6 +30,8 @@ const LoginLayout = ({
         childrenWrapper: "my-10"
     };
 
+    const history = useHistory();
+
     return (
         <div className={styles.container}>
             <ToastContainer />
@@ -44,7 +47,7 @@ const LoginLayout = ({
             <footer className={styles.footer}>
                 {links &&
                     links.map((link) => (
-                        <a key={link.content} href={link.href} className={styles.link}>
+                        <a key={link.content} onClick={() => history.push(link.href)} className={styles.link}>
                             {link.content}
                         </a>
                     ))}

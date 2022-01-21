@@ -67,7 +67,7 @@ function RegisterPage(): ReactElement {
         }
     }
 
-    const footerLinks = [{ href: "/#/login", content: "Bereits registriert? Anmelden" }];
+    const footerLinks = [{ href: "login", content: "Bereits registriert? Anmelden" }];
 
     return (
         <LoginLayout title="Registrierung" links={footerLinks} >
