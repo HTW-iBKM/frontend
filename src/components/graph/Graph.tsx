@@ -101,8 +101,8 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
      * Inititial key data definition.
      */
     const KeyDataDefault: KeyData[] = [
-        { key: GraphKey.PREDICTION, name: 'Prognose', checked: queryKeyData ? queryKeyData[0].checked : true },
-        { key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch', checked: queryKeyData ? queryKeyData[1].checked : true }
+        { key: GraphKey.PREDICTION, name: 'Prognose', checked: queryKeyData ? queryKeyData[0]?.checked : true },
+        { key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch', checked: queryKeyData && queryKeyData[1] ? queryKeyData[1]?.checked : true }
     ];
 
     const [keyData, setKeyData] = useState(KeyDataDefault)

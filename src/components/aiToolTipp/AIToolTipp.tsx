@@ -23,9 +23,9 @@ function AIToolTipp(properties: AiToolProps): React.ReactElement {
     }
     currentValues.sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
     currentValues = currentValues.slice(0, 5);
-    const toolTitle = formatXAxisLabel(payload!.berlin_time, properties!.timespan === 'day')
+    const toolTitle = formatXAxisLabel(payload?.berlin_time || payload?.time, properties!.timespan === 'day')
     const keyData = properties?.keyData;
-    
+
 
 
 
@@ -38,15 +38,15 @@ function AIToolTipp(properties: AiToolProps): React.ReactElement {
         >
 
             {
-                keyData[1].checked && <>
-                    <div className='data-box first-box' style={{ backgroundColor: colors ? colors[1] : '' }}></div>
+                keyData && keyData.find((ele: any) => ele.key === 'ground_truth')?.checked && <>
+                    <div className='data-box first-box' style={{ backgroundColor: colors ? colors.length > 1 ? colors[1] : colors[0] : '' }}></div>
                     <label className='tool-tipp-label'>Ground Truth:</label>
                     <label className='tool-tipp-label'>{payload.ground_truth} KW</label>
                 </>
             }
 
             {
-                keyData[0].checked && <>
+                keyData && keyData.find((ele: any) => ele.key === 'prediction')?.checked && <>
                     <div className='data-box ' style={{ backgroundColor: colors ? colors[0] : '' }}></div>
                     <label className='tool-tipp-label'>Prediction:</label>
                     <label className='tool-tipp-label'>{payload.prediction} KW</label>
