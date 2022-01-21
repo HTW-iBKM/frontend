@@ -1,6 +1,4 @@
 import React, { ReactElement, useCallback, useEffect, useState } from 'react';
-import axios from 'axios';
-import useAsyncEffect from "use-async-effect";
 import './Graph.css'
 import OpenInNewTabIcon from '../../components/icons/OpenInNewTabIcon';
 import Tabs from "../tabs/Tabs";
@@ -21,11 +19,7 @@ import FileSaver from 'file-saver';
 import { ExportToCsv } from 'export-to-csv';
 import SelectField from '../../components/form/SelectField';
 import DatePicker from '../../components/datePicker/DatePicker';
-import { explainableAIData } from '../../api/mockdataTransformer';
 import '../aiToolTipp/AIToolTipp.css';
-
-
-// import { GraphContext } from "../../context/GraphContext";
 import { GraphDetailsProps } from '../../sites/graph-details/GraphDetails';
 import { formatDate } from './helpers';
 import { useHistory, useLocation } from 'react-router-dom';

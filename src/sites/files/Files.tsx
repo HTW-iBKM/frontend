@@ -1,8 +1,6 @@
 import React, { ReactElement, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { Table } from "../../components/table/Table";
 import { Column } from "react-table";
-import { getFormattedDate } from "../../utils/utility";
 import { TableMockData } from '../../utils/TableMockData';
 
 export interface FileData {
