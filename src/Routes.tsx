@@ -65,7 +65,7 @@ function PublicRoutes(): ReactElement {
                     path={'/login'}
                     // isAuthorized={true}
                     component={(() => {
-                        const component = auth.isAuthenticated() ? function () { return <Redirect exact to={{ pathname: 'dashboard' }}></Redirect> } : LoginPage;
+                        const component = LoginPage;
                         return component;
                     })()}
                 />
