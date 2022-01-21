@@ -26,6 +26,9 @@ import '../aiToolTipp/AIToolTipp.css';
 
 
 // import { GraphContext } from "../../context/GraphContext";
+import { GraphDetailsProps } from '../../sites/graph-details/GraphDetails';
+import { formatDate } from './helpers';
+import { useHistory, useLocation } from 'react-router-dom';
 
 export interface GraphData {
     time: string;
@@ -42,7 +45,7 @@ export interface GraphData {
     ground_truth?: string;
 }
 
-interface GraphDataResponse {
+export interface GraphDataResponse {
     data: {
         data: {
             [x: string]: GraphData[]
@@ -75,35 +78,55 @@ interface TimespanOption {
     timespan: number
 }
 
-function Graph(): ReactElement {
+interface GraphProps {
+    group: string,
+    header: string,
+    data: GraphData[]
+}
+
+function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement {
+    const history = useHistory();
+    const { search } = useLocation();
+    const query = new URLSearchParams(search);
+    const queryKeyData = JSON.parse(query.get('keyData')!)
+    const queryInterval = query.get('interval');
+    const queryActiveGraph = query.get('activeGraph');
+    const queryTimespan = query.get('selectedTimeSpan')!;
 
     const styles = {
         graphContainer: "w-full h-full p-7 flex justify-center items-center flex-col ",
         loadingCommonStyle: "bg-[#E9EAF0] rounded-lg"
     };
+
+    /**
+     * Definition of the line available colors.
+     */
     const GraphLineColors = ["#4074B2", "#DE9D28", "#edabd1", "#92dbd0"];
 
+    /**
+     * Inititial key data definition.
+     */
     const KeyDataDefault: KeyData[] = [
-        { key: GraphKey.PREDICTION, name: 'Prognose', checked: true },
-        { key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch', checked: true }
+        { key: GraphKey.PREDICTION, name: 'Prognose', checked: queryKeyData ? queryKeyData[0]?.checked : true },
+        { key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch', checked: queryKeyData && queryKeyData[1] ? queryKeyData[1]?.checked : true }
     ];
+
     const [keyData, setKeyData] = useState(KeyDataDefault)
 
     const url = window.location.href.split('/')[4];
     const showNewTabButton = url !== 'graph-details';
 
-    const [data, setData] = useState<GraphData[]>([]);
-    const [activeGraph, setActiveGraph] = useState<string>(String);
+    const [activeGraph, setActiveGraph] = useState<string>(queryActiveGraph || String);
 
     const [intervalOptions, setIntervalOptions] = useState<IntervalOption[]>([
         { value: 'minutes', label: '15 Minuten', disabled: false, interval: 1 },
-        { value: 'hour', label: 'Stunde', disabled: false, interval: 4 },
-        { value: 'day', label: 'Tag', disabled: false, interval: 4 * 24 },
-        { value: 'week', label: 'Woche', disabled: false, interval: 4 * 24 * 7 },
-        { value: 'month', label: 'Monat', disabled: false, interval: 4 * 24 * 7 * 30 }
+        { value: 'hour', label: 'Stunde', disabled: false, interval: 3 },
+        { value: 'day', label: 'Tag', disabled: false, interval: 3 * 23 },
+        { value: 'week', label: 'Woche', disabled: false, interval: 3 * 23 * 6 },
+        { value: 'month', label: 'Monat', disabled: false, interval: 3 * 23 * 29 }
     ]);
 
-    const [interval, setInterval] = useState<string>('minutes');
+    const [interval, setInterval] = useState<string>(queryInterval || 'minutes');
     const IntervalSelectField = <div className="flex items-center gap-3" key="interval">
         <span className="text-body2">Intervall:</span>
         <SelectField className="min-w-[124px]"
@@ -120,7 +143,7 @@ function Graph(): ReactElement {
         { value: 'calendar', label: 'Kalender', disabled: false, timespan: 0 }
     ]);
 
-    const [selectedTimespan, _setSelectedTimespan] = useState<string>('day');
+    const [selectedTimespan, _setSelectedTimespan] = useState<string>(queryTimespan || 'day');
     const [timespan, setTimespan] = useState<{ startDate: Date, endDate: Date }>({
         startDate: new Date(),
         endDate: new Date()
@@ -209,14 +232,21 @@ function Graph(): ReactElement {
         });
     }
 
-    useEffect(() => setDisabledFields(), [selectedTimespan, interval]);
+    useEffect(() => {
+        if (data.length > 0) {
+            setKeyData(KeyDataDefault.filter((keyData) => Object.keys(data[0]).includes(keyData.key)));
+            setSelectedTimespan(queryTimespan || 'day');
+            setInterval(queryInterval || 'minutes');
+        }
+    }, [data]);
+
+    useEffect(() => setDisabledFields(), [timespan, interval]);
 
     const formatData = (graphData: GraphData[]): GraphData[] => {
         const selectedInterval = intervalOptions.find(option => option.value === interval);
-        const newData = graphData
+        return graphData
             .filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate)
             .filter((data, index) => selectedInterval && index % selectedInterval.interval === 0);
-        return newData
     };
 
     const [getLineChartPng, { ref: lineChartRef }] = useCurrentPng();
@@ -272,11 +302,9 @@ function Graph(): ReactElement {
         csvExporter.generateCsv(dataToBeFiltered);
     }
 
-
-
-    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan}/>;
-    const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan}/>;
-    const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan}/>;
+    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
+    const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
+    const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
 
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
     const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);
@@ -290,31 +318,46 @@ function Graph(): ReactElement {
             : null;
     }
 
-    useAsyncEffect(async (isMounted) => {
-        const { data }: GraphDataResponse = await axios.get(
-            "https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/"
-        );
 
-        const aiData: any = explainableAIData();
-
-        if (!isMounted) return;
-        setData(aiData);
-        // setSelectedTimespan('day');
-        // setInterval('hour');
-        // setData(aiData.september_18);
-        // setData(data.data.september_18);
-    }, []);
-
+    const queryString = `?activeGraph=${activeGraph}&interval=${interval}&selectedTimeSpan=${selectedTimespan}&keyData=${JSON.stringify(keyData)}`;
+    /**
+     * Opens the graph in a new tab.
+     */
+    const openInTab = () => {
+        const graphDetails: GraphDetailsProps = {
+            group: group,
+            header: header,
+            data: data
+        }
+        localStorage.removeItem("graphData");
+        localStorage.setItem("graphData", JSON.stringify(graphDetails));
+        const newWindow = window.open(`#/graph-details${queryString}`, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+    }
 
     useEffect(() => {
-        if (data.length > 0) {
-            setSelectedTimespan('day');
-            setInterval('minutes');
+        history.push({ search: queryString })
+    }, [queryString])
 
+
+
+    const subtitle = (() => {
+        let formated = '';
+        switch (selectedTimespan) {
+            case 'day': {
+                const date = new Date(data[data.length - 1]?.time);
+                formated = formatDate(date);
+                break;
+            }
+            default: {
+                const { startDate, endDate } = timespan;
+                formated = `${formatDate(startDate)} - ${formatDate(endDate)}`
+                break;
+            }
         }
-    }, [data]);
 
-
+        return formated
+    })()
 
     return !data.length ? (
         <div className={styles.graphContainer}>
@@ -332,10 +375,18 @@ function Graph(): ReactElement {
     ) : (
         <div className={styles.graphContainer}>
             <div className="w-full flex justify-between">
-                <h5 className={"text-h5"}>Bilanzkreis A Graph</h5> {/* TODO add real title */}
+                <h5 className={"text-h5"}>{header}
+                    <small className={"text-subtitle2 ml-2"}>({
+
+                        subtitle
+                    })</small>
+                </h5>
+
+
+                {/* TODO add real title */}
                 {showNewTabButton &&
                     <Button variant={"icon"}
-                        onClick={() => window.open('#/graph-details', '_blank')}
+                        onClick={() => openInTab()}
                         title="Open in new tab">
                         <OpenInNewTabIcon className="w-4 h-4" />
                     </Button>
@@ -352,6 +403,10 @@ function Graph(): ReactElement {
                         { title: IconStackedLineChart, accessor: 'area_chart' }
                     ]}
                     panels={[LineChart, BarChart, AreaChart]}
+                    index={queryActiveGraph &&
+                        queryActiveGraph === 'line_chart' ?
+                        0 : queryActiveGraph === 'bar_chart' ? 1
+                            : queryActiveGraph === 'area_chart' ? 2 : 0 || 0}
                     inlineSelectFields={[IntervalSelectField, TimespanSelectField]} />
             </div>
             <div className="bg-[#E2E2E2] w-full h-0.5 m-6" />

@@ -55,16 +55,19 @@ function PublicRoutes(): ReactElement {
                     component={GraphDetails}
                 />
 
-                <Route
+                <RestrictedRoute
                     path={'/dashboard'}
                     component={Dashboard}
                 >
-                </Route>
+                </RestrictedRoute>
                 <Route
                     exact
                     path={'/login'}
                     // isAuthorized={true}
-                    component={LoginPage}
+                    component={(() => {
+                        const component = LoginPage;
+                        return component;
+                    })()}
                 />
 
                 <Route

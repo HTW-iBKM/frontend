@@ -26,7 +26,7 @@ function BarChartPanel({ data, keyData, graphLineColors, timespan }: BarChartPan
   const yInterval = 500;
   const maxValue = 0;
   const minValue = Infinity;
-  const parsedData = parseGraphData(data);
+  const parsedData = parseGraphData(data, keyData);
 
   return (
     <div className={"w-full h-full"}>
@@ -37,7 +37,7 @@ function BarChartPanel({ data, keyData, graphLineColors, timespan }: BarChartPan
         >
           <CartesianGrid strokeDasharray="5 5" />
           <Tooltip
-            content={<AIToolTipp payload={undefined} graphColors={graphLineColors}></AIToolTipp>}
+            content={<AIToolTipp payload={undefined} graphColors={graphLineColors} keyData={keyData} timespan={timespan}></AIToolTipp>}
             cursor={{ stroke: "#494B51", strokeWidth: 1 }}
             contentStyle={{ borderRadius: 8, padding: 16 }}
           />
@@ -63,7 +63,7 @@ function BarChartPanel({ data, keyData, graphLineColors, timespan }: BarChartPan
           </XAxis>
           <YAxis
             type="number"
-            domain={calculateDomain(parsedData, minValue, maxValue, yInterval)}
+            domain={calculateDomain(parsedData, keyData, minValue, maxValue, yInterval)}
             allowDecimals={false}
             minTickGap={50}
             interval="preserveStartEnd"
