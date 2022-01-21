@@ -1,7 +1,17 @@
 import React from 'react';
 import { GraphData } from '../graph/Graph';
+import { formatXAxisLabel } from '../graph/helpers';
 
-function AIToolTipp(properties: ({ payload: (undefined | { payload: { [key: string]: number } }[]), graphColors: string[] }) | undefined): React.ReactElement {
+type AiToolProps = {
+    payload: (undefined | {
+        payload: { [key: string]: any }
+    }[]),
+    keyData: any,
+    graphColors: string[],
+    timespan: string,
+} | undefined
+
+function AIToolTipp(properties: AiToolProps): React.ReactElement {
 
     const colors = properties?.graphColors;
     const payload = properties ? { ...properties.payload?.[0]?.payload } : {};
@@ -13,50 +23,62 @@ function AIToolTipp(properties: ({ payload: (undefined | { payload: { [key: stri
     }
     currentValues.sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
     currentValues = currentValues.slice(0, 5);
-    const date = new Date(payload?.berlin_time);
+    const toolTitle = formatXAxisLabel(payload!.berlin_time, properties!.timespan === 'day')
+    const keyData = properties?.keyData;
+    
+
+
 
     return <div
         className='tool-tipp'
     >
-        <b className='tool-tipp-date'>{`${date.getDate() + 1}.${("0" + (date.getMonth() + 1)).slice(-2)}.${date.getFullYear()}`}</b>
+        <b className='tool-tipp-date'>{`${toolTitle}`}</b>
         <div
             className='tool-tipp-data'
         >
-            <div className='data-box first-box' style={{ backgroundColor: colors ? colors[1] : '' }}></div>
-            <label className='tool-tipp-label'>Ground Truth:</label>
-            <label className='tool-tipp-label'>N/A</label>
+
+            {
+                keyData[1].checked && <>
+                    <div className='data-box first-box' style={{ backgroundColor: colors ? colors[1] : '' }}></div>
+                    <label className='tool-tipp-label'>Ground Truth:</label>
+                    <label className='tool-tipp-label'>{payload.ground_truth} KW</label>
+                </>
+            }
+
+            {
+                keyData[0].checked && <>
+                    <div className='data-box ' style={{ backgroundColor: colors ? colors[0] : '' }}></div>
+                    <label className='tool-tipp-label'>Prediction:</label>
+                    <label className='tool-tipp-label'>{payload.prediction} KW</label>
 
 
-            <div className='data-box ' style={{ backgroundColor: colors ? colors[0] : '' }}></div>
-            <label className='tool-tipp-label'>Prediction:</label>
-            <label className='tool-tipp-label'>{payload.prediction} KWH</label>
+                    <div className='prediction-vertical-line'></div>
+                    <div className='prediction-data'>
+                        {currentValues.map((ele, index) => {
+                            // eslint-disable-next-line react/jsx-key
+                            return (<React.Fragment key={index}>
+                                <div className='prediction-data-chevron-wrapper'>
+                                    {ele.value > 0 ?
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="green" viewBox="0 0 24 24" stroke="green">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0} d="M5 15l7-7 7 7" />
+                                        </svg>
+                                        :
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="red" viewBox="0 0 24 24" stroke="red">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0} d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    }
+                                </div>
+                                {/* The column has a typo thats why iam lowercassing it here */}
+                                <div className='prediction-data-label'>{(ele.key).replace('Nachgelagerte', 'nachgelagerte')}</div>
+                                <div className='prediction-data-value'>{(ele.value * 100).toFixed(0) + "%"}</div>
 
+                            </React.Fragment>)
+                        }
+                        )}
 
-            <div className='prediction-vertical-line'></div>
-            <div className='prediction-data'>
-                {currentValues.map((ele, index) => {
-                    // eslint-disable-next-line react/jsx-key
-                    return (<React.Fragment key={index}>
-                        <div className='prediction-data-chevron-wrapper'>
-                            {ele.value > 0 ?
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="green" viewBox="0 0 24 24" stroke="green">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0} d="M5 15l7-7 7 7" />
-                                </svg>
-                                :
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="red" viewBox="0 0 24 24" stroke="red">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0} d="M19 9l-7 7-7-7" />
-                                </svg>
-                            }
-                        </div>
-                        {/* The column has a typo thats why iam lowercassing it here */}
-                        <div className='prediction-data-label'>{(ele.key).replace('Nachgelagerte', 'nachgelagerte')}</div>
-                        <div className='prediction-data-value'>{(ele.value * 100).toFixed(0) + "%"}</div>
-
-                    </React.Fragment>)
-                }
-                )}
-
-            </div>
+                    </div>
+                </>
+            }
 
         </div>
 
