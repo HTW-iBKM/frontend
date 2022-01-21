@@ -12,7 +12,6 @@ function DatePicker(props: DateTimePickerProps): ReactElement  {
         {...props}
         options={{
           mode: "range",
-          minDate: "today",
           dateFormat: "Y-m-d",
         }}
         render={
