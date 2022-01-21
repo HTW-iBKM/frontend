@@ -1,6 +1,5 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 import ToastContainer from "../components/toast/ToastContainer";
-import { ToastInterface, ToastContext, ToastContextInterface } from "../context/ToastContext";
 
 interface LayoutProps {
   top: ReactElement;
