@@ -1,6 +1,6 @@
 import React from 'react';
 import { GraphData } from '../graph/Graph';
-import { formatXAxisLabel } from '../graph/helpers';
+import { formatTooltipLabel } from '../graph/helpers';
 
 type AiToolProps = {
     payload: (undefined | {
@@ -23,7 +23,7 @@ function AIToolTipp(properties: AiToolProps): React.ReactElement {
     }
     currentValues.sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
     currentValues = currentValues.slice(0, 5);
-    const toolTitle = formatXAxisLabel(payload?.berlin_time || payload?.time, properties!.timespan === 'day')
+    const toolTitle = formatTooltipLabel(payload?.berlin_time || payload?.time, properties!.timespan === 'day')
     const keyData = properties?.keyData;
 
 

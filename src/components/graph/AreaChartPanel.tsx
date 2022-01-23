@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
   Area, AreaChart
 } from "recharts";
-import { parseGraphData, calculateTickCount, calculateDomain, formatXAxisLabel } from './helpers';
+import { parseGraphData, calculateDomain, formatXAxisLabel } from './helpers';
 import { GraphData, KeyData } from "./Graph";
 import AIToolTipp from '../aiToolTipp/AIToolTipp';
 
@@ -22,9 +22,6 @@ interface AreaChartPanelProps {
 
 {/* @TODO Correct Ref Typing */ }
 function AreaChartPanel({ data, keyData, graphLineColors, timespan }: AreaChartPanelProps, ref: Ref<any>): ReactElement {
-  const yIntervall = 500;
-  const maxValue = 0;
-  const minValue = Infinity;
   const parsedData = parseGraphData(data, keyData);
 
   return (
@@ -51,13 +48,8 @@ function AreaChartPanel({ data, keyData, graphLineColors, timespan }: AreaChartP
           </defs>
           <XAxis
             dataKey="time"
-            minTickGap={50}
-            interval="preserveStartEnd"
             tick={{ fontSize: 12, color: "#494B51" }}
             tickFormatter={(value: string) => formatXAxisLabel(value, timespan === 'day')}
-            tickMargin={10}
-            tickSize={8}
-            tickCount={calculateTickCount(minValue, maxValue, yIntervall)}
             axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
             tickLine={{ strokeWidth: 2, stroke: "#494B51" }}
           >
@@ -71,13 +63,7 @@ function AreaChartPanel({ data, keyData, graphLineColors, timespan }: AreaChartP
           </XAxis>
           <YAxis
             type="number"
-            domain={calculateDomain(parsedData, keyData, minValue, maxValue, yIntervall)}
-            allowDecimals={false}
-            minTickGap={50}
-            interval="preserveStartEnd"
-            tickMargin={10}
-            tickSize={8}
-            tickCount={calculateTickCount(minValue, maxValue, yIntervall)}
+            domain={calculateDomain(parsedData, keyData)}
             axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
             tick={{ fontSize: 12, color: "#494B51" }}
             tickLine={{ strokeWidth: 2, stroke: "#494B51" }}

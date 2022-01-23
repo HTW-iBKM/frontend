@@ -21,29 +21,24 @@ export function parseGraphData(data: GraphData[], keyData: KeyData[]): GraphData
             ...parsedData,
         };
     })
-    return data.length > 50 ? dataWithKeys.filter((entry, index) => index % Math.round(data.length / 50) === 0) : dataWithKeys;
+    return data.length > 100 ? dataWithKeys.filter((entry, index) => index % Math.round(data.length / 100) === 0) : dataWithKeys;
 }
 
-export function calculateTickCount(minValue: number, maxValue: number, yInterval: number): number {
-    return maxValue && minValue != null
-        ? (maxValue - minValue) / yInterval + 1
-        : 5;
-}
-
-export function calculateDomain(data: GraphData[], keyData: KeyData[], minValue: number, maxValue: number, yInterval: number): [number, number] {
-    let currentMax = 0;
-    let currentMin = Infinity;
+export function calculateDomain(data: GraphData[], keyData: KeyData[]): [number, number] {
+    let maxValue = 0;
+    let minValue = Infinity;
+    const yInterval = 500;
 
     data.forEach((element: GraphData) => {
         const availableKeys: GraphKey[] = keyData.map(key => key.key);
         const filteredElements: number[] = Object.entries(element).map(([key, value]) => availableKeys.includes(key as GraphKey) ? value : null).filter(value => value);
 
-        currentMax =
+        const currentMax =
             Math.ceil(
                 Math.max(...filteredElements) /
                 yInterval
             ) * yInterval;
-        currentMin =
+        const currentMin =
             Math.floor(
                 Math.min(...filteredElements) /
                 yInterval
@@ -60,6 +55,15 @@ export const formatXAxisLabel = (value: string, showTime: boolean): string => {
         return time.toLocaleTimeString().slice(0, -3);
     } else {
         return getFormattedDate(time);
+    }
+}
+
+export const formatTooltipLabel = (value: string, showTime: boolean): string => {
+    const time = new Date(value);
+    if (showTime) {
+        return time.toLocaleTimeString().slice(0, -3);
+    } else {
+        return getFormattedDate(time) + ' ' + time.toLocaleTimeString().slice(0, -3);
     }
 }
 

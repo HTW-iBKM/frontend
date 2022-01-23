@@ -10,7 +10,7 @@ import {
   Bar,
   BarChart
 } from "recharts";
-import { parseGraphData, calculateTickCount, calculateDomain, formatXAxisLabel } from './helpers';
+import { parseGraphData, calculateDomain, formatXAxisLabel } from './helpers';
 import { GraphData, KeyData } from "./Graph";
 import AIToolTipp from '../aiToolTipp/AIToolTipp';
 
@@ -23,9 +23,6 @@ interface BarChartPanelProps {
 
 {/* @TODO Correct Ref Typing */ }
 function BarChartPanel({ data, keyData, graphLineColors, timespan }: BarChartPanelProps, ref: Ref<any>): ReactElement {
-  const yInterval = 500;
-  const maxValue = 0;
-  const minValue = Infinity;
   const parsedData = parseGraphData(data, keyData);
 
   return (
@@ -43,13 +40,8 @@ function BarChartPanel({ data, keyData, graphLineColors, timespan }: BarChartPan
           />
           <XAxis
             dataKey="time"
-            minTickGap={50}
-            interval="preserveStartEnd"
             tick={{ fontSize: 12, color: "#494B51" }}
             tickFormatter={(value: string) => formatXAxisLabel(value, timespan === 'day')}
-            tickMargin={10}
-            tickSize={8}
-            tickCount={calculateTickCount(minValue, maxValue, yInterval)}
             axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
             tickLine={{ strokeWidth: 2, stroke: "#494B51" }}
           >
@@ -63,13 +55,7 @@ function BarChartPanel({ data, keyData, graphLineColors, timespan }: BarChartPan
           </XAxis>
           <YAxis
             type="number"
-            domain={calculateDomain(parsedData, keyData, minValue, maxValue, yInterval)}
-            allowDecimals={false}
-            minTickGap={50}
-            interval="preserveStartEnd"
-            tickMargin={10}
-            tickSize={8}
-            tickCount={calculateTickCount(minValue, maxValue, yInterval)}
+            domain={calculateDomain(parsedData, keyData)}
             axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
             tick={{ fontSize: 12, color: "#494B51" }}
             tickLine={{ strokeWidth: 2, stroke: "#494B51" }}

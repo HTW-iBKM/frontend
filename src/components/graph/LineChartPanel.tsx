@@ -1,6 +1,6 @@
 import React, {
   ReactElement,
-  Ref,
+  Ref, useState,
 } from 'react';
 import './Graph.css';
 import {
@@ -13,7 +13,7 @@ import {
   YAxis,
   ResponsiveContainer,
 } from "recharts";
-import { parseGraphData, calculateTickCount, calculateDomain, formatXAxisLabel } from './helpers';
+import { parseGraphData, calculateDomain, formatXAxisLabel } from './helpers';
 import { GraphData, KeyData } from "./Graph";
 import AIToolTipp from '../aiToolTipp/AIToolTipp';
 
@@ -21,16 +21,21 @@ export interface LineChartPanelProps {
   data: GraphData[];
   keyData: KeyData[];
   graphLineColors: string[];
-  timespan: string
+  timespan: string;
 }
+
+const intervalOptions = [
+  { value: 'minutes', interval: 0 },
+  { value: 'hour', interval: 3 },
+  { value: 'day', interval: 3 * 23 },
+  { value: 'week', interval: 3 * 23 * 6 },
+  { value: 'month', interval: 3 * 23 * 29 }
+];
 
 {/* @TODO Correct Ref Typing */ }
 function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartPanelProps, ref: Ref<any>): ReactElement {
-  const yIntervall = 500;
-  const maxValue = 0;
-  const minValue = Infinity;
   const parsedData = parseGraphData(data, keyData);
-  
+  const interval = parsedData.length / 10;
 
   return (
     <div className={"w-full h-full"}>
@@ -49,12 +54,9 @@ function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartP
           />
           <XAxis
             dataKey="time"
-            minTickGap={50}
             tick={{ fontSize: 12, color: "#494B51" }}
+            interval={interval}
             tickFormatter={(value: string) => formatXAxisLabel(value, timespan === 'day')}
-            tickMargin={10}
-            tickSize={8}
-            tickCount={calculateTickCount(minValue, maxValue, yIntervall)}
             axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
             tickLine={{ strokeWidth: 2, stroke: "#494B51" }}
           >
@@ -68,13 +70,7 @@ function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartP
           </XAxis>
           <YAxis
             type="number"
-            domain={calculateDomain(parsedData, keyData, minValue, maxValue, yIntervall)}
-            allowDecimals={false}
-            minTickGap={50}
-            interval="preserveStartEnd"
-            tickMargin={10}
-            tickSize={8}
-            tickCount={calculateTickCount(minValue, maxValue, yIntervall)}
+            domain={calculateDomain(parsedData, keyData)}
             axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
             tick={{ fontSize: 12, color: "#494B51" }}
             tickLine={{ strokeWidth: 2, stroke: "#494B51" }}

@@ -61,8 +61,7 @@ export interface KeyData {
 interface IntervalOption {
     value: string,
     label: string,
-    disabled: boolean,
-    interval: number
+    disabled: boolean
 }
 
 interface TimespanOption {
@@ -113,11 +112,11 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
     const [activeGraph, setActiveGraph] = useState<string>(queryActiveGraph || String);
 
     const [intervalOptions, setIntervalOptions] = useState<IntervalOption[]>([
-        { value: 'minutes', label: '15 Minuten', disabled: false, interval: 1 },
-        { value: 'hour', label: 'Stunde', disabled: false, interval: 3 },
-        { value: 'day', label: 'Tag', disabled: false, interval: 3 * 23 },
-        { value: 'week', label: 'Woche', disabled: false, interval: 3 * 23 * 6 },
-        { value: 'month', label: 'Monat', disabled: false, interval: 3 * 23 * 29 }
+        { value: 'minutes', label: '15 Minuten', disabled: false},
+        { value: 'hour', label: 'Stunde', disabled: false },
+        { value: 'day', label: 'Tag', disabled: false },
+        { value: 'week', label: 'Woche', disabled: false },
+        { value: 'month', label: 'Monat', disabled: false }
     ]);
 
     const [interval, setInterval] = useState<string>(queryInterval || 'minutes');
@@ -236,12 +235,7 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
 
     useEffect(() => setDisabledFields(), [timespan, interval]);
 
-    const formatData = (graphData: GraphData[]): GraphData[] => {
-        const selectedInterval = intervalOptions.find(option => option.value === interval);
-        return graphData
-            .filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate)
-            .filter((data, index) => selectedInterval && index % selectedInterval.interval === 0);
-    };
+    const getTimespanData = (graphData: GraphData[]) => graphData.filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate);
 
     const [getLineChartPng, { ref: lineChartRef }] = useCurrentPng();
     const [getBarChartPng, { ref: barChartRef }] = useCurrentPng();
@@ -296,9 +290,9 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         csvExporter.generateCsv(dataToBeFiltered);
     }
 
-    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
-    const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
-    const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
+    const LineChart = <LineChartPanel data={getTimespanData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan}/>;
+    const BarChart = <BarChartPanel data={getTimespanData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
+    const AreaChart = <AreaChartPanel data={getTimespanData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
 
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
     const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);
