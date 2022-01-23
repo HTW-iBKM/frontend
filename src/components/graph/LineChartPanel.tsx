@@ -1,7 +1,4 @@
-import React, {
-  ReactElement,
-  Ref, useState,
-} from 'react';
+import React, { ReactElement, Ref, } from 'react';
 import './Graph.css';
 import {
   LineChart,
