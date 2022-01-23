@@ -23,6 +23,7 @@ interface AreaChartPanelProps {
 {/* @TODO Correct Ref Typing */ }
 function AreaChartPanel({ data, keyData, graphLineColors, timespan }: AreaChartPanelProps, ref: Ref<any>): ReactElement {
   const parsedData = parseGraphData(data, keyData);
+  const interval = Math.round(parsedData.length / 10);
 
   return (
     <div className={"w-full h-full"}>
@@ -49,6 +50,7 @@ function AreaChartPanel({ data, keyData, graphLineColors, timespan }: AreaChartP
           <XAxis
             dataKey="time"
             tick={{ fontSize: 12, color: "#494B51" }}
+            interval={interval}
             tickFormatter={(value: string) => formatXAxisLabel(value, timespan === 'day')}
             axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
             tickLine={{ strokeWidth: 2, stroke: "#494B51" }}

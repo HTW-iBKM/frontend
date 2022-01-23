@@ -24,6 +24,7 @@ interface BarChartPanelProps {
 {/* @TODO Correct Ref Typing */ }
 function BarChartPanel({ data, keyData, graphLineColors, timespan }: BarChartPanelProps, ref: Ref<any>): ReactElement {
   const parsedData = parseGraphData(data, keyData);
+  const interval = Math.round(parsedData.length / 10);
 
   return (
     <div className={"w-full h-full"}>
@@ -41,6 +42,7 @@ function BarChartPanel({ data, keyData, graphLineColors, timespan }: BarChartPan
           <XAxis
             dataKey="time"
             tick={{ fontSize: 12, color: "#494B51" }}
+            interval={interval}
             tickFormatter={(value: string) => formatXAxisLabel(value, timespan === 'day')}
             axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
             tickLine={{ strokeWidth: 2, stroke: "#494B51" }}
