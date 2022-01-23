@@ -32,7 +32,7 @@ const intervalOptions = [
 {/* @TODO Correct Ref Typing */ }
 function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartPanelProps, ref: Ref<any>): ReactElement {
   const parsedData = parseGraphData(data, keyData);
-  const interval = Math.round(parsedData.length / 10);
+  const interval = Math.round(parsedData.length / 8);
 
   return (
     <div className={"w-full h-full"}>
@@ -86,7 +86,7 @@ function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartP
               name={data.name}
               dataKey={data.key}
               stroke={graphLineColors[index]}
-              dot={{ fill: graphLineColors[index], r: 1 }}
+              dot={{ fill: graphLineColors[index], r: 0 }}
               activeDot={{
                 fill: "#FAFAFA",
                 stroke: graphLineColors[index],

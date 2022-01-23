@@ -24,7 +24,7 @@ interface BarChartPanelProps {
 {/* @TODO Correct Ref Typing */ }
 function BarChartPanel({ data, keyData, graphLineColors, timespan }: BarChartPanelProps, ref: Ref<any>): ReactElement {
   const parsedData = parseGraphData(data, keyData);
-  const interval = Math.round(parsedData.length / 10);
+  const interval = Math.round(parsedData.length / 8);
 
   return (
     <div className={"w-full h-full"}>

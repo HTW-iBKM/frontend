@@ -23,7 +23,7 @@ interface AreaChartPanelProps {
 {/* @TODO Correct Ref Typing */ }
 function AreaChartPanel({ data, keyData, graphLineColors, timespan }: AreaChartPanelProps, ref: Ref<any>): ReactElement {
   const parsedData = parseGraphData(data, keyData);
-  const interval = Math.round(parsedData.length / 10);
+  const interval = Math.round(parsedData.length / 8);
 
   return (
     <div className={"w-full h-full"}>

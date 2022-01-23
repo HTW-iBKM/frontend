@@ -20,8 +20,9 @@ export function parseGraphData(data: GraphData[], keyData: KeyData[]): GraphData
             ...entry,
             ...parsedData,
         };
-    })
-    return data.length > 100 ? dataWithKeys.filter((entry, index) => index % Math.round(data.length / 100) === 0) : dataWithKeys;
+    });
+    const maxDataSize = 4 * 365;
+    return data.length > maxDataSize ? dataWithKeys.filter((entry, index) => index % Math.round(data.length / maxDataSize) === 0) : dataWithKeys;
 }
 
 export function calculateDomain(data: GraphData[], keyData: KeyData[]): [number, number] {
