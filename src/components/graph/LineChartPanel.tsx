@@ -35,7 +35,7 @@ const intervalOptions = [
 {/* @TODO Correct Ref Typing */ }
 function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartPanelProps, ref: Ref<any>): ReactElement {
   const parsedData = parseGraphData(data, keyData);
-  const interval = parsedData.length / 10;
+  const interval = Math.round(parsedData.length / 10);
 
   return (
     <div className={"w-full h-full"}>
