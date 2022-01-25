@@ -95,6 +95,7 @@ const SaveFileTemplate = ({ keyData, setModalOpen, onSaveFile, activeGraph }: Sa
             onBlur={() => setFormTouched((oldEle) => ({ ...oldEle, name: true }))}
             {...bindFileName}
             errorMessage={`${formErr['name'] && formTouched.name ? formErr['name'] : ""}`}
+            isPositionedOnCard={true}
           />
         </div >
         <div className={`${styles.formElementGroup}`}>
