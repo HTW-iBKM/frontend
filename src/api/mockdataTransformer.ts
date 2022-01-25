@@ -1,5 +1,6 @@
+import axios from 'axios';
 import { GraphData } from '../components/graph/Graph';
-import aiData from '../data/aiData.json';
+
 
 export interface mockGraphData {
   berlin_time: string;
@@ -14,17 +15,12 @@ export interface mockGraphData {
   ground_truth?: number;
 }
 
-export function explainableAIData(): GraphData[] {
-  return (aiData as mockGraphData[]).sort((a, b) => {
-    const firstDate = new Date(a.berlin_time);
-    const secondDate = new Date(b.berlin_time);
-    if (firstDate < secondDate) {
-      return -1;
-    } else if (firstDate > secondDate) {
-      return 1;
-    }
-    return 0;
-  }).map(graphData => ({
+export async function explainableAIData(): Promise<GraphData[]> {
+  const { data }: { data: mockGraphData[] } = await axios.get(
+    "https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/"
+  );
+  
+  return data.map(graphData => ({
     ...graphData,
     time: graphData.berlin_time,
     prediction: graphData.prediction.toString(),

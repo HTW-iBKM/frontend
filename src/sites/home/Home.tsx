@@ -23,7 +23,8 @@ function Home(): ReactElement {
     //   "https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/"
     // );
 
-    const aiData: GraphData[] = explainableAIData();
+    const aiData: GraphData[] = await explainableAIData();
+    console.log({ aiData })
 
     if (!isMounted) return;
     setExampleData(aiData);
