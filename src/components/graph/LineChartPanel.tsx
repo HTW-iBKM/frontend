@@ -24,14 +24,6 @@ export interface LineChartPanelProps {
   timespan: string;
 }
 
-const intervalOptions = [
-  { value: 'minutes', interval: 0 },
-  { value: 'hour', interval: 3 },
-  { value: 'day', interval: 3 * 23 },
-  { value: 'week', interval: 3 * 23 * 6 },
-  { value: 'month', interval: 3 * 23 * 29 }
-];
-
 {/* @TODO Correct Ref Typing */ }
 function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartPanelProps, ref: Ref<any>): ReactElement {
   const parsedData = parseGraphData(data, keyData);

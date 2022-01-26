@@ -22,8 +22,6 @@ export async function explainableAIData(): Promise<GraphData[]> {
   
   return data.map(graphData => ({
     ...graphData,
-    time: graphData.berlin_time,
-    prediction: graphData.prediction.toString(),
-    ground_truth: graphData.ground_truth?.toString()
+    time: graphData.berlin_time
   }));
 }

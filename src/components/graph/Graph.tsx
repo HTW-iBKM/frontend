@@ -21,7 +21,7 @@ import SelectField from '../../components/form/SelectField';
 import DatePicker from '../../components/datePicker/DatePicker';
 import '../aiToolTipp/AIToolTipp.css';
 import { GraphDetailsProps } from '../../sites/graph-details/GraphDetails';
-import { formatDate } from './helpers';
+import { aggregateGraphData, formatDate } from './helpers';
 import { useHistory, useLocation } from 'react-router-dom';
 
 export interface GraphData {
@@ -34,9 +34,8 @@ export interface GraphData {
     'Wochentag': number,
     'Vor und Nachgelagerte Netze': number,
     'Windenergie': number,
-
-    prediction: string;
-    ground_truth?: string;
+    prediction: number;
+    ground_truth?: number;
 }
 
 export interface GraphDataResponse {
@@ -235,7 +234,12 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
 
     useEffect(() => setDisabledFields(), [timespan, interval]);
 
-    const getTimespanData = (graphData: GraphData[]) => graphData.filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate);
+    const formatData = (graphData: GraphData[]) => {
+        return aggregateGraphData(
+            graphData.filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate),
+            interval
+        );
+    }
 
     const [getLineChartPng, { ref: lineChartRef }] = useCurrentPng();
     const [getBarChartPng, { ref: barChartRef }] = useCurrentPng();
@@ -290,9 +294,9 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         csvExporter.generateCsv(dataToBeFiltered);
     }
 
-    const LineChart = <LineChartPanel data={getTimespanData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan}/>;
-    const BarChart = <BarChartPanel data={getTimespanData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
-    const AreaChart = <AreaChartPanel data={getTimespanData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
+    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan}/>;
+    const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
+    const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
 
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
     const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);

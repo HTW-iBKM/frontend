@@ -50,6 +50,10 @@ export function calculateDomain(data: GraphData[], keyData: KeyData[]): [number,
     return [minValue, maxValue];
 }
 
+export const aggregateGraphData = (graphData: GraphData[], interval: string): GraphData[] => {
+    return graphData;
+}
+
 export const formatXAxisLabel = (value: string, showTime: boolean): string => {
     const time = new Date(value);
     if (showTime) {
