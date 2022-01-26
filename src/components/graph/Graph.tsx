@@ -58,6 +58,12 @@ export interface KeyData {
     checked: boolean
 }
 
+interface IntervalOption {
+    value: string,
+    label: string,
+    disabled: boolean
+}
+
 interface TimespanOption {
     value: string,
     label: string,
@@ -76,6 +82,7 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
     const { search } = useLocation();
     const query = new URLSearchParams(search);
     const queryKeyData = JSON.parse(query.get('keyData')!)
+    const queryInterval = query.get('interval');
     const queryActiveGraph = query.get('activeGraph');
     const queryTimespan = query.get('selectedTimeSpan')!;
 
@@ -103,6 +110,23 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
     const showNewTabButton = url !== 'graph-details';
 
     const [activeGraph, setActiveGraph] = useState<string>(queryActiveGraph || String);
+
+    const [intervalOptions, setIntervalOptions] = useState<IntervalOption[]>([
+        { value: 'minutes', label: '15 Minuten', disabled: false},
+        { value: 'hour', label: 'Stunde', disabled: false },
+        { value: 'day', label: 'Tag', disabled: false },
+        { value: 'week', label: 'Woche', disabled: false },
+        { value: 'month', label: 'Monat', disabled: false }
+    ]);
+
+    const [interval, setInterval] = useState<string>(queryInterval || 'minutes');
+    const IntervalSelectField = <div className="flex items-center gap-3" key="interval">
+        <span className="text-body2">Intervall:</span>
+        <SelectField className="min-w-[124px]"
+            variant="small" label="Intervall auswählen"
+            options={intervalOptions} defaultValue={intervalOptions.find(o => o.value === interval)}
+            onChange={(option: string) => setInterval(option)} />
+    </div>;
 
     const [timespanOptions, setTimespanOptions] = useState<TimespanOption[]>([
         { value: 'day', label: 'Tag', disabled: false, timespan: 1 },
@@ -137,6 +161,7 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         })).join('-'));
 
         setTimespan({ startDate: dates[0], endDate: dates[1] });
+        setDisabledFieldsCalendar(dates[0], dates[1]);
     };
     const setCalenderOptionLabel = (value: string) => {
         setTimespanOptions((options: TimespanOption[]) => {
@@ -158,12 +183,57 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
             <DatePicker onChange={(value: Date[]) => value.length === 2 && setCalendarTimespan(value)} />}
     </div>;
 
+    const setDisabledFields = () => {
+        setIntervalOptions(options => {
+            const dayOption = options.find(o => o.value === 'day');
+            const weekOption = options.find(o => o.value === 'week');
+            const monthOption = options.find(o => o.value === 'month');
+            if (dayOption && weekOption && monthOption) {
+                dayOption.disabled = selectedTimespan === 'day';
+                weekOption.disabled = selectedTimespan === 'day' || selectedTimespan === 'week';
+                monthOption.disabled = selectedTimespan === 'day' || selectedTimespan === 'week' || selectedTimespan === 'month';
+            }
+
+            return options;
+        });
+        setTimespanOptions(options => {
+            const dayOption = options.find(o => o.value === 'day');
+            const weekOption = options.find(o => o.value === 'week');
+            const monthOption = options.find(o => o.value === 'month');
+            if (dayOption && weekOption && monthOption) {
+                dayOption.disabled = interval === 'day' || interval === 'week' || interval === 'month';
+                weekOption.disabled = interval === 'week' || interval === 'month';
+                monthOption.disabled = interval === 'month';
+            }
+            return options;
+        });
+    }
+
+    const setDisabledFieldsCalendar = (startDate: Date, endDate: Date) => {
+        const timeDifference = Math.abs(startDate.getTime() - endDate.getTime());
+        const differenceInDays = timeDifference / (1000 * 3600 * 24);
+        setIntervalOptions(options => {
+            const dayOption = options.find(o => o.value === 'day');
+            const weekOption = options.find(o => o.value === 'week');
+            const monthOption = options.find(o => o.value === 'month');
+            if (dayOption && weekOption && monthOption) {
+                dayOption.disabled = differenceInDays === 1;
+                weekOption.disabled = differenceInDays <= 7;
+                monthOption.disabled = differenceInDays <= 30;
+            }
+            return options;
+        });
+    }
+
     useEffect(() => {
         if (data.length > 0) {
             setKeyData(KeyDataDefault.filter((keyData) => Object.keys(data[0]).includes(keyData.key)));
             setSelectedTimespan(queryTimespan || 'day');
+            setInterval(queryInterval || 'minutes');
         }
     }, [data]);
+
+    useEffect(() => setDisabledFields(), [timespan, interval]);
 
     const getTimespanData = (graphData: GraphData[]) => graphData.filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate);
 
@@ -237,7 +307,7 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
     }
 
 
-    const queryString = `?activeGraph=${activeGraph}&selectedTimeSpan=${selectedTimespan}&keyData=${JSON.stringify(keyData)}`;
+    const queryString = `?activeGraph=${activeGraph}&interval=${interval}&selectedTimeSpan=${selectedTimespan}&keyData=${JSON.stringify(keyData)}`;
     /**
      * Opens the graph in a new tab.
      */
@@ -325,7 +395,7 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
                         queryActiveGraph === 'line_chart' ?
                         0 : queryActiveGraph === 'bar_chart' ? 1
                             : queryActiveGraph === 'area_chart' ? 2 : 0 || 0}
-                    inlineSelectFields={[TimespanSelectField]} />
+                    inlineSelectFields={[IntervalSelectField, TimespanSelectField]} />
             </div>
             <div className="bg-[#E2E2E2] w-full h-0.5 m-6" />
             <div className="w-full flex justify-center flex-wrap">
