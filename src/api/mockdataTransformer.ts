@@ -17,7 +17,7 @@ export interface mockGraphData {
 
 export async function explainableAIData(): Promise<GraphData[]> {
   const { data }: { data: mockGraphData[] } = await axios.get(
-    "https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/"
+    "https://bk4lqamoq9.execute-api.eu-west-1.amazonaws.com/"
   );
   
   return data.map(graphData => ({
