@@ -51,7 +51,118 @@ export function calculateDomain(data: GraphData[], keyData: KeyData[]): [number,
 }
 
 export const aggregateGraphData = (graphData: GraphData[], interval: string): GraphData[] => {
-    return graphData;
+    switch (interval) {
+        case 'minutes': return graphData;
+        case 'hour': return aggregateByHour(graphData);
+        case 'day': return aggregateByDay(graphData);
+        case 'week': return aggregateByWeek(graphData);
+        case 'month': return aggregateByMonth(graphData);
+        default: return graphData;
+    }
+}
+
+const aggregateByHour = (graphData: GraphData[]): GraphData[] => {
+    const aggregatedGraphData: GraphData[] = [];
+    let aggregatedElement: GraphData;
+    let aggregateCounter = 0;
+    const maxAggregations = 4;
+    graphData.forEach(data => {
+        const time = new Date(data.time);
+        if (aggregateCounter === 0 || time.getMinutes() === 0) {
+            aggregatedElement = {...data};
+            aggregateCounter = 1;
+        } else {
+            if (aggregatedElement) {
+                aggregatedElement.prediction += data.prediction;
+                aggregatedElement.ground_truth += data.ground_truth;
+                aggregateCounter++;
+            }
+        }
+        if (aggregateCounter === maxAggregations || time.getMinutes() === 45) {
+            if (aggregatedElement) {
+                aggregatedGraphData.push(aggregatedElement);
+                aggregateCounter = 0;
+            }
+        }
+    });
+    return aggregatedGraphData;
+}
+
+const aggregateByDay = (graphData: GraphData[]): GraphData[] => {
+    const aggregatedGraphData: GraphData[] = [];
+    let aggregatedElement: GraphData;
+    let aggregateCounter = 0;
+    const maxAggregations = 4 * 24;
+    graphData.forEach(data => {
+        const time = new Date(data.time);
+        if (aggregateCounter === 0 || time.getHours() === 0 && time.getMinutes() === 0) {
+            aggregatedElement = {...data};
+            aggregateCounter = 1;
+        } else {
+            if (aggregatedElement) {
+                aggregatedElement.prediction += data.prediction;
+                aggregatedElement.ground_truth += data.ground_truth;
+                aggregateCounter++;
+            }
+        }
+        if (aggregateCounter === maxAggregations || time.getHours() === 23 && time.getMinutes() === 45) {
+            if (aggregatedElement) {
+                aggregatedGraphData.push(aggregatedElement);
+                aggregateCounter = 0;
+            }
+        }
+    });
+    return aggregatedGraphData;
+}
+const aggregateByWeek = (graphData: GraphData[]): GraphData[] => {
+    const aggregatedGraphData: GraphData[] = [];
+    let aggregatedElement: GraphData;
+    let aggregateCounter = 0;
+    const maxAggregations = 4 * 24 * 7;
+    graphData.forEach(data => {
+        const time = new Date(data.time);
+        if (aggregateCounter === 0 || time.getDay() === 1 && time.getHours() === 0 && time.getMinutes() === 0) {
+            aggregatedElement = {...data};
+            aggregateCounter = 1;
+        } else {
+            if (aggregatedElement) {
+                aggregatedElement.prediction += data.prediction;
+                aggregatedElement.ground_truth += data.ground_truth;
+                aggregateCounter++;
+            }
+        }
+        if (aggregateCounter === maxAggregations || time.getDay() === 0 && time.getHours() === 23 && time.getMinutes() === 45) {
+            if (aggregatedElement) {
+                aggregatedGraphData.push(aggregatedElement);
+                aggregateCounter = 0;
+            }
+        }
+    });
+    return aggregatedGraphData;
+}
+
+const aggregateByMonth = (graphData: GraphData[]): GraphData[] => {
+    const aggregatedGraphData: GraphData[] = [];
+    let aggregatedElement: GraphData;
+    graphData.forEach((data, index) => {
+        const yesterday = new Date(graphData[index - 1]?.time);
+        const today = new Date(data.time);
+        if (!yesterday || yesterday.getMonth() !== today.getMonth()) {
+            aggregatedElement = {...data};
+        } else {
+            if (aggregatedElement) {
+                aggregatedElement.prediction += data.prediction;
+                aggregatedElement.ground_truth += data.ground_truth;
+            }
+        }
+        const tomorrow = new Date(graphData[index + 1]?.time);
+        if (!tomorrow || tomorrow.getMonth() !== today.getMonth()) {
+            if (aggregatedElement) {
+                aggregatedGraphData.push(aggregatedElement);
+            }
+        }
+    });
+    return aggregatedGraphData;
 }
 
 export const formatXAxisLabel = (value: string, showTime: boolean): string => {

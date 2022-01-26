@@ -38,7 +38,7 @@ function AIToolTipp(properties: AiToolProps): React.ReactElement {
         >
 
             {
-                keyData && keyData.find((ele: any) => ele.key === 'ground_truth')?.checked && <>
+                keyData && keyData.find((ele: any) => ele.key === 'ground_truth').checked && <>
                     <div className='data-box first-box' style={{ backgroundColor: colors ? colors.length > 1 ? colors[1] : colors[0] : '' }}></div>
                     <label className='tool-tipp-label'>Ground Truth:</label>
                     <label className='tool-tipp-label'>{payload.ground_truth} KW</label>
@@ -46,7 +46,7 @@ function AIToolTipp(properties: AiToolProps): React.ReactElement {
             }
 
             {
-                keyData && keyData.find((ele: any) => ele.key === 'prediction')?.checked && <>
+                keyData && keyData.find((ele: any) => ele.key === 'prediction').checked && <>
                     <div className='data-box ' style={{ backgroundColor: colors ? colors[0] : '' }}></div>
                     <label className='tool-tipp-label'>Prediction:</label>
                     <label className='tool-tipp-label'>{payload.prediction} KW</label>

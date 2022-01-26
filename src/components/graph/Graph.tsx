@@ -35,7 +35,7 @@ export interface GraphData {
     'Vor und Nachgelagerte Netze': number,
     'Windenergie': number,
     prediction: number;
-    ground_truth?: number;
+    ground_truth: number;
 }
 
 export interface GraphDataResponse {
@@ -143,9 +143,10 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
 
     const setSelectedTimespan = (option: string) => {
         const timespanOption = timespanOptions.find(o => o.value === option);
-        const startDate = new Date(data[data.length - 1].time);
-        const endDate = new Date(data[data.length - 1].time);
         if (timespanOption && option !== 'calendar') {
+            const startDate = new Date(data[data.length - 1].time);
+            const endDate = new Date(data[data.length - 1].time);
+
             startDate.setDate(startDate.getDate() - timespanOption.timespan);
             setTimespan({ startDate, endDate });
             setCalenderOptionLabel('Kalender');

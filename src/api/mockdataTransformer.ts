@@ -12,7 +12,7 @@ export interface mockGraphData {
   'Vor und Nachgelagerte Netze': number,
   'Windenergie': number,
   prediction: number;
-  ground_truth?: number;
+  ground_truth: number;
 }
 
 export async function explainableAIData(): Promise<GraphData[]> {

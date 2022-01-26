@@ -24,7 +24,6 @@ function Home(): ReactElement {
     // );
 
     const aiData: GraphData[] = await explainableAIData();
-    console.log({ aiData })
 
     if (!isMounted) return;
     setExampleData(aiData);
