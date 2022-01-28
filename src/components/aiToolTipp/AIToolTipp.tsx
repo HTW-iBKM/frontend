@@ -1,14 +1,14 @@
 import React from 'react';
-import { GraphData } from '../graph/Graph';
+import { GraphData, KeyData } from '../graph/Graph';
 import { formatTooltipLabel } from '../graph/helpers';
 
 type AiToolProps = {
     payload: (undefined | {
         payload: { [key: string]: any }
     }[]),
-    keyData: any,
+    keyData: KeyData[],
     graphColors: string[],
-    timespan: string,
+    interval: string
 } | undefined
 
 function AIToolTipp(properties: AiToolProps): React.ReactElement {
@@ -23,7 +23,7 @@ function AIToolTipp(properties: AiToolProps): React.ReactElement {
     }
     currentValues.sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
     currentValues = currentValues.slice(0, 5);
-    const toolTitle = formatTooltipLabel(payload?.berlin_time || payload?.time, properties!.timespan === 'day')
+    const toolTitle = formatTooltipLabel(payload?.time || payload?.berlin_time, properties?.interval || 'hour')
     const keyData = properties?.keyData;
 
 
@@ -38,7 +38,7 @@ function AIToolTipp(properties: AiToolProps): React.ReactElement {
         >
 
             {
-                keyData && keyData.find((ele: any) => ele.key === 'ground_truth').checked && <>
+                keyData && keyData.find((ele: KeyData) => ele.key === 'ground_truth')?.checked && <>
                     <div className='data-box first-box' style={{ backgroundColor: colors ? colors.length > 1 ? colors[1] : colors[0] : '' }}></div>
                     <label className='tool-tipp-label'>Ground Truth:</label>
                     <label className='tool-tipp-label'>{payload.ground_truth} KW</label>
@@ -46,7 +46,7 @@ function AIToolTipp(properties: AiToolProps): React.ReactElement {
             }
 
             {
-                keyData && keyData.find((ele: any) => ele.key === 'prediction').checked && <>
+                keyData && keyData.find((ele: KeyData) => ele.key === 'prediction')?.checked && <>
                     <div className='data-box ' style={{ backgroundColor: colors ? colors[0] : '' }}></div>
                     <label className='tool-tipp-label'>Prediction:</label>
                     <label className='tool-tipp-label'>{payload.prediction} KW</label>

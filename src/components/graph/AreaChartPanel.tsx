@@ -17,13 +17,13 @@ interface AreaChartPanelProps {
   data: GraphData[];
   keyData: KeyData[]
   graphLineColors: string[];
-  timespan: string;
+  interval: string
 }
 
 {/* @TODO Correct Ref Typing */ }
-function AreaChartPanel({ data, keyData, graphLineColors, timespan }: AreaChartPanelProps, ref: Ref<any>): ReactElement {
+function AreaChartPanel({ data, keyData, graphLineColors, interval }: AreaChartPanelProps, ref: Ref<any>): ReactElement {
   const parsedData = parseGraphData(data, keyData);
-  const interval = Math.round(parsedData.length / 8);
+  const xInterval = Math.round(parsedData.length / 8);
 
   return (
     <div className={"w-full h-full"}>
@@ -34,7 +34,7 @@ function AreaChartPanel({ data, keyData, graphLineColors, timespan }: AreaChartP
         >
           <CartesianGrid strokeDasharray="5 5" />
           <Tooltip
-            content={<AIToolTipp payload={undefined} graphColors={graphLineColors} keyData={keyData} timespan={timespan}></AIToolTipp>}
+            content={<AIToolTipp payload={undefined} graphColors={graphLineColors} keyData={keyData} interval={interval}></AIToolTipp>}
             cursor={{ stroke: "#494B51", strokeWidth: 1 }}
             contentStyle={{ borderRadius: 8, padding: 16 }}
           />
@@ -50,8 +50,8 @@ function AreaChartPanel({ data, keyData, graphLineColors, timespan }: AreaChartP
           <XAxis
             dataKey="time"
             tick={{ fontSize: 12, color: "#494B51" }}
-            interval={interval}
-            tickFormatter={(value: string) => formatXAxisLabel(value, timespan === 'day')}
+            interval={xInterval}
+            tickFormatter={(value: string) => formatXAxisLabel(value, interval)}
             axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
             tickLine={{ strokeWidth: 2, stroke: "#494B51" }}
           >

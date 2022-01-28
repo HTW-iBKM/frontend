@@ -355,7 +355,7 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
       <div className="w-full flex justify-end mt-8">
         <div className={"flex items-center text-sm"}>
           <label htmlFor="selectIntervall" className={"mr-3"}>Einträge pro Seite:</label>
-          <SelectField id="selectIntervall" variant="small" defaultValue={{ value: '8', label: '8', disabled: false }} options={pageSizeOptions} onChange={(value: string) => {
+          <SelectField id="selectIntervall" variant="small" value={{ value: '8', label: '8', disabled: false }} options={pageSizeOptions} onChange={(value: string) => {
             setPageSize(value === '' ? DEFAULT_PAGE_SIZE : Number(value))
             setTrigger((prevValue) => !prevValue)
           }}></SelectField>

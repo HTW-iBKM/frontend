@@ -1,4 +1,4 @@
-import { getFormattedDate } from '../../utils/utility';
+import { getFormattedDate, getFormattedTime } from '../../utils/utility';
 import { GraphData, GraphKey, KeyData } from "./Graph";
 
 export function parseGraphData(data: GraphData[], keyData: KeyData[]): GraphData[] {
@@ -64,24 +64,21 @@ export const aggregateGraphData = (graphData: GraphData[], interval: string): Gr
 const aggregateByHour = (graphData: GraphData[]): GraphData[] => {
     const aggregatedGraphData: GraphData[] = [];
     let aggregatedElement: GraphData;
-    let aggregateCounter = 0;
-    const maxAggregations = 4;
-    graphData.forEach(data => {
+    graphData.forEach((data, index) => {
+        const previousTime = new Date(graphData[index - 1]?.time);
         const time = new Date(data.time);
-        if (aggregateCounter === 0 || time.getMinutes() === 0) {
-            aggregatedElement = {...data};
-            aggregateCounter = 1;
+        if (!previousTime || previousTime.getHours() !== time.getHours()) {
+            aggregatedElement = {...data, prediction: +data.prediction, ground_truth: +data.ground_truth};
         } else {
             if (aggregatedElement) {
-                aggregatedElement.prediction += data.prediction;
-                aggregatedElement.ground_truth += data.ground_truth;
-                aggregateCounter++;
+                aggregatedElement.prediction += +data.prediction;
+                aggregatedElement.ground_truth += +data.ground_truth;
             }
         }
-        if (aggregateCounter === maxAggregations || time.getMinutes() === 45) {
+        const nextTime = new Date(graphData[index + 1]?.time);
+        if (!nextTime || nextTime.getHours() !== time.getHours()) {
             if (aggregatedElement) {
                 aggregatedGraphData.push(aggregatedElement);
-                aggregateCounter = 0;
             }
         }
     });
@@ -91,24 +88,21 @@ const aggregateByHour = (graphData: GraphData[]): GraphData[] => {
 const aggregateByDay = (graphData: GraphData[]): GraphData[] => {
     const aggregatedGraphData: GraphData[] = [];
     let aggregatedElement: GraphData;
-    let aggregateCounter = 0;
-    const maxAggregations = 4 * 24;
-    graphData.forEach(data => {
+    graphData.forEach((data, index) => {
+        const previousTime = new Date(graphData[index - 1]?.time);
         const time = new Date(data.time);
-        if (aggregateCounter === 0 || time.getHours() === 0 && time.getMinutes() === 0) {
-            aggregatedElement = {...data};
-            aggregateCounter = 1;
+        if (!previousTime || previousTime.getDate() !== time.getDate()) {
+            aggregatedElement = {...data, prediction: +data.prediction, ground_truth: +data.ground_truth};
         } else {
             if (aggregatedElement) {
-                aggregatedElement.prediction += data.prediction;
-                aggregatedElement.ground_truth += data.ground_truth;
-                aggregateCounter++;
+                aggregatedElement.prediction += +data.prediction;
+                aggregatedElement.ground_truth += +data.ground_truth;
             }
         }
-        if (aggregateCounter === maxAggregations || time.getHours() === 23 && time.getMinutes() === 45) {
+        const nextTime = new Date(graphData[index + 1]?.time);
+        if (!nextTime || nextTime.getDate() !== time.getDate()) {
             if (aggregatedElement) {
                 aggregatedGraphData.push(aggregatedElement);
-                aggregateCounter = 0;
             }
         }
     });
@@ -117,24 +111,21 @@ const aggregateByDay = (graphData: GraphData[]): GraphData[] => {
 const aggregateByWeek = (graphData: GraphData[]): GraphData[] => {
     const aggregatedGraphData: GraphData[] = [];
     let aggregatedElement: GraphData;
-    let aggregateCounter = 0;
-    const maxAggregations = 4 * 24 * 7;
-    graphData.forEach(data => {
+    graphData.forEach((data, index) => {
+        const previousTime = new Date(graphData[index - 1]?.time);
         const time = new Date(data.time);
-        if (aggregateCounter === 0 || time.getDay() === 1 && time.getHours() === 0 && time.getMinutes() === 0) {
-            aggregatedElement = {...data};
-            aggregateCounter = 1;
+        if (!previousTime || weekNumber(previousTime) !== weekNumber(time)) {
+            aggregatedElement = {...data, prediction: +data.prediction, ground_truth: +data.ground_truth};
         } else {
             if (aggregatedElement) {
-                aggregatedElement.prediction += data.prediction;
-                aggregatedElement.ground_truth += data.ground_truth;
-                aggregateCounter++;
+                aggregatedElement.prediction += +data.prediction;
+                aggregatedElement.ground_truth += +data.ground_truth;
             }
         }
-        if (aggregateCounter === maxAggregations || time.getDay() === 0 && time.getHours() === 23 && time.getMinutes() === 45) {
+        const nextTime = new Date(graphData[index + 1]?.time);
+        if (!nextTime || weekNumber(nextTime) !== weekNumber(time)) {
             if (aggregatedElement) {
                 aggregatedGraphData.push(aggregatedElement);
-                aggregateCounter = 0;
             }
         }
     });
@@ -145,18 +136,18 @@ const aggregateByMonth = (graphData: GraphData[]): GraphData[] => {
     const aggregatedGraphData: GraphData[] = [];
     let aggregatedElement: GraphData;
     graphData.forEach((data, index) => {
-        const yesterday = new Date(graphData[index - 1]?.time);
-        const today = new Date(data.time);
-        if (!yesterday || yesterday.getMonth() !== today.getMonth()) {
-            aggregatedElement = {...data};
+        const previousTime = new Date(graphData[index - 1]?.time);
+        const time = new Date(data.time);
+        if (!previousTime || previousTime.getMonth() !== time.getMonth()) {
+            aggregatedElement = {...data, prediction: +data.prediction, ground_truth: +data.ground_truth};
         } else {
             if (aggregatedElement) {
-                aggregatedElement.prediction += data.prediction;
-                aggregatedElement.ground_truth += data.ground_truth;
+                aggregatedElement.prediction += +data.prediction;
+                aggregatedElement.ground_truth += +data.ground_truth;
             }
         }
-        const tomorrow = new Date(graphData[index + 1]?.time);
-        if (!tomorrow || tomorrow.getMonth() !== today.getMonth()) {
+        const nextTime = new Date(graphData[index + 1]?.time);
+        if (!nextTime || nextTime.getMonth() !== time.getMonth()) {
             if (aggregatedElement) {
                 aggregatedGraphData.push(aggregatedElement);
             }
@@ -165,23 +156,42 @@ const aggregateByMonth = (graphData: GraphData[]): GraphData[] => {
     return aggregatedGraphData;
 }
 
-export const formatXAxisLabel = (value: string, showTime: boolean): string => {
-    const time = new Date(value);
-    if (showTime) {
-        return time.toLocaleTimeString().slice(0, -3);
-    } else {
-        return getFormattedDate(time);
+const monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni",
+    "Juli", "August", "September", "Oktober", "November", "Dezember"
+];
+
+export const formatXAxisLabel = (value: string, interval: string): string => {
+    const date = new Date(value);
+    switch (interval) {
+        case 'minutes': return getFormattedTime(date);
+        case 'hour': return getFormattedTime(date);
+        case 'day': return getFormattedDate(date);
+        case 'week': return 'KW' + weekNumber(date);
+        case 'month': return monthNames[date.getMonth()];
+        default: return getFormattedDate(date);
     }
 }
 
-export const formatTooltipLabel = (value: string, showTime: boolean): string => {
-    const time = new Date(value);
-    if (showTime) {
-        return time.toLocaleTimeString().slice(0, -3);
-    } else {
-        return getFormattedDate(time) + ' ' + time.toLocaleTimeString().slice(0, -3);
+const weekNumber = (date: Date): number => {
+    const firstOfJanuary = new Date(date.getFullYear(), 0, 1);
+    return Math.ceil((((date.getTime() - firstOfJanuary.getTime()) / 86400000) + firstOfJanuary.getDay() + 1) / 7);
+}
+
+export const formatTooltipLabel = (value: string, interval: string): string => {
+    const date = new Date(value);
+    const date2 = new Date(value);
+    switch (interval) {
+        case 'minutes': return getFormattedDate(date) + ' ' + getFormattedTime(date);
+        case 'hour': return getFormattedDate(date) + ' ' + getFormattedTime(date);
+        case 'day': return getFormattedDate(date);
+        case 'week': date2.setDate(date2.getDate() + 7); return getFormattedDate(date) + ' - ' + getFormattedDate(date2);
+        case 'month': return getFormattedDate(date) + ' - ' + getFormattedDate(lastDayOfMonth(date));
+        default: return getFormattedDate(date);
     }
 }
+
+const lastDayOfMonth = (date: Date): Date => new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
 
 export const formatDate = (date: Date): string => {
     return `${`0${date.getDate()}`.slice(-2) + '.' + `0${date.getMonth() + 1}`.slice(-2) + '.' + date.getFullYear()}`;

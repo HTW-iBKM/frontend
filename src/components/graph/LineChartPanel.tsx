@@ -1,7 +1,4 @@
-import React, {
-  ReactElement,
-  Ref, useState,
-} from 'react';
+import React, { ReactElement, Ref, } from 'react';
 import './Graph.css';
 import {
   LineChart,
@@ -21,13 +18,13 @@ export interface LineChartPanelProps {
   data: GraphData[];
   keyData: KeyData[];
   graphLineColors: string[];
-  timespan: string;
+  interval: string;
 }
 
 {/* @TODO Correct Ref Typing */ }
-function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartPanelProps, ref: Ref<any>): ReactElement {
+function LineChartPanel({ data, keyData, graphLineColors, interval }: LineChartPanelProps, ref: Ref<any>): ReactElement {
   const parsedData = parseGraphData(data, keyData);
-  const interval = Math.round(parsedData.length / 8);
+  const xInterval = Math.round(parsedData.length / 8);
 
   return (
     <div className={"w-full h-full"}>
@@ -40,15 +37,15 @@ function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartP
         >
           <CartesianGrid strokeDasharray="5 5" />
           <Tooltip
-            content={<AIToolTipp payload={undefined} graphColors={graphLineColors} keyData={keyData} timespan={timespan}></AIToolTipp>}
+            content={<AIToolTipp payload={undefined} graphColors={graphLineColors} keyData={keyData} interval={interval}></AIToolTipp>}
             cursor={{ stroke: "#494B51", strokeWidth: 1 }}
             contentStyle={{ borderRadius: 8, padding: 16 }}
           />
           <XAxis
             dataKey="time"
             tick={{ fontSize: 12, color: "#494B51" }}
-            interval={interval}
-            tickFormatter={(value: string) => formatXAxisLabel(value, timespan === 'day')}
+            interval={xInterval}
+            tickFormatter={(value: string) => formatXAxisLabel(value, interval)}
             axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
             tickLine={{ strokeWidth: 2, stroke: "#494B51" }}
           >
