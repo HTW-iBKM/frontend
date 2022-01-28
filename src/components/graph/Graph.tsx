@@ -309,7 +309,7 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         csvExporter.generateCsv(dataToBeFiltered);
     }
 
-    const LineChart = <LineChartPanel graphData={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval}/>;
+    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval}/>;
     const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval}/>;
     const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval}/>;
 
