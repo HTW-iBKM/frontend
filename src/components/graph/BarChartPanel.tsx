@@ -27,7 +27,8 @@ function BarChartPanel({ data, keyData, graphLineColors, interval }: BarChartPan
   const xInterval = Math.round(parsedData.length / 8);
 
   return (
-    <div className={"w-full h-full"}>
+    <div className={"w-full h-full flex justify-center items-center"}>
+      {!parsedData.length ? <div className="text-h6">Keine verfügbaren Daten für den gewählten Zeitraum.</div> :
       <ResponsiveContainer>
         <BarChart data={parsedData}
           margin={{ top: 50, right: 50, left: 36 }}
@@ -80,7 +81,7 @@ function BarChartPanel({ data, keyData, graphLineColors, interval }: BarChartPan
             />
           )}
         </BarChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer>}
     </div>
   );
 }

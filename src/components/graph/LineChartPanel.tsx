@@ -27,7 +27,8 @@ function LineChartPanel({ data, keyData, graphLineColors, interval }: LineChartP
   const xInterval = Math.round(parsedData.length / 8);
 
   return (
-    <div className={"w-full h-full"}>
+    <div className={"w-full h-full flex justify-center items-center"}>
+      {!parsedData.length ? <div className="text-h6">Keine verfügbaren Daten für den gewählten Zeitraum.</div> :
       <ResponsiveContainer>
         <LineChart
           data={parsedData}
@@ -90,7 +91,7 @@ function LineChartPanel({ data, keyData, graphLineColors, interval }: LineChartP
             />
           )}
         </LineChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer>}
     </div>
   );
 }
