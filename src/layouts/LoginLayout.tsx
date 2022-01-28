@@ -27,7 +27,7 @@ const LoginLayout = ({
         headline: "text-h4",
         headlineCenterAlign: "text-h4 text-center",
         footer: "flex gap-8 justify-evenly",
-        link: "text-caption text-secondary hover:text-secondary-light active:text-primary",
+        link: "text-caption text-secondary hover:text-secondary-light active:text-primary cursor-pointer",
         childrenWrapper: "my-10"
     };
 
