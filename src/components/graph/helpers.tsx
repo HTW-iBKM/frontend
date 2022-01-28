@@ -27,8 +27,7 @@ export function parseGraphData(data: GraphData[], keyData: KeyData[]): GraphData
 
 export function calculateDomain(data: GraphData[], keyData: KeyData[]): [number, number] {
     let maxValue = 0;
-    let minValue = Infinity;
-    const yInterval = 500;
+    const yInterval = 1000;
 
     data.forEach((element: GraphData) => {
         const availableKeys: GraphKey[] = keyData.map(key => key.key);
@@ -39,15 +38,9 @@ export function calculateDomain(data: GraphData[], keyData: KeyData[]): [number,
                 Math.max(...filteredElements) /
                 yInterval
             ) * yInterval;
-        const currentMin =
-            Math.floor(
-                Math.min(...filteredElements) /
-                yInterval
-            ) * yInterval;
         if (currentMax > maxValue) maxValue = currentMax;
-        if (currentMin < minValue) minValue = currentMin;
     });
-    return [minValue, maxValue];
+    return [0, maxValue];
 }
 
 export const aggregateGraphData = (graphData: GraphData[], interval: string): GraphData[] => {
