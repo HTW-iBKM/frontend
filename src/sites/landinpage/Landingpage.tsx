@@ -13,7 +13,7 @@ function Landingpage(): ReactElement {
   const isAuthenticated = auth.isAuthenticated();
 
   return (
-    <div className="w-full h-full relative">
+    <div className="w-full h-full relative p-8">
       <div className={"lp-background-clip pointer-events-none absolute inset-0 bg-secondary-light bg-opacity-20"}></div>
 
       {/*Mobile Menu */}
@@ -41,9 +41,9 @@ function Landingpage(): ReactElement {
 
       {/* Header */}
 
-      <div className={"w-full h-full"}>
-        <div className={"w-full mb-6 md:mb-10"}>
-          <div className="container px-8 py-8 mx-auto flex items-center justify-between">
+      <div className={"w-full h-full flex flex-col"}>
+        <div className={"w-full mb-8 md:mb-12"}>
+          <div className="container px-8 py-4 mx-auto flex items-center justify-between">
             <h5 className="text-h5 flex flex-col md:flex-row items-start md:items-center">
               <ExxetaLogo className="overflow-visible w-20 ml-1 mr-4" />
               iBKM
@@ -62,9 +62,9 @@ function Landingpage(): ReactElement {
             <Button variant={"text"} className={"inline-block md:hidden"} onClick={() => setIsMenuOpen(true)}>Menü</Button>
           </div>
         </div>
-        <div className={"w-full"}>
-          <div className="container px-8 mx-auto relative flex flex-col lg:flex-row space-between ">
-            <div className="flex-1 order-2 lg:order-1 mt-8 lg:mt-0 text-center lg:text-left">
+        <div className={"w-full flex-1"}>
+          <div className="container px-8 mx-auto relative flex flex-col lg:flex-row space-between h-full">
+            <div className="flex-1 order-2 lg:order-1 mt-8 lg:mt-0 text-center lg:text-left self-center mb-8">
               <h4 className={"text-[2.375rem] lg:text-[3.75rem] leading-tight font-light mb-4 mt-0 md:mt-0 lg:mt-0 2xl:mt-20"}>Das Exxeta iBKM Dashboard</h4>
               <p className={"text-xl lg:text-2xl font-medium leading-relaxed mt-8"}>
                 Für intelligentes Bilanzkreismanagement mit Hilfe von visualisierten, durch Machine Learning erzeugten Bilanzkreisprognosen.
