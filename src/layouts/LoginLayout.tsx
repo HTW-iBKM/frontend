@@ -1,6 +1,7 @@
-import React, {ReactElement} from "react";
+import React, { ReactElement } from "react";
 import ToastContainer from "../components/toast/ToastContainer";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import ExxetaLogo from "../components/icons/ExxetaLogo";
 
 interface FooterLink {
     href: string;
@@ -22,7 +23,7 @@ const LoginLayout = ({
 }: LoginLayoutProps): ReactElement => {
     const styles = {
         container: "flex flex-col justify-between h-screen py-8 max-w-sm w-6/12 min-w-[200px]",
-        logo: "w-20 self-center",
+        logo: "overflow-visible w-20 m-2 self-center",
         headline: "text-h4",
         headlineCenterAlign: "text-h4 text-center",
         footer: "flex gap-8 justify-evenly",
@@ -35,7 +36,7 @@ const LoginLayout = ({
     return (
         <div className={styles.container}>
             <ToastContainer />
-            <img src="/exxetalogo.png" className={styles.logo}></img>
+            <ExxetaLogo className={styles.logo} />
             <div>
                 <h4
                     className={centerTitle ? styles.headlineCenterAlign : styles.headline}
