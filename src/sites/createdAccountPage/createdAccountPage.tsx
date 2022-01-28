@@ -27,7 +27,7 @@ export default function CreatedAccountPage(): ReactElement {
                     variant="primary"
                     onClick={() => history.push("/login")}
                 >
-                    Zurück zum Login
+                    Zum Login
                 </Button></div>
         </LoginLayout >
     )
