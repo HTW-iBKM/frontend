@@ -131,8 +131,8 @@ function Center(): ReactElement {
         <div className={"bg-grayscale-light my-3 mx-5 py-3 px-5 rounded-lg shadow-lg"}>
           Selected Value: {selectedOption}
           <div className={"flex gap-4"}>
-            <SelectField variant="default" label="Woche auswählen" options={selectOptions} onChange={(value) => setSelectedOption(value)}></SelectField>
-            <SelectField variant="small" label="Woche auswählen" options={selectOptions} onChange={(value) => console.log(value)}></SelectField>
+            <SelectField variant="default" label="Woche auswählen" options={selectOptions} value={selectOptions[0]} onChange={(value) => setSelectedOption(value)}></SelectField>
+            <SelectField variant="small" label="Woche auswählen" options={selectOptions} value={selectOptions[0]} onChange={(value) => console.log(value)}></SelectField>
           </div>
         </div>
 

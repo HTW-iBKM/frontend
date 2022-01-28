@@ -17,7 +17,7 @@ interface SelectFieldProps  {
   options: SelectFieldOption[];
   label?: string;
   onChange: (value: string) => void;
-  value?: SelectFieldOption;
+  value: SelectFieldOption;
   className?: string;
 }
 function SelectField({options, variant, label, onChange, className, value}: SelectFieldProps): ReactElement {
@@ -63,15 +63,15 @@ function SelectField({options, variant, label, onChange, className, value}: Sele
               {({ active }) => (
                 <button
                   className={`
-                    ${option.value == value?.value && !active && 'bg-secondary text-grayscale-light ring-x-1 ring-x-secondary'}
+                    ${option.value === value.value && !active && 'bg-secondary text-grayscale-light ring-x-1 ring-x-secondary'}
                     ${active && 'bg-secondary-light !text-grayscale-light ring-x-1 ring-x-secondary'}
                     ${isDefaultVariant ? styles.selectItem.default : styles.selectItem.small}
                     ${option.disabled ? 'opacity-50 pointer-events-none' : ''}
                   `}
-                  onClick={() => onChange(option.value || '')}
+                  onClick={() => onChange(option.value || value.value)}
                 >
                   {option.label}
-                  {option.value == value?.value && <CheckIcon className={"h-4 w-4"}/>}
+                  {option.value === value?.value && <CheckIcon className={"h-4 w-4"}/>}
                 </button>
               )}
             </Menu.Item>

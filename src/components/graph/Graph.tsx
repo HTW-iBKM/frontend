@@ -123,7 +123,7 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         <span className="text-body2">Intervall:</span>
         <SelectField className="min-w-[124px]"
             variant="small" label="Intervall auswählen"
-            options={intervalOptions} value={intervalOptions.find(o => o.value === interval)}
+            options={intervalOptions} value={intervalOptions.find(o => o.value === interval) || intervalOptions[0]}
             onChange={(option: string) => setInterval(option)} />
     </div>;
 
@@ -183,7 +183,7 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         <span className="text-body2">Zeitraum:</span>
         <SelectField className="min-w-[124px]"
             variant="small" label="Zeitraum auswählen"
-            options={timespanOptions} value={timespanOptions.find(o => o.value === selectedTimespan)}
+            options={timespanOptions} value={timespanOptions.find(o => o.value === selectedTimespan) || intervalOptions[0]}
             onChange={(option: string) => setSelectedTimespan(option)} />
         {selectedTimespan === 'calendar' &&
             <DatePicker onChange={(value: Date[]) => value.length === 2 && setCalendarTimespan(value)} />}
@@ -309,7 +309,7 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         csvExporter.generateCsv(dataToBeFiltered);
     }
 
-    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval}/>;
+    const LineChart = <LineChartPanel graphData={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval}/>;
     const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval}/>;
     const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval}/>;
 
