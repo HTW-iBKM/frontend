@@ -14,21 +14,18 @@ import { useStore } from "../../App";
 function Navbar(): ReactElement {
   const [bilanzKreise, _]: any = useStore((state) => state.useBilanzKreise);
 
+  const [selectedBilanzKreis, setSelectedBilanzKreis]: any = useStore(state => state.selectedBilanzKreis);
 
-
+  const history = useHistory();
+  const [balancingGroup, setBalancingGroup] = useState(bilanzKreise[0]);
 
   useEffect(() => {
     setBalancingGroup(bilanzKreise[0]);
-  }, [bilanzKreise])
+    setSelectedBilanzKreis(balancingGroup);
+    // console.log(balancingGroup)
+    // console.log(selectedBilanzKreis)
+  }, [ balancingGroup])
 
-
-
-  const history = useHistory();
-
-
-
-
-  const [balancingGroup, setBalancingGroup] = useState(bilanzKreise[0]);
 
   const balancingGroupMenuItems: CoreMenuItemProps[] = [
     {
@@ -55,7 +52,7 @@ function Navbar(): ReactElement {
       <div className="flex flex-row gap-16 px-4">
         <ContextMenu
           anchorIcon={<LocationIcon />}
-          anchorLabel={balancingGroup}
+          anchorLabel={bilanzKreise.length > 0 ?  balancingGroup : "Keine Auswahl"}
           menuItems={balancingGroupMenuItems}
           customMenuItem={
             <RadioButtonGroup
