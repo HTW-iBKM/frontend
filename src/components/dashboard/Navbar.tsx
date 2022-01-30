@@ -10,6 +10,8 @@ import RadioButtonGroup from "../form/RadioButtonGroup";
 import { CoreMenuItemProps } from "./MenuItem";
 import ContextMenu from "./ContextMenu";
 import { useStore } from "../../App";
+import Modal from "../modal/Modal";
+import BilanzkreisSelection from "../modal/BilanzkreisSelection";
 
 function Navbar(): ReactElement {
   const [bilanzKreise, _]: any = useStore((state) => state.useBilanzKreise);
@@ -31,14 +33,15 @@ function Navbar(): ReactElement {
   }, [selectedBilanzKreis])
 
   const changeSelectedBilanzKreis = (value: string): void => setSelectedBilanzKreis(value)
-
+  const [isSelectionOpen, setIsSelectionOpen] = useState<boolean>(false);
 
 
   const balancingGroupMenuItems: CoreMenuItemProps[] = [
     {
       icon: <EditIcon />,
       buttonText: "Bearbeiten",
-    },
+      onClick: () => setIsSelectionOpen(true)
+    }
   ];
 
   const userMenuItems: CoreMenuItemProps[] = [
@@ -69,7 +72,10 @@ function Navbar(): ReactElement {
             />
           }
         />
-
+        <Modal isOpen={isSelectionOpen} title={"Bilanzkreise auswählen"}
+          onClose={() => setIsSelectionOpen(false)}>
+          <BilanzkreisSelection setModalOpen={setIsSelectionOpen}></BilanzkreisSelection>
+        </Modal>
         <ContextMenu anchorIcon={<UserIcon />} menuItems={userMenuItems} />
       </div>
     </div>
