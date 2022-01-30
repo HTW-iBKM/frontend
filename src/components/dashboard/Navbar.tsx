@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import UserIcon from "../icons/UserIcon";
 import LocationIcon from "../icons/LocationIcon";
 import PowerIcon from "../icons/PowerIcon";
@@ -9,10 +9,26 @@ import { useHistory } from "react-router-dom";
 import RadioButtonGroup from "../form/RadioButtonGroup";
 import { CoreMenuItemProps } from "./MenuItem";
 import ContextMenu from "./ContextMenu";
+import { useStore } from "../../App";
 
 function Navbar(): ReactElement {
+  const [bilanzKreise, _]: any = useStore((state) => state.useBilanzKreise);
+
+
+
+
+  useEffect(() => {
+    setBalancingGroup(bilanzKreise[0]);
+  }, [bilanzKreise])
+
+
+
   const history = useHistory();
-  const [balancingGroup, setBalancingGroup] = useState("Bilanzkreis A");
+
+
+
+
+  const [balancingGroup, setBalancingGroup] = useState(bilanzKreise[0]);
 
   const balancingGroupMenuItems: CoreMenuItemProps[] = [
     {
@@ -45,7 +61,7 @@ function Navbar(): ReactElement {
             <RadioButtonGroup
               selected={balancingGroup}
               onChange={setBalancingGroup}
-              options={["Bilanzkreis A", "Bilanzkreis B", "Bilanzkreis C"]}
+              options={bilanzKreise}
             />
           }
         />

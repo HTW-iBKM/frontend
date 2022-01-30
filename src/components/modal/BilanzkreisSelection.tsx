@@ -1,21 +1,44 @@
-import React, {ReactElement, useContext, useState} from "react";
-import {ToastContext} from "../../context/ToastContext";
-import {useInput} from "../../hooks/useInput";
-import {RadioButtonGroupInterface, useRadioButtonGroup} from "../../hooks/useRadioButtonGroup";
+import React, { ReactElement, useContext, useEffect, useState } from "react";
+import { ToastContext } from "../../context/ToastContext";
+import { useInput } from "../../hooks/useInput";
+import { RadioButtonGroupInterface, useRadioButtonGroup } from "../../hooks/useRadioButtonGroup";
 import Button from "../form/Button";
 import RadioButtonGroup from "../form/RadioButtonGroup";
 import TextField from "../form/TextField";
-import {commonModalStyles} from "./Modal";
-import {v4 as uuidv4} from 'uuid';
+import { commonModalStyles } from "./Modal";
+import { v4 as uuidv4 } from 'uuid';
 import "./SaveFileModalTemplate.css";
 import Checkbox from "../form/Checkbox";
+import { useStore } from "../../App";
 
 interface BilanzSelectionProps {
     setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
     setSelectedBilanz: (name: string) => void;
 }
 
-const BilanzSelection = ({setSelectedBilanz, setModalOpen}: BilanzSelectionProps): ReactElement => {
+const BilanzSelection = ({ setSelectedBilanz, setModalOpen }: BilanzSelectionProps): ReactElement => {
+    const [bilanzKreise, setBilanzkreise]: any = useStore(state => state.useBilanzKreise);
+    const [checked, setChecked] = useState({
+        option_1: bilanzKreise.length >= 0 ? bilanzKreise[0] : '',
+        option_2: bilanzKreise.length >= 1 ? bilanzKreise[1] : '',
+        option_3: bilanzKreise.length >= 2 ? bilanzKreise[2] : '',
+    });
+
+    // const values = {
+    //     option_1: 'Bilanzkreis 1',
+    //     option_2: 'Bilanzkreis 2',
+    //     option_3: 'Bilanzkreis 3'
+    // }
+
+
+    useEffect(() => {
+        console.log(bilanzKreise);
+    }, [bilanzKreise])
+
+
+
+
+
     const toastContext = useContext(ToastContext);
 
     const styles = {
@@ -28,7 +51,7 @@ const BilanzSelection = ({setSelectedBilanz, setModalOpen}: BilanzSelectionProps
         selected: "CSV",
     }
 
-    const {value: fileName, bind: bindFileName, reset: resetFileName} = useInput("");
+    const { value: fileName, bind: bindFileName, reset: resetFileName } = useInput("");
     const {
         radioButtonGroup: radioButtonGroup,
         bind: bindRadioButtonGroup,
@@ -45,46 +68,31 @@ const BilanzSelection = ({setSelectedBilanz, setModalOpen}: BilanzSelectionProps
         format: !radioButtonGroup.selected ? 'Wählen sie ein Dateiformat.' : null,
     }
 
-    const validForm = () => !formErr['name'] && !formErr['format'];
 
 
-    // const handleSubmit = (evt: React.FormEvent) => {
-    //     evt.preventDefault();
-    //     if (validForm()) {
-    //         if (radioButtonGroup.selected) {
-    //             try {
-    //                 const checked = keyData.filter((checked) => {
-    //                     return checked.checked;
-    //                 })
-    //                 const checkedTimeSeries = checked.map((obj) => {
-    //                     return obj.key as string;
-    //                 })
-    //
-    //                 onSaveFile(fileName, radioButtonGroup.selected, activeGraph, checkedTimeSeries);
-    //
-    //                 resetFileName();
-    //                 resetRadioButtonGroup();
-    //                 toastContext.setToasts([...toastContext.toasts, {
-    //                     id: uuidv4(),
-    //                     type: "success",
-    //                     headline: "Glückwunsch",
-    //                     message: "Die Datei wurde erfolgreich erstellt"
-    //                 }])
-    //                 setModalOpen(false);
-    //             } catch {
-    //                 toastContext.setToasts([...toastContext.toasts, {
-    //                     id: uuidv4(),
-    //                     type: "error",
-    //                     headline: "Fehler",
-    //                     message: "Die Datei konnte nicht erstellt werden"
-    //                 }])
-    //             }
-    //         }
-    //     }
-    //
-    //     // Toast erscheint, wenn nach beim Submit etwas schief gelaufen ist. Formular fehler werden bereits im Formular abgefangen. Hier gehts eher um Fehler seitens der DB oder so
-    //     // toastContext.setToasts([...toastContext.toasts, {id: uuidv4(), type: "error", headline: "Error", message: "Etwas ist schief gelaufen."}])
-    // }
+
+    const validForm = () => {
+        for (const key in checked) {
+            if (checked[key as keyof typeof checked]) return true;
+        }
+        return false;
+    };
+
+
+    const handleSubmit = () => {
+        // evt.preventDefault();
+
+        const arr: string[] = []
+        for (const key in checked) {
+            const value = checked[key as keyof typeof checked];
+            if (value) {
+                arr.push(value)
+            }
+        }
+
+
+        setBilanzkreise(arr)
+    }
 
     return (
         <div>
@@ -95,21 +103,38 @@ const BilanzSelection = ({setSelectedBilanz, setModalOpen}: BilanzSelectionProps
             <form name="bilanceSelection">
                 <div className={`${styles.formElementGroup}`}>
                     <p>
-                        <input className={`${formErr['name'] ? 'border-danger' : ''}`} type="checkbox"/>
+                        <input className={`${formErr['name'] ? 'border-danger' : ''}`} type="checkbox"
+                            onChange={(e) =>
+                                setChecked((oldState) => ({ ...oldState, option_1: oldState.option_1 === 'Bilanzkreis A' ? '' : 'Bilanzkreis A' }))
+                            }
+                            checked={checked.option_1}
+
+                        />
                         <label>Bilanzkreis A</label>
                     </p>
                     <p>
-                        <input className={`${formErr['name'] ? 'border-danger' : ''}`} type="checkbox"/>
+                        <input className={`${formErr['name'] ? 'border-danger' : ''}`} type="checkbox"
+                            onChange={(e) =>
+                                setChecked((oldState) => ({ ...oldState, option_2: oldState.option_2 === 'Bilanzkreis B' ? '' : 'Bilanzkreis B' }))
+                            }
+                            checked={checked.option_2}
+                        />
                         <label>Bilanzkreis B</label>
                     </p>
                     <p>
-                        <input className={`${formErr['name'] ? 'border-danger' : ''}`} type="checkbox"/>
+                        <input className={`${formErr['name'] ? 'border-danger' : ''}`} type="checkbox"
+                            onChange={(e) =>
+                                setChecked((oldState) => ({ ...oldState, option_3: oldState.option_3 === 'Bilanzkreis C' ? '' : 'Bilanzkreis C' }))
+                            }
+                            checked={checked.option_3}
+
+                        />
                         <label>Bilanzkreis C</label>
                     </p>
                 </div>
                 <div className={`${commonModalStyles.buttonGroup}`}>
                     <Button variant={"secondary"} onClick={() => setModalOpen(false)}>Abbrechen</Button>
-                    <Button disabled={!validForm()} type="submit" variant={"primary"}>Speichern</Button>
+                    <Button disabled={!validForm()} type="submit" variant={"primary"} onClick={handleSubmit}>Speichern</Button>
                 </div>
             </form>
         </div>
