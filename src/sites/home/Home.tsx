@@ -23,6 +23,8 @@ function Home(): ReactElement {
     const [exampleData, setExampleData] = useState<GraphData[]>([])
 
     const [selectedBilanzKreis,_]: any = useStore(state => state.selectedBilanzKreis);
+    
+
 
     const [isSelectionOpen, setIsSelectionOpen] = useState<boolean>(false);
 
@@ -43,7 +45,7 @@ function Home(): ReactElement {
     useEffect(()=> {
         console.log(selectedBilanzKreis)
         console.log("bilanzkreis changed")
-    },[selectedBilanzKreis])
+    },[selectedBilanzKreis,])
 
     const widgets = [1, 2];
 
@@ -57,7 +59,7 @@ function Home(): ReactElement {
 
     return <div className="h-full">
         {
-            selectedBilanzKreis !== '' ?
+            selectedBilanzKreis === '' ?
                 <div className={styles.option}>
                     <img src="/welcome_logo.png" className={styles.logo}></img>
                     <p className="my-5"> Bitte wählen Sie ihren Bilanzkreis aus, um Inhalte ansehen zu können</p>

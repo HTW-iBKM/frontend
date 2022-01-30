@@ -13,9 +13,10 @@ import { useStore } from "../../App";
 
 interface BilanzSelectionProps {
     setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
 }
 
-const BilanzSelection = ({setModalOpen }: BilanzSelectionProps): ReactElement => {
+const BilanzSelection = ({ setModalOpen }: BilanzSelectionProps): ReactElement => {
     const [bilanzKreise, setBilanzkreise]: any = useStore(state => state.useBilanzKreise);
     const [checked, setChecked] = useState({
         option_1: bilanzKreise.length >= 0 ? bilanzKreise[0] : '',
@@ -78,8 +79,8 @@ const BilanzSelection = ({setModalOpen }: BilanzSelectionProps): ReactElement =>
     };
 
 
-    const handleSubmit = (evt: React.FormEvent) => {
-        evt.preventDefault();
+    const handleSubmit = () => {
+        // evt.preventDefault();
 
         const arr: string[] = []
         for (const key in checked) {
@@ -88,7 +89,9 @@ const BilanzSelection = ({setModalOpen }: BilanzSelectionProps): ReactElement =>
                 arr.push(value)
             }
         }
-        setBilanzkreise(arr);
+
+
+        setBilanzkreise(arr)
     }
 
     return (
@@ -97,7 +100,7 @@ const BilanzSelection = ({setModalOpen }: BilanzSelectionProps): ReactElement =>
             <p>Wählen Sie alle Bilanzkreise aus, die für Sie relevant sind.</p>
             <p>Aus dieser Auswahl können Sie mithilfe des Schnellzugriffs in der Navigationsleiste den aktuellen
                 Bilanzkreis festlegen.</p>
-            <form name="bilanceSelection" onSubmit={handleSubmit}>
+            <form name="bilanceSelection">
                 <div className={`${styles.formElementGroup}`}>
                     <p>
                         <input className={`${formErr['name'] ? 'border-danger' : ''}`} type="checkbox"
@@ -121,7 +124,7 @@ const BilanzSelection = ({setModalOpen }: BilanzSelectionProps): ReactElement =>
                     <p>
                         <input className={`${formErr['name'] ? 'border-danger' : ''}`} type="checkbox"
                             onChange={(e) =>
-                                setChecked((oldState) => ({ ...oldState, option_3: oldState.option_3 === 'Bilanzkreis C' ? '' : 'Bilanzkreis C' }))
+                                setChecked((oldState) => ({ ...oldState, option_3: oldState.option_3 === 'Bilanzkreis 3' ? '' : 'Bilanzkreis 3' }))
                             }
                             checked={checked.option_3}
 
@@ -131,7 +134,7 @@ const BilanzSelection = ({setModalOpen }: BilanzSelectionProps): ReactElement =>
                 </div>
                 <div className={`${commonModalStyles.buttonGroup}`}>
                     <Button variant={"secondary"} onClick={() => setModalOpen(false)}>Abbrechen</Button>
-                    <Button disabled={!validForm()} type="submit" variant={"primary"} >Speichern</Button>
+                    <Button disabled={!validForm()} type="submit" variant={"primary"} onClick={handleSubmit}>Speichern</Button>
                 </div>
             </form>
         </div>
