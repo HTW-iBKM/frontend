@@ -16,6 +16,12 @@ export const useStore = create((set: any) => ({
         (selectedBilanzkreis: string) => {
             return set((state: any) => ({selectedBilanzKreis: [selectedBilanzkreis, state.selectedBilanzKreis[1]]}))
         }
+    ],
+    selectionModalOpen: [
+        false,
+        (isOpen: boolean) => {
+            return set((state: any) => ({selectionModalOpen: [isOpen, state.selectionModalOpen[1]]}))
+        }
     ]
 }))
 

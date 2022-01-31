@@ -14,6 +14,7 @@ import { useStore } from "../../App";
 interface BilanzSelectionProps {
     setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 
+
 }
 
 const BilanzSelection = ({ setModalOpen }: BilanzSelectionProps): ReactElement => {
@@ -79,8 +80,8 @@ const BilanzSelection = ({ setModalOpen }: BilanzSelectionProps): ReactElement =
     };
 
 
-    const handleSubmit = () => {
-        // evt.preventDefault();
+    const handleSubmit = (evt: React.FormEvent) => {
+        evt.preventDefault();
 
         const arr: string[] = []
         for (const key in checked) {
@@ -91,7 +92,8 @@ const BilanzSelection = ({ setModalOpen }: BilanzSelectionProps): ReactElement =
         }
 
 
-        setBilanzkreise(arr)
+        setBilanzkreise(arr);
+        setModalOpen(false);
     }
 
     return (
@@ -100,7 +102,7 @@ const BilanzSelection = ({ setModalOpen }: BilanzSelectionProps): ReactElement =
             <p>Wählen Sie alle Bilanzkreise aus, die für Sie relevant sind.</p>
             <p>Aus dieser Auswahl können Sie mithilfe des Schnellzugriffs in der Navigationsleiste den aktuellen
                 Bilanzkreis festlegen.</p>
-            <form name="bilanceSelection">
+            <form name="bilanceSelection" onSubmit={handleSubmit}>
                 <div className={`${styles.formElementGroup}`}>
                     <p>
                         <input className={`${formErr['name'] ? 'border-danger' : ''}`} type="checkbox"
@@ -134,7 +136,7 @@ const BilanzSelection = ({ setModalOpen }: BilanzSelectionProps): ReactElement =
                 </div>
                 <div className={`${commonModalStyles.buttonGroup}`}>
                     <Button variant={"secondary"} onClick={() => setModalOpen(false)}>Abbrechen</Button>
-                    <Button disabled={!validForm()} type="submit" variant={"primary"} onClick={handleSubmit}>Speichern</Button>
+                    <Button disabled={!validForm()} type="submit" variant={"primary"} >Speichern</Button>
                 </div>
             </form>
         </div>

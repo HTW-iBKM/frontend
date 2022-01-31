@@ -30,7 +30,7 @@ function Navbar(): ReactElement {
   }, [bilanzKreise])
 
   // const changeSelectedBilanzKreis = (value: string): void => ba(value)
-  const [isSelectionOpen, setIsSelectionOpen] = useState<boolean>(false);
+  const [isSelectionOpen,setIsSelectionOpen]: any = useStore(state => state.selectionModalOpen);
 
 
   const balancingGroupMenuItems: CoreMenuItemProps[] = [

@@ -23,10 +23,11 @@ function Home(): ReactElement {
     const [exampleData, setExampleData] = useState<GraphData[]>([])
 
     const [selectedBilanzKreis,_]: any = useStore(state => state.selectedBilanzKreis);
-    
+    const [isSelectionOpen,setIsSelectionOpen]: any = useStore(state => state.selectionModalOpen);
 
 
-    const [isSelectionOpen, setIsSelectionOpen] = useState<boolean>(false);
+
+    // const [isSelectionOpen, setIsSelectionOpen] = useState<boolean>(false);
 
     // const exampleHeader = "Bilanzkreis A Graph"
     // const exampleGroup = "Bilanzkreis A"
@@ -60,14 +61,9 @@ function Home(): ReactElement {
                         Bilanzkreis wählen
                     </Button>
 
-                    <Modal isOpen={isSelectionOpen} title={"Bilanzkreise auswählen"}
-                           onClose={() => setIsSelectionOpen(false)}>
-                        <BilanzkreisSelection setModalOpen={setIsSelectionOpen}></BilanzkreisSelection>
-                    </Modal>
+
                 </div>
-
                 :
-
                 <div className={styles.container}>
                     {widgets.length > 1 ? (
                         <>
@@ -92,6 +88,10 @@ function Home(): ReactElement {
                     )}
                 </div>
         }
+        <Modal isOpen={isSelectionOpen} title={"Bilanzkreise auswählen"}
+               onClose={() => setIsSelectionOpen(false)}>
+            <BilanzkreisSelection setModalOpen={setIsSelectionOpen}></BilanzkreisSelection>
+        </Modal>
     </div>
 
 
