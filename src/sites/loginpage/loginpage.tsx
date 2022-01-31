@@ -31,7 +31,12 @@ function LoginPage(): ReactElement {
     const validForm = () => !formErr['email'] && !formErr['validEmail'] && !formErr['password'];
 
     const styles = {
-        form: 'flex flex-col gap-9'
+        container: 'flex flex-col justify-between h-screen py-8',
+        logo: 'w-20 self-center',
+        headline: 'text-h4',
+        form: 'flex flex-col gap-9',
+        footer: 'flex gap-16',
+        link: 'text-caption text-secondary hover:text-secondary-light active:text-primary'
     }
 
     const toastContext = useContext(ToastContext);
