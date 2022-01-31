@@ -15,7 +15,6 @@ function RegisterPage(): ReactElement {
     const history = useHistory();
 
     const styles = {
-        logo: "w-20 self-center",
         form: 'flex flex-col gap-9'
     }
 

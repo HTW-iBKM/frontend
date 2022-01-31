@@ -10,7 +10,7 @@ import {
   Bar,
   BarChart
 } from "recharts";
-import { parseGraphData, calculateTickCount, calculateDomain, formatXAxisLabel } from './helpers';
+import { parseGraphData, calculateDomain, formatXAxisLabel } from './helpers';
 import { GraphData, KeyData } from "./Graph";
 import AIToolTipp from '../aiToolTipp/AIToolTipp';
 
@@ -18,18 +18,17 @@ interface BarChartPanelProps {
   data: GraphData[];
   keyData: KeyData[]
   graphLineColors: string[];
-  timespan: string;
+  interval: string;
 }
 
 {/* @TODO Correct Ref Typing */ }
-function BarChartPanel({ data, keyData, graphLineColors, timespan }: BarChartPanelProps, ref: Ref<any>): ReactElement {
-  const yInterval = 500;
-  const maxValue = 0;
-  const minValue = Infinity;
+function BarChartPanel({ data, keyData, graphLineColors, interval }: BarChartPanelProps, ref: Ref<any>): ReactElement {
   const parsedData = parseGraphData(data, keyData);
+  const xInterval = Math.round(parsedData.length / 8);
 
   return (
-    <div className={"w-full h-full"}>
+    <div className={"w-full h-full flex justify-center items-center"}>
+      {!parsedData.length ? <div className="text-h6">Keine verfügbaren Daten für den gewählten Zeitraum.</div> :
       <ResponsiveContainer>
         <BarChart data={parsedData}
           margin={{ top: 50, right: 50, left: 36 }}
@@ -37,19 +36,15 @@ function BarChartPanel({ data, keyData, graphLineColors, timespan }: BarChartPan
         >
           <CartesianGrid strokeDasharray="5 5" />
           <Tooltip
-            content={<AIToolTipp payload={undefined} graphColors={graphLineColors} keyData={keyData} timespan={timespan}></AIToolTipp>}
+            content={<AIToolTipp payload={undefined} graphColors={graphLineColors} keyData={keyData} interval={interval}></AIToolTipp>}
             cursor={{ stroke: "#494B51", strokeWidth: 1 }}
             contentStyle={{ borderRadius: 8, padding: 16 }}
           />
           <XAxis
             dataKey="time"
-            minTickGap={50}
-            interval="preserveStartEnd"
             tick={{ fontSize: 12, color: "#494B51" }}
-            tickFormatter={(value: string) => formatXAxisLabel(value, timespan === 'day')}
-            tickMargin={10}
-            tickSize={8}
-            tickCount={calculateTickCount(minValue, maxValue, yInterval)}
+            interval={xInterval}
+            tickFormatter={(value: string) => formatXAxisLabel(value, interval)}
             axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
             tickLine={{ strokeWidth: 2, stroke: "#494B51" }}
           >
@@ -63,13 +58,7 @@ function BarChartPanel({ data, keyData, graphLineColors, timespan }: BarChartPan
           </XAxis>
           <YAxis
             type="number"
-            domain={calculateDomain(parsedData, keyData, minValue, maxValue, yInterval)}
-            allowDecimals={false}
-            minTickGap={50}
-            interval="preserveStartEnd"
-            tickMargin={10}
-            tickSize={8}
-            tickCount={calculateTickCount(minValue, maxValue, yInterval)}
+            domain={calculateDomain(parsedData, keyData)}
             axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
             tick={{ fontSize: 12, color: "#494B51" }}
             tickLine={{ strokeWidth: 2, stroke: "#494B51" }}
@@ -92,7 +81,7 @@ function BarChartPanel({ data, keyData, graphLineColors, timespan }: BarChartPan
             />
           )}
         </BarChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer>}
     </div>
   );
 }

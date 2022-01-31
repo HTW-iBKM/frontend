@@ -17,10 +17,10 @@ interface SelectFieldProps  {
   options: SelectFieldOption[];
   label?: string;
   onChange: (value: string) => void;
-  defaultValue?: SelectFieldOption;
+  value: SelectFieldOption;
   className?: string;
 }
-function SelectField({options, variant, label, onChange, className, defaultValue}: SelectFieldProps): ReactElement {
+function SelectField({options, variant, label, onChange, className, value}: SelectFieldProps): ReactElement {
   const styles = {
     navbarIcon: 'h-[24px] w-[24px] ',
     selectFieldToggle: {
@@ -39,19 +39,12 @@ function SelectField({options, variant, label, onChange, className, defaultValue
   }
 
   const isDefaultVariant = variant === "default";
-  const [selectedOption, setSelectedOption] = useState<SelectFieldOption | null>(defaultValue || null )
-
-  const selectValue = (option: SelectFieldOption) => {
-    const match = selectedOption?.value === option.value;
-    setSelectedOption( match ? defaultValue! : option)
-    onChange(match ? '' : option.value)
-  }
 
   return (
     <Menu as="div" className={`${className} relative inline-block text-left`}>
       <div className={`${isDefaultVariant ? styles.selectFieldToggle.default : styles.selectFieldToggle.small}`}>
         <Menu.Button className={`${isDefaultVariant ? styles.selectFieldButton.default : styles.selectFieldButton.small}`}>
-          {selectedOption != null ? selectedOption.label : label}
+          {!value ? label : value.label}
           <DropDownIcon className={"h-6 w-4 ml-auto"}/>
         </Menu.Button>
       </div>
@@ -70,15 +63,15 @@ function SelectField({options, variant, label, onChange, className, defaultValue
               {({ active }) => (
                 <button
                   className={`
-                    ${option.value == selectedOption?.value && !active && 'bg-secondary text-grayscale-light ring-x-1 ring-x-secondary'}
+                    ${option.value === value.value && !active && 'bg-secondary text-grayscale-light ring-x-1 ring-x-secondary'}
                     ${active && 'bg-secondary-light !text-grayscale-light ring-x-1 ring-x-secondary'}
                     ${isDefaultVariant ? styles.selectItem.default : styles.selectItem.small}
                     ${option.disabled ? 'opacity-50 pointer-events-none' : ''}
                   `}
-                  onClick={() => selectValue(option)}
+                  onClick={() => onChange(option.value || value.value)}
                 >
                   {option.label}
-                  {option.value == selectedOption?.value && <CheckIcon className={"h-4 w-4"}/>}
+                  {option.value === value?.value && <CheckIcon className={"h-4 w-4"}/>}
                 </button>
               )}
             </Menu.Item>

@@ -15,14 +15,16 @@ interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string;
   successMessage?: string;
   hint?: string;
+  isPositionedOnCard?: boolean;
 }
 
-const TextField: React.FC<TextFieldProps> = ({ errorMessage, successMessage, label, name, disabled, type, hint, visibilityButton, inputRef, defaultValue, className, ...rest }: TextFieldProps) => {
+const TextField: React.FC<TextFieldProps> = ({ errorMessage, successMessage, label, name, disabled, type, hint, visibilityButton, inputRef, defaultValue, className, isPositionedOnCard = false, ...rest }: TextFieldProps) => {
   const styles = {
     input: "textfield-input bg-transparent text-grayscale-darkest flex-grow h-13 pl-4 rounded-lg placeholder-primary border-none outline-none ring-2 ring-grayscale-dark focus:outline-none focus:ring-2 focus:ring-secondary disabled:border-2 disabled:bg-grayscale disabled:bg-opacity-50 disabled:border-grayscale-dark",
     inputContainer: "relative flex flex-col max-h-13",
     inputLabel: "absolute pl-4 w-full h-full text-base pointer-events-none text-grayscale-darkest",
-    inputLabelSpan: "absolute top-1/4 transition-all duration-300 text-grayscale-dark",
+    inputLabelSpanDefault: "absolute top-1/4 transition-all duration-300 text-grayscale-dark bg-primary bg-grayscale",
+    inputLabelSpanWithWhiteBackground: "absolute top-1/4 transition-all duration-300 text-grayscale-dark bg-grayscale-light",
   }
 
   const [typeState, setTypeState] = useState(type);
@@ -41,7 +43,7 @@ const TextField: React.FC<TextFieldProps> = ({ errorMessage, successMessage, lab
         {...rest}
       />
       <label htmlFor={name} className={`${styles.inputLabel}`}>
-        <span className={`${styles.inputLabelSpan}`}>{label}</span>
+        <span className={isPositionedOnCard ? styles.inputLabelSpanWithWhiteBackground : styles.inputLabelSpanDefault}>{label}</span>
       </label>
 
       {visibilityButton &&

@@ -21,22 +21,21 @@ import SelectField from '../../components/form/SelectField';
 import DatePicker from '../../components/datePicker/DatePicker';
 import '../aiToolTipp/AIToolTipp.css';
 import { GraphDetailsProps } from '../../sites/graph-details/GraphDetails';
-import { formatDate } from './helpers';
+import { aggregateGraphData, formatDate } from './helpers';
 import { useHistory, useLocation } from 'react-router-dom';
 
 export interface GraphData {
     time: string;
     berlin_time: string;
-    'Bk-Verbrauch': number,
+    'BK-Verbrauch': number,
     'Sonnenenergie': number,
     'Synthetische Daten': number,
     'Tageszeit': number,
     'Wochentag': number,
     'Vor und Nachgelagerte Netze': number,
     'Windenergie': number,
-
-    prediction: string;
-    ground_truth?: string;
+    prediction: number;
+    ground_truth: number;
 }
 
 export interface GraphDataResponse {
@@ -61,8 +60,7 @@ export interface KeyData {
 interface IntervalOption {
     value: string,
     label: string,
-    disabled: boolean,
-    interval: number
+    disabled: boolean
 }
 
 interface TimespanOption {
@@ -113,11 +111,11 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
     const [activeGraph, setActiveGraph] = useState<string>(queryActiveGraph || String);
 
     const [intervalOptions, setIntervalOptions] = useState<IntervalOption[]>([
-        { value: 'minutes', label: '15 Minuten', disabled: false, interval: 1 },
-        { value: 'hour', label: 'Stunde', disabled: false, interval: 3 },
-        { value: 'day', label: 'Tag', disabled: false, interval: 3 * 23 },
-        { value: 'week', label: 'Woche', disabled: false, interval: 3 * 23 * 6 },
-        { value: 'month', label: 'Monat', disabled: false, interval: 3 * 23 * 29 }
+        { value: 'minutes', label: '15 Minuten', disabled: false},
+        { value: 'hour', label: 'Stunde', disabled: false },
+        { value: 'day', label: 'Tag', disabled: false },
+        { value: 'week', label: 'Woche', disabled: false },
+        { value: 'month', label: 'Monat', disabled: false }
     ]);
 
     const [interval, setInterval] = useState<string>(queryInterval || 'minutes');
@@ -125,7 +123,7 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         <span className="text-body2">Intervall:</span>
         <SelectField className="min-w-[124px]"
             variant="small" label="Intervall auswählen"
-            options={intervalOptions} defaultValue={intervalOptions.find(o => o.value === interval)}
+            options={intervalOptions} value={intervalOptions.find(o => o.value === interval) || intervalOptions[0]}
             onChange={(option: string) => setInterval(option)} />
     </div>;
 
@@ -144,10 +142,17 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
     });
 
     const setSelectedTimespan = (option: string) => {
+        if (option === 'year' || option === 'month') {
+            if (interval === 'minutes' || interval === 'hour') {
+                setInterval('day');
+            }
+        }
+
         const timespanOption = timespanOptions.find(o => o.value === option);
-        const startDate = new Date(data[data.length - 1].time);
-        const endDate = new Date(data[data.length - 1].time);
         if (timespanOption && option !== 'calendar') {
+            const startDate = new Date(data[data.length - 1].time);
+            const endDate = new Date(data[data.length - 1].time);
+
             startDate.setDate(startDate.getDate() - timespanOption.timespan);
             setTimespan({ startDate, endDate });
             setCalenderOptionLabel('Kalender');
@@ -178,18 +183,22 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         <span className="text-body2">Zeitraum:</span>
         <SelectField className="min-w-[124px]"
             variant="small" label="Zeitraum auswählen"
-            options={timespanOptions} defaultValue={timespanOptions.find(o => o.value === selectedTimespan)}
+            options={timespanOptions} value={timespanOptions.find(o => o.value === selectedTimespan) || intervalOptions[0]}
             onChange={(option: string) => setSelectedTimespan(option)} />
         {selectedTimespan === 'calendar' &&
             <DatePicker onChange={(value: Date[]) => value.length === 2 && setCalendarTimespan(value)} />}
     </div>;
 
-    const setDisabledFields = () => {
+    const disableIntervalFields = () => {
         setIntervalOptions(options => {
+            const minutesOption = options.find(o => o.value === 'minutes');
+            const hourOption = options.find(o => o.value === 'hour');
             const dayOption = options.find(o => o.value === 'day');
             const weekOption = options.find(o => o.value === 'week');
             const monthOption = options.find(o => o.value === 'month');
-            if (dayOption && weekOption && monthOption) {
+            if (minutesOption && hourOption && dayOption && weekOption && monthOption) {
+                minutesOption.disabled = selectedTimespan === 'year' || selectedTimespan === 'month';
+                hourOption.disabled = selectedTimespan === 'year' || selectedTimespan === 'month';
                 dayOption.disabled = selectedTimespan === 'day';
                 weekOption.disabled = selectedTimespan === 'day' || selectedTimespan === 'week';
                 monthOption.disabled = selectedTimespan === 'day' || selectedTimespan === 'week' || selectedTimespan === 'month';
@@ -197,6 +206,9 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
 
             return options;
         });
+    }
+
+    const disableTimespanFields = () => {
         setTimespanOptions(options => {
             const dayOption = options.find(o => o.value === 'day');
             const weekOption = options.find(o => o.value === 'week');
@@ -234,14 +246,15 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         }
     }, [data]);
 
-    useEffect(() => setDisabledFields(), [timespan, interval]);
+    useEffect(() => disableTimespanFields(), [interval]);
+    useEffect(() => disableIntervalFields(), [timespan]);
 
-    const formatData = (graphData: GraphData[]): GraphData[] => {
-        const selectedInterval = intervalOptions.find(option => option.value === interval);
-        return graphData
-            .filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate)
-            .filter((data, index) => selectedInterval && index % selectedInterval.interval === 0);
-    };
+    const formatData = (graphData: GraphData[]) => {
+        return aggregateGraphData(
+            graphData.filter(data => new Date(data.time) >= timespan.startDate && new Date(data.time) <= timespan.endDate),
+            interval
+        );
+    }
 
     const [getLineChartPng, { ref: lineChartRef }] = useCurrentPng();
     const [getBarChartPng, { ref: barChartRef }] = useCurrentPng();
@@ -296,9 +309,9 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         csvExporter.generateCsv(dataToBeFiltered);
     }
 
-    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
-    const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
-    const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} timespan={selectedTimespan} />;
+    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval}/>;
+    const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval}/>;
+    const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval}/>;
 
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
     const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);

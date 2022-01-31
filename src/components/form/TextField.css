@@ -1,23 +1,22 @@
 .textfield-input:focus + label span {
-    font-size: .75rem;
-    line-height: 1rem;
-    @apply text-grayscale-darkest;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  @apply text-grayscale-darkest;
 }
 
 .textfield-input:not(:placeholder-shown) + label span {
-    font-size: .75rem;
-    line-height: 1.25;
-    @apply text-grayscale-darkest;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  @apply text-grayscale-darkest;
 }
 
 .textfield-input:focus + label span,
 .textfield-input:not(:placeholder-shown) + label span {
-    @apply -translate-y-6;
-    @apply text-grayscale-darkest;
-    @apply bg-grayscale-light;
-    @apply px-1;
+  @apply -translate-y-6;
+  @apply text-grayscale-darkest;
+  @apply px-1;
 }
 
 .textfield-input:disabled + label span {
-    @apply text-grayscale-dark;
+  @apply text-grayscale-dark;
 }

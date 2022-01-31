@@ -1,7 +1,4 @@
-import React, {
-  ReactElement,
-  Ref,
-} from 'react';
+import React, { ReactElement, Ref, } from 'react';
 import './Graph.css';
 import {
   LineChart,
@@ -13,7 +10,7 @@ import {
   YAxis,
   ResponsiveContainer,
 } from "recharts";
-import { parseGraphData, calculateTickCount, calculateDomain, formatXAxisLabel } from './helpers';
+import { parseGraphData, calculateDomain, formatXAxisLabel } from './helpers';
 import { GraphData, KeyData } from "./Graph";
 import AIToolTipp from '../aiToolTipp/AIToolTipp';
 
@@ -21,19 +18,17 @@ export interface LineChartPanelProps {
   data: GraphData[];
   keyData: KeyData[];
   graphLineColors: string[];
-  timespan: string
+  interval: string;
 }
 
 {/* @TODO Correct Ref Typing */ }
-function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartPanelProps, ref: Ref<any>): ReactElement {
-  const yIntervall = 500;
-  const maxValue = 0;
-  const minValue = Infinity;
+function LineChartPanel({ data, keyData, graphLineColors, interval }: LineChartPanelProps, ref: Ref<any>): ReactElement {
   const parsedData = parseGraphData(data, keyData);
-  
+  const xInterval = Math.round(parsedData.length / 8);
 
   return (
-    <div className={"w-full h-full"}>
+    <div className={"w-full h-full flex justify-center items-center"}>
+      {!parsedData.length ? <div className="text-h6">Keine verfügbaren Daten für den gewählten Zeitraum.</div> :
       <ResponsiveContainer>
         <LineChart
           data={parsedData}
@@ -43,18 +38,15 @@ function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartP
         >
           <CartesianGrid strokeDasharray="5 5" />
           <Tooltip
-            content={<AIToolTipp payload={undefined} graphColors={graphLineColors} keyData={keyData} timespan={timespan}></AIToolTipp>}
+            content={<AIToolTipp payload={undefined} graphColors={graphLineColors} keyData={keyData} interval={interval}></AIToolTipp>}
             cursor={{ stroke: "#494B51", strokeWidth: 1 }}
             contentStyle={{ borderRadius: 8, padding: 16 }}
           />
           <XAxis
             dataKey="time"
-            minTickGap={50}
             tick={{ fontSize: 12, color: "#494B51" }}
-            tickFormatter={(value: string) => formatXAxisLabel(value, timespan === 'day')}
-            tickMargin={10}
-            tickSize={8}
-            tickCount={calculateTickCount(minValue, maxValue, yIntervall)}
+            interval={xInterval}
+            tickFormatter={(value: string) => formatXAxisLabel(value, interval)}
             axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
             tickLine={{ strokeWidth: 2, stroke: "#494B51" }}
           >
@@ -68,13 +60,7 @@ function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartP
           </XAxis>
           <YAxis
             type="number"
-            domain={calculateDomain(parsedData, keyData, minValue, maxValue, yIntervall)}
-            allowDecimals={false}
-            minTickGap={50}
-            interval="preserveStartEnd"
-            tickMargin={10}
-            tickSize={8}
-            tickCount={calculateTickCount(minValue, maxValue, yIntervall)}
+            domain={calculateDomain(parsedData, keyData)}
             axisLine={{ strokeWidth: 2, stroke: "#494B51" }}
             tick={{ fontSize: 12, color: "#494B51" }}
             tickLine={{ strokeWidth: 2, stroke: "#494B51" }}
@@ -93,7 +79,7 @@ function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartP
               name={data.name}
               dataKey={data.key}
               stroke={graphLineColors[index]}
-              dot={{ fill: graphLineColors[index], r: 1 }}
+              dot={{ fill: graphLineColors[index], r: 0 }}
               activeDot={{
                 fill: "#FAFAFA",
                 stroke: graphLineColors[index],
@@ -105,7 +91,7 @@ function LineChartPanel({ data, keyData, graphLineColors, timespan }: LineChartP
             />
           )}
         </LineChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer>}
     </div>
   );
 }
