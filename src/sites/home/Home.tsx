@@ -28,24 +28,15 @@ function Home(): ReactElement {
 
     const [isSelectionOpen, setIsSelectionOpen] = useState<boolean>(false);
 
-    const exampleHeader = "Bilanzkreis A Graph"
-    const exampleGroup = "Bilanzkreis A"
+    // const exampleHeader = "Bilanzkreis A Graph"
+    // const exampleGroup = "Bilanzkreis A"
 
     useAsyncEffect(async (isMounted) => {
-        // const { data }: GraphDataResponse = await axios.get(
-        //   "https://6ys8ajad27.execute-api.us-east-1.amazonaws.com/"
-        // );
-
         const aiData: GraphData[] = await explainableAIData();
 
         if (!isMounted) return;
         setExampleData(aiData);
     }, []);
-
-    useEffect(()=> {
-        console.log(selectedBilanzKreis)
-        console.log("bilanzkreis changed")
-    },[selectedBilanzKreis,])
 
     const widgets = [1, 2];
 
@@ -59,7 +50,7 @@ function Home(): ReactElement {
 
     return <div className="h-full">
         {
-            selectedBilanzKreis === '' ?
+            selectedBilanzKreis === ('' || undefined)?
                 <div className={styles.option}>
                     <img src="/welcome_logo.png" className={styles.logo}></img>
                     <p className="my-5"> Bitte wählen Sie ihren Bilanzkreis aus, um Inhalte ansehen zu können</p>
@@ -81,7 +72,7 @@ function Home(): ReactElement {
                     {widgets.length > 1 ? (
                         <>
                             <div className={styles.card + 'w-2/3'}>
-                                <Graph data={exampleData} header={exampleHeader} group={exampleGroup}/>
+                                <Graph data={exampleData} header={selectedBilanzKreis + " Graph"} group={selectedBilanzKreis}/>
                             </div>
                             <div className="w-1/3 h-full flex flex-col gap-6">
                                 <div className={styles.card}>
@@ -96,7 +87,7 @@ function Home(): ReactElement {
                         </>
                     ) : (
                         <div className={styles.card + 'w-full'}>
-                            <Graph data={exampleData} header={exampleHeader} group={exampleGroup}/>
+                            <Graph data={exampleData} header={selectedBilanzKreis + " Graph"} group={selectedBilanzKreis}/>
                         </div>
                     )}
                 </div>

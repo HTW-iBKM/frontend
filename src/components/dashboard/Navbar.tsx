@@ -21,18 +21,15 @@ function Navbar(): ReactElement {
   const history = useHistory();
   const [balancingGroup, setBalancingGroup] = useState(bilanzKreise[0]);
 
-  // useEffect(() => {
-  //   setSelectedBilanzKreis(balancingGroup);
-  //   // console.log(balancingGroup)
-  //   // console.log(selectedBilanzKreis)
-  // }, [balancingGroup])
-
+  useEffect(() => {
+    setSelectedBilanzKreis(balancingGroup);
+  }, [balancingGroup])
 
   useEffect(() => {
     setBalancingGroup(bilanzKreise[0]);
-  }, [selectedBilanzKreis])
+  }, [bilanzKreise])
 
-  const changeSelectedBilanzKreis = (value: string): void => setSelectedBilanzKreis(value)
+  // const changeSelectedBilanzKreis = (value: string): void => ba(value)
   const [isSelectionOpen, setIsSelectionOpen] = useState<boolean>(false);
 
 
@@ -67,15 +64,11 @@ function Navbar(): ReactElement {
           customMenuItem={
             <RadioButtonGroup
               selected={balancingGroup}
-              onChange={changeSelectedBilanzKreis}
+              onChange={setBalancingGroup}
               options={bilanzKreise}
             />
           }
         />
-        <Modal isOpen={isSelectionOpen} title={"Bilanzkreise auswählen"}
-          onClose={() => setIsSelectionOpen(false)}>
-          <BilanzkreisSelection setModalOpen={setIsSelectionOpen}></BilanzkreisSelection>
-        </Modal>
         <ContextMenu anchorIcon={<UserIcon />} menuItems={userMenuItems} />
       </div>
     </div>

@@ -124,7 +124,7 @@ const BilanzSelection = ({ setModalOpen }: BilanzSelectionProps): ReactElement =
                     <p>
                         <input className={`${formErr['name'] ? 'border-danger' : ''}`} type="checkbox"
                             onChange={(e) =>
-                                setChecked((oldState) => ({ ...oldState, option_3: oldState.option_3 === 'Bilanzkreis 3' ? '' : 'Bilanzkreis 3' }))
+                                setChecked((oldState) => ({ ...oldState, option_3: oldState.option_3 === 'Bilanzkreis C' ? '' : 'Bilanzkreis C' }))
                             }
                             checked={checked.option_3}
 
