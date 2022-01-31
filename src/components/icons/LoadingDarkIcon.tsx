@@ -1,4 +1,5 @@
 import React, {ReactElement} from "react";
+import PropTypes from "prop-types";
 
 export default function LoadingDarkIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
@@ -7,3 +8,7 @@ export default function LoadingDarkIcon(props: React.SVGProps<SVGSVGElement>): R
     </svg>
   );
 }
+
+LoadingDarkIcon.propTypes = {
+    className: PropTypes.string
+};

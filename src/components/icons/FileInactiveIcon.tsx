@@ -1,4 +1,5 @@
 import React, {ReactElement} from "react";
+import PropTypes from "prop-types";
 
 export default function FileInactiveIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
@@ -15,3 +16,7 @@ export default function FileInactiveIcon(props: React.SVGProps<SVGSVGElement>): 
     </svg>
   );
 }
+
+FileInactiveIcon.propTypes = {
+    className: PropTypes.string
+};

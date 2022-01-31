@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import PropTypes from "prop-types";
 
 export default function RadioButtonUncheckedIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
@@ -7,3 +8,7 @@ export default function RadioButtonUncheckedIcon(props: React.SVGProps<SVGSVGEle
     </svg>
   );
 }
+
+RadioButtonUncheckedIcon.propTypes = {
+    className: PropTypes.string
+};

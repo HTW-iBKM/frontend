@@ -1,4 +1,5 @@
 import React, {ReactElement} from "react";
+import PropTypes from "prop-types";
 
 export default function DeleteForeverIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
@@ -7,3 +8,7 @@ export default function DeleteForeverIcon(props: React.SVGProps<SVGSVGElement>):
     </svg>
   );
 }
+
+DeleteForeverIcon.propTypes = {
+    className: PropTypes.string
+};

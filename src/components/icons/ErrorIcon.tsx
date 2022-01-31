@@ -1,4 +1,5 @@
 import React, {ReactElement} from "react";
+import PropTypes from "prop-types";
 
 export default function ErrorIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
@@ -8,3 +9,7 @@ export default function ErrorIcon(props: React.SVGProps<SVGSVGElement>): ReactEl
     </svg>
   );
 }
+
+ErrorIcon.propTypes = {
+    className: PropTypes.string
+};

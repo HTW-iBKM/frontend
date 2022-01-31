@@ -1,4 +1,5 @@
 import React, {ReactElement} from "react";
+import PropTypes from "prop-types";
 
 export default function TimelineIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
@@ -9,3 +10,7 @@ export default function TimelineIcon(props: React.SVGProps<SVGSVGElement>): Reac
     </>
   );
 }
+
+TimelineIcon.propTypes = {
+    className: PropTypes.string
+};
