@@ -25,13 +25,6 @@ function Home(): ReactElement {
     const [selectedBilanzKreis,_]: any = useStore(state => state.selectedBilanzKreis);
     const [isSelectionOpen,setIsSelectionOpen]: any = useStore(state => state.selectionModalOpen);
 
-
-
-    // const [isSelectionOpen, setIsSelectionOpen] = useState<boolean>(false);
-
-    // const exampleHeader = "Bilanzkreis A Graph"
-    // const exampleGroup = "Bilanzkreis A"
-
     useAsyncEffect(async (isMounted) => {
         const aiData: GraphData[] = await explainableAIData();
 
@@ -60,8 +53,6 @@ function Home(): ReactElement {
                     }}>
                         Bilanzkreis wählen
                     </Button>
-
-
                 </div>
                 :
                 <div className={styles.container}>

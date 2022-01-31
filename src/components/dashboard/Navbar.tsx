@@ -10,8 +10,7 @@ import RadioButtonGroup from "../form/RadioButtonGroup";
 import { CoreMenuItemProps } from "./MenuItem";
 import ContextMenu from "./ContextMenu";
 import { useStore } from "../../App";
-import Modal from "../modal/Modal";
-import BilanzkreisSelection from "../modal/BilanzkreisSelection";
+
 
 function Navbar(): ReactElement {
   const [bilanzKreise, _]: any = useStore((state) => state.useBilanzKreise);
@@ -29,7 +28,6 @@ function Navbar(): ReactElement {
     setBalancingGroup(bilanzKreise[0]);
   }, [bilanzKreise])
 
-  // const changeSelectedBilanzKreis = (value: string): void => ba(value)
   const [isSelectionOpen,setIsSelectionOpen]: any = useStore(state => state.selectionModalOpen);
 
 
