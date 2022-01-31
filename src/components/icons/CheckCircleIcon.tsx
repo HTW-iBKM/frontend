@@ -1,4 +1,5 @@
 import React, {ReactElement} from "react";
+import PropTypes from "prop-types";
 
 export default function CheckCircleIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
@@ -8,3 +9,7 @@ export default function CheckCircleIcon(props: React.SVGProps<SVGSVGElement>): R
     </svg>
   );
 }
+
+CheckCircleIcon.propTypes = {
+    className: PropTypes.string
+};

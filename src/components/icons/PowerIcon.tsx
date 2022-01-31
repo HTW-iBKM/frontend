@@ -1,4 +1,5 @@
 import React, {ReactElement} from "react";
+import PropTypes from "prop-types";
 
 export default function PowerIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
@@ -7,3 +8,7 @@ export default function PowerIcon(props: React.SVGProps<SVGSVGElement>): ReactEl
     </svg>
   );
 }
+
+PowerIcon.propTypes = {
+    className: PropTypes.string
+};

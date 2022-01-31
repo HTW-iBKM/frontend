@@ -1,4 +1,5 @@
 import React, {ReactElement} from "react";
+import PropTypes from "prop-types";
 
 export default function HomeActiveLinkIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
@@ -8,3 +9,7 @@ export default function HomeActiveLinkIcon(props: React.SVGProps<SVGSVGElement>)
     </svg>
   );
 }
+
+HomeActiveLinkIcon.propTypes = {
+    className: PropTypes.string
+};

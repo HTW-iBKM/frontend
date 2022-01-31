@@ -1,4 +1,5 @@
 import React, {ReactElement} from "react";
+import PropTypes from "prop-types";
 
 export default function LocationIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
@@ -7,6 +8,9 @@ export default function LocationIcon(props: React.SVGProps<SVGSVGElement>): Reac
       <path d="M19.9999 3.33337C13.5499 3.33337 8.33325 8.55004 8.33325 15C8.33325 23.75 19.9999 36.6667 19.9999 36.6667C19.9999 36.6667 31.6666 23.75 31.6666 15C31.6666 8.55004 26.4499 3.33337 19.9999 3.33337ZM11.6666 15C11.6666 10.4 15.3999 6.66671 19.9999 6.66671C24.5999 6.66671 28.3333 10.4 28.3333 15C28.3333 19.8 23.5333 26.9834 19.9999 31.4667C16.5333 27.0167 11.6666 19.75 11.6666 15Z" fill="#FAFAFA"/>
       <path d="M19.9999 19.1667C22.3011 19.1667 24.1666 17.3012 24.1666 15C24.1666 12.6989 22.3011 10.8334 19.9999 10.8334C17.6987 10.8334 15.8333 12.6989 15.8333 15C15.8333 17.3012 17.6987 19.1667 19.9999 19.1667Z" fill="#FAFAFA"/>
     </svg>
-
   );
 }
+
+LocationIcon.propTypes = {
+    className: PropTypes.string
+};

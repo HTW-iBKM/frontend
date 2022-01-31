@@ -1,4 +1,5 @@
 import React, {ReactElement} from "react";
+import PropTypes from "prop-types";
 
 export default function EditIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
@@ -7,3 +8,7 @@ export default function EditIcon(props: React.SVGProps<SVGSVGElement>): ReactEle
     </svg>
   );
 }
+
+EditIcon.propTypes = {
+    className: PropTypes.string
+};

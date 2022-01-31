@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import PropTypes from "prop-types";
 
 export default function SearchIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
@@ -7,3 +8,7 @@ export default function SearchIcon(props: React.SVGProps<SVGSVGElement>): ReactE
     </svg>
   );
 }
+
+SearchIcon.propTypes = {
+    className: PropTypes.string
+};

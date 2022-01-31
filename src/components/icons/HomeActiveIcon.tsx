@@ -1,4 +1,6 @@
 import React, {ReactElement} from "react";
+import PropTypes from "prop-types";
+import DrownDownIcon from "./DropDownIcon";
 
 export default function HomeActiveIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
@@ -8,3 +10,7 @@ export default function HomeActiveIcon(props: React.SVGProps<SVGSVGElement>): Re
     </svg>
   );
 }
+
+HomeActiveIcon.propTypes = {
+    className: PropTypes.string
+};
