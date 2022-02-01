@@ -1,4 +1,4 @@
-import React, {ReactElement, useEffect, useState} from 'react';
+import React, {ReactElement, useState} from 'react';
 import useAsyncEffect from 'use-async-effect';
 import {explainableAIData} from '../../api/mockdataTransformer';
 import Graph, {GraphData} from '../../components/graph/Graph';
