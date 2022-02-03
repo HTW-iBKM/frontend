@@ -45,7 +45,7 @@ function Home(): ReactElement {
 
     return <div className="h-full">
         {
-            selectedBilanzKreis === ('' || undefined) ?
+            !selectedBilanzKreis ?
                 <div className={styles.option}>
                     <img src="/welcome_logo.png" className={styles.logo}></img>
                     <p className="my-5"> Bitte wählen Sie ihren Bilanzkreis aus, um Inhalte ansehen zu können</p>

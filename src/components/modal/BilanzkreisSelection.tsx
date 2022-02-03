@@ -22,6 +22,7 @@ const BilanzSelection = ({ setModalOpen }: BilanzSelectionProps): ReactElement =
     const BALANCE_GROUP = ["Bad Tölz", "Freising", "Fürstenfeldbruck"];
 
     const [bilanzKreise, setBilanzkreise] = useStore<[string[], any]>(state => [state.bilanzKreise, state.setBilanzKreise]);
+    const [setSelectedBilanzKreis] = useStore(state => [state.setSelectedBilanzKreis]);
 
     const balanceGroupObj = BALANCE_GROUP.map((item, index) => {
         return {
@@ -43,7 +44,9 @@ const BilanzSelection = ({ setModalOpen }: BilanzSelectionProps): ReactElement =
 
     const handleSubmit = (evt: React.FormEvent) => {
         evt.preventDefault();
-        setBilanzkreise(checkboxFormControls.filter((checkbox) => checkbox.checked).map(elem => elem.name))
+        const pickedBilanzKreise = checkboxFormControls.filter((checkbox) => checkbox.checked).map(elem => elem.name);
+        setBilanzkreise(pickedBilanzKreise)
+        setSelectedBilanzKreis(pickedBilanzKreise[0] || "")
         setModalOpen(false);
     }
 
