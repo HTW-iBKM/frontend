@@ -16,9 +16,11 @@ describe("Abmelden", function () {
             // Text beim Login Page vergleichen
             cy.get('.my-5').should('contain.text', 'Bitte wählen Sie ihren Bilanzkreis aus, um Inhalte ansehen zu können');
 
+            cy.wait(2000);
             // Einstellung-Icon auswählen
             cy.get('#headlessui-menu-button-2 > .h-6 > svg').click();
 
+            cy.wait(3000);
             // Abmelden auswählen
             cy.get('#headlessui-menu-items-6 > :nth-child(2) > .flex').click();
 

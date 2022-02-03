@@ -4,7 +4,7 @@ describe("Graph", function () {
         cy.visit("/login");
     });
 
-    describe('Grah Auswahl', function(){
+    describe('Graph Auswahl', function(){
         it("Auswahl der Bilanzkreis A", function () {
 
             // Muss man sich zuerst einloggen

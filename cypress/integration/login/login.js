@@ -3,7 +3,7 @@ describe("Login-page", function () {
         cy.exec("npm start");
         cy.visit("/login");
     });
-    describe('', function (){
+    describe('Login-Seite', function (){
         it("Login", function () {
 
             // Normaler Login
