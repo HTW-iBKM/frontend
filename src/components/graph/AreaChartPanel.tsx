@@ -13,6 +13,7 @@ import { parseGraphData, calculateDomain, formatXAxisLabel } from './helpers';
 import { GraphData, KeyData } from "./Graph";
 import AIToolTipp from '../aiToolTipp/AIToolTipp';
 import { useStore } from '../../store/Store';
+import CustomRechartsLegend from '../customRechartsLegend/CustomRechartsLegend';
 
 
 interface AreaChartPanelProps {
@@ -35,7 +36,8 @@ function AreaChartPanel({ data, keyData, graphLineColors, interval }: AreaChartP
             margin={{ top: 50, right: 50, left: 36 }}
             ref={ref}
           >
-            {legendProperties.show && <Legend verticalAlign='top' height={50} ></Legend>}
+            {legendProperties.show && <Legend verticalAlign='top' height={100} content={<CustomRechartsLegend />}></Legend>}
+
 
             <CartesianGrid strokeDasharray="5 5" />
             <Tooltip

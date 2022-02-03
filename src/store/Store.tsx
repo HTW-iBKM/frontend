@@ -15,7 +15,13 @@ export const useStore = create(persist((set, get) => ({
     legendProperties: {
         show: false,
     },
-    setLegendProperties: (legendProperties: any) => set(() => ({ legendProperties }))
+    setLegendProperties: (legendProperties: any) => set((state: any) => ({ legendProperties: { ...state.legendProperties, ...legendProperties } })),
+    dateTitle: {
+        timespan: "",
+        interval: "",
+        value: "",
+    },
+    setDateTitle: (dateTitle: { interval: string, timespan: string, value: string }) => set((state: any) => ({ dateTitle: { ...state.dateTitle, ...dateTitle } }))
 }),
     {
         name: "user-storage",

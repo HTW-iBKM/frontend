@@ -80,6 +80,7 @@ interface GraphProps {
 
 function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement {
     const history = useHistory();
+    const [setDateTitle] = useStore((state) => [state.setDateTitle])
     const { search } = useLocation();
     const query = new URLSearchParams(search);
     const queryKeyData = JSON.parse(query.get('keyData')!)
@@ -361,8 +362,6 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         history.push({ search: queryString })
     }, [queryString])
 
-
-
     const subtitle = (() => {
         let formated = '';
         switch (selectedTimespan) {
@@ -380,6 +379,12 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
 
         return formated
     })()
+    useEffect(() => setDateTitle({
+        timespan: selectedTimespan, value: subtitle,
+        interval: intervalOptions.find((item) => item.value === interval)?.label || ""
+    }), [subtitle])
+
+
 
     return !data.length ? (
         <div className={styles.graphContainer}>

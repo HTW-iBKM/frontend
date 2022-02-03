@@ -15,6 +15,7 @@ import { parseGraphData, calculateDomain, formatXAxisLabel } from './helpers';
 import { GraphData, KeyData } from "./Graph";
 import AIToolTipp from '../aiToolTipp/AIToolTipp';
 import { useStore } from '../../store/Store';
+import CustomRechartsLegend from '../customRechartsLegend/CustomRechartsLegend';
 
 
 export interface LineChartPanelProps {
@@ -40,7 +41,9 @@ function LineChartPanel({ data, keyData, graphLineColors, interval }: LineChartP
             className={"w-full h-full"}
             ref={ref}
           >
-            {legendProperties.show && <Legend verticalAlign='top' height={50} ></Legend>}
+
+            {legendProperties.show && <Legend verticalAlign='top' height={100} content={<CustomRechartsLegend />}></Legend>}
+
             <CartesianGrid strokeDasharray="5 5" />
             <Tooltip
               content={<AIToolTipp payload={undefined} graphColors={graphLineColors} keyData={keyData} interval={interval}></AIToolTipp>}
@@ -95,6 +98,7 @@ function LineChartPanel({ data, keyData, graphLineColors, interval }: LineChartP
                 strokeWidth={1.5}
               />
             )}
+
           </LineChart>
         </ResponsiveContainer>}
     </div>
