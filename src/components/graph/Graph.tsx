@@ -23,6 +23,8 @@ import '../aiToolTipp/AIToolTipp.css';
 import { GraphDetailsProps } from '../../sites/graph-details/GraphDetails';
 import { aggregateGraphData, formatDate } from './helpers';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useStore } from '../../store/Store';
+
 
 export interface GraphData {
     time: string;
@@ -84,7 +86,7 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
     const queryInterval = query.get('interval');
     const queryActiveGraph = query.get('activeGraph');
     const queryTimespan = query.get('selectedTimeSpan')!;
-
+    const [legenProps, setLegendProps] = useStore(state => [state.legendProperties, state.setLegendProperties])
     const styles = {
         graphContainer: "w-full h-full p-7 flex justify-center items-center flex-col ",
         loadingCommonStyle: "bg-[#E9EAF0] rounded-lg"
@@ -111,7 +113,7 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
     const [activeGraph, setActiveGraph] = useState<string>(queryActiveGraph || String);
 
     const [intervalOptions, setIntervalOptions] = useState<IntervalOption[]>([
-        { value: 'minutes', label: '15 Minuten', disabled: false},
+        { value: 'minutes', label: '15 Minuten', disabled: false },
         { value: 'hour', label: 'Stunde', disabled: false },
         { value: 'day', label: 'Tag', disabled: false },
         { value: 'week', label: 'Woche', disabled: false },
@@ -264,13 +266,26 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         let png;
         switch (currentGraph) {
             case 'line_chart':
+                // show legend for img
+                setLegendProps({ ...legenProps, show: true })
+                //wait for legend to render in the html else it will not be displayed in the img.
+                await (new Promise((resolve, reject) => setTimeout(() => resolve(true), 200)))
                 png = await getLineChartPng();
+                // disable legend after including it in the image
+                setLegendProps({ ...legenProps, show: false })
                 break;
             case 'bar_chart':
+                setLegendProps({ ...legenProps, show: true })
+                await (new Promise((resolve, reject) => setTimeout(() => resolve(true), 200)))
                 png = await getBarChartPng();
+                setLegendProps({ ...legenProps, show: false })
+
                 break;
             case 'area_chart':
+                setLegendProps({ ...legenProps, show: true })
+                await (new Promise((resolve, reject) => setTimeout(() => resolve(true), 200)))
                 png = await getAreaChartPng();
+                setLegendProps({ ...legenProps, show: false })
                 break;
         }
         if (png) FileSaver.saveAs(png, `${fileName}.png`);
@@ -309,9 +324,9 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
         csvExporter.generateCsv(dataToBeFiltered);
     }
 
-    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval}/>;
-    const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval}/>;
-    const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval}/>;
+    const LineChart = <LineChartPanel data={formatData(data)} ref={lineChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval} />;
+    const BarChart = <BarChartPanel data={formatData(data)} ref={barChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval} />;
+    const AreaChart = <AreaChartPanel data={formatData(data)} ref={areaChartRef} graphLineColors={GraphLineColors} keyData={keyData} interval={interval} />;
 
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
     const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);

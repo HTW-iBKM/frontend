@@ -8,10 +8,11 @@ interface ContextMenuProps {
     anchorLabel?: string;
     customMenuItem?: ReactNode;
     menuItems: CoreMenuItemProps[];
+    itemsLength?: number
 }
 
 const ContextMenu = ({
-    anchorIcon, anchorLabel, customMenuItem, menuItems
+    anchorIcon, anchorLabel, customMenuItem, menuItems, itemsLength
 }: ContextMenuProps): ReactElement => {
 
     const styles = {
@@ -43,7 +44,7 @@ const ContextMenu = ({
                     {customMenuItem}
                     {menuItems.map((item, index) => {
                         return (<span className="flex flex-col gap-2" key={item.buttonText}>
-                            {(!!customMenuItem || index != 0) && <div className={"h-[1px] w-full bg-grayscale"} ></div>}
+                            {((customMenuItem && itemsLength) || index != 0) && <div className={"h-[1px] w-full bg-grayscale"} ></div>}
                             <Menu.Item>
                                 {({ active }) => (
                                     <MenuItem {...item} active={active}
