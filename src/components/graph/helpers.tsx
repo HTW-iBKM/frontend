@@ -178,7 +178,7 @@ export const formatTooltipLabel = (value: string, interval: string): string => {
         case 'hour': return getFormattedDate(date) + ' ' + getFormattedTime(date);
         case 'day': return getFormattedDate(date);
         case 'week': date2.setDate(date2.getDate() + 7); return getFormattedDate(date) + ' - ' + getFormattedDate(date2);
-        case 'month': return getFormattedDate(date) + ' - ' + getFormattedDate(lastDayOfMonth(date));
+        case 'month': return getFormattedDate(new Date(date.getFullYear(), date.getMonth(), 1)) + ' - ' + getFormattedDate(lastDayOfMonth(date));
         default: return getFormattedDate(date);
     }
 }

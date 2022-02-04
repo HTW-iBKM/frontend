@@ -9,21 +9,22 @@ import { commonModalStyles } from "./Modal";
 import { v4 as uuidv4 } from 'uuid';
 import "./SaveFileModalTemplate.css";
 import Checkbox from "../form/Checkbox";
-import { useStore } from "../../App";
-import {useCheckbox} from "../../hooks/useCheckbox";
+import { useCheckbox } from "../../hooks/useCheckbox";
+import { useStore } from "../../store/Store";
 
 interface BilanzSelectionProps {
-    setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setModalOpen: (isOpen: boolean) => void;
 }
 
 
 const BilanzSelection = ({ setModalOpen }: BilanzSelectionProps): ReactElement => {
 
-    const BALANCE_GROUP = ["Bilanzkreis A", "Bilanzkreis B", "Bilanzkreis C"];
+    const BALANCE_GROUP = ["Bad Tölz", "Freising", "Fürstenfeldbruck"];
 
-    const [bilanzKreise, setBilanzkreise]: any = useStore(state => state.useBilanzKreise);
+    const [bilanzKreise, setBilanzkreise] = useStore<[string[], any]>(state => [state.bilanzKreise, state.setBilanzKreise]);
+    const [setSelectedBilanzKreis] = useStore(state => [state.setSelectedBilanzKreis]);
 
-    const balanceGroupObj = BALANCE_GROUP.map((item,index) => {
+    const balanceGroupObj = BALANCE_GROUP.map((item, index) => {
         return {
             name: item,
             checked: bilanzKreise.includes(item)
@@ -31,19 +32,21 @@ const BilanzSelection = ({ setModalOpen }: BilanzSelectionProps): ReactElement =
     })
 
     const checkboxFormControls = balanceGroupObj.map((item) => {
-        const { checked:checkbox, bind:bindCheckbox, reset:resetCheckbox } = useCheckbox(item.checked)
-        return {name: item.name, checked: checkbox, bind:bindCheckbox, reset:resetCheckbox}
+        const { checked: checkbox, bind: bindCheckbox, reset: resetCheckbox } = useCheckbox(item.checked)
+        return { name: item.name, checked: checkbox, bind: bindCheckbox, reset: resetCheckbox }
     });
 
     const styles = {
         formElementGroup: "flex flex-col mb-8 relative",
-        description : "my-5"
+        description: "my-5"
 
     }
 
     const handleSubmit = (evt: React.FormEvent) => {
         evt.preventDefault();
-        setBilanzkreise(checkboxFormControls.filter((checkbox) => checkbox.checked).map(elem => elem.name))
+        const pickedBilanzKreise = checkboxFormControls.filter((checkbox) => checkbox.checked).map(elem => elem.name);
+        setBilanzkreise(pickedBilanzKreise)
+        setSelectedBilanzKreis(pickedBilanzKreise[0] || "")
         setModalOpen(false);
     }
 
@@ -56,7 +59,7 @@ const BilanzSelection = ({ setModalOpen }: BilanzSelectionProps): ReactElement =
                 <div className={`${styles.formElementGroup}`}>
                     {checkboxFormControls.map((data, index) =>
                         <div key={index} className="flex gap-2 items-center">
-                            <input id={data.name} type="checkbox" {...data.bind}/>
+                            <input id={data.name} type="checkbox" {...data.bind} />
                             <label htmlFor={data.name}>{data.name}</label>
                         </div>
                     )}

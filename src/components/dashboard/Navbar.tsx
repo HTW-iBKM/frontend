@@ -9,26 +9,15 @@ import { useHistory } from "react-router-dom";
 import RadioButtonGroup from "../form/RadioButtonGroup";
 import { CoreMenuItemProps } from "./MenuItem";
 import ContextMenu from "./ContextMenu";
-import { useStore } from "../../App";
+import { useStore } from "../../store/Store";
+
 
 
 function Navbar(): ReactElement {
-  const [bilanzKreise, _]: any = useStore((state) => state.useBilanzKreise);
-
-  const [selectedBilanzKreis, setSelectedBilanzKreis]: any = useStore(state => state.selectedBilanzKreis);
-
+  const [bilanzKreise, _]: any = useStore((state) => [state.bilanzKreise, state.setBilanzKreise]);
+  const [selectedBilanzKreis, setSelectedBilanzKreis] = useStore(state => [state.selectedBilanzKreis, state.setSelectedBilanzKreis]);
   const history = useHistory();
-  const [balancingGroup, setBalancingGroup] = useState(bilanzKreise[0]);
-
-  useEffect(() => {
-    setSelectedBilanzKreis(balancingGroup);
-  }, [balancingGroup])
-
-  useEffect(() => {
-    setBalancingGroup(bilanzKreise[0]);
-  }, [bilanzKreise])
-
-  const [isSelectionOpen,setIsSelectionOpen]: any = useStore(state => state.selectionModalOpen);
+  const [setIsSelectionOpen] = useStore(state => [state.setSelectionModalOpen]);
 
 
   const balancingGroupMenuItems: CoreMenuItemProps[] = [
@@ -57,15 +46,17 @@ function Navbar(): ReactElement {
       <div className="flex flex-row gap-16 px-4">
         <ContextMenu
           anchorIcon={<LocationIcon />}
-          anchorLabel={bilanzKreise.length > 0 ? balancingGroup : "Keine Auswahl"}
+          anchorLabel={selectedBilanzKreis || "Keine Auswahl"}
           menuItems={balancingGroupMenuItems}
           customMenuItem={
+            bilanzKreise.length != 0 &&
             <RadioButtonGroup
-              selected={balancingGroup}
-              onChange={setBalancingGroup}
+              selected={selectedBilanzKreis}
+              onChange={setSelectedBilanzKreis}
               options={bilanzKreise}
             />
           }
+          itemsLength={bilanzKreise.length}
         />
         <ContextMenu anchorIcon={<UserIcon />} menuItems={userMenuItems} />
       </div>
