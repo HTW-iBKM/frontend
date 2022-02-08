@@ -3,6 +3,7 @@ import { HashRouter } from 'react-router-dom';
 import './App.css';
 import PublicRoutes from './Routes';
 import { useStore } from './store/Store';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 
 
