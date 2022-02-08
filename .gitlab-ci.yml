@@ -3,18 +3,14 @@ variables:
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
 
 stages:
-  - test
   - build
+  - test
   - deploy
 
 test:
   stage: test
   image: cypress/base:14.17.3
   script:
-    - echo "Testing App"
-    - yarn install
-    - echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-    - yarn start & wait-on http://172.17.0.4/
     - CI=true yarn test
     - echo "Test successfully!"
   only:
@@ -28,12 +24,14 @@ build:
     - export NODE_OPTIONS=--max_old_space_size=4098
     - yarn install
     - CI=false yarn build
+    - yarn cypress verify
     - echo "Build successfully!"
   artifacts:
     expire_in: 1 hour
     paths:
       - build
   only:
+    - dev
     - main
 
 deploy:
