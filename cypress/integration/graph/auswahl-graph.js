@@ -41,7 +41,7 @@ describe("Graph", function () {
             cy.get('.justify-end > .flex > .undefined').click();
 
             //Das heutige Datum wird dort angezeigt, (das richtige Datum mit 03.02.2022 einsetzen)
-            cy.get('.block > :nth-child(1) > :nth-child(3)').should('contain', '03.02.2022');
+            cy.get('.block > :nth-child(1) > :nth-child(3)').should('contain', '08.02.2022');
         });
     });
 
