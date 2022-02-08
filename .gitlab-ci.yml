@@ -16,7 +16,7 @@ test:
     # useful to make sure we are not carrying around old versions
     - npx cypress cache path
     - npx cypress cache list
-    - npm run cypress:verify
+    - yarn cypress:verify
     # start the server, wait for it to respond, then run Cypress tests
     - NODE_ENV=test yarn test
     # print all files in "cypress" folder

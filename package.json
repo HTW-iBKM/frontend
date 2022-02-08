@@ -51,6 +51,7 @@
     "zustand": "^3.6.9"
   },
   "scripts": {
+    "cypress:verify": "cypress verify",
     "start": "cross-env TAILWIND_MODE=watch craco start",
     "build": "craco build",
     "test": "yarn cypress run --headless",
