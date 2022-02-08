@@ -9,12 +9,11 @@ stages:
 
 test:
   stage: test
-  image: node
   script:
     - echo "Testing App"
     - yarn install
     - yarn start &
-    - yarn test
+    - CI=true yarn test
     - echo "Test successfully!"
   only:
     - dev
