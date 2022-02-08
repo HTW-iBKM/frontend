@@ -29,9 +29,9 @@ function Tabs({ label, type, tabs, panels, onTabChange, inlineSelectFields, inde
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      width: "100%", height: "100%", position: "absolute", zIndex: "100",
-      backgroundColor: "white",
-      stroke:"red"
+      width: "100%", height: "100%", position: "absolute", zIndex: "40",
+      backgroundColor: "#FAFAFA",
+      stroke:"red",
     },
     spinnerStyle: {
       color:"#212E50",

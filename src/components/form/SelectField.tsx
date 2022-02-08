@@ -1,4 +1,4 @@
-import React, {Fragment, ReactElement, useState} from "react";
+import React, {Fragment, ReactElement } from "react";
 import {Menu, Transition} from "@headlessui/react";
 import DropDownIcon from "../icons/DropDownIcon";
 import CheckIcon from "../icons/CheckIcon";

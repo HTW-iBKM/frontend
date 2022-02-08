@@ -125,7 +125,7 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
     setFileInAction(fileId);
   }
 
-  const searchInput = useRef<any>(null)
+  const searchInput = useRef<HTMLInputElement|null>(null)
   /**
    *  Filters the current data array, removes the file with the given id and sents new data to parent component.
    *  (Should return the file, which gets deleted from our database.)

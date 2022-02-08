@@ -1,6 +1,5 @@
 import React, {ReactElement} from "react";
 import PropTypes from "prop-types";
-import DrownDownIcon from "./DropDownIcon";
 
 export default function SettingsIcon(props: React.SVGProps<SVGSVGElement>): ReactElement {
   return (
