@@ -43,14 +43,12 @@ build:
     - export NODE_OPTIONS=--max_old_space_size=4098
     - yarn install
     - CI=false yarn build
-    - yarn cypress verify
     - echo "Build successfully!"
   artifacts:
     expire_in: 1 hour
     paths:
       - build
   only:
-    - dev
     - main
 
 deploy:
