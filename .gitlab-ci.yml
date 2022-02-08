@@ -18,7 +18,7 @@ test:
 
 build:
   stage: build
-  image: node:14.17.3
+  image: cypress/base:14.17.3
   script:
     - echo "Start building App"
     - export NODE_OPTIONS=--max_old_space_size=4098
