@@ -9,7 +9,7 @@ stages:
 
 test:
   stage: test
-  image: cypress/base:14
+  image: cypress/base:14.17.3
   script:
     - echo "Testing App"
     - yarn install
