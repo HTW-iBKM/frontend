@@ -13,8 +13,8 @@ test:
   script:
     - echo "Testing App"
     - yarn install
-    - yarn start
-    - CI=true yarn test
+    - yarn start &
+    - yarn test
     - echo "Test successfully!"
   only:
     - dev
