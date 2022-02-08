@@ -14,7 +14,7 @@ test:
     - echo "Testing App"
     - yarn install
     - echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-    - yarn start &
+    - yarn start & wait-on http://172.17.0.4/
     - CI=true yarn test
     - echo "Test successfully!"
   only:
