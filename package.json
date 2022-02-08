@@ -52,7 +52,7 @@
   "scripts": {
     "start": "cross-env TAILWIND_MODE=watch craco start",
     "build": "craco build",
-    "test": "craco test",
+    "test": "yarn cypress run",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
