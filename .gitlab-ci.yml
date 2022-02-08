@@ -9,6 +9,7 @@ stages:
 
 test:
   stage: test
+  image: node:14.17.3
   script:
     - echo "Testing App"
     - yarn install
