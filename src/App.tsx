@@ -5,9 +5,6 @@ import PublicRoutes from './Routes';
 import { useStore } from './store/Store';
 
 
-
-
-
 function App(): ReactElement {
     // when store is taken from session storage!
     const [hydrated, setHydrated] = useState(false);

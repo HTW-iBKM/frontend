@@ -100,7 +100,9 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
     { value: '4', label: '4', disabled: false },
     { value: '6', label: '6', disabled: false },
     { value: '8', label: '8', disabled: false },
-  ]
+  ];
+
+  const [currentPageSize, setCurrentPageSize] = useState(pageSizeOptions[3]);
 
   useEffect(() => {
     if (wrapper.current && tBody.current && thRefs.length > 0 && tdRefs.length > 0) {
@@ -123,7 +125,7 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
     setFileInAction(fileId);
   }
 
-  const searchInput = useRef<any>(null)
+  const searchInput = useRef<HTMLInputElement|null>(null)
   /**
    *  Filters the current data array, removes the file with the given id and sents new data to parent component.
    *  (Should return the file, which gets deleted from our database.)
@@ -355,9 +357,10 @@ export function Table<T extends FileData>({ columns, data, changeData }: TablePr
       <div className="w-full flex justify-end mt-8">
         <div className={"flex items-center text-sm"}>
           <label htmlFor="selectIntervall" className={"mr-3"}>Einträge pro Seite:</label>
-          <SelectField id="selectIntervall" variant="small" value={{ value: '8', label: '8', disabled: false }} options={pageSizeOptions} onChange={(value: string) => {
-            setPageSize(value === '' ? DEFAULT_PAGE_SIZE : Number(value))
-            setTrigger((prevValue) => !prevValue)
+          <SelectField id="selectIntervall" variant="small" value={currentPageSize} options={pageSizeOptions} onChange={(value: string) => {
+            setPageSize(value === '' ? DEFAULT_PAGE_SIZE : Number(value));
+            setTrigger((prevValue) => !prevValue);
+            setCurrentPageSize({value: value, label: value, disabled: false})
           }}></SelectField>
           <span className={"ml-8 mr-8"}>
             {(pageIndex === 0) && 1}

@@ -8,7 +8,6 @@
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
     "@tailwindcss/forms": "^0.3.4",
-    "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/csv-parse": "^1.2.2",
@@ -36,6 +35,7 @@
     "react-context": "0.0.3",
     "react-dom": "^17.0.2",
     "react-flatpickr": "^3.10.7",
+    "react-loader-spinner": "^5.1.0",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "react-table": "^7.7.0",
@@ -46,13 +46,15 @@
     "typescript": "^4.1.2",
     "use-async-effect": "^2.2.3",
     "uuid": "^8.3.2",
+    "wait-on": "^6.0.0",
     "web-vitals": "^1.0.1",
     "zustand": "^3.6.9"
   },
   "scripts": {
+    "cypress:verify": "cypress verify",
     "start": "cross-env TAILWIND_MODE=watch craco start",
     "build": "craco build",
-    "test": "craco test",
+    "test": "yarn cypress run --headless",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

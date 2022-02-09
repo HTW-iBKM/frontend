@@ -3,24 +3,41 @@ variables:
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
 
 stages:
-  - test
   - build
+  - test
   - deploy
 
 test:
   stage: test
-  image: node
+  image: cypress/base:14.17.3
   script:
-    - echo "Testing App"
-    - yarn install
-    - CI=true yarn test
-    - echo "Test successfully!"
+    - yarn install --frozen-lockfile
+    # check Cypress binary path and cached versions
+    # useful to make sure we are not carrying around old versions
+    - npx cypress cache path
+    - npx cypress cache list
+    - yarn cypress:verify
+    # start the server, wait for it to respond, then run Cypress tests
+    - NODE_ENV=test yarn test
+    # print all files in "cypress" folder
+    - ls -laR cypress
+    # print coverage summary so that GitLab CI can parse the coverage number
+    # from a string like "Statements   : 100% ( 135/135 )"
+    - npx nyc report --reporter=text-summary
+  artifacts:
+    when: always
+    paths:
+      # save both cypress artifacts and coverage results
+      - coverage
+      - cypress/videos/*.mp4
+      - cypress/screenshots/*.png
+    expire_in: 10 days
   only:
     - dev
 
 build:
   stage: build
-  image: node:14.17.3
+  image: cypress/base:14.17.3
   script:
     - echo "Start building App"
     - export NODE_OPTIONS=--max_old_space_size=4098

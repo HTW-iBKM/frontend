@@ -270,21 +270,21 @@ function Graph({ data = [], header = "Graph", group }: GraphProps): ReactElement
                 // show legend for img
                 setLegendProps({ ...legenProps, show: true })
                 //wait for legend to render in the html else it will not be displayed in the img.
-                await (new Promise((resolve, reject) => setTimeout(() => resolve(true), 200)))
+                await (new Promise((resolve) => setTimeout(() => resolve(true), 200)))
                 png = await getLineChartPng();
                 // disable legend after including it in the image
                 setLegendProps({ ...legenProps, show: false })
                 break;
             case 'bar_chart':
                 setLegendProps({ ...legenProps, show: true })
-                await (new Promise((resolve, reject) => setTimeout(() => resolve(true), 200)))
+                await (new Promise((resolve) => setTimeout(() => resolve(true), 200)))
                 png = await getBarChartPng();
                 setLegendProps({ ...legenProps, show: false })
 
                 break;
             case 'area_chart':
                 setLegendProps({ ...legenProps, show: true })
-                await (new Promise((resolve, reject) => setTimeout(() => resolve(true), 200)))
+                await (new Promise((resolve) => setTimeout(() => resolve(true), 200)))
                 png = await getAreaChartPng();
                 setLegendProps({ ...legenProps, show: false })
                 break;

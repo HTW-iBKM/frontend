@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement } from "react";
 import UserIcon from "../icons/UserIcon";
 import LocationIcon from "../icons/LocationIcon";
 import PowerIcon from "../icons/PowerIcon";
@@ -14,7 +14,7 @@ import { useStore } from "../../store/Store";
 
 
 function Navbar(): ReactElement {
-  const [bilanzKreise, _]: any = useStore((state) => [state.bilanzKreise, state.setBilanzKreise]);
+  const [bilanzKreise, _] = useStore((state) => [state.bilanzKreise, state.setBilanzKreise]);
   const [selectedBilanzKreis, setSelectedBilanzKreis] = useStore(state => [state.selectedBilanzKreis, state.setSelectedBilanzKreis]);
   const history = useHistory();
   const [setIsSelectionOpen] = useStore(state => [state.setSelectionModalOpen]);

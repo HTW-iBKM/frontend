@@ -1,7 +1,8 @@
 import React, { Dispatch, Fragment, ReactElement, SetStateAction, useEffect } from "react";
 import { Tab } from '@headlessui/react'
 type TabType = "default" | "small"
-
+import { Oval } from 'react-loader-spinner'
+import { useStore } from "../../store/Store";
 interface TabsProps {
   label?: string;
   type: TabType;
@@ -24,8 +25,23 @@ function Tabs({ label, type, tabs, panels, onTabChange, inlineSelectFields, inde
       selected: "bg-secondary text-grayscale-light hover:ring-0 focus:ring-0",
       unselected: "bg-transparent text-grayscale-darker"
     },
+    spinnerWrapperStyle: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "100%", height: "100%", position: "absolute", zIndex: "40",
+      backgroundColor: "#FAFAFA",
+      stroke:"red",
+    },
+    spinnerStyle: {
+      color:"#212E50",
+      secondaryColor: "#88B4CD",
+      width: "10%%",
+      height: "10%",
+    },
     tabActive: "bg-secondary",
   }
+  const legendProperties = useStore((state) => state.legendProperties);
 
   const isDefaultType = type === "default";
 
@@ -61,7 +77,14 @@ function Tabs({ label, type, tabs, panels, onTabChange, inlineSelectFields, inde
         </div>
         {inlineSelectFields}
       </div>
-      <Tab.Panels className={"block w-full h-[calc(100%-56px)] min-h-[calc(100%-56px)] max-h-[calc(100%-56px)]"}>
+      <Tab.Panels className={"block w-full h-[calc(100%-56px)] min-h-[calc(100%-56px)] max-h-[calc(100%-56px)] relative"}>
+        {
+          legendProperties.show &&
+          <Oval wrapperStyle={styles.spinnerWrapperStyle}
+            {...styles.spinnerStyle}
+
+          ></Oval>
+        }
         {panels.map((panel, index) => (
           <Tab.Panel key={index} className={"w-full h-full"}>{panel}</Tab.Panel>
         ))}

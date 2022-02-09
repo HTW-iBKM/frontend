@@ -1,14 +1,7 @@
-import React, { ReactElement, useContext, useEffect, useState } from "react";
-import { ToastContext } from "../../context/ToastContext";
-import { useInput } from "../../hooks/useInput";
-import { RadioButtonGroupInterface, useRadioButtonGroup } from "../../hooks/useRadioButtonGroup";
+import React, { ReactElement } from "react";
 import Button from "../form/Button";
-import RadioButtonGroup from "../form/RadioButtonGroup";
-import TextField from "../form/TextField";
 import { commonModalStyles } from "./Modal";
-import { v4 as uuidv4 } from 'uuid';
 import "./SaveFileModalTemplate.css";
-import Checkbox from "../form/Checkbox";
 import { useCheckbox } from "../../hooks/useCheckbox";
 import { useStore } from "../../store/Store";
 
@@ -24,7 +17,7 @@ const BilanzSelection = ({ setModalOpen }: BilanzSelectionProps): ReactElement =
     const [bilanzKreise, setBilanzkreise] = useStore<[string[], any]>(state => [state.bilanzKreise, state.setBilanzKreise]);
     const [setSelectedBilanzKreis] = useStore(state => [state.setSelectedBilanzKreis]);
 
-    const balanceGroupObj = BALANCE_GROUP.map((item, index) => {
+    const balanceGroupObj = BALANCE_GROUP.map((item: string) => {
         return {
             name: item,
             checked: bilanzKreise.includes(item)

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 import { useStore } from '../../store/Store';
 
 type CustomRechartsLegendProps = {
     payload?: any
 }
 
-function CustomRechartsLegend({ payload }: CustomRechartsLegendProps) {
+function CustomRechartsLegend({ payload }: CustomRechartsLegendProps): ReactElement {
     const [dateTitle] = useStore((state) => [state.dateTitle])
 
     return (

@@ -45,7 +45,7 @@ const SaveFileTemplate = ({ keyData, setModalOpen, onSaveFile, activeGraph }: Sa
   const validForm = () => !formErr['name'] && !formErr['format'];
 
 
-  const handleSubmit = (evt: React.FormEvent) => {
+  const handleSubmit = async (evt: React.FormEvent) => {
     evt.preventDefault();
     if (validForm()) {
       if (radioButtonGroup.selected) {
@@ -57,7 +57,7 @@ const SaveFileTemplate = ({ keyData, setModalOpen, onSaveFile, activeGraph }: Sa
             return obj.key as string;
           })
 
-          onSaveFile(fileName, radioButtonGroup.selected, activeGraph, checkedTimeSeries);
+          await onSaveFile(fileName, radioButtonGroup.selected, activeGraph, checkedTimeSeries);
 
           resetFileName();
           resetRadioButtonGroup();
