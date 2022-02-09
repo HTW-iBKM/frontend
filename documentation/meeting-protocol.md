@@ -1,6 +1,5 @@
 # Meeting Protokoll
 
----------------------------------------------------------------
 ## 11/12.10.2021 Kick-off mit Ludwig (Data Science Experte von Exxeta)
 
 ### Meeting Information
@@ -10,7 +9,6 @@
 ### Diskussions Items
 - Einführung in das iBKM Projekt
 
----------------------------------------------------------------
 ## 15.10.2021 UX Session mit Daniel (UX Experte von Exxeta)
 
 ### Meeting Information
@@ -22,7 +20,6 @@
 - Interview Leitfaden Vorgehen
 
 
----------------------------------------------------------------
 ## 21.10.2021 Internes Gruppenmeeting
 
 ### Meeting Information
@@ -69,7 +66,6 @@ UI & UX:
 | ---- | ---- |
 | Backend Team | Research zu Amazon Lambdas und Serverless Architectur |
 
----------------------------------------------------------------
 ## 22.10.2021 Jour Fix (mit Exxeta)
 
 ### Meeting Information
@@ -98,7 +94,6 @@ UI & UX:
   - https://github.com/rrag/react-stockcharts, https://www.npmjs.com/package/react-financial-charts (gut fuer die Darstellung von Aktien)
   - https://www.npmjs.com/package/recharts (Hier is der Mix aus Fancyness und Funktionalität ggf am besten? + Well maintained
 
----------------------------------------------------------------
 ## 27.10.2021 Sync up zum Projekt (mit Ludwig von Exxeta)
 
 ### Meeting Information
@@ -133,7 +128,6 @@ UI & UX:
   - Gesamte Netzlast (Modifiziert)
 
 
----------------------------------------------------------------
 ## 28.10.2021 Interviewauswertung (Internes Gruppenmeeting)
 
 ### Meeting Information
@@ -141,7 +135,6 @@ UI & UX:
 **Grund:** Auswertung der Interviewnotizen
 
 
----------------------------------------------------------------
 ## 03.11.2021 Serverless Backend mit Ludwig (von Exxeta)
 
 ### Meeting Information
@@ -166,7 +159,6 @@ UI & UX:
 | Ludwig | Er erstellt uns einen AWS Account |
 
 
----------------------------------------------------------------
 ## 05.11.2021 Jour Fix (mit Exxeta)
 
 ### Meeting Information
@@ -186,7 +178,6 @@ UI & UX:
 | Ludwig | Rechte für HTW Nutzer hinzufügen |
 
 
----------------------------------------------------------------
 ## 10.11.2021 Diskurs Daten mit Ludwig (von Exxeta)
 
 ### Meeting Information
@@ -207,7 +198,6 @@ UI & UX:
 | UI&UX Team | Für das Hi-Fi prototyping ein Wireframe Kit verwenden |
 
 
----------------------------------------------------------------
 ## 12.11.2021 Jour Fix (mit Exxeta)
 
 ### Meeting Information
@@ -220,7 +210,6 @@ UI & UX:
 - Später: Verfeinerungen, Optimierungen
 
 
----------------------------------------------------------------
 ## 19.11.2021 Jour Fix (mit Exxeta)
 
 ### Meeting Information
@@ -233,7 +222,6 @@ UI & UX:
 - HTML Gerüst parallel anfangen
 
 
----------------------------------------------------------------
 ## 26.11.2021 Jour Fix (mit Exxeta) & interne Retroperspektive (ohne Exxeta)
 
 ### Meeting Information
@@ -257,7 +245,6 @@ UI & UX:
 | Team | User Stories nur in Absprache in den Sprint packen |
 
 
----------------------------------------------------------------
 ## 03.12.2021 Jour Fix (mit Exxeta)
 
 ### Meeting Information
@@ -276,7 +263,6 @@ UI & UX:
 - Gerrit (Scrum Master von Exxeta) hilft bei Moderation der nächsten Retroperspektive
 
 
----------------------------------------------------------------
 ## 10.12.2021 Jour Fix (mit Exxeta) & Retroperspektive
 
 ### Meeting Information
@@ -299,7 +285,6 @@ UI & UX:
 - Gedankenaustausch über die ausgwählten Technologien (Tailwind und Typescript)
 
 
----------------------------------------------------------------
 ## 06.01.2022 Internes Gruppenmeeting
 
 ### Meeting Information
@@ -321,7 +306,6 @@ UI & UX:
 - Wer geht zum Kickoff? => Alle die Zeit haben
 
 
----------------------------------------------------------------
 ## 07.01.2022 Jour Fix (mit Exxeta)
 
 ### Meeting Information
@@ -331,7 +315,6 @@ UI & UX:
 ### Diskussions Item
 - Stand im Kanban Board
 
----------------------------------------------------------------
 ## 13.01.2022 Internes Gruppenmeeting
 
 ### Meeting Information
@@ -348,7 +331,6 @@ UI & UX:
   - Bilanzkreisauswahl beim Login
 
 
----------------------------------------------------------------
 ## 14.01.2022 Jour Fix (mit Exxeta)
 
 ### Meeting Information
@@ -359,7 +341,6 @@ UI & UX:
 - Stand im Kanban Board
 
 
----------------------------------------------------------------
 ## 20.01.2022 Internes Gruppenmeeting
 
 ### Meeting Information
@@ -381,14 +362,12 @@ UI & UX:
 - Wer macht was?
 
 
----------------------------------------------------------------
 ## 21.01.2022 User Testing mit einem zukünftigen Nutzer
 
 ### Meeting Information
 **Datum/Zeit:** 28.01.22, 11-12 Uhr
 **Grund:** User Testing, Thinking Aloud Session
 
----------------------------------------------------------------
 ## 28.01.2022 Jour Fix (mit Exxeta)
 
 ### Meeting Information
@@ -409,7 +388,6 @@ UI & UX:
 - Open in new Tab: ggfs. direkt im gleichen Tab
 - Open in new Tab: Filter einstellung dort: Auch im Dashboard uebernehmen
 
----------------------------------------------------------------
 ## 28.01.2022 Austausch mit Elena bzgl. der Video Präsentation (von Exxeta)
 
 ### Meeting Information
@@ -421,7 +399,6 @@ UI & UX:
 - Tipps und Tricks für die Videoaufnahme und Bearbeitung
 
 
----------------------------------------------------------------
 ## 04.02.2022 Jour Fix & Retroperspektive (mit Exxeta)
 
 ### Meeting Information
