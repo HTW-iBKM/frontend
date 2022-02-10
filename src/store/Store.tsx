@@ -1,5 +1,6 @@
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
+import { GraphKey } from '../components/graph/Graph'
 
 export const useStore = create(persist((set) => ({
     bilanzKreise: [],
@@ -15,6 +16,20 @@ export const useStore = create(persist((set) => ({
     legendProperties: {
         show: false,
     },
+    graphSettings: {
+        keyData: [
+            { key: GraphKey.PREDICTION, name: 'Prognose', checked: true },
+            { key: GraphKey.GROUND_TRUTH, name: 'Tatsächlicher Verbrauch', checked: true }
+        ],
+        interval: "minutes",
+        selectedTimespan: "day",
+        activeGraph: "line_chart"
+
+    },
+    setGraphSettings: (graphSettings: any) => {
+        set((state: any) => ({ graphSettings: { ...state.graphSettings, ...graphSettings } }))
+    },
+
     setLegendProperties: (legendProperties: any) => set((state: any) => ({ legendProperties: { ...state.legendProperties, ...legendProperties } })),
     dateTitle: {
         timespan: "",
@@ -25,6 +40,6 @@ export const useStore = create(persist((set) => ({
 }),
     {
         name: "user-storage",
-        getStorage: () => sessionStorage,
+        // getStorage: () => sessionStorage,
     })
 )

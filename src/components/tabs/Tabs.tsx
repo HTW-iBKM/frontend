@@ -45,9 +45,9 @@ function Tabs({ label, type, tabs, panels, onTabChange, inlineSelectFields, inde
 
   const isDefaultType = type === "default";
 
-  useEffect(() => {
-    if (onTabChange) onTabChange(tabs[0].accessor)
-  }, [onTabChange]);
+  // useEffect(() => {
+  //   if (onTabChange) onTabChange(tabs[0].accessor)
+  // }, [onTabChange]);
 
   return (
     <Tab.Group
