@@ -75,10 +75,7 @@ function Home(): ReactElement {
                     )}
                 </div>
         }
-        <Modal isOpen={isSelectionOpen} title={"Bilanzkreise auswählen"}
-            onClose={() => setIsSelectionOpen(false)}>
-            <BilanzkreisSelection setModalOpen={setIsSelectionOpen}></BilanzkreisSelection>
-        </Modal>
+    
     </div>
 
 

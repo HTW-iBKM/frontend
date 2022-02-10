@@ -1,5 +1,8 @@
 import React, { ReactElement } from 'react';
+import BilanzkreisSelection from '../components/modal/BilanzkreisSelection';
+import Modal from '../components/modal/Modal';
 import ToastContainer from "../components/toast/ToastContainer";
+import { useStore } from '../store/Store';
 
 interface LayoutProps {
   top: ReactElement;
@@ -15,6 +18,8 @@ function DashboardLayout(props: LayoutProps): ReactElement {
     sidebarContainer: 'bg-grayscale-light shadow-lg flex flex-col justify-between',
     contentContainer: 'flex-1 overflow-y-scroll relative'
   }
+  const [isSelectionOpen, setIsSelectionOpen] = useStore(state => [state.selectionModalOpen, state.setSelectionModalOpen]);
+
 
   return (
     <div className={styles.layoutContainer}>
@@ -23,6 +28,10 @@ function DashboardLayout(props: LayoutProps): ReactElement {
       </header>
       <main className={styles.mainContainer}>
         <ToastContainer></ToastContainer>
+        <Modal isOpen={isSelectionOpen} title={"Bilanzkreise auswählen"}
+            onClose={() => setIsSelectionOpen(false)}>
+            <BilanzkreisSelection setModalOpen={setIsSelectionOpen}></BilanzkreisSelection>
+        </Modal>
         <div className={styles.sidebarContainer}>{props.left}</div>
         <div className={styles.contentContainer}>{props.center}</div>
       </main>
