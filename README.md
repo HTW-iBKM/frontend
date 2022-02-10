@@ -29,9 +29,20 @@ You will also see any lint errors in the console.
 
 ### `cypress test`
 
-Launches the test automatisation for the App with\
+Der Test wurde mit Cypress durchgeführt. Cypress ist ein Framework, mit dem End-to-End-Tests durchgeführt werden können.
 
-npx cypress open
+**Installation**:
+Um cypress nutzen zu können, muss es zunächst installiert werden. Die Installation erfordert im ersten Schritt die lokale Installation von Node. Danach muss cypress in dem Projekt, in dem man die Tests schreiben möchte, generiert werden. In unserem Fall wurde cypress im Frontend installiert, da mit cypress das Frontend getestet werden kann. Mit diesem Befehl **npm install cypress --save-dev** kann cypress automatisch in das gewünschte Projekt installiert werden.
+Die Installation generiert automatisch einen neuen Ordner namens cypress im Projekt.
+
+**Ausführung von Tests:**
+Die Ausführung der Tests wird über den folgenden Befehl durchgeführt: **npx cypress open**.
+Nach der Ausführung dieses Befehls sieht man die Benutzeroberfläche von Cypress mit den verschiedenen geschriebenen Tests.
+
+
+Es ist möglich, die Tests einzeln auszuführen oder alle Tests direkt auszuführen. Die Ergebnisse bleiben gleich, da die Tests entweder bestehen oder bei einem Fehler fehlschlagen.
+![img.png](test-uebersicht.png)
+********
 
 ### `yarn test`
 
